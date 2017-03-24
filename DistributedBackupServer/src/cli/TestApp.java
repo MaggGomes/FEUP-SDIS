@@ -27,7 +27,7 @@ public class TestApp {
 		case "STATE":
 			break;
 		default:
-			System.out.println("Avaiable possibilities: BACKUP, RESTORE, DELETE, RECLAIM, STATE");
+			System.out.println("Available possibilities: BACKUP, RESTORE, DELETE, RECLAIM, STATE");
 			return false;	
 		}
 		
