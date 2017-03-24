@@ -1,4 +1,4 @@
-package protocols;
+package subprotocols;
 
 public class MessageHeader {
 	public char[] messageType; //variable length
