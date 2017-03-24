@@ -3,12 +3,24 @@ package peer;
 import java.rmi.RemoteException;
 
 public class Peer implements IPeerInterface{
+	
+	private static double protocolVersion;
+	private static int serverID;
+	
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// TODO Verificar se os argumentos estão corretos e se com o numero suficiente de argumentos
+		
+		protocolVersion = Double.parseDouble(args[0]);
+		serverID = Integer.parseInt(args[1]);
+		
+		System.out.println(protocolVersion);
+		System.out.println(serverID);
+		
+		// args[2] serviceacessepoint
 
 	}
 
@@ -42,4 +54,11 @@ public class Peer implements IPeerInterface{
 		return null;
 	}
 
+	public static double getProtocolVersion() {
+		return protocolVersion;
+	}
+
+	public static int getServerID() {
+		return serverID;
+	}
 }
