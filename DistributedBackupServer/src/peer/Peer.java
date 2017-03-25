@@ -28,7 +28,7 @@ public class Peer implements IPeerInterface{
 		
 		protocolVersion = Double.parseDouble(args[0]);
 		serverID = Integer.parseInt(args[1]);
-		setAcessPoint(Integer.parseInt(args[2]));
+		acessPoint = Integer.parseInt(args[2]);
 		
 		initChannels(args[3], args[4], args[5], args[6], args[7], args[8]);
 	}
@@ -84,7 +84,7 @@ public class Peer implements IPeerInterface{
 	@Override
 	public String state() throws RemoteException {
 		// TODO Auto-generated method stub
-		return "helloherejdkabsjdbas";
+		return "state";
 	}
 
 	public static double getProtocolVersion() {

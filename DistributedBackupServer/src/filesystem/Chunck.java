@@ -40,7 +40,10 @@ public class Chunck {
 	
 	@Override
 	public String toString(){
-		return "CHUNK: id:" + this.chunkNo + " , size(KBytes): " + data.length + " , perceived replication degree: " + perceivedReplicationDeg;
+		return "CHUNK:" +
+				"id:" + this.chunkNo + 
+				" , size(KBytes): " + data.length + 
+				" , perceived replication degree: " + perceivedReplicationDeg;
 	}
 
 }
