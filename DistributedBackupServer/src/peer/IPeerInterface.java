@@ -6,7 +6,6 @@ import java.rmi.RemoteException;
 /**
  *	Remote Method Invocation Interface to be used by peer
  */
-
 public interface IPeerInterface extends Remote {
 	
 	void backup(String filename, int replicationDeg) throws RemoteException;

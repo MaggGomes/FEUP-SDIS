@@ -4,7 +4,7 @@ import java.net.UnknownHostException;
 
 public class BackupChannel extends Channel {
 
-	public BackupChannel(String address, int port) throws UnknownHostException {
+	public BackupChannel(String address, String port) throws UnknownHostException {
 		super(address, port);
 	}
 

@@ -11,13 +11,13 @@ public abstract class Channel implements Runnable {
 	protected int port;
 	protected MulticastSocket socket;
 	
-	public Channel(String address, int port) throws UnknownHostException{
+	public Channel(String address, String port) throws UnknownHostException{
 		
 		this.address = InetAddress.getByName(address);
-		this.port = port;
+		this.port = Integer.parseInt(port);
 		
 		try {			
-			socket = new MulticastSocket(port);
+			socket = new MulticastSocket(this.port);
 			socket.joinGroup(this.address);	
 			
 		} catch(IOException e) {

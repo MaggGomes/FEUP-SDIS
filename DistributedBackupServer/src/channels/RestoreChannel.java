@@ -4,7 +4,7 @@ import java.net.UnknownHostException;
 
 public class RestoreChannel extends Channel {
 
-	public RestoreChannel(String address, int port) throws UnknownHostException {
+	public RestoreChannel(String address, String port) throws UnknownHostException {
 		super(address, port);
 	}
 
