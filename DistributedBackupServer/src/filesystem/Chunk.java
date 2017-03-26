@@ -1,6 +1,6 @@
 package filesystem;
 
-public class Chunck {
+public class Chunk {
 	
 	public static final int MAX_SIZE = 64000; // 64 KBytes
 	private int chunkNo;
@@ -8,7 +8,7 @@ public class Chunck {
 	private int perceivedReplicationDeg;
 	private byte[] data;
 	
-	public Chunck(int chunkNo, int fileID, int replicationDeg, byte[] data){
+	public Chunk(int chunkNo, int fileID, int replicationDeg, byte[] data){
 		this.chunkNo = chunkNo;
 		this.setReplicationDeg(replicationDeg);
 		this.setData(data);		

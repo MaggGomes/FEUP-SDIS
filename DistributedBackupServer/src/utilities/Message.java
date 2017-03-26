@@ -12,6 +12,14 @@ public class Message {
 	private String chunkNo; // variable length(max = 6)
 	private String replicationDeg; // 1 char length
 	private String body; // 64kBytes length
+	
+	// Message types
+	public static final String PUTCHUNK = "PUTCHUNK";
+	public static final String STORED = "STORED";
+	public static final String GETCHUNK = "GETCHUNK";
+	public static final String CHUNK = "CHUNK";
+	public static final String DELETE = "DELETE";
+	public static final String REMOVED = "REMOVED";
 
 	public Message(String messageType, String version, String senderId, String fileId, String chunkNo,
 			String replicationDeg, String body) {

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.UnknownHostException;
 
+import filesystem.Chunk;
+
 public class ControlChannel extends Channel {
 
 	public ControlChannel(String address, String port) throws UnknownHostException {
@@ -14,7 +16,9 @@ public class ControlChannel extends Channel {
 	public void run() {
 		// TODO falta implementar
 		
-		byte[] buf = new byte[64];
+		// TODO  CODIGO PARA TESTAR
+		
+		byte[] buf = new byte[Chunk.MAX_SIZE];
 		
 		try {
 			while(true) {

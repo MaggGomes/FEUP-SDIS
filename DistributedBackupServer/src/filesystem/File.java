@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class File {
 	
 	private String fileID;
-	private HashMap <Integer, Chunck> chunks;
+	private HashMap <Integer, Chunk> chunks;
 	
 	public File(String fileID){
 		this.fileID = fileID;
@@ -20,11 +20,11 @@ public class File {
 		this.fileID = fileID;
 	}
 
-	public HashMap <Integer, Chunck> getChunks() {
+	public HashMap <Integer, Chunk> getChunks() {
 		return chunks;
 	}
 
-	public void setChunks(HashMap <Integer, Chunck> chunks) {
+	public void setChunks(HashMap <Integer, Chunk> chunks) {
 		this.chunks = chunks;
 	}
 

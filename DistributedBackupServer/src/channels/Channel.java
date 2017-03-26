@@ -37,12 +37,17 @@ public abstract class Channel implements Runnable {
 			socket.send(packet);
 		} catch(IOException e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
-	public MulticastSocket getSocket(){
-		return socket;
+	public void close(){	
+		
+		try {
+			socket.leaveGroup(address);
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

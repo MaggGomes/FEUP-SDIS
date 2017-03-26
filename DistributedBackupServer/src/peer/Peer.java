@@ -12,34 +12,74 @@ import channels.RestoreChannel;
 
 public class Peer implements IPeerInterface{
 	
-	private static double protocolVersion;
-	private static String serverID;
-	private static int acessPoint;
+	private double protocolVersion;
+	private String serverID;
+	private int acessPoint;
 	
-	private static ControlChannel mc;
-	private static BackupChannel mdb;
-	private static RestoreChannel mdr;
-
+	private ControlChannel mc;
+	private BackupChannel mdb;
+	private RestoreChannel mdr;
+	
+	private Thread control;
+	private Thread backup;
+	private Thread restore;
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Verificar se os argumentos estão corretos e se com o numero suficiente de argumentos
+		// TODO Verificar se os argumentos estão corretos e se com o numero suficiente de argumentos		
 		
-		protocolVersion = Double.parseDouble(args[0]);
-		serverID = args[1];
-		acessPoint = Integer.parseInt(args[2]);
+		try {
+			Peer peer = new Peer(args);	
+			IPeerInterface stub =  (IPeerInterface) UnicastRemoteObject.exportObject(peer, 0);
+			Registry registry = LocateRegistry.getRegistry();
+			registry.bind(peer.serverID, stub);
+			peer.init();
+			
+		} catch(Exception e) {
+			e.printStackTrace();			
+		}
 		
-		initChannels(args[3], args[4], args[5], args[6], args[7], args[8]);
 		
+		
+		
+	}
+	
+	//TODO - VALIDAR INPUTS
+	public Peer(String[] args){
+		this.protocolVersion = Double.parseDouble(args[0]);
+		this.serverID = args[1];
+		this.acessPoint = Integer.parseInt(args[2]);
+		
+		System.out.println("Peer "+this.serverID+" initiated!");
+		
+		initChannels(args);		
+	}
+	
+	// TODO booleano para verificar se tudo funcionou bem?
+	public void initChannels(String args[]) {
+		
+		try {
+			this.mc = new ControlChannel(args[3], args[4]);
+			this.mdb = new BackupChannel(args[5], args[6]);
+			this.mdr = new RestoreChannel(args[7], args[8]);	
+			
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public void init(){
+
 		
 		
 		//TODO CODIGO PARA TESTAR
-		System.out.println("DKLSADKJSAJKDA");
 		
 		
 		
-		Thread control = new Thread(mc);
+		
+		control = new Thread(this.mc);
 		control.start();
 		
 		try {
@@ -47,30 +87,6 @@ public class Peer implements IPeerInterface{
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
-	
-	// TODO booleano para verificar se tudo funcionou bem?
-	public static void initChannels(String mcAddress, String mcPort, String mdbAddress, String mdbPort, String mdrAddress, String mdrPort) {
-		
-		try {
-			mc = new ControlChannel(mcAddress, mcPort);
-			mdb =new BackupChannel(mdbAddress, mdbPort);
-			//mdr = new RestoreChannel(mdrAddress, mdrPort);	
-			
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		
-		
-		try {
-			Peer peer = new Peer();
-			IPeerInterface stub =  (IPeerInterface) UnicastRemoteObject.exportObject(peer, 0);
-			Registry registry = LocateRegistry.getRegistry();
-			registry.bind(serverID, stub);
-			
-		} catch(Exception e) {
-			e.printStackTrace();			
 		}
 	}
 
@@ -106,15 +122,23 @@ public class Peer implements IPeerInterface{
 		return "state";
 	}
 
-	public static String getServerID() {
+	public String getServerID() {
 		return serverID;
 	}	
 
-	public static int getAcessPoint() {
+	public int getAcessPoint() {
 		return acessPoint;
 	}
+	
+	public ControlChannel getMc() {
+		return mc;
+	}
 
-	public static void setAcessPoint(int acessPoint) {
-		Peer.acessPoint = acessPoint;
+	public BackupChannel getMdb() {
+		return mdb;
+	}
+
+	public RestoreChannel getMdr() {
+		return mdr;
 	}
 }
