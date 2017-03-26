@@ -7,8 +7,6 @@ import java.net.MulticastSocket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
-import utilities.Message;
-
 public abstract class Channel implements Runnable {
 	
 	protected InetAddress address;

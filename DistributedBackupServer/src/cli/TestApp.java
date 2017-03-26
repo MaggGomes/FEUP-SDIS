@@ -35,12 +35,14 @@ public class TestApp {
 	//TODO CORRIGIR - VERIFICAR SITUAÇÃO DOS INPUTS
 	public static boolean validateInput(String[] args){
 		
+		System.out.println(args[1]);
+		
 		if (args.length < 2 || args.length > 4){
 			return false;
 		}
 		
 		// Verify if the specified command is available
-		switch(args[2]){
+		switch(args[1]){
 		case "BACKUP":
 			if (args.length == 4){
 				peerAccessPoint = args[0];
@@ -118,6 +120,7 @@ public class TestApp {
 				initiatorPeer.reclaim(spaceSize);
 				break;
 			case "STATE":
+				initiatorPeer.state();
 				break;			
 			}
 			
