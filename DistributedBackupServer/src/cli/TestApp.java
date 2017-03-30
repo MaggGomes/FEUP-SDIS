@@ -16,7 +16,7 @@ public class TestApp {
 	private static IPeerInterface initiatorPeer;
 	
 	// TODO TERMINAR
-	public static void main(String[] args) {
+	public static void main(String[] args) {	
 		
 		if(!validateInput(args)){
 			System.out.println("USAGE: java TestApp <peer_ap> <sub_protocol> <opnd_1> <opnd_2>");
@@ -33,6 +33,12 @@ public class TestApp {
 	}
 	
 	//TODO CORRIGIR - VERIFICAR SITUAÇÃO DOS INPUTS
+	/**
+	 * Verifies if the inputs are valid
+	 * 
+	 * @param array with the inputs to be verified
+	 * @return true if all inputs are valid, false otherwise
+	 */
 	public static boolean validateInput(String[] args){
 		
 		System.out.println(args[1]);
@@ -44,7 +50,7 @@ public class TestApp {
 		// Verify if the specified command is available
 		switch(args[1]){
 		case "BACKUP":
-			if (args.length == 4){
+			if (args.length == 4 && Utilities.fileExists(args[2])){
 				peerAccessPoint = args[0];
 				operation = "BACKUP";
 				fileName = args[2];
@@ -100,6 +106,9 @@ public class TestApp {
 		return true;
 	}
 	
+	/**
+	 * Initiates the initiator peer with the requested service
+	 */
 	public static void init(){
 		
 		try {			

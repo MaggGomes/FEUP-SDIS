@@ -4,36 +4,50 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.UnknownHostException;
 
-import filesystem.Chunk;
+import peer.Peer;
+import subprotocols.Backup;
+import utilities.Message;
 
 public class ControlChannel extends Channel {
 
-	public ControlChannel(String address, String port) throws UnknownHostException {
-		super(address, port);
+	public ControlChannel(Peer peer, String address, String port) throws UnknownHostException {
+		super(peer, address, port);
 	}
 
 	@Override
 	public void run() {
-		// TODO falta implementar
-		
-		// TODO  CODIGO PARA TESTAR
-		
-		byte[] buf = new byte[Chunk.MAX_SIZE];
-		
-		try {
-			while(true) {
-				DatagramPacket msg = new DatagramPacket(buf, buf.length);
-				this.socket.receive(msg);
-				
-				String newmsg = new String(buf, 0, buf.length);
-				System.out.println("Packet: "+newmsg);
-			}
+		while (true){
 			
-		} catch(IOException e){
-			e.printStackTrace();
-		}
+			byte[] buf = new byte[Message.MAX_HEADER_SIZE+Backup.CHUNK_MAXSIZE];
+
+			try {
+				DatagramPacket packet = new DatagramPacket(buf, buf.length);
+				this.getSocket().receive(packet);	
+				Message message = new Message(packet);					
+				processMessage(message);
+			} catch(IOException e){
+				e.printStackTrace();
+			}
+		}	
+	}
+
+	// TODO - COMPLETAR	
+	@Override
+	public void processMessage(Message message) {
 		
-		
-		
+		switch(message.getMessageType()){
+		case Message.STORED:
+			Backup.store(message);				
+			break;
+		case Message.GETCHUNK:	
+			break;
+		case Message.DELETE:
+			break;
+		case Message.REMOVED:
+			break;
+		default:
+			System.out.println("MC: Packet discarded!");
+			break;
+		}		
 	}
 }

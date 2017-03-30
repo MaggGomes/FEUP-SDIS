@@ -6,15 +6,17 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+import subprotocols.Backup;
+import subprotocols.Protocol;
+
 import channels.BackupChannel;
 import channels.ControlChannel;
 import channels.RestoreChannel;
 
 public class Peer implements IPeerInterface{
 	
-	private double protocolVersion;
-	private String serverID;
-	private int acessPoint;
+	private String protocolVersion;	
+	private int accessPoint;
 	
 	private ControlChannel mc;
 	private BackupChannel mdb;
@@ -23,6 +25,10 @@ public class Peer implements IPeerInterface{
 	private Thread control;
 	private Thread backup;
 	private Thread restore;
+	
+	private String serverID;
+	public static final String BACKUP = "Backup/";
+	public static final String RESTORED = "Restored/";
 	
 	/**
 	 * @param args
@@ -34,66 +40,48 @@ public class Peer implements IPeerInterface{
 			Peer peer = new Peer(args);	
 			IPeerInterface stub =  (IPeerInterface) UnicastRemoteObject.exportObject(peer, 0);
 			Registry registry = LocateRegistry.getRegistry();
-			registry.bind(peer.serverID, stub);
-			peer.init();
+			registry.bind(peer.getServerID(), stub);
+			peer.listen();
 			
 		} catch(Exception e) {
 			e.printStackTrace();			
-		}
-		
-		
-		
-		
+		}		
 	}
 	
 	//TODO - VALIDAR INPUTS
 	public Peer(String[] args){
-		this.protocolVersion = Double.parseDouble(args[0]);
+		this.protocolVersion = args[0];
 		this.serverID = args[1];
-		this.acessPoint = Integer.parseInt(args[2]);
+		this.accessPoint = Integer.parseInt(args[2]);
 		
 		System.out.println("Peer "+this.serverID+" initiated!");
 		
-		initChannels(args);		
+		init(args);		
 	}
 	
-	// TODO booleano para verificar se tudo funcionou bem?
-	public void initChannels(String args[]) {
+	public void init(String args[]) {
 		
 		try {
-			this.mc = new ControlChannel(args[3], args[4]);
-			this.mdb = new BackupChannel(args[5], args[6]);
-			this.mdr = new RestoreChannel(args[7], args[8]);	
+			this.mc = new ControlChannel(this, args[3], args[4]);
+			this.mdb = new BackupChannel(this, args[5], args[6]);
+			this.mdr = new RestoreChannel(this, args[7], args[8]);	
 			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
-		}		
+		}
+		
+		Protocol.start(this);		
 	}
 	
-	public void init(){
-
-		
-		
-		//TODO CODIGO PARA TESTAR
-		
-		
-		
-		
-		control = new Thread(this.mc);
-		control.start();
-		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void listen(){		
+		this.mc.listen();
+		this.mdb.listen();
+		this.mdr.listen();
 	}
 
 	@Override
-	public void backup(String filename, int replicationDeg) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public void backup(String fileName, int replicationDeg) throws RemoteException {		
+		Backup.saveFile(fileName, replicationDeg);		
 	}
 
 	@Override
@@ -117,7 +105,7 @@ public class Peer implements IPeerInterface{
 	@Override
 	public String state() throws RemoteException {
 		// TODO Auto-generated method stub
-		mc.sendMessage("iujimknui");
+		//mc.sendMessage("iujimknui");
 		
 		return "state";
 	}
@@ -125,9 +113,13 @@ public class Peer implements IPeerInterface{
 	public String getServerID() {
 		return serverID;
 	}	
+	
+	public String getProtocolVersion(){
+		return protocolVersion;
+	}
 
-	public int getAcessPoint() {
-		return acessPoint;
+	public int getAccessPoint() {
+		return accessPoint;
 	}
 	
 	public ControlChannel getMc() {
@@ -140,5 +132,20 @@ public class Peer implements IPeerInterface{
 
 	public RestoreChannel getMdr() {
 		return mdr;
+	}
+
+	public Thread getControl() {
+		return control;
+	}
+	public Thread getBackup() {
+		return backup;
+	}
+
+	public Thread getRestore() {
+		return restore;
+	}
+
+	public void setServerID(String serverID) {
+		this.serverID = serverID;
 	}
 }

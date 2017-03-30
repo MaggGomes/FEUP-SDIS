@@ -37,15 +37,6 @@ sleep 1 #To be sure that the rmiregistry is running
 echo "Launching server 1..."
 eval $terminal "\"java peer.Peer 1.0 1 1 224.0.0.1 4445 224.0.0.2 4446 224.0.0.3 4447; read\" &"
 
-echo "Launching server 2..."
-eval $terminal "\"java peer.Peer 1.0 2 2 224.0.0.1 4445 224.0.0.2 4446 224.0.0.3 4447; read\" &"
-
-echo "Launching server 3..."
-eval $terminal "\"java peer.Peer 1.0 3 3 224.0.0.1 4445 224.0.0.2 4446 224.0.0.3 4447; read\" &"
-
-echo "Launching server 4..."
-eval $terminal "\"java peer.Peer 1.0 4 4 224.0.0.1 4445 224.0.0.2 4446 224.0.0.3 4447; read\" &"
-
 wait
 
 cd $originalPath
