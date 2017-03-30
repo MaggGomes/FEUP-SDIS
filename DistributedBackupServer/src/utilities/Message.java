@@ -50,7 +50,7 @@ public class Message {
 		this.messageType = messageType;
 		this.version = version;
 		this.senderID = senderId;
-		this.fileID = createHash(fileId);
+		this.fileID = fileId;
 		this.chunkNo = Integer.toString(chunkNo);
 		this.replicationDeg = replicationDeg;
 		this.body = body;

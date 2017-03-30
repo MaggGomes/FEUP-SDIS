@@ -37,19 +37,16 @@ public class Backup extends Protocol{
 		byte[] data = new byte[CHUNK_MAXSIZE];		
 
 		try {
-
 			fis = new FileInputStream(file);
 			int chunkNo = 0;
 
-			while((readInput = fis.read(data)) != -1){
-				
+			while((readInput = fis.read(data)) != -1){				
 				byte[] arr = data;
 
 				if(readInput != CHUNK_MAXSIZE){
 					arr = Arrays.copyOf(data, readInput);
-				}				
-				
-				// TODO - VERIFICAR SE A LINHA ABAIXO ESTÁ A FUNCIONAR
+				}	
+
 				FileManager.addOwnFileChunk(fileID, chunkNo);
 				sendChunk(fileID, chunkNo, replicationDeg, arr);
 
@@ -62,9 +59,12 @@ public class Backup extends Protocol{
 		}
 
 		// Shutting down workers
+		// COMO ESTÁ ASSIM NAO CRASHA  - .SHUTDOWN() - IMPEDE QUE MAIS WORKS LEVAM SUBMIT DE TAREFAS
+		//threadWorkers.shutdown();
+
 
 		// TODO - NOT WORKING???
-		
+
 		/*try {
 			System.out.println("Attempting to shutdown workers.");
 			threadWorkers.shutdown();
@@ -94,7 +94,7 @@ public class Backup extends Protocol{
 				// TODO - VERIFICAR SE ESTÁ A FUNCIONAR CORRETAMENTE
 				while(FileManager.getOwnCurrentChunkReplication(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
 					peer.getMdb().sendMessage(msg.getMessage());
-
+					System.out.println("sending chunk "+chunkNo);
 					try{
 						Thread.sleep(waitStored);
 					} catch(InterruptedException e){
@@ -107,13 +107,16 @@ public class Backup extends Protocol{
 
 				if (trys >= MAX_TRYS)
 					System.out.println("Failed to save chunk "+chunkNo+".");
-
+				else 				
+					System.out.println("Chunk "+chunkNo+" saved with success!");
+				
+				System.out.println("Chunk "+chunkNo+" replication: "+FileManager.getOwnCurrentChunkReplication(fileID, chunkNo));
 			}
 		});		
 	}
 
 	public static void saveChunk(Message message){
-		
+
 		// TODO - CORRIGIR IF'S
 		// Verifies if the replication degree of a chunk has been achieved
 		if(FileManager.filesTrackReplication.containsKey(message.getFileID())){
@@ -124,7 +127,7 @@ public class Backup extends Protocol{
 			} else {
 				FileManager.filesTrackReplication.get(message.getFileID()).put(Integer.parseInt(message.getChunkNo()), 0);
 			}
-			
+
 		} else {
 			FileManager.filesTrackReplication.put(message.getFileID(), new ConcurrentHashMap<Integer, Integer>());
 			FileManager.filesTrackReplication.get(message.getFileID()).put(Integer.parseInt(message.getChunkNo()), 0);
@@ -147,6 +150,7 @@ public class Backup extends Protocol{
 			Files.write(newpath, message.getBody());
 
 			// Saves in stored files the chunk saved in the server
+			System.out.println("Saving chunk: File:"+message.getFileID()+" chunk n: "+message.getChunkNo());
 			FileManager.storedFiles.get(message.getFileID()).add(Integer.parseInt(message.getChunkNo()));
 			FileManager.updateStoredReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 		} catch (IOException e) {
@@ -167,9 +171,9 @@ public class Backup extends Protocol{
 				},
 				Utilities.randomNumber(0, 400), TimeUnit.MILLISECONDS);		
 	}
-	
-	public static void store(Message message){
+
+	public static void store(Message message){		
 		if (FileManager.hasOwnFile(message.getFileID()))
-			FileManager.addOwnChunkReplication(message.getFileID(), Integer.parseInt(message.getChunkNo()));
+			FileManager.addOwnChunkReplication(message.getFileID(), Integer.parseInt(message.getChunkNo()));	
 	}
 }

@@ -26,7 +26,7 @@ public class FileManager {
 		files.get(fileID).addReplication(chunkNo);
 	}
 	
-	public static boolean hasOwnFile(String fileID){
+	public static boolean hasOwnFile(String fileID){	
 		return files.containsKey(fileID);
 	}
 	

@@ -16,8 +16,7 @@ public class ControlChannel extends Channel {
 
 	@Override
 	public void run() {
-		while (true){
-			
+		while (true){			
 			byte[] buf = new byte[Message.MAX_HEADER_SIZE+Backup.CHUNK_MAXSIZE];
 
 			try {
