@@ -29,7 +29,7 @@ public class Backup extends Protocol{
 	// TODO - VERIFICAR O QUE FALTA (ADICIONAR FICHEIRO)
 	public static void saveFile(String filePath, int replicationDeg){
 		FileInfo fileInfo = new FileInfo(filePath, replicationDeg);
-		FileManager.addOwnFile(fileInfo); // Adds new file
+		FileManager.addBackedUpFile(fileInfo); // Adds new file
 		File file = new File(filePath);
 		String fileID = fileInfo.getFileID();		
 		FileInputStream fis;
@@ -47,7 +47,7 @@ public class Backup extends Protocol{
 					arr = Arrays.copyOf(data, readInput);
 				}	
 
-				FileManager.addOwnFileChunk(fileID, chunkNo);
+				FileManager.addBackedUpFileChunk(fileID, chunkNo);
 				sendChunk(fileID, chunkNo, replicationDeg, arr);
 
 				chunkNo++;
@@ -60,6 +60,8 @@ public class Backup extends Protocol{
 
 		// Shutting down workers
 		// COMO ESTÁ ASSIM NAO CRASHA  - .SHUTDOWN() - IMPEDE QUE MAIS WORKS LEVAM SUBMIT DE TAREFAS
+		// USO DE SHUWTDOWN ESTÁ A IMPOSSIBILIDAR QUE SE VOLTEM A PODER USAR OS WORKERS
+		// TENTAR SABER COMO SE PODEM VOLTAR A ATIVAR OS WORKERS
 		//threadWorkers.shutdown();
 
 
@@ -92,7 +94,7 @@ public class Backup extends Protocol{
 				int waitStored = WAIT;
 
 				// TODO - VERIFICAR SE ESTÁ A FUNCIONAR CORRETAMENTE
-				while(FileManager.getOwnCurrentChunkReplication(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
+				while(FileManager.getBackedUpCurrentChunkReplication(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
 					peer.getMdb().sendMessage(msg.getMessage());
 					System.out.println("sending chunk "+chunkNo);
 					try{
@@ -109,14 +111,11 @@ public class Backup extends Protocol{
 					System.out.println("Failed to save chunk "+chunkNo+".");
 				else 				
 					System.out.println("Chunk "+chunkNo+" saved with success!");
-				
-				System.out.println("Chunk "+chunkNo+" replication: "+FileManager.getOwnCurrentChunkReplication(fileID, chunkNo));
 			}
 		});		
 	}
 
 	public static void saveChunk(Message message){
-
 		// TODO - CORRIGIR IF'S
 		// Verifies if the replication degree of a chunk has been achieved
 		if(FileManager.filesTrackReplication.containsKey(message.getFileID())){
@@ -145,9 +144,9 @@ public class Backup extends Protocol{
 		// TODO - CRIAR FUNÇÃO À PARTE PARA ISTO??
 		try {
 			String path = Utilities.createPath(peer.getServerID(), message.getFileID(), message.getChunkNo());
-			Path newpath = Paths.get(path);			
-			Files.createDirectories(newpath.getParent());
-			Files.write(newpath, message.getBody());
+			Path chunkPath = Paths.get(path);			
+			Files.createDirectories(chunkPath.getParent());
+			Files.write(chunkPath, message.getBody());
 
 			// Saves in stored files the chunk saved in the server
 			System.out.println("Saving chunk: File:"+message.getFileID()+" chunk n: "+message.getChunkNo());
@@ -173,7 +172,7 @@ public class Backup extends Protocol{
 	}
 
 	public static void store(Message message){		
-		if (FileManager.hasOwnFile(message.getFileID()))
-			FileManager.addOwnChunkReplication(message.getFileID(), Integer.parseInt(message.getChunkNo()));	
+		if (FileManager.hasBackedUpFile(message.getFileID()))
+			FileManager.addBackedUpChunkReplication(message.getFileID(), Integer.parseInt(message.getChunkNo()));	
 	}
 }

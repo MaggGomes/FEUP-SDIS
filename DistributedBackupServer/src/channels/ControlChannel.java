@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 
 import peer.Peer;
 import subprotocols.Backup;
+import subprotocols.Delete;
 import utilities.Message;
 
 public class ControlChannel extends Channel {
@@ -41,6 +42,7 @@ public class ControlChannel extends Channel {
 		case Message.GETCHUNK:	
 			break;
 		case Message.DELETE:
+			Delete.deleteStoredFile(message);
 			break;
 		case Message.REMOVED:
 			break;

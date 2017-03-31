@@ -1,5 +1,7 @@
 package cli;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -39,10 +41,7 @@ public class TestApp {
 	 * @param array with the inputs to be verified
 	 * @return true if all inputs are valid, false otherwise
 	 */
-	public static boolean validateInput(String[] args){
-		
-		System.out.println(args[1]);
-		
+	public static boolean validateInput(String[] args){		
 		if (args.length < 2 || args.length > 4){
 			return false;
 		}
@@ -133,9 +132,9 @@ public class TestApp {
 				break;			
 			}
 			
-		} catch(Exception e) {
+		} catch(NotBoundException | RemoteException e) {
 			e.printStackTrace();			
-		}
+		} 
 	}
 
 }

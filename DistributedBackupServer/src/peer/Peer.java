@@ -7,6 +7,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import subprotocols.Backup;
+import subprotocols.Delete;
 import subprotocols.Protocol;
 
 import channels.BackupChannel;
@@ -16,7 +17,7 @@ import channels.RestoreChannel;
 public class Peer implements IPeerInterface{
 	
 	private String protocolVersion;	
-	private int accessPoint;
+	private String accessPoint;
 	
 	private ControlChannel mc;
 	private BackupChannel mdb;
@@ -40,7 +41,7 @@ public class Peer implements IPeerInterface{
 			Peer peer = new Peer(args);	
 			IPeerInterface stub =  (IPeerInterface) UnicastRemoteObject.exportObject(peer, 0);
 			Registry registry = LocateRegistry.getRegistry();
-			registry.bind(peer.getServerID(), stub);
+			registry.bind(peer.getAccessPoint(), stub);
 			peer.listen();
 			
 		} catch(Exception e) {
@@ -52,13 +53,18 @@ public class Peer implements IPeerInterface{
 	public Peer(String[] args){
 		this.protocolVersion = args[0];
 		this.serverID = args[1];
-		this.accessPoint = Integer.parseInt(args[2]);
+		this.accessPoint = args[2];
 		
 		System.out.println("Peer "+this.serverID+" initiated!");
 		
 		init(args);		
 	}
 	
+	/**
+	 * Connects the peer to the channels
+	 * 
+	 * @param args
+	 */
 	public void init(String args[]) {
 		
 		try {
@@ -80,20 +86,19 @@ public class Peer implements IPeerInterface{
 	}
 
 	@Override
-	public void backup(String fileName, int replicationDeg) throws RemoteException {		
-		Backup.saveFile(fileName, replicationDeg);		
+	public void backup(String filePath, int replicationDeg) throws RemoteException {		
+		Backup.saveFile(filePath, replicationDeg);		
 	}
 
 	@Override
-	public void restore(String filename) throws RemoteException {
+	public void restore(String filePath) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void delete(String filename) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public void delete(String filePath) throws RemoteException {
+		Delete.deleteFile(filePath);		
 	}
 
 	@Override
@@ -118,7 +123,7 @@ public class Peer implements IPeerInterface{
 		return protocolVersion;
 	}
 
-	public int getAccessPoint() {
+	public String getAccessPoint() {
 		return accessPoint;
 	}
 	

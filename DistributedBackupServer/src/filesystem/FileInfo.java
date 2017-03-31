@@ -7,21 +7,38 @@ import utilities.Message;
 
 public class FileInfo {
 	
+	private String filePath;
 	private String fileID;
-	private String fileName;
+	private String fileName;	
 	private String extension;
 	private boolean canExecute;
 	private boolean canRead;
 	private boolean canWrite;
 	private long lastModified;
-	private int replicationDeg;		
+	private int replicationDeg = 0;		
 	private ConcurrentHashMap <Integer, Integer> chunks;
 	
 	public FileInfo(String filePath, int replicationDeg){
+		this.filePath = filePath;
+		
+		File file = new File(filePath);		
+		this.fileName = file.getName();
+		this.replicationDeg = replicationDeg;
+		this.extension = fileName.substring(fileName.lastIndexOf(".")+1);
+		this.canExecute = file.canExecute();
+		this.canRead = file.canRead();
+		this.canWrite = file.canWrite();
+		// TODO - ACRESCENTAR OWNER
+		this.lastModified = file.lastModified();
+		this.fileID = createFileID();
+		
+		chunks = new ConcurrentHashMap<>();
+	}
+	
+	public FileInfo(String filePath){
 		File file = new File(filePath);
 		
 		this.fileName = file.getName();
-		this.replicationDeg = replicationDeg;
 		this.extension = fileName.substring(fileName.lastIndexOf(".")+1);
 		this.canExecute = file.canExecute();
 		this.canRead = file.canRead();
@@ -55,8 +72,8 @@ public class FileInfo {
 		return chunks.get(chunkNo);
 	}
 	
-	public boolean equals(String fileID){
-		return this.fileID.equals(fileID);
+	public String getFilePath() {
+		return filePath;
 	}
 
 	public String getFileID() {
@@ -89,6 +106,10 @@ public class FileInfo {
 
 	public boolean isCanRead() {
 		return canRead;
+	}
+	
+	public boolean equals(String fileID){
+		return this.fileID.equals(fileID);
 	}
 
 	public ConcurrentHashMap <Integer, Integer> getChunks() {
