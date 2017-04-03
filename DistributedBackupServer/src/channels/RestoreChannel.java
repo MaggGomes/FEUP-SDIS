@@ -14,14 +14,30 @@ public class RestoreChannel extends Channel {
 
 	@Override
 	public void run() {
-		// TODO falta implementar
-		
+		while (true){			
+			byte[] buf = new byte[Message.MAX_HEADER_SIZE+Backup.CHUNK_MAXSIZE];
+
+			try {
+				DatagramPacket packet = new DatagramPacket(buf, buf.length);
+				this.getSocket().receive(packet);	
+				Message message = new Message(packet);					
+				processMessage(message);
+			} catch(IOException e){
+				e.printStackTrace();
+			}
+		}	
 	}
 
 	@Override
 	public void processMessage(Message message) {
-		// TODO Auto-generated method stub
 		
+		switch(message.getMessageType()){
+		case Message.CHUNK:
+			Restore.recoverChunk(message);				
+			break;
+		default:
+			System.out.println("MDR: Packet discarded!");
+			break;
+		}		
 	}
-
 }

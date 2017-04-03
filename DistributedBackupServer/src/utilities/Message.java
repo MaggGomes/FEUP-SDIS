@@ -59,7 +59,21 @@ public class Message {
 		this.createMessage();
 	}
 
-	// STORED, GETCHUNK, CHUNK, REMOVED
+	// CHUNK
+	public Message(String messageType, String version, String senderId, String fileId, int chunkNo, byte[] body) {		
+
+		this.messageType = messageType;
+		this.version = version;
+		this.senderID = senderId;
+		this.fileID = fileId;
+		this.chunkNo = Integer.toString(chunkNo);
+		this.body = body;
+
+		this.createHeader();				
+		this.createMessage();
+	}
+
+	// STORED, GETCHUNK, REMOVED
 	public Message(String messageType, String version, String senderId, String fileId, String chunkNo) {		
 
 		this.messageType = messageType;
@@ -90,7 +104,7 @@ public class Message {
 
 		this.message = Arrays.copyOf(packet.getData(), packet.getLength());
 
-		String msg = new String(message, 0, message.length);
+		String msg = new String(message, packet.getOffset(), message.length);
 		String[] messageFields = msg.split("( \\r\\n\\r\\n)"); // CRLF
 
 		header = new String(messageFields[0].getBytes(), StandardCharsets.US_ASCII);

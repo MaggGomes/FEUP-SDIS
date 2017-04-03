@@ -42,6 +42,10 @@ public class FileManager {
 		return backedUpFiles.get(fileID).getChunkReplication(chunkNo);
 	}
 
+	public static ConcurrentHashMap<String, FileInfo> getBackedUpChunksInfo(String fileID){
+		return backedUpFiles.get(fileID);
+	}
+
 	// TODO - CRIAR MAIS METODOS??
 	
 	public static void updateStoredReplicationDeg(String fileID, int chunkNo) {			

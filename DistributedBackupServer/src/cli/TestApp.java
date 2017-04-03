@@ -58,7 +58,7 @@ public class TestApp {
 				return false;			
 			break;
 		case "RESTORE":
-			if (args.length == 4){
+			if (args.length == 3){
 				peerAccessPoint = args[0];
 				operation = "RESTORE";
 				fileName = args[2];

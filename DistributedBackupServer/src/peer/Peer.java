@@ -92,8 +92,7 @@ public class Peer implements IPeerInterface{
 
 	@Override
 	public void restore(String filePath) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		Restore.restoreFile(filePath);
 	}
 
 	@Override

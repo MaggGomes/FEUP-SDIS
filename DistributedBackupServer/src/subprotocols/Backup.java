@@ -20,11 +20,6 @@ import filesystem.FileInfo;
 import filesystem.FileManager;
 
 public class Backup extends Protocol{
-	public static final int MAX_TRYS = 5;
-	public static final int WAIT = 1000;
-	public static final int MAX_WORKERS = 10;
-	public static final int CHUNK_MAXSIZE = 64000;
-	public static ExecutorService threadWorkers = Executors.newFixedThreadPool(MAX_WORKERS);
 
 	// TODO - VERIFICAR O QUE FALTA (ADICIONAR FICHEIRO)
 	public static void saveFile(String filePath, int replicationDeg){
@@ -34,21 +29,23 @@ public class Backup extends Protocol{
 		String fileID = fileInfo.getFileID();		
 		FileInputStream fis;
 		int readInput = 0;
-		byte[] data = new byte[CHUNK_MAXSIZE];		
+		byte[] data = new byte[CHUNK_MAXSIZE];	
+
+		threadWorkers = Executors.newFixedThreadPool(MAX_WORKERS);	
 
 		try {
 			fis = new FileInputStream(file);
 			int chunkNo = 0;
 
 			while((readInput = fis.read(data)) != -1){				
-				byte[] arr = data;
+				byte[] chunk = data;
 
 				if(readInput != CHUNK_MAXSIZE){
-					arr = Arrays.copyOf(data, readInput);
+					chunk = Arrays.copyOf(data, readInput);
 				}	
 
 				FileManager.addBackedUpFileChunk(fileID, chunkNo);
-				sendChunk(fileID, chunkNo, replicationDeg, arr);
+				sendChunk(fileID, chunkNo, replicationDeg, chunk);
 
 				chunkNo++;
 			}
@@ -85,18 +82,19 @@ public class Backup extends Protocol{
 	}
 
 	// TODO - VERIFICAR SE ESTÁ TUDO FUNCIONAL
-	public static void sendChunk(final String fileID, final int chunkNo, final int replicationDeg, final byte[] arr){		
+	public static void sendChunk(final String fileID, final int chunkNo, final int replicationDeg, byte[] data){
+		final byte[] chunk = Arrays.copyOf(data, data.length);
+
 		threadWorkers.submit(new Thread() {
 			public void run() {
 
-				Message msg = new Message(Message.PUTCHUNK, peer.getProtocolVersion(), peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), arr);
+				Message msg = new Message(Message.PUTCHUNK, peer.getProtocolVersion(), peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);
 				int trys = 0;
 				int waitStored = WAIT;
 
-				// TODO - VERIFICAR SE ESTÁ A FUNCIONAR CORRETAMENTE
 				while(FileManager.getBackedUpCurrentChunkReplication(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
 					peer.getMdb().sendMessage(msg.getMessage());
-					System.out.println("sending chunk "+chunkNo);
+					System.out.println("Sending chunk "+chunkNo);
 					try{
 						Thread.sleep(waitStored);
 					} catch(InterruptedException e){

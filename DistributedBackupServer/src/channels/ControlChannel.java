@@ -39,7 +39,8 @@ public class ControlChannel extends Channel {
 		case Message.STORED:
 			Backup.store(message);				
 			break;
-		case Message.GETCHUNK:	
+		case Message.GETCHUNK:
+			Restore.getChunk(message);	
 			break;
 		case Message.DELETE:
 			Delete.deleteStoredFile(message);
