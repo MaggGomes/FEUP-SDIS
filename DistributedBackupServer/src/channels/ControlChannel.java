@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 import peer.Peer;
 import subprotocols.Backup;
 import subprotocols.Delete;
+import subprotocols.Restore;
 import utilities.Message;
 
 public class ControlChannel extends Channel {

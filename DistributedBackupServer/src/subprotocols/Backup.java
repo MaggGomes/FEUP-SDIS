@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -141,7 +140,7 @@ public class Backup extends Protocol{
 
 		// TODO - CRIAR FUNÇÃO À PARTE PARA ISTO??
 		try {
-			String path = Utilities.createPath(peer.getServerID(), message.getFileID(), message.getChunkNo());
+			String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), message.getChunkNo());
 			Path chunkPath = Paths.get(path);			
 			Files.createDirectories(chunkPath.getParent());
 			Files.write(chunkPath, message.getBody());

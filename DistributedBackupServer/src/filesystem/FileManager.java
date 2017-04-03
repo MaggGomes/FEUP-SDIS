@@ -29,6 +29,10 @@ public class FileManager {
 		return backedUpFiles.containsKey(fileID);
 	}
 	
+	public static ConcurrentHashMap <Integer, Integer> getChunksBackedUpFile(String fileID){
+		return backedUpFiles.get(fileID).getChunks();
+	}
+	
 	// TODO - ACRESCNTAR REMOÇÃO DO FICHEIRO DA HASHMAP <FILEID, FILENAME>
 	public static void deleteBackedUpFile(String fileID){
 		backedUpFiles.remove(fileID);
@@ -40,10 +44,6 @@ public class FileManager {
 	
 	public static int getBackedUpCurrentChunkReplication(String fileID, int chunkNo){
 		return backedUpFiles.get(fileID).getChunkReplication(chunkNo);
-	}
-
-	public static ConcurrentHashMap<String, FileInfo> getBackedUpChunksInfo(String fileID){
-		return backedUpFiles.get(fileID);
 	}
 
 	// TODO - CRIAR MAIS METODOS??

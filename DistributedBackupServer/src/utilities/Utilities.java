@@ -40,11 +40,15 @@ public class Utilities {
 				
 	}
 	
-	public static String createDir(String serverID, String fileID){
+	public static String createBackupDir(String serverID, String fileID){
 		return serverID+"/"+Peer.BACKUP+fileID+"/";
 	}
 	
-	public static String createPath(String serverID, String fileID, String chunkNo){
-		return createDir(serverID, fileID)+chunkNo;
+	public static String createBackupPath(String serverID, String fileID, String chunkNo){
+		return createBackupDir(serverID, fileID)+chunkNo;
+	}
+	
+	public static String createRestorePath(String serverID, String fileID, String fileName){
+		return serverID+"/"+Peer.RESTORED+fileID+"/"+fileName;
 	}
 }

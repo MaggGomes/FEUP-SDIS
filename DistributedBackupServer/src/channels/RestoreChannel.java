@@ -1,9 +1,13 @@
 package channels;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.UnknownHostException;
 
 import peer.Peer;
 
+import subprotocols.Protocol;
+import subprotocols.Restore;
 import utilities.Message;
 
 public class RestoreChannel extends Channel {
@@ -15,7 +19,7 @@ public class RestoreChannel extends Channel {
 	@Override
 	public void run() {
 		while (true){			
-			byte[] buf = new byte[Message.MAX_HEADER_SIZE+Backup.CHUNK_MAXSIZE];
+			byte[] buf = new byte[Message.MAX_HEADER_SIZE+Protocol.CHUNK_MAXSIZE];
 
 			try {
 				DatagramPacket packet = new DatagramPacket(buf, buf.length);

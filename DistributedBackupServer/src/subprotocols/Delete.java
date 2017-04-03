@@ -35,13 +35,12 @@ public class Delete extends Protocol {
 		
 		if(FileManager.storedFiles.containsKey(message.getFileID())){
 			// TODO - PASSAR ESTE CODIGO APRA DENTO DO FILEMANAGER
-			// VERIFICAR SE CODIGO ESTA A FUNCIONAR
 			Set<Integer> chunks= FileManager.storedFiles.get(message.getFileID());
 			
 			for (Integer chunkNo : chunks){				
 				// Deleting each chunk
 				try {
-					String path = Utilities.createPath(peer.getServerID(), message.getFileID(), Integer.toString(chunkNo));
+					String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), Integer.toString(chunkNo));
 					Path chunkPath = Paths.get(path);
 					Files.deleteIfExists(chunkPath);					
 				} catch(IOException | SecurityException e) {
@@ -51,7 +50,7 @@ public class Delete extends Protocol {
 			
 			// Deleting directory
 			try {
-				String dir = Utilities.createDir(peer.getServerID(), message.getFileID());
+				String dir = Utilities.createBackupDir(peer.getServerID(), message.getFileID());
 				Path chunkDir = Paths.get(dir);
 				Files.deleteIfExists(chunkDir);
 			} catch (IOException e) {

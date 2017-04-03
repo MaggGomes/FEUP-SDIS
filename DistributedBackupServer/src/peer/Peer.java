@@ -9,6 +9,7 @@ import java.rmi.server.UnicastRemoteObject;
 import subprotocols.Backup;
 import subprotocols.Delete;
 import subprotocols.Protocol;
+import subprotocols.Restore;
 
 import channels.BackupChannel;
 import channels.ControlChannel;

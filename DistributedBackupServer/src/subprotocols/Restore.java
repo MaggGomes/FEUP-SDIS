@@ -1,12 +1,23 @@
 package subprotocols;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import utilities.Message;
+import utilities.Utilities;
+
+import filesystem.FileInfo;
+import filesystem.FileManager;
 
 // TODO - FALTA IMPLEMENTAR
 public class Restore extends Protocol{
@@ -14,7 +25,7 @@ public class Restore extends Protocol{
 	public static ConcurrentHashMap<Integer, byte[]> chunksRecovered;
 	// TODO - CHUNKS ENVIADOS PELOS RECEIVERS
 	public static Set<Integer> chunksSent = new HashSet<Integer>();
-	
+
 	// TODO - FALTA TERMINAR
 	public static void restoreFile(String filePath){
 		threadWorkers = Executors.newFixedThreadPool(MAX_WORKERS);
@@ -25,21 +36,26 @@ public class Restore extends Protocol{
 			System.out.println("Attempting to restore file...");
 			//TODO - FALTA TERMINAR
 			chunksRecovered = new ConcurrentHashMap<Integer, byte[]>();
-			FileInfo fileChunks = FileManager.getBackedUpChunksInfo(file.getFileID());
+			ConcurrentHashMap<Integer, Integer> fileChunks = FileManager.getChunksBackedUpFile(file.getFileID());
+			
+			// Requests each chunk
+			for (Integer chunkNo: fileChunks.keySet())
+				sendGetChunk(file.getFileID(), Integer.toString(chunkNo));
 
-			//TODO - FALTA CRIAR PARA CADA CHUNKNO UMA CHAMDA PARA A FUNÇAO QUE PEDE O CHUNK
-
-
+			
 			// TODO CORRIGIR
-			Thread.sleep(5000);
-			joinChunks();
-
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			joinChunks(file.getFileID(), file.getFileName());
 		} else {
 			System.out.println("File not backed up!");
 		}
 	}
 
-	//TODO - VERIFICAR SE ESTÁ A FUNCIONAR CORRETAMENTE
 	public static void sendGetChunk(final String fileID, final String chunkNo){
 		threadWorkers.submit(new Thread() {
 			public void run() {
@@ -68,7 +84,6 @@ public class Restore extends Protocol{
 		});		
 	}
 
-	// TODO - VERIFICA SE ESTÁ TUDO FUNCIONAL
 	public static void getChunk(Message message){
 		// Verifies if the sender is the same as the receiver 
 		if(message.getSenderID().equals(peer.getServerID()))
@@ -77,30 +92,23 @@ public class Restore extends Protocol{
 		// Verifies if the peer has any chunk of the requested file
 		if(FileManager.storedFiles.containsKey(message.getFileID())){
 			// Verifies if the peer has the requested chunk
-			if (FileManager.FileManager.storedFiles.get(message.getFileID()).contains(Integer.parseInt(message.getChunkNo()))){
+			if (FileManager.storedFiles.get(message.getFileID()).contains(Integer.parseInt(message.getChunkNo()))){
 				// Verifies if the chunk was already sent
-				if(!chunksSent.containsInteger.parseInt(message.getChunkNo())){
-					
-					/*String path = "abc/ficheiro.jpg";
-		Path newpath = Paths.get(path);
-		
-		
-		
-		try {
-			byte[] chunck = Files.readAllBytes(newpath);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+				if(!chunksSent.contains(Integer.parseInt(message.getChunkNo()))){					
+					String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), message.getChunkNo());
+					Path chunkPath = Paths.get(path);
 
-
-
+					try {
+						byte[] chunk = Files.readAllBytes(chunkPath);
+						sendChunk(message.getFileID(), Integer.parseInt(message.getChunkNo()), chunk);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
 	}
 
-	// TODO - VERIFICAR SE ESTÁ A FUNCIONAR CORRETAMENTE
 	public static void sendChunk(final String fileID, final int chunkNo, byte[] data){
 		final byte[] chunk = Arrays.copyOf(data, data.length);
 
@@ -108,55 +116,57 @@ public class Restore extends Protocol{
 				new Runnable(){
 					@Override
 					public void run(){
-						// Verifies if the chunk was already
+						// Verifies if the chunk was already sent
 						if(!chunksSent.contains(chunkNo)){
-							Message message = new Message(Message.STORED, peer.getProtocolVersion(), peer.getServerID(), fileID, Integer.parseInt(Integer.parseInt(chunkNo)), chunk);		
+							Message message = new Message(Message.CHUNK, peer.getProtocolVersion(), peer.getServerID(), fileID, chunkNo, chunk);		
 							System.out.println("Sending chunk "+chunkNo+".");
 							peer.getMdr().sendMessage(message.getMessage());
-							chunksSent.add(Integer.parseInt(chunkNo));
+							chunksSent.add(chunkNo);
 						}						
 					}
 				},
 				Utilities.randomNumber(0, 400), TimeUnit.MILLISECONDS);	
 	}
 
-	// TODO -  VERIFICAT SE ESTÁ A FUNCIONAR
+	// TODO -  VERIFICAR SE ESTÁ A FUNCIONAR
 	public static void recoverChunk(Message message){
 		if(!chunksSent.contains(Integer.parseInt(message.getChunkNo())))
 			chunksSent.add(Integer.parseInt(message.getChunkNo()));
-		
+
 		// Verifies if this is the initiator peer which requested the file
 		if(FileManager.hasBackedUpFile(message.getFileID()))
 			chunksRecovered.put(Integer.parseInt(message.getChunkNo()), message.getBody());
 	}
 
-//TODO - CORRIGIR
-	public static void joinChunks(){
+	//TODO - CORRIGIR
+	public static void joinChunks(String fileID, String fileName){
 
-
-		/*
-
-FileOutputStream fileOutputStream;
-
-        try {
-            fileOutputStream = new FileOutputStream(getFile(RESTORED_DIR + filename));
-        } catch (IOException e) {
-            System.err.println("Error opening file for recovery.");
-            return false;
-        }
-
-        for (int chunkNo = 0; chunkNo < receivedChunks.size(); chunkNo++) {
-            try {
-                fileOutputStream.write(receivedChunks.get(chunkNo), 0, receivedChunks.get(chunkNo).length);
-            } catch (IOException e) {
-                System.err.println("Error writing chunk " + chunkNo + " to file.");
-                return false;
+		String path = Utilities.createRestorePath(peer.getServerID(), fileID, fileName);
+		Path chunkPath = Paths.get(path);			
+		try {
+			Files.createDirectories(chunkPath.getParent());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		File file = new File(path);
+		FileOutputStream fos;
+		
+		
+		try {
+            fos = new FileOutputStream(file);
+            
+            for (int chunkNo = 0; chunkNo < chunksRecovered.size(); chunkNo++) {
+                try {
+                    fos.write(chunksRecovered.get(chunkNo), 0, chunksRecovered.get(chunkNo).length);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            
+            fos.close();            
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-		*/
-
-
+		 
 	}
-
 }
