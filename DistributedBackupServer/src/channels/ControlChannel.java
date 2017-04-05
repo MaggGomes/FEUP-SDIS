@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 
 import peer.Peer;
 import subprotocols.Backup;
+import subprotocols.BackupEnhancement;
 import subprotocols.Delete;
 import subprotocols.Restore;
 import utilities.Message;
@@ -32,13 +33,16 @@ public class ControlChannel extends Channel {
 		}	
 	}
 
-	// TODO - COMPLETAR	
+	// TODO - COMPLETAR	- CORRIGIR PROTOCOL VERSION
 	@Override
 	public void processMessage(Message message) {
 		
 		switch(message.getMessageType()){
 		case Message.STORED:
-			Backup.store(message);				
+			if(message.getVersion().equals("1.0"))
+				Backup.store(message);
+			else
+				BackupEnhancement.store(message);
 			break;
 		case Message.GETCHUNK:
 			Restore.getChunk(message);	

@@ -7,6 +7,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import subprotocols.Backup;
+import subprotocols.BackupEnhancement;
 import subprotocols.Delete;
 import subprotocols.Protocol;
 import subprotocols.Restore;
@@ -86,9 +87,13 @@ public class Peer implements IPeerInterface{
 		this.mdr.listen();
 	}
 
+	//TODO - VERFICAR SE É PARA ESPECIFICAR ATRAVES DO PROCOLO VERSION A VERSAO A USAR DE UM PROTOCOLO
 	@Override
-	public void backup(String filePath, int replicationDeg) throws RemoteException {		
-		Backup.saveFile(filePath, replicationDeg);		
+	public void backup(String protocolV, String filePath, int replicationDeg) throws RemoteException {
+		if(protocolV.equals("1.0"))
+			Backup.saveFile(filePath, replicationDeg);
+		else
+			BackupEnhancement.saveFile(filePath, replicationDeg);	
 	}
 
 	@Override

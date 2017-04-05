@@ -18,7 +18,7 @@ import utilities.Utilities;
 import filesystem.BackedUpFile;
 import filesystem.FileManager;
 
-public class Backup extends Protocol{
+public class BackupEnhancement extends Protocol{
 
 	// TODO - VERIFICAR O QUE FALTA (ADICIONAR FICHEIRO)
 	/**
@@ -93,8 +93,8 @@ public class Backup extends Protocol{
 
 		threadWorkers.submit(new Thread() {
 			public void run() {
-
-				Message msg = new Message(Message.PUTCHUNK, peer.getProtocolVersion(), peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);
+				// TODO - CORRIGIR PROTOCOL VERSION
+				Message msg = new Message(Message.PUTCHUNK, "2.0", peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);
 				int trys = 0;
 				int waitStored = WAIT;
 
@@ -164,7 +164,7 @@ public class Backup extends Protocol{
 			e.printStackTrace();
 		}
 
-		Backup.sendStored(message.getFileID(), message.getChunkNo());			
+		BackupEnhancement.sendStored(Integer.parseInt(message.getReplicationDeg()), message.getFileID(), message.getChunkNo());			
 	}
 
 	/**
@@ -173,13 +173,27 @@ public class Backup extends Protocol{
 	 * @param fileID
 	 * @param chunkNo
 	 */
-	public static void sendStored(final String fileID, final String chunkNo){	
+	public static void sendStored(final int replicationDeg, final String fileID, final String chunkNo){	
 		Executors.newSingleThreadScheduledExecutor().schedule(
 				new Runnable(){
 					@Override
 					public void run(){
-						Message msg = new Message(Message.STORED, peer.getProtocolVersion(), peer.getServerID(), fileID, chunkNo);		
-						peer.getMc().sendMessage(msg.getMessage());
+						// Verifies if the chunk was already stored
+						// TODO - CORRIGIR PROTOCOL VERSION
+						if(FileManager.filesTrackReplication.get(fileID).get(Integer.parseInt(chunkNo)) < replicationDeg){
+							Message msg = new Message(Message.STORED, "2.0", peer.getServerID(), fileID, chunkNo);		
+							peer.getMc().sendMessage(msg.getMessage());							
+						} else {							
+							try {
+								System.out.println("Removing duplicated chunk...");
+								String path = Utilities.createBackupPath(peer.getServerID(), fileID, chunkNo);
+								Path chunkPath = Paths.get(path);
+								Files.deleteIfExists(chunkPath);
+								FileManager.storedFiles.get(fileID).remove(Integer.parseInt(chunkNo));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}					
 					}
 				},
 				Utilities.randomNumber(0, 400), TimeUnit.MILLISECONDS);		
@@ -195,6 +209,6 @@ public class Backup extends Protocol{
 		if (FileManager.hasBackedUpFileID(message.getFileID()))
 			FileManager.addBackedUpChunkReplication(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 		else
-			FileManager.updateStoredReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));	
+			FileManager.updateStoredReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 	}
 }

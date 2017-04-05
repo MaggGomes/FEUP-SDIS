@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import utilities.Message;
 
-public class FileInfo {
+public class BackedUpFile {
 	
 	private String filePath;
 	private String fileID;
@@ -18,7 +18,7 @@ public class FileInfo {
 	private int replicationDeg = 0;		
 	private ConcurrentHashMap <Integer, Integer> chunks;
 	
-	public FileInfo(String filePath, int replicationDeg){
+	public BackedUpFile(String filePath, int replicationDeg){
 		this.filePath = filePath;
 		
 		File file = new File(filePath);		
@@ -35,7 +35,7 @@ public class FileInfo {
 		chunks = new ConcurrentHashMap<>();
 	}
 	
-	public FileInfo(String filePath){
+	public BackedUpFile(String filePath){
 		File file = new File(filePath);
 		
 		this.fileName = file.getName();

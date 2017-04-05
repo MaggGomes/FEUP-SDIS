@@ -57,6 +57,15 @@ public class TestApp {
 			} else
 				return false;			
 			break;
+		case "BACKUPENH":
+			if (args.length == 4 && Utilities.fileExists(args[2])){
+				peerAccessPoint = args[0];
+				operation = "BACKUPENH";
+				fileName = args[2];
+				replicationDeg = Integer.parseInt(args[3]);
+			} else
+				return false;			
+			break;
 		case "RESTORE":
 			if (args.length == 3){
 				peerAccessPoint = args[0];
@@ -116,7 +125,10 @@ public class TestApp {
 			
 			switch(operation){
 			case "BACKUP":
-				initiatorPeer.backup(fileName, replicationDeg);
+				initiatorPeer.backup("1.0", fileName, replicationDeg);
+				break;
+			case "BACKUPENH":
+				initiatorPeer.backup("2.0", fileName, replicationDeg);
 				break;
 			case "RESTORE":
 				initiatorPeer.restore(fileName);

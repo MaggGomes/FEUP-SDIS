@@ -242,6 +242,10 @@ public class Message {
 	public String getFileID() {
 		return fileID;
 	}
+	
+	public String getVersion(){
+		return version;
+	}
 
 	public void setFileId(String fileId) {
 		this.fileID = Message.createHash(fileId);

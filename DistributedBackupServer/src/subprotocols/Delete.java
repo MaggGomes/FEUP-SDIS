@@ -8,33 +8,39 @@ import java.util.Set;
 
 import utilities.Message;
 import utilities.Utilities;
-import filesystem.FileInfo;
 import filesystem.FileManager;
 
 public class Delete extends Protocol {
 	
-	// TODO - RETORNAR BOOLEANO A DIZER
+	/**
+	 * Attempts to delete the specified file
+	 * 
+	 * @param filePath of the file to delete
+	 */
 	public static void deleteFile(String filePath){
-		
-		FileInfo file = new FileInfo(filePath);
 
-		if (FileManager.hasBackedUpFile(file.getFileID())){;
+		if (FileManager.hasBackedUpFilePathName(filePath)){
+			String fileID = FileManager.getBackedUpFileID(filePath);
 			System.out.println("File found. Attempting to delete now...");
-			FileManager.deleteBackedUpFile(file.getFileID());
-			Message message = new Message(Message.DELETE, peer.getProtocolVersion(), peer.getServerID(), file.getFileID());
-			// TODO - APAGAR FICHEIRO DO HASHMAP TAMBÉM
+			FileManager.deleteBackedUpFile(filePath, fileID);
+			Message message = new Message(Message.DELETE, peer.getProtocolVersion(), peer.getServerID(), fileID);
+			
+			//Sends message to the other peers to delete the chunks from this file
 			peer.getMc().sendMessage(message.getMessage());
 		}
 	}
 	
-	// TODO - CORRIGIR
+	/**
+	 * Deletes the stored content of the file if exists
+	 * 
+	 * @param message
+	 */
 	public static void deleteStoredFile(Message message){
-
+		// Verifies if this peer is the initiator peer
 		if (message.getSenderID().equals(peer.getServerID()))
 			return;
 		
 		if(FileManager.storedFiles.containsKey(message.getFileID())){
-			// TODO - PASSAR ESTE CODIGO APRA DENTO DO FILEMANAGER
 			Set<Integer> chunks= FileManager.storedFiles.get(message.getFileID());
 			
 			for (Integer chunkNo : chunks){				
@@ -60,8 +66,6 @@ public class Delete extends Protocol {
 			FileManager.filesTrackReplication.remove(message.getFileID());			
 		}
 		
-		System.out.println("File chuncks deleted with success!");
-			
-		
+		System.out.println("File chuncks deleted with success!");		
 	}
 }

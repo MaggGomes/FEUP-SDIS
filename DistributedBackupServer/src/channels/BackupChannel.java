@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 import peer.Peer;
 
 import subprotocols.Backup;
+import subprotocols.BackupEnhancement;
 import utilities.Message;
 
 public class BackupChannel extends Channel {
@@ -32,6 +33,7 @@ public class BackupChannel extends Channel {
 		}	
 	}
 
+	// TODO CORRIGIR PROTOCOL VERSION
 	@Override
 	public void processMessage(Message message) {
 		// Verifies if the sender and receiver peers are the same
@@ -40,7 +42,10 @@ public class BackupChannel extends Channel {
 		
 		switch(message.getMessageType()){
 		case Message.PUTCHUNK:
-			Backup.saveChunk(message);
+			if(message.getVersion().equals("1.0"))
+				Backup.saveChunk(message);
+			else
+				BackupEnhancement.saveChunk(message);
 			break;
 		default:
 			System.out.println("MDB: Packet discarded!");
