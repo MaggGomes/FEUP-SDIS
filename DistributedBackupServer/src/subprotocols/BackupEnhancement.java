@@ -49,7 +49,7 @@ public class BackupEnhancement extends Protocol{
 					chunk = Arrays.copyOf(data, readInput);
 				}	
 
-				FileManager.addBackedUpFileChunk(fileID, chunkNo);
+				FileManager.addBackedUpFileChunk(fileID, chunkNo, readInput, replicationDeg);
 				sendChunk(fileID, chunkNo, replicationDeg, chunk);
 
 				chunkNo++;
@@ -63,7 +63,6 @@ public class BackupEnhancement extends Protocol{
 		// Shutting down workers
 
 		try {
-			System.out.println("Attempting to shutdown workers.");
 			threadWorkers.shutdown();
 			threadWorkers.awaitTermination(1+chunkNo*5000, TimeUnit.MILLISECONDS);
 			System.out.println("File backed up successfully!");
@@ -98,7 +97,7 @@ public class BackupEnhancement extends Protocol{
 				int trys = 0;
 				int waitStored = WAIT;
 
-				while(FileManager.getBackedUpCurrentChunkReplication(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
+				while(FileManager.getBackedUpChunkPerceivedReplication(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
 					peer.getMdb().sendMessage(msg.getMessage());
 					System.out.println("Sending chunk "+chunkNo);
 					try{

@@ -15,30 +15,15 @@ public class BackedUpFile {
 	private boolean canRead;
 	private boolean canWrite;
 	private long lastModified;
-	private int replicationDeg = 0;		
-	private ConcurrentHashMap <Integer, Integer> chunks;
+	private int desiredReplicationDeg;	
+	private ConcurrentHashMap <Integer, Chunk> chunks;
 	
 	public BackedUpFile(String filePath, int replicationDeg){
 		this.filePath = filePath;
 		
 		File file = new File(filePath);		
 		this.fileName = file.getName();
-		this.replicationDeg = replicationDeg;
-		this.extension = fileName.substring(fileName.lastIndexOf(".")+1);
-		this.canExecute = file.canExecute();
-		this.canRead = file.canRead();
-		this.canWrite = file.canWrite();
-		// TODO - ACRESCENTAR OWNER
-		this.lastModified = file.lastModified();
-		this.fileID = createFileID();
-		
-		chunks = new ConcurrentHashMap<>();
-	}
-	
-	public BackedUpFile(String filePath){
-		File file = new File(filePath);
-		
-		this.fileName = file.getName();
+		this.desiredReplicationDeg = replicationDeg;
 		this.extension = fileName.substring(fileName.lastIndexOf(".")+1);
 		this.canExecute = file.canExecute();
 		this.canRead = file.canRead();
@@ -59,17 +44,16 @@ public class BackedUpFile {
 		return Message.createHash(id);
 	}
 	
-	public void addChunk(int chunkNo){
-		chunks.put(chunkNo, 0);
+	public void addChunk(int chunkNo, long size, int desiredReplicationDeg){
+		chunks.put(chunkNo, new Chunk(chunkNo, size, desiredReplicationDeg));
 	}
 	
 	public void addReplication(int chunkNo){		
-		int chunkrep = chunks.get(chunkNo);		
-		chunks.put(chunkNo, chunkrep+1);
+		chunks.get(chunkNo).addPerceivedReplicationDeg();
 	}
 	
-	public int getChunkReplication(int chunkNo){
-		return chunks.get(chunkNo);
+	public int getChunkPerceivedReplication(int chunkNo){
+		return chunks.get(chunkNo).getPerceivedReplicationDeg();
 	}
 	
 	public String getFilePath() {
@@ -88,8 +72,8 @@ public class BackedUpFile {
 		return extension;
 	}
 
-	public int getReplicationDeg() {
-		return replicationDeg;
+	public int getDesiredReplicationDeg() {
+		return desiredReplicationDeg;
 	}
 
 	public boolean isCanExecute() {
@@ -112,7 +96,18 @@ public class BackedUpFile {
 		return this.fileID.equals(fileID);
 	}
 
-	public ConcurrentHashMap <Integer, Integer> getChunks() {
+	public ConcurrentHashMap <Integer, Chunk> getChunks() {
 		return chunks;
 	}
+	
+	// TODO - VERIFCAR SE FUNCIONA
+		public String toString(){
+			String state = "Pathname: "+
+					this.filePath+"\nFile ID: "+
+					this.fileID+"\nDesired Replication Degree: "+this.desiredReplicationDeg;
+			
+			// TODO - FALTA IMPRIMIR CADA CHUNK
+			
+			return state;
+		}
 }

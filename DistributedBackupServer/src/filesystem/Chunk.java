@@ -2,12 +2,35 @@ package filesystem;
 
 public class Chunk {
 
+	private int number;
 	private long size; // KBytes
 	private int desiredReplicationDeg;
 	private int perceivedReplicationDeg;
 	
-	public Chunk(long size, int desiredReplicationDeg){
+	public Chunk(int number, long size, int desiredReplicationDeg){
+		this.number = number;
 		this.size = size;
-		perceivedReplicationDeg = 0;
+		this.desiredReplicationDeg = desiredReplicationDeg;
+		this.perceivedReplicationDeg = 0;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public int getDesiredReplicationDeg() {
+		return desiredReplicationDeg;
+	}
+	
+	public void addPerceivedReplicationDeg(){
+		perceivedReplicationDeg++;
+	}
+
+	public int getPerceivedReplicationDeg() {
+		return perceivedReplicationDeg;
 	}
 }

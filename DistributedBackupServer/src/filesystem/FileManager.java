@@ -17,10 +17,8 @@ public class FileManager {
 	public static ConcurrentHashMap<String, Set<Integer>> storedFiles = new ConcurrentHashMap<String, Set<Integer>>();
 	
 	// TODO - UTILIZAR
-	public static ConcurrentHashMap<String, Set<Chunk>> storedChunks = new ConcurrentHashMap<String, Set<Chunk>>();
-	
-	
-		
+	public static ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>> storedChunks = new ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>>();
+			
 	// TODO - USAR
 	public static int usedSpace;
 	
@@ -29,8 +27,8 @@ public class FileManager {
 		backedUpFiles.put(file.getFileID(), file);
 	}
 	
-	public static void addBackedUpFileChunk(String fileID, int chunkNo){
-		backedUpFiles.get(fileID).addChunk(chunkNo);
+	public static void addBackedUpFileChunk(String fileID, int chunkNo, long size, int desiredReplicationDeg){
+		backedUpFiles.get(fileID).addChunk(chunkNo, size, desiredReplicationDeg);
 	}
 	
 	public static boolean hasBackedUpFilePathName(String filePath){	
@@ -49,7 +47,7 @@ public class FileManager {
 		return backedUpFiles.get(fileID).getFileName();
 	}
 	
-	public static ConcurrentHashMap <Integer, Integer> getChunksBackedUpFile(String fileID){
+	public static ConcurrentHashMap <Integer, Chunk> getChunksBackedUpFile(String fileID){
 		return backedUpFiles.get(fileID).getChunks();
 	}
 	
@@ -62,8 +60,8 @@ public class FileManager {
 		backedUpFiles.get(fileID).addReplication(chunkNo);
 	}
 	
-	public static int getBackedUpCurrentChunkReplication(String fileID, int chunkNo){
-		return backedUpFiles.get(fileID).getChunkReplication(chunkNo);
+	public static int getBackedUpChunkPerceivedReplication(String fileID, int chunkNo){
+		return backedUpFiles.get(fileID).getChunkPerceivedReplication(chunkNo);
 	}
 	
 	public static void updateStoredReplicationDeg(String fileID, int chunkNo) {

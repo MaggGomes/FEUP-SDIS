@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import utilities.Message;
 import utilities.Utilities;
 
+import filesystem.Chunk;
 import filesystem.FileManager;
 
 // TODO - FALTA IMPLEMENTAR
@@ -39,7 +40,7 @@ public class Restore extends Protocol{
 			String fileID = FileManager.getBackedUpFileID(filePath);
 			System.out.println("Attempting to restore file...");
 			chunksRecovered = new ConcurrentHashMap<Integer, byte[]>();
-			ConcurrentHashMap<Integer, Integer> fileChunks = FileManager.getChunksBackedUpFile(fileID);
+			ConcurrentHashMap<Integer, Chunk> fileChunks = FileManager.getChunksBackedUpFile(fileID);
 			
 			// Requests each chunk
 			for (Integer chunkNo: fileChunks.keySet())
@@ -57,7 +58,6 @@ public class Restore extends Protocol{
 			// Shutting down workers
 			
 			try {
-				System.out.println("Attempting to shutdown workers.");
 				threadWorkers.shutdown();
 				threadWorkers.awaitTermination(fileChunks.size()*5000, TimeUnit.MILLISECONDS);
 				System.out.println("File restored successfully!");

@@ -15,6 +15,8 @@ import subprotocols.Restore;
 import channels.BackupChannel;
 import channels.ControlChannel;
 import channels.RestoreChannel;
+import filesystem.BackedUpFile;
+import filesystem.FileManager;
 
 public class Peer implements IPeerInterface{
 	
@@ -112,12 +114,15 @@ public class Peer implements IPeerInterface{
 		
 	}
 
+	// TODO - VERIFICAR SE FUNCIONA - AINDA SO FAZ PARA BACKED UP FILES
 	@Override
 	public String state() throws RemoteException {
-		// TODO Auto-generated method stub
-		//mc.sendMessage("iujimknui");
+		String state = "";
 		
-		return "state";
+		for (BackedUpFile file: FileManager.backedUpFiles.values())
+			state += file;
+		
+		return state;
 	}
 
 	public String getServerID() {
