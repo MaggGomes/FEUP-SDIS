@@ -92,7 +92,6 @@ public class FileManager {
 		return storedChunks.get(fileID);
 	}
 	
-	// TODO - MODIFICAR APRA ATUALIZAR STOREDCHUNKS
 	public static void updateStoredReplicationDeg(String fileID, int chunkNo) {
 		if(FileManager.filesTrackReplication.containsKey(fileID)){
 			if(!FileManager.filesTrackReplication.get(fileID).containsKey(chunkNo)){
@@ -109,5 +108,41 @@ public class FileManager {
 		if(FileManager.hasStoredFileID(fileID))
 			if(FileManager.hasStoredChunkNo(fileID, chunkNo))
 				FileManager.storedChunks.get(fileID).get(chunkNo).addPerceivedReplicationDeg();
-	}	
+	}
+		
+	public static String getBackedUpToString(){
+		String state="";
+		
+		if(backedUpFiles.size() > 0){
+			state += "===== BACKED UP FILES =====\n\n";
+			
+			for (BackedUpFile file: backedUpFiles.values())
+				state += file+"\n\n";
+		}	
+		
+		return state;
+	}
+	
+	public static String getStoredChunksToString(){
+		String state="";
+		
+		if(storedChunks.size() > 0){
+			state+="===== STORED CHUNKS =====";
+			
+			for(String fileID: storedChunks.keySet()){
+				state+="\n\nFILE ID: "+fileID;
+				
+				for(Chunk chunk: storedChunks.get(fileID).values())				
+				state+="\nID: "+chunk.getNumber()+
+				"  |  SIZE: "+chunk.getSize()+
+				"  |  PERCEIVED REPLICATION DEGREE: "+chunk.getPerceivedReplicationDeg();
+			}			
+		}
+			
+		return state;
+	}
+	
+	public static String getState(){
+		return getBackedUpToString()+getStoredChunksToString();
+	}
 }

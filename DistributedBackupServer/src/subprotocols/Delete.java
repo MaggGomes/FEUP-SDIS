@@ -28,6 +28,7 @@ public class Delete extends Protocol {
 			
 			//Sends message to the other peers to delete the chunks from this file
 			peer.getMc().sendMessage(message.getMessage());
+			peer.saveMetadata();
 		}
 	}
 	
@@ -65,9 +66,10 @@ public class Delete extends Protocol {
 			}
 			
 			FileManager.removeStoredFile(message.getFileID());
-			FileManager.filesTrackReplication.remove(message.getFileID());			
-		}
-		
-		System.out.println("File chuncks deleted with success!");		
+			FileManager.filesTrackReplication.remove(message.getFileID());	
+			
+			System.out.println("File chuncks deleted with success!");
+			peer.saveMetadata();
+		}				
 	}
 }

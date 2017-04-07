@@ -77,7 +77,6 @@ public class Backup extends Protocol{
 			System.out.println("Shutdown finished!");
 		}
 		
-		// TODO - VERIFICAR ONDE COLOCAR
 		peer.saveMetadata();
 	}
 
@@ -201,6 +200,9 @@ public class Backup extends Protocol{
 		if (FileManager.hasBackedUpFileID(message.getFileID()))
 			FileManager.addBackedUpChunkReplication(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 		else
-			FileManager.updateStoredReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));	
+			FileManager.updateStoredReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
+		
+		// TODO - MANTER AQUI OU FAZER SAVE DE X EM X SEGUNDOS??
+		peer.saveMetadata();
 	}
 }

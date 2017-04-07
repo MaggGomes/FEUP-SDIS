@@ -7,7 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import utilities.Message;
 
 public class BackedUpFile implements Serializable{
-	
+
+	private static final long serialVersionUID = 1L;
 	private String filePath;
 	private String fileID;
 	private String fileName;	
@@ -18,10 +19,10 @@ public class BackedUpFile implements Serializable{
 	private long lastModified;
 	private int desiredReplicationDeg;	
 	private ConcurrentHashMap <Integer, Chunk> chunks;
-	
+
 	public BackedUpFile(String filePath, int replicationDeg){
 		this.filePath = filePath;
-		
+
 		File file = new File(filePath);		
 		this.fileName = file.getName();
 		this.desiredReplicationDeg = replicationDeg;
@@ -31,32 +32,32 @@ public class BackedUpFile implements Serializable{
 		this.canWrite = file.canWrite();
 		this.lastModified = file.lastModified();
 		this.fileID = createFileID();
-		
+
 		chunks = new ConcurrentHashMap<>();
 	}
-	
+
 	public String createFileID(){		
 		String id = fileName+
 				Boolean.toString(canExecute)+
 				Boolean.toString(canRead)+
 				Boolean.toString(canWrite)+
 				Long.toString(lastModified);		
-		
+
 		return Message.createHash(id);
 	}
-	
+
 	public void addChunk(int chunkNo, long size, int desiredReplicationDeg){
 		chunks.put(chunkNo, new Chunk(chunkNo, size, desiredReplicationDeg));
 	}
-	
+
 	public void addReplication(int chunkNo){		
 		chunks.get(chunkNo).addPerceivedReplicationDeg();
 	}
-	
+
 	public int getChunkPerceivedReplication(int chunkNo){
 		return chunks.get(chunkNo).getPerceivedReplicationDeg();
 	}
-	
+
 	public String getFilePath() {
 		return filePath;
 	}
@@ -89,10 +90,21 @@ public class BackedUpFile implements Serializable{
 		return lastModified;
 	}
 
+	/**
+	 * Verify if a file has "can read" property
+	 * 
+	 * @return true if has property "can read", false otherwise
+	 */
 	public boolean isCanRead() {
 		return canRead;
 	}
-	
+
+	/**
+	 * Verifies if 2 files have same fileID
+	 * 
+	 * @param fileID to be compared
+	 * @return true if they are equals, false otherwise
+	 */
 	public boolean equals(String fileID){
 		return this.fileID.equals(fileID);
 	}
@@ -100,15 +112,20 @@ public class BackedUpFile implements Serializable{
 	public ConcurrentHashMap <Integer, Chunk> getChunks() {
 		return chunks;
 	}
-	
-	// TODO - VERIFCAR SE FUNCIONA
-		public String toString(){
-			String state = "Pathname: "+
-					this.filePath+"\nFile ID: "+
-					this.fileID+"\nDesired Replication Degree: "+this.desiredReplicationDeg;
-			
-			// TODO - FALTA IMPRIMIR CADA CHUNK
-			
-			return state;
-		}
+
+	/**
+	 * Returns the backed up file info in string format
+	 */
+	public String toString(){
+		String state = "PATHNAME: "+
+				this.filePath+"\nFILE ID: "+
+				this.fileID+"\nDESIRED REPLICATION DEGREE: "+
+				this.desiredReplicationDeg+
+				"\n\n### BACKED UP CHUNKS ###";
+		
+		for(Chunk chunk: chunks.values())
+			state+=chunk;
+
+		return state;
+	}
 }

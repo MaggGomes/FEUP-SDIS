@@ -97,16 +97,18 @@ public class Peer implements IPeerInterface{
 		Protocol.start(this);		
 	}
 
+	/**
+	 * Initializes channels
+	 */
 	public void listen(){		
 		this.mc.listen();
 		this.mdb.listen();
 		this.mdr.listen();
 	}
 
-	//TODO - VERFICAR SE É PARA ESPECIFICAR ATRAVES DO PROCOLO VERSION A VERSAO A USAR DE UM PROTOCOLO
 	@Override
-	public void backup(String protocolV, String filePath, int replicationDeg) throws RemoteException {
-		if(protocolV.equals("1.0"))
+	public void backup(String version, String filePath, int replicationDeg) throws RemoteException {
+		if(version.equals("1.0"))
 			Backup.saveFile(filePath, replicationDeg);
 		else
 			BackupEnhancement.saveFile(filePath, replicationDeg);	
@@ -130,17 +132,13 @@ public class Peer implements IPeerInterface{
 
 	// TODO - VERIFICAR SE FUNCIONA - AINDA SO FAZ PARA BACKED UP FILES
 	@Override
-	public String state() throws RemoteException {
-		String state = "";
-
-		for (BackedUpFile file: FileManager.backedUpFiles.values())
-			state += file+"\n\n";
-
-		return state;
+	public String state() throws RemoteException {		
+		return FileManager.getState();
 	}
 
-	// TODO - VERIFICAR SE FUNCIONA
-
+	/**
+	 * Saves metadata in non-volatile memory
+	 */
 	public void saveMetadata(){
 		ObjectOutputStream os;		
 
@@ -167,8 +165,9 @@ public class Peer implements IPeerInterface{
 		}		
 	}
 
-	// TODO - CORRIGIR
-
+	/**
+	 * Loads metadata saved in non-volatile memory
+	 */
 	@SuppressWarnings("unchecked")
 	public void loadMetadata(){
 		ObjectInputStream is;		

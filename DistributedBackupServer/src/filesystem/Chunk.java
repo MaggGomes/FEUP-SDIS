@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Chunk implements Serializable{
 
+	private static final long serialVersionUID = 2L;
 	private int number;
 	private long size; // KBytes
 	private int desiredReplicationDeg;
@@ -38,5 +39,9 @@ public class Chunk implements Serializable{
 
 	public int getPerceivedReplicationDeg() {
 		return perceivedReplicationDeg;
+	}
+	
+	public String toString(){
+		return "\nID: "+this.number+"  |  PERCEIVED REPLICATION DEGREE: "+this.perceivedReplicationDeg;
 	}
 }
