@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import utilities.Message;
 import utilities.Utilities;
+import filesystem.Chunk;
 import filesystem.FileManager;
 
 public class Delete extends Protocol {
@@ -40,10 +41,10 @@ public class Delete extends Protocol {
 		if (message.getSenderID().equals(peer.getServerID()))
 			return;
 		
-		if(FileManager.storedFiles.containsKey(message.getFileID())){
-			Set<Integer> chunks= FileManager.storedFiles.get(message.getFileID());
-			
-			for (Integer chunkNo : chunks){				
+		if(FileManager.hasStoredFileID(message.getFileID())){
+			ConcurrentHashMap<Integer, Chunk> chunks = FileManager.getStoredChunks(message.getFileID());
+					
+			for (Integer chunkNo : chunks.keySet()){				
 				// Deleting each chunk
 				try {
 					String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), Integer.toString(chunkNo));
@@ -62,7 +63,8 @@ public class Delete extends Protocol {
 			} catch (IOException e) {
 				System.out.println("Failed to delete file directory!");
 			}
-			FileManager.storedFiles.remove(message.getFileID());
+			
+			FileManager.removeStoredFile(message.getFileID());
 			FileManager.filesTrackReplication.remove(message.getFileID());			
 		}
 		

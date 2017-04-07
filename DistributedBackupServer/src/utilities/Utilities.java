@@ -36,8 +36,7 @@ public class Utilities {
 		else{
 			System.out.println("Invalid input: File does not exist!");
 			return false;
-		}
-				
+		}				
 	}
 	
 	public static String createBackupDir(String serverID, String fileID){
@@ -50,5 +49,9 @@ public class Utilities {
 	
 	public static String createRestorePath(String serverID, String fileID, String fileName){
 		return serverID+"/"+Peer.RESTORED+fileID+"/"+fileName;
+	}
+	
+	public static String createDataPath(String serverID){
+		return serverID+"/"+Peer.DATA;
 	}
 }

@@ -1,11 +1,12 @@
 package filesystem;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
 import utilities.Message;
 
-public class BackedUpFile {
+public class BackedUpFile implements Serializable{
 	
 	private String filePath;
 	private String fileID;

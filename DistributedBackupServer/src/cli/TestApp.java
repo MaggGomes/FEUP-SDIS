@@ -140,7 +140,6 @@ public class TestApp {
 				initiatorPeer.reclaim(spaceSize);
 				break;
 			case "STATE":
-				// TODO - VERIFICAR SE FUNCIONA
 				System.out.println(initiatorPeer.state());
 				break;			
 			}

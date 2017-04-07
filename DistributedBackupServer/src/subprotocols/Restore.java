@@ -122,9 +122,9 @@ public class Restore extends Protocol{
 			return;
 
 		// Verifies if the peer has any chunk of the requested file
-		if(FileManager.storedFiles.containsKey(message.getFileID())){
+		if(FileManager.hasStoredFileID(message.getFileID())){
 			// Verifies if the peer has the requested chunk
-			if (FileManager.storedFiles.get(message.getFileID()).contains(Integer.parseInt(message.getChunkNo()))){
+			if (FileManager.hasStoredChunkNo(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
 				// Verifies if the chunk was already sent
 				if(!chunksSent.contains(Integer.parseInt(message.getChunkNo()))){					
 					String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), message.getChunkNo());

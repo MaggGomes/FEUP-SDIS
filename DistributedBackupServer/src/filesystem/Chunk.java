@@ -1,6 +1,8 @@
 package filesystem;
 
-public class Chunk {
+import java.io.Serializable;
+
+public class Chunk implements Serializable{
 
 	private int number;
 	private long size; // KBytes
@@ -24,6 +26,10 @@ public class Chunk {
 
 	public int getDesiredReplicationDeg() {
 		return desiredReplicationDeg;
+	}
+	
+	public void setPerceivedReplicationDeg(int perceivedReplicationDeg){
+		this.perceivedReplicationDeg = perceivedReplicationDeg;
 	}
 	
 	public void addPerceivedReplicationDeg(){

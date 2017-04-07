@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -141,12 +140,12 @@ public class BackupEnhancement extends Protocol{
 		}
 
 		// Verifies if a file has already chunks in this peer
-		if(FileManager.storedFiles.containsKey(message.getFileID())){
-			if(FileManager.storedFiles.get(message.getFileID()).contains(Integer.parseInt(message.getChunkNo()))){
+		if(FileManager.hasStoredFileID(message.getFileID())){
+			if(FileManager.hasStoredChunkNo(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
 				return;
 			}				
 		} else {
-			FileManager.storedFiles.put(message.getFileID(), new HashSet<Integer>());
+			FileManager.addStoredFile(message.getFileID());
 		}		
 
 		// Storing chunk
@@ -158,7 +157,12 @@ public class BackupEnhancement extends Protocol{
 
 			// Saves in stored files the chunk saved in the server
 			System.out.println("Saving chunk: File:"+message.getFileID()+" chunk n: "+message.getChunkNo());
-			FileManager.storedFiles.get(message.getFileID()).add(Integer.parseInt(message.getChunkNo()));
+			
+			FileManager.addStoredChunk(message.getFileID(), 
+					Integer.parseInt(message.getChunkNo()), 
+					message.getBody().length, 
+					Integer.parseInt(message.getReplicationDeg()), 
+					FileManager.filesTrackReplication.get(message.getFileID()).get(Integer.parseInt(message.getChunkNo())));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -188,7 +192,7 @@ public class BackupEnhancement extends Protocol{
 								String path = Utilities.createBackupPath(peer.getServerID(), fileID, chunkNo);
 								Path chunkPath = Paths.get(path);
 								Files.deleteIfExists(chunkPath);
-								FileManager.storedFiles.get(fileID).remove(Integer.parseInt(chunkNo));
+								FileManager.removeStoredChunk(fileID, Integer.parseInt(chunkNo));
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
