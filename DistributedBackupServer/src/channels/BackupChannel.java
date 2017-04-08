@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.UnknownHostException;
 
+import filesystem.FileManager;
+
 import peer.Peer;
 
 import subprotocols.Backup;
@@ -18,8 +20,7 @@ public class BackupChannel extends Channel {
 
 	@Override
 	public void run() {
-		while (true){
-			
+		while (true){			
 			byte[] buf = new byte[Message.MAX_HEADER_SIZE+Backup.CHUNK_MAXSIZE];
 
 			try {
@@ -38,6 +39,10 @@ public class BackupChannel extends Channel {
 	public void processMessage(Message message) {
 		// Verifies if the sender and receiver peers are the same
 		if(message.getSenderID().equals(peer.getServerID()))
+			return;
+		
+		// Verifies if this peer is the one which backed up this file
+		if(FileManager.hasBackedUpFileID(message.getFileID()))
 			return;
 		
 		switch(message.getMessageType()){

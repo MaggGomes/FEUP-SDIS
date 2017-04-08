@@ -5,61 +5,121 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import filesystem.Chunk;
 import filesystem.FileManager;
 import utilities.Message;
 import utilities.Utilities;
 
 public class Reclaim extends Protocol {
 
-	// TODO - CORRIGIR
+	// TODO - VERIFICAR SE FUNCIONA
 	public static void reclaimSpace(long space) {
 		if(space < FileManager.maxStorage){
 			if (space >= FileManager.usedStorage)
 				FileManager.maxStorage = space;
 			else {
-				
+				FileManager.maxStorage = space;
+				reclaimChunks(space);
 			}			
 		} else {
 			FileManager.maxStorage = space;
 		}
 		
 		peer.saveMetadata();
+	}
+	
+	//TODO - VERIFICAR SE FUNCIONA
+	public static void reclaimChunks(long space){
+		
+		// Verifies if the peer has any stored files
+		if(FileManager.getStoredFilesChunks().size() <= 0)
+			return;
+		
+		PriorityQueue<Chunk> chunks = new PriorityQueue<Chunk>();
+		
+		// Adds chunks to the priority queue
+		for(ConcurrentHashMap<Integer, Chunk> stored: FileManager.storedChunks.values())
+			for(Chunk chunk: stored.values())
+				chunks.add(chunk);
+		
+		long currentSpace = 0;
+		
+		while(!chunks.isEmpty()){
+			if((currentSpace+chunks.peek().getSize()) > space)
+				break;
+			else {
+				currentSpace += chunks.peek().getSize();
+				chunks.poll();
+			}				
+		}
+		
+		// Sends REMOVED message for each chunk to be deleted
+		while(!chunks.isEmpty()){
+			Message msg = new Message(Message.REMOVED, 
+					peer.getProtocolVersion(), 
+					peer.getServerID(), 
+					chunks.peek().getFileID(), 
+					Integer.toString(chunks.peek().getNumber()));		
+			peer.getMc().sendMessage(msg.getMessage());
 			
+			// Deleting chunk
+			try {
+				String path = Utilities.createBackupPath(peer.getServerID(), chunks.peek().getFileID(), Integer.toString(chunks.peek().getNumber()));
+				Path chunkPath = Paths.get(path);
+				Files.deleteIfExists(chunkPath);					
+			} catch(IOException | SecurityException e) {
+				System.out.println("Failed to delete chunk!");
+			}
+			
+			FileManager.removeStoredChunk(chunks.peek().getFileID(), chunks.peek().getNumber());
+			FileManager.reduceReplicationDeg(chunks.peek().getFileID(), chunks.peek().getNumber());	
+			
+			chunks.poll();
+		}
 		
-		
-		
-		// TODO Auto-generated method stub
-		
-		
-		//Message message = new Message(Message.REMOVED, peer.getProtocolVersion(), peer.getServerID(), fileID);
-		
-		//Sends message to the other peers to delete the chunks from this file
-		//peer.getMc().sendMessage(message.getMessage());
+		// TODO -  CORRIGIR
+		FileManager.maxStorage = space;
+		peer.saveMetadata();
 	}
 
-	//TODO - CORRIGIR
+	//TODO - verificar se funciona
 	public static void updateChunkReplicationDegree(Message message) {
-		
+		// Verifies if this peer is the initiator peer
 		if(message.getSenderID().equals(peer.getServerID()))
 			return;
 		
 		FileManager.reduceReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 		
+		// Verify if has the chunk stored
 		if(FileManager.hasStoredChunkNo(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
-			
-		}
+			// Verify if the perceived replication degree is lower than the desired replication degree
+			if(FileManager.hasPerceveidedLowerDesired(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
+				
+				String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), message.getChunkNo());
+				Path chunkPath = Paths.get(path);
 
-		// SO MANDAR PEDIDO SE A REPLICATION BAIXAR ABAXIO DO VALOR MINIMO
-		
-		
+				try {
+					byte[] chunk = Files.readAllBytes(chunkPath);
+					sendBackUp(message.getFileID(), 
+							Integer.parseInt(message.getChunkNo()), 
+							FileManager.getStoredDesiredReplicationDeg(message.getFileID(), 
+							Integer.parseInt(message.getChunkNo())), 
+							chunk);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}				
+			}
+		}		
 	}
 	
 	// TODO -CORRIGIR
-	public static void sendStored(final String fileID, final int chunkNo, final int replicationDeg, byte[] data){	
-		/*final byte[] chunk = Arrays.copyOf(data, data.length);
+	public static void sendBackUp(final String fileID, final int chunkNo, final int replicationDeg, byte[] data){	
+		final byte[] chunk = Arrays.copyOf(data, data.length);
 		
 		Executors.newSingleThreadScheduledExecutor().schedule(
 				new Runnable(){
@@ -67,7 +127,7 @@ public class Reclaim extends Protocol {
 					public void run(){
 						// Verifies if the chunk was already stored
 						
-						if(FileManager.filesTrackReplication.get(fileID).get(Integer.parseInt(chunkNo)) < replicationDeg){
+						if(FileManager.filesTrackReplication.get(fileID).get(chunkNo) < replicationDeg){
 							// TODO - VERIFICAR SE ENTRETANTO JA NAO FOI RECEBIDO UM PEDIDO PARA O MESMO FILEID
 							
 							Message msg = new Message(Message.PUTCHUNK, peer.getProtocolVersion(), peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);		
@@ -75,16 +135,16 @@ public class Reclaim extends Protocol {
 						} else {							
 							try {
 								System.out.println("Removing duplicated chunk...");
-								String path = Utilities.createBackupPath(peer.getServerID(), fileID, chunkNo);
+								String path = Utilities.createBackupPath(peer.getServerID(), fileID, Integer.toString(chunkNo));
 								Path chunkPath = Paths.get(path);
 								Files.deleteIfExists(chunkPath);
-								FileManager.removeStoredChunk(fileID, Integer.parseInt(chunkNo));
+								FileManager.removeStoredChunk(fileID, chunkNo);
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
 						}					
 					}
 				},
-				Utilities.randomNumber(0, 400), TimeUnit.MILLISECONDS);	*/	
+				Utilities.randomNumber(0, 400), TimeUnit.MILLISECONDS);
 	}
 }

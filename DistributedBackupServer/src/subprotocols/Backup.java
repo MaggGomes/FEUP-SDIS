@@ -28,7 +28,7 @@ public class Backup extends Protocol{
 	public static void saveFile(String filePath, int replicationDeg){
 		BackedUpFile fileInfo = new BackedUpFile(filePath, replicationDeg);
 
-		// Verify if the file was already saved
+		// Verify if the file was already backed up
 		if(FileManager.hasBackedUpFileID(fileInfo.getFileID())){
 			System.out.println("File already backed up!");
 			return;

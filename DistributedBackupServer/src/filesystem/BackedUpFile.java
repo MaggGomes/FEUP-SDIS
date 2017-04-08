@@ -47,7 +47,7 @@ public class BackedUpFile implements Serializable{
 	}
 
 	public void addChunk(int chunkNo, long size, int desiredReplicationDeg){
-		chunks.put(chunkNo, new Chunk(chunkNo, size, desiredReplicationDeg));
+		chunks.put(chunkNo, new Chunk(fileID, chunkNo, size, desiredReplicationDeg));
 	}
 
 	public void addReplication(int chunkNo){		

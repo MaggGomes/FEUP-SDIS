@@ -70,12 +70,20 @@ public class FileManager {
 		return storedChunks.get(fileID).containsKey(chunkNo);
 	}
 	
+	public static boolean hasPerceveidedLowerDesired(String fileID, int chunkNo){
+		return storedChunks.get(fileID).get(chunkNo).hasPerceveidedLowerDesired();
+	}
+	
+	public static int getStoredDesiredReplicationDeg(String fileID, int chunkNo){
+		return storedChunks.get(fileID).get(chunkNo).getDesiredReplicationDeg();
+	}
+	
 	public static void addStoredFile(String fileID){
 		storedChunks.put(fileID, new ConcurrentHashMap<Integer, Chunk>());
 	}
 	
 	public static void addStoredChunk(String fileID, int chunkNo, long size, int desiredReplicationDeg, int perceivedReplicationDeg){
-		Chunk chunk = new Chunk(chunkNo, size, desiredReplicationDeg);
+		Chunk chunk = new Chunk(fileID, chunkNo, size, desiredReplicationDeg);
 		chunk.setPerceivedReplicationDeg(perceivedReplicationDeg);
 		storedChunks.get(fileID).put(chunkNo, chunk);
 	}
@@ -108,6 +116,10 @@ public class FileManager {
 	 */
 	public static ConcurrentHashMap<Integer, Chunk> getStoredChunks(String fileID){
 		return storedChunks.get(fileID);
+	}
+	
+	public static ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>>  getStoredFilesChunks(){
+		return storedChunks;
 	}
 	
 	/**
