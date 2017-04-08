@@ -20,6 +20,7 @@ import subprotocols.Backup;
 import subprotocols.BackupEnhancement;
 import subprotocols.Delete;
 import subprotocols.Protocol;
+import subprotocols.Reclaim;
 import subprotocols.Restore;
 import utilities.Utilities;
 
@@ -107,7 +108,7 @@ public class Peer implements IPeerInterface{
 	}
 
 	@Override
-	public void backup(String version, String filePath, int replicationDeg) throws RemoteException {
+	public void backup(String version, String filePath, int replicationDeg) throws RemoteException {		
 		if(version.equals("1.0"))
 			Backup.saveFile(filePath, replicationDeg);
 		else
@@ -119,18 +120,25 @@ public class Peer implements IPeerInterface{
 		Restore.restoreFile(filePath);
 	}
 
+	/**
+	 * Attempts to delete a file
+	 * 
+	 * @param filePath of the file to be deleted
+	 */
 	@Override
 	public void delete(String filePath) throws RemoteException {
 		Delete.deleteFile(filePath);		
 	}
 
+	//TODO - VERIFICAR SE FUNCIONA
 	@Override
-	public void reclaim(int space) throws RemoteException {
-		// TODO Auto-generated method stub
-
+	public void reclaim(long space) throws RemoteException {
+		Reclaim.reclaimSpace(space);
 	}
 
-	// TODO - VERIFICAR SE FUNCIONA - AINDA SO FAZ PARA BACKED UP FILES
+	/**
+	 * Provides the state of the files in the peer in string format
+	 */
 	@Override
 	public String state() throws RemoteException {		
 		return FileManager.getState();

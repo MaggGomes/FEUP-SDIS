@@ -19,7 +19,6 @@ import filesystem.FileManager;
 
 public class Backup extends Protocol{
 
-	// TODO - VERIFICAR O QUE FALTA (ADICIONAR FICHEIRO)
 	/**
 	 * Attempts to save a file in other peers
 	 * 
@@ -28,12 +27,19 @@ public class Backup extends Protocol{
 	 */
 	public static void saveFile(String filePath, int replicationDeg){
 		BackedUpFile fileInfo = new BackedUpFile(filePath, replicationDeg);
+
+		// Verify if the file was already saved
+		if(FileManager.hasBackedUpFileID(fileInfo.getFileID())){
+			System.out.println("File already backed up!");
+			return;
+		}
+
 		FileManager.addBackedUpFile(fileInfo); // Adds new file
 		File file = new File(filePath);
 		String fileID = fileInfo.getFileID();		
 		FileInputStream fis;
 		int readInput = 0;
-		byte[] data = new byte[CHUNK_MAXSIZE];	
+		byte[] data = new byte[CHUNK_MAXSIZE];
 
 		threadWorkers = Executors.newFixedThreadPool(MAX_WORKERS);
 		int chunkNo = 0;
@@ -76,7 +82,7 @@ public class Backup extends Protocol{
 			threadWorkers.shutdownNow();
 			System.out.println("Shutdown finished!");
 		}
-		
+
 		peer.saveMetadata();
 	}
 
@@ -125,7 +131,6 @@ public class Backup extends Protocol{
 	 * @param message
 	 */
 	public static void saveChunk(Message message){
-		// TODO - CORRIGIR IF'S
 		// Verifies if the replication degree of a chunk has been achieved
 		if(FileManager.filesTrackReplication.containsKey(message.getFileID())){
 			if(FileManager.filesTrackReplication.get(message.getFileID()).containsKey(Integer.parseInt(message.getChunkNo()))){
@@ -159,7 +164,7 @@ public class Backup extends Protocol{
 
 			// Saves in stored files the chunk saved in the server
 			System.out.println("Saving chunk: File:"+message.getFileID()+" chunk n: "+message.getChunkNo());
-			
+
 			FileManager.addStoredChunk(message.getFileID(), 
 					Integer.parseInt(message.getChunkNo()), 
 					message.getBody().length, 
@@ -201,8 +206,7 @@ public class Backup extends Protocol{
 			FileManager.addBackedUpChunkReplication(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 		else
 			FileManager.updateStoredReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
-		
-		// TODO - MANTER AQUI OU FAZER SAVE DE X EM X SEGUNDOS??
+
 		peer.saveMetadata();
 	}
 }

@@ -53,6 +53,10 @@ public class BackedUpFile implements Serializable{
 	public void addReplication(int chunkNo){		
 		chunks.get(chunkNo).addPerceivedReplicationDeg();
 	}
+	
+	public void reduceReplication(int chunkNo){		
+		chunks.get(chunkNo).reducePerceivedReplicationDeg();
+	}
 
 	public int getChunkPerceivedReplication(int chunkNo){
 		return chunks.get(chunkNo).getPerceivedReplicationDeg();

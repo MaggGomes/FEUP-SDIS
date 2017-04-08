@@ -8,6 +8,7 @@ import peer.Peer;
 import subprotocols.Backup;
 import subprotocols.BackupEnhancement;
 import subprotocols.Delete;
+import subprotocols.Reclaim;
 import subprotocols.Restore;
 import utilities.Message;
 
@@ -51,6 +52,7 @@ public class ControlChannel extends Channel {
 			Delete.deleteStoredFile(message);
 			break;
 		case Message.REMOVED:
+			Reclaim.updateChunkReplicationDegree(message);
 			break;
 		default:
 			System.out.println("MC: Packet discarded!");

@@ -19,7 +19,6 @@ import filesystem.FileManager;
 
 public class BackupEnhancement extends Protocol{
 
-	// TODO - VERIFICAR O QUE FALTA (ADICIONAR FICHEIRO)
 	/**
 	 * Attempts to save a file in other peers
 	 * 
@@ -28,12 +27,21 @@ public class BackupEnhancement extends Protocol{
 	 */
 	public static void saveFile(String filePath, int replicationDeg){
 		BackedUpFile fileInfo = new BackedUpFile(filePath, replicationDeg);
+
+		// Verify if the file was already saved
+		if(FileManager.hasBackedUpFileID(fileInfo.getFileID())){
+			System.out.println("File already backed up!");
+			return;
+		}
+
 		FileManager.addBackedUpFile(fileInfo); // Adds new file
 		File file = new File(filePath);
 		String fileID = fileInfo.getFileID();		
 		FileInputStream fis;
 		int readInput = 0;
-		byte[] data = new byte[CHUNK_MAXSIZE];	
+		byte[] data = new byte[CHUNK_MAXSIZE];
+
+
 
 		threadWorkers = Executors.newFixedThreadPool(MAX_WORKERS);
 		int chunkNo = 0;
@@ -157,7 +165,7 @@ public class BackupEnhancement extends Protocol{
 
 			// Saves in stored files the chunk saved in the server
 			System.out.println("Saving chunk: File:"+message.getFileID()+" chunk n: "+message.getChunkNo());
-			
+
 			FileManager.addStoredChunk(message.getFileID(), 
 					Integer.parseInt(message.getChunkNo()), 
 					message.getBody().length, 

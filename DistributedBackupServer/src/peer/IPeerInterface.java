@@ -14,7 +14,7 @@ public interface IPeerInterface extends Remote {
 	
 	void delete(String filename) throws RemoteException;
 	
-	void reclaim(int space) throws RemoteException;
+	void reclaim(long space) throws RemoteException;
 	
 	String state() throws RemoteException;
 }

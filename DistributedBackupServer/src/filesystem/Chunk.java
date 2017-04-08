@@ -6,13 +6,13 @@ public class Chunk implements Serializable{
 
 	private static final long serialVersionUID = 2L;
 	private int number;
-	private long size; // KBytes
+	private float size; // KBytes
 	private int desiredReplicationDeg;
 	private int perceivedReplicationDeg;
 	
 	public Chunk(int number, long size, int desiredReplicationDeg){
 		this.number = number;
-		this.size = size;
+		this.size = (float)size/1000;
 		this.desiredReplicationDeg = desiredReplicationDeg;
 		this.perceivedReplicationDeg = 0;
 	}
@@ -21,7 +21,7 @@ public class Chunk implements Serializable{
 		return number;
 	}
 
-	public long getSize() {
+	public float getSize() {
 		return size;
 	}
 
@@ -35,6 +35,10 @@ public class Chunk implements Serializable{
 	
 	public void addPerceivedReplicationDeg(){
 		perceivedReplicationDeg++;
+	}
+	
+	public void reducePerceivedReplicationDeg(){
+		perceivedReplicationDeg--;
 	}
 
 	public int getPerceivedReplicationDeg() {

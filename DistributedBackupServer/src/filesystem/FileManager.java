@@ -17,8 +17,8 @@ public class FileManager {
 	public static ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>> storedChunks = new ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>>();
 				
 	// TODO - USAR
-	public static long usedStorage;
-	public static long maxStorage;
+	public static float maxStorage = 20000; // KBytes
+	public static float usedStorage = 5000;	// KBytes
 	
 	public static void addBackedUpFile(BackedUpFile file){
 		nameToFileID.put(file.getFilePath(), file.getFileID());
@@ -80,18 +80,42 @@ public class FileManager {
 		storedChunks.get(fileID).put(chunkNo, chunk);
 	}
 	
+	
+	/**
+	 * Removes a stored file
+	 * 
+	 * @param fileID of the file
+	 */
 	public static void removeStoredFile(String fileID){
 		storedChunks.remove(fileID);
 	}
 	
+	/**
+	 * Removes a stored chunk
+	 * 
+	 * @param fileID of the file
+	 * @param chunkNo of the chunk
+	 */
 	public static void removeStoredChunk(String fileID, int chunkNo){
 		storedChunks.get(fileID).remove(chunkNo);
 	}
 	
+	/**
+	 * Gets the chunks of a file
+	 * 
+	 * @param fileID of the file
+	 * @return chunks
+	 */
 	public static ConcurrentHashMap<Integer, Chunk> getStoredChunks(String fileID){
 		return storedChunks.get(fileID);
 	}
 	
+	/**
+	 * Updates perceived replication degree of the chunks
+	 * 
+	 * @param fileID of the file to be updated
+	 * @param chunkNo of the chunk to be updated
+	 */
 	public static void updateStoredReplicationDeg(String fileID, int chunkNo) {
 		if(FileManager.filesTrackReplication.containsKey(fileID)){
 			if(!FileManager.filesTrackReplication.get(fileID).containsKey(chunkNo)){
@@ -109,25 +133,76 @@ public class FileManager {
 			if(FileManager.hasStoredChunkNo(fileID, chunkNo))
 				FileManager.storedChunks.get(fileID).get(chunkNo).addPerceivedReplicationDeg();
 	}
+	
+	/**
+	 * Reduces the perceived replication degree of the specified chunk
+	 * 
+	 * @param fileID
+	 * @param chunkNo
+	 */
+	public static void reduceReplicationDeg(String fileID, int chunkNo){
+		if(FileManager.filesTrackReplication.containsKey(fileID)){
+			if(!FileManager.filesTrackReplication.get(fileID).containsKey(chunkNo)){
+				return;	
+			} 
+		} else {
+			return;
+		}
 		
+		int chunkrep = FileManager.filesTrackReplication.get(fileID).get(chunkNo);
+		FileManager.filesTrackReplication.get(fileID).put(chunkNo, chunkrep-1);
+		
+		if(FileManager.hasStoredFileID(fileID))
+			if(FileManager.hasStoredChunkNo(fileID, chunkNo))
+				FileManager.storedChunks.get(fileID).get(chunkNo).reducePerceivedReplicationDeg();		
+	}
+	
+	/**
+	 * Gets the max storage capacity of the peer
+	 * 
+	 * @return max storage capacity
+	 */
+	public static float getMaxStorage(){
+		return maxStorage;
+	}
+	
+	/**
+	 * Gets the used storage of the peer
+	 * 
+	 * @return used storage
+	 */
+	public static float getUsedStorage(){
+		return usedStorage;
+	}
+	
+	/**
+	 * Converts backed up files information to a string
+	 * 
+	 * @return backed up files information in string format
+	 */
 	public static String getBackedUpToString(){
 		String state="";
 		
 		if(backedUpFiles.size() > 0){
-			state += "===== BACKED UP FILES =====\n\n";
+			state += "##### BACKED UP FILES #####";
 			
 			for (BackedUpFile file: backedUpFiles.values())
-				state += file+"\n\n";
+				state += "\n\n"+file;
 		}	
 		
 		return state;
 	}
 	
+	/**
+	 * Converts stored chunks information to a string
+	 * 
+	 * @return stored chunks information in string format
+	 */
 	public static String getStoredChunksToString(){
 		String state="";
 		
 		if(storedChunks.size() > 0){
-			state+="===== STORED CHUNKS =====";
+			state+="\n\n##### STORED CHUNKS #####";
 			
 			for(String fileID: storedChunks.keySet()){
 				state+="\n\nFILE ID: "+fileID;
@@ -135,14 +210,21 @@ public class FileManager {
 				for(Chunk chunk: storedChunks.get(fileID).values())				
 				state+="\nID: "+chunk.getNumber()+
 				"  |  SIZE: "+chunk.getSize()+
-				"  |  PERCEIVED REPLICATION DEGREE: "+chunk.getPerceivedReplicationDeg();
+				" KBytes  |  PERCEIVED REPLICATION DEGREE: "+chunk.getPerceivedReplicationDeg();
 			}			
 		}
 			
 		return state;
 	}
 	
+	/**
+	 * Converts files information to a string
+	 * 
+	 * @return files information in string format
+	 */
 	public static String getState(){
-		return getBackedUpToString()+getStoredChunksToString();
+		String space = "\n\nMAX STORAGE CAPACITY: "+maxStorage+"  |  USED STORAGE:"+usedStorage;
+		
+		return getBackedUpToString()+getStoredChunksToString()+space;
 	}
 }

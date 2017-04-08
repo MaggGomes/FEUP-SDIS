@@ -90,8 +90,7 @@ public class TestApp {
 				if(Utilities.isInteger(args[2])){
 					spaceSize = Integer.parseInt(args[2]);
 				} else {
-					System.out.println("ERROR: Invalid input The value specified for the RECLAIM operation is not valid.\n");
-					
+					System.out.println("ERROR: Invalid input! The value specified for the RECLAIM operation is not valid.\n");
 					return false;
 				}
 			}
