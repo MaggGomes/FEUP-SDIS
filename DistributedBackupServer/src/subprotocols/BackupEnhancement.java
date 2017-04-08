@@ -25,7 +25,7 @@ public class BackupEnhancement extends Protocol{
 	 * @param filePath of the file to back up
 	 * @param replicationDeg desired
 	 */
-	public static void saveFile(String filePath, int replicationDeg){
+	public static void backUpFile(String filePath, int replicationDeg){
 		BackedUpFile fileInfo = new BackedUpFile(filePath, replicationDeg);
 
 		// Verify if the file was already backed up
@@ -40,8 +40,6 @@ public class BackupEnhancement extends Protocol{
 		FileInputStream fis;
 		int readInput = 0;
 		byte[] data = new byte[CHUNK_MAXSIZE];
-
-
 
 		threadWorkers = Executors.newFixedThreadPool(MAX_WORKERS);
 		int chunkNo = 0;
@@ -130,8 +128,7 @@ public class BackupEnhancement extends Protocol{
 	 * 
 	 * @param message
 	 */
-	public static void saveChunk(Message message){
-		// TODO - CORRIGIR IF'S
+	public static void storeChunk(Message message){
 		// Verifies if the replication degree of a chunk has been achieved
 		if(FileManager.filesTrackReplication.containsKey(message.getFileID())){
 			if(FileManager.filesTrackReplication.get(message.getFileID()).containsKey(Integer.parseInt(message.getChunkNo()))){
@@ -147,7 +144,7 @@ public class BackupEnhancement extends Protocol{
 			FileManager.filesTrackReplication.get(message.getFileID()).put(Integer.parseInt(message.getChunkNo()), 0);
 		}
 
-		// Verifies if a file has already chunks in this peer
+		// Verifies if a file has already the chunk to store in this peer
 		if(FileManager.hasStoredFileID(message.getFileID())){
 			if(FileManager.hasStoredChunkNo(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
 				return;
@@ -156,6 +153,10 @@ public class BackupEnhancement extends Protocol{
 			FileManager.addStoredFile(message.getFileID());
 		}		
 
+		/* Verifies if a chunk can be saved */
+		if(!FileManager.addUsedStorage(message.getBody().length))
+			return;
+		
 		// Storing chunk
 		try {
 			String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), message.getChunkNo());

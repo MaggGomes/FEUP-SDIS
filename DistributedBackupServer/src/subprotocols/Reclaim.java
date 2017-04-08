@@ -64,7 +64,9 @@ public class Reclaim extends Protocol {
 					peer.getProtocolVersion(), 
 					peer.getServerID(), 
 					chunks.peek().getFileID(), 
-					Integer.toString(chunks.peek().getNumber()));		
+					Integer.toString(chunks.peek().getNumber()));
+			
+			System.out.println("Sending REMOVED message fo chunk "+chunks.peek().getNumber());
 			peer.getMc().sendMessage(msg.getMessage());
 			
 			// Deleting chunk
@@ -114,7 +116,9 @@ public class Reclaim extends Protocol {
 					e.printStackTrace();
 				}				
 			}
-		}		
+		}
+		
+		peer.saveMetadata();
 	}
 	
 	// TODO -CORRIGIR
@@ -131,14 +135,12 @@ public class Reclaim extends Protocol {
 							// TODO - VERIFICAR SE ENTRETANTO JA NAO FOI RECEBIDO UM PEDIDO PARA O MESMO FILEID
 							
 							Message msg = new Message(Message.PUTCHUNK, peer.getProtocolVersion(), peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);		
-							peer.getMc().sendMessage(msg.getMessage());							
+							System.out.println("Sending PUTCHUNK message for chunk "+chunkNo);
+							peer.getMc().sendMessage(msg.getMessage());	
+							// TODO - USAR FUNÇAO SEND CHUNK AQUI
 						} else {							
 							try {
-								System.out.println("Removing duplicated chunk...");
-								String path = Utilities.createBackupPath(peer.getServerID(), fileID, Integer.toString(chunkNo));
-								Path chunkPath = Paths.get(path);
-								Files.deleteIfExists(chunkPath);
-								FileManager.removeStoredChunk(fileID, chunkNo);
+								
 							} catch (IOException e) {
 								e.printStackTrace();
 							}

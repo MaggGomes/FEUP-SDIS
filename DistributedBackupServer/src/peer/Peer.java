@@ -110,9 +110,9 @@ public class Peer implements IPeerInterface{
 	@Override
 	public void backup(String version, String filePath, int replicationDeg) throws RemoteException {		
 		if(version.equals("1.0"))
-			Backup.saveFile(filePath, replicationDeg);
+			Backup.backUpFile(filePath, replicationDeg);
 		else
-			BackupEnhancement.saveFile(filePath, replicationDeg);	
+			BackupEnhancement.backUpFile(filePath, replicationDeg);	
 	}
 
 	@Override

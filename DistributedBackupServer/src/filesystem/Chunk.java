@@ -67,12 +67,22 @@ public class Chunk implements Comparable<Chunk>, Serializable{
 		this.fileID = fileID;
 	}
 
+	/**
+	 * Comparator of a Chunk element that has in account the difference between the the perceived and desired replication degree, and also its size
+	 * 
+	 * @param chunk to be compared
+	 */
 	@Override
 	public int compareTo(Chunk chunk) {
-		if (this.getDiffPerceivedDesiredDeg() == chunk.getDiffPerceivedDesiredDeg())
-			return 0;
-		else if(this.getDiffPerceivedDesiredDeg() > chunk.getDiffPerceivedDesiredDeg())
-			return 1;
+		if (this.getDiffPerceivedDesiredDeg() == chunk.getDiffPerceivedDesiredDeg()){
+			if(this.getSize() < chunk.getSize())
+				return 0;
+			else
+				return 1;
+		} 
+		
+		else if (this.getDiffPerceivedDesiredDeg() > chunk.getDiffPerceivedDesiredDeg())
+			return 2;
 		else
 			return -1;
 	}

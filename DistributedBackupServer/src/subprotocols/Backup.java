@@ -25,7 +25,7 @@ public class Backup extends Protocol{
 	 * @param filePath of the file to back up
 	 * @param replicationDeg desired
 	 */
-	public static void saveFile(String filePath, int replicationDeg){
+	public static void backUpFile(String filePath, int replicationDeg){
 		BackedUpFile fileInfo = new BackedUpFile(filePath, replicationDeg);
 
 		// Verify if the file was already backed up
@@ -130,7 +130,7 @@ public class Backup extends Protocol{
 	 * 
 	 * @param message
 	 */
-	public static void saveChunk(Message message){
+	public static void storeChunk(Message message){
 		// Verifies if the replication degree of a chunk has been achieved
 		if(FileManager.filesTrackReplication.containsKey(message.getFileID())){
 			if(FileManager.filesTrackReplication.get(message.getFileID()).containsKey(Integer.parseInt(message.getChunkNo()))){
@@ -146,14 +146,18 @@ public class Backup extends Protocol{
 			FileManager.filesTrackReplication.get(message.getFileID()).put(Integer.parseInt(message.getChunkNo()), 0);
 		}
 
-		// Verifies if a file has already chunks in this peer
+		// Verifies if a file has already the chunk to store in this peer in this peer
 		if(FileManager.hasStoredFileID(message.getFileID())){
 			if(FileManager.hasStoredChunkNo(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
 				return;
 			}				
 		} else {
 			FileManager.addStoredFile(message.getFileID());
-		}		
+		}
+		
+		/* Verifies if a chunk can be saved */
+		if(!FileManager.addUsedStorage(message.getBody().length))
+			return;
 
 		// Storing chunk
 		try {

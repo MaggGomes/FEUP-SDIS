@@ -50,7 +50,10 @@ public class Delete extends Protocol {
 				try {
 					String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), Integer.toString(chunkNo));
 					Path chunkPath = Paths.get(path);
-					Files.deleteIfExists(chunkPath);					
+					Files.deleteIfExists(chunkPath);
+					
+					/* Removes the stored chunk from the structure and updates used storage */
+					FileManager.removeStoredChunk(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 				} catch(IOException | SecurityException e) {
 					System.out.println("Failed to delete chunk!");
 				}

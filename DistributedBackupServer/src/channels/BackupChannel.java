@@ -48,9 +48,9 @@ public class BackupChannel extends Channel {
 		switch(message.getMessageType()){
 		case Message.PUTCHUNK:
 			if(message.getVersion().equals("1.0"))
-				Backup.saveChunk(message);
+				Backup.storeChunk(message);
 			else
-				BackupEnhancement.saveChunk(message);
+				BackupEnhancement.storeChunk(message);
 			break;
 		default:
 			System.out.println("MDB: Packet discarded!");
