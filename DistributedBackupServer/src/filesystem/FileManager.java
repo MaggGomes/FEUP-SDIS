@@ -10,7 +10,6 @@ public class FileManager {
 	// fBacked up files fileID -> file info
 	public static ConcurrentHashMap<String, BackedUpFile> backedUpFiles = new ConcurrentHashMap<String, BackedUpFile>();
 	
-	// Stored chunks
 	// Replication degree for each chunk
 	public static ConcurrentHashMap<String, ConcurrentHashMap<Integer, Integer>> filesTrackReplication = new ConcurrentHashMap<String, ConcurrentHashMap<Integer, Integer>>();
 	// Stored files fileID -> Map(Chunks)
@@ -20,9 +19,8 @@ public class FileManager {
 	// Put chunks received
 	public static ConcurrentHashMap<String, Integer> putChunks = new ConcurrentHashMap<String, Integer>();
 	
-	
+	/* Current max storage of the peer */
 	public static float maxStorage = 6000; // KBytes
-	public static float usedStorage = 0;	// KBytes
 	
 	/**
 	 * Adds a file to the backed up files
@@ -211,7 +209,6 @@ public class FileManager {
 	 * @param chunkNo of the chunk
 	 */
 	public static void removeStoredChunk(String fileID, int chunkNo){
-		reduceUsedStorage(storedChunks.get(fileID).get(chunkNo).getSize());
 		storedChunks.get(fileID).remove(chunkNo);
 	}
 	
@@ -225,12 +222,61 @@ public class FileManager {
 		return storedChunks.get(fileID);
 	}
 	
+	/**
+	 * Gets a structure with the stored chunks
+	 * 
+	 * @return chunks
+	 */
 	public static ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>>  getStoredFilesChunks(){
 		return storedChunks;
 	}
 	
 	/**
-	 * Updates perceived replication degree of the chunks
+	 * Gets the current perceived replication degree of a chunk
+	 * 
+	 * @param fileID of the parent file
+	 * @param chunkNo of the chunk
+	 * @return perceived replication degree of the chunk
+	 */
+	public static int getPerceivedReplicationDeg(String fileID, int chunkNo){	
+		if(filesTrackReplication.containsKey(fileID)){
+			if(!filesTrackReplication.get(fileID).containsKey(chunkNo)){
+				filesTrackReplication.get(fileID).put(chunkNo, 0);	
+			} 
+		} else {
+			filesTrackReplication.put(fileID, new ConcurrentHashMap<Integer, Integer>());
+			filesTrackReplication.get(fileID).put(chunkNo, 0);
+		}
+		
+		return filesTrackReplication.get(fileID).get(chunkNo);
+	}
+	
+	/**
+	 * Updates perceived replication degree of the backed up files
+	 * 
+	 * @param fileID of the file to be updated
+	 * @param chunkNo of the chunk to be updated
+	 */
+	public static void updateBackedUpReplicationDeg(String fileID, int chunkNo) {
+		
+		/* Updates backed up files structure */
+		addBackedUpChunkReplication(fileID, chunkNo);
+		
+		if(FileManager.filesTrackReplication.containsKey(fileID)){
+			if(!FileManager.filesTrackReplication.get(fileID).containsKey(chunkNo)){
+				FileManager.filesTrackReplication.get(fileID).put(chunkNo, 0);	
+			} 
+		} else {
+			FileManager.filesTrackReplication.put(fileID, new ConcurrentHashMap<Integer, Integer>());
+			FileManager.filesTrackReplication.get(fileID).put(chunkNo, 0);
+		}
+		
+		int chunkrep = FileManager.filesTrackReplication.get(fileID).get(chunkNo);
+		FileManager.filesTrackReplication.get(fileID).put(chunkNo, chunkrep+1);
+	}
+	
+	/**
+	 * Updates perceived replication degree of the stored chunks
 	 * 
 	 * @param fileID of the file to be updated
 	 * @param chunkNo of the chunk to be updated
@@ -262,7 +308,8 @@ public class FileManager {
 	public static void reduceReplicationDeg(String fileID, int chunkNo){
 		// TODO - VERIFICAR SE FUNCIONA
 		if (FileManager.hasBackedUpFileID(fileID))
-			backedUpFiles.get(fileID).reduceReplication(chunkNo);		
+			backedUpFiles.get(fileID).reduceReplication(chunkNo);	
+		
 		if(FileManager.filesTrackReplication.containsKey(fileID)){
 			if(!FileManager.filesTrackReplication.get(fileID).containsKey(chunkNo)){
 				return;	
@@ -285,25 +332,24 @@ public class FileManager {
 	 * @param space to be added
 	 * @return true if the 
 	 */
-	public static boolean addUsedStorage(float space){
-		if((usedStorage+space) > maxStorage)
+	public static boolean hasEnoughStorage(float space){
+		
+		float chunkSpace = (float)space/1000;
+		
+		if((getUsedStorage()+chunkSpace) > maxStorage)
 			return false;
-		else {
-			usedStorage += space;
+		else
 			return true;
-		}	
 	}
 	
-	/**
-	 * Reduces the used storage
-	 * 
-	 * @param space amount to reduce from used storage
-	 */
-	public static void reduceUsedStorage(float space){
-		usedStorage -= space;
+	public static float getUsedStorage(){
+		float storage = 0;
 		
-		if(usedStorage < 0)
-			usedStorage = 0;
+		for(String fileID: storedChunks.keySet())
+			for(Chunk chunk: storedChunks.get(fileID).values())
+				storage += chunk.getSize();
+		
+		return storage;
 	}
 	
 	/**
@@ -313,15 +359,6 @@ public class FileManager {
 	 */
 	public static float getMaxStorage(){
 		return maxStorage;
-	}
-	
-	/**
-	 * Gets the used storage of the peer
-	 * 
-	 * @return used storage
-	 */
-	public static float getUsedStorage(){
-		return usedStorage;
 	}
 	
 	/**
@@ -372,7 +409,7 @@ public class FileManager {
 	 * @return files information in string format
 	 */
 	public static String getState(){
-		String space = "\n\nMAX STORAGE CAPACITY: "+maxStorage+"  |  USED STORAGE:"+usedStorage;
+		String space = "\n\nMAX STORAGE CAPACITY: "+maxStorage+" KBytes  |  USED STORAGE: "+getUsedStorage()+" KBytes";
 		
 		return getBackedUpToString()+getStoredChunksToString()+space;
 	}

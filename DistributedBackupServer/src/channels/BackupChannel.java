@@ -37,14 +37,14 @@ public class BackupChannel extends Channel {
 	// TODO CORRIGIR PROTOCOL VERSION
 	@Override
 	public void processMessage(Message message) {
-		// Verifies if the sender and receiver peers are the same
+		/* Verifies if the sender and receiver peers are the same */
 		if(message.getSenderID().equals(peer.getServerID()))
 			return;
 		
-		// Verifies if this peer is the one which backed up this file
+		/* Verifies if this peer is the one which backed up this file */
 		if(FileManager.hasBackedUpFileID(message.getFileID()))
 			return;
-		
+				
 		switch(message.getMessageType()){
 		case Message.PUTCHUNK:
 			if(message.getVersion().equals("1.0"))

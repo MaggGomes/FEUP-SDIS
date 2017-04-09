@@ -187,9 +187,9 @@ public class Peer implements IPeerInterface{
 			if(!Files.exists(osPath))
 				return;
 			
-			File osFile = new File(path);
+			File isFile = new File(path);
 
-			is = new ObjectInputStream(new FileInputStream(osFile));
+			is = new ObjectInputStream(new FileInputStream(isFile));
 		} catch (IOException e) {
 			System.out.println("No saved metadata found!");
 			return;

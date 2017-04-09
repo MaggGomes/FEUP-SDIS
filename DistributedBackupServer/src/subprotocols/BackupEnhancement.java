@@ -70,7 +70,6 @@ public class BackupEnhancement extends Protocol{
 		try {
 			threadWorkers.shutdown();
 			threadWorkers.awaitTermination(1+chunkNo*5000, TimeUnit.MILLISECONDS);
-			System.out.println("File backed up successfully!");
 		}
 		catch (InterruptedException e) {
 			System.err.println("Workers interrupted.");
@@ -144,7 +143,7 @@ public class BackupEnhancement extends Protocol{
 			FileManager.filesTrackReplication.get(message.getFileID()).put(Integer.parseInt(message.getChunkNo()), 0);
 		}
 
-		// Verifies if a file has already the chunk to store in this peer
+		/* Verifies if a file has already the chunk to store in this peer */
 		if(FileManager.hasStoredFileID(message.getFileID())){
 			if(FileManager.hasStoredChunkNo(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
 				return;
@@ -153,18 +152,18 @@ public class BackupEnhancement extends Protocol{
 			FileManager.addStoredFile(message.getFileID());
 		}		
 
-		/* Verifies if a chunk can be saved */
-		if(!FileManager.addUsedStorage(message.getBody().length))
+		/* Verifies if the peer has enough free storage to store the chunk */
+		if(!FileManager.hasEnoughStorage(message.getBody().length))
 			return;
 		
-		// Storing chunk
+		/* Storing the chunk */
 		try {
 			String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), message.getChunkNo());
 			Path chunkPath = Paths.get(path);			
 			Files.createDirectories(chunkPath.getParent());
 			Files.write(chunkPath, message.getBody());
 
-			// Saves in stored files the chunk saved in the server
+			/* Saves in stored files the chunk saved in the server */
 			System.out.println("Saving chunk: File:"+message.getFileID()+" chunk n: "+message.getChunkNo());
 
 			FileManager.addStoredChunk(message.getFileID(), 
@@ -190,9 +189,9 @@ public class BackupEnhancement extends Protocol{
 				new Runnable(){
 					@Override
 					public void run(){
-						// Verifies if the chunk was already stored
+						/*  Verifies if the chunk was already stored */
 						// TODO - CORRIGIR PROTOCOL VERSION
-						if(FileManager.filesTrackReplication.get(fileID).get(Integer.parseInt(chunkNo)) < replicationDeg){
+						if(FileManager.getPerceivedReplicationDeg(fileID, Integer.parseInt(chunkNo)) < replicationDeg){
 							Message msg = new Message(Message.STORED, "2.0", peer.getServerID(), fileID, chunkNo);		
 							peer.getMc().sendMessage(msg.getMessage());							
 						} else {							
@@ -219,7 +218,7 @@ public class BackupEnhancement extends Protocol{
 	public static void store(Message message){	
 		// Verifies if the peer is the initiator peer
 		if (FileManager.hasBackedUpFileID(message.getFileID()))
-			FileManager.addBackedUpChunkReplication(message.getFileID(), Integer.parseInt(message.getChunkNo()));
+			FileManager.updateBackedUpReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 		else
 			FileManager.updateStoredReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 	}

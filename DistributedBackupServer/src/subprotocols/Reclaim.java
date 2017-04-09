@@ -20,7 +20,7 @@ public class Reclaim extends Protocol {
 	// TODO - VERIFICAR SE FUNCIONA
 	public static void reclaimSpace(long space) {
 		if(space < FileManager.maxStorage){
-			if (space >= FileManager.usedStorage)
+			if (space >= FileManager.getUsedStorage())
 				FileManager.maxStorage = space;
 			else {
 				FileManager.maxStorage = space;
@@ -138,13 +138,11 @@ public class Reclaim extends Protocol {
 							System.out.println("Sending PUTCHUNK message for chunk "+chunkNo);
 							peer.getMc().sendMessage(msg.getMessage());	
 							// TODO - USAR FUNÇAO SEND CHUNK AQUI
-						} else {							
-							try {
-								
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						}					
+						} else {
+							
+							
+							
+						}
 					}
 				},
 				Utilities.randomNumber(0, 400), TimeUnit.MILLISECONDS);

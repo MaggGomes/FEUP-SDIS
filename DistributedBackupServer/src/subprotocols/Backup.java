@@ -70,7 +70,6 @@ public class Backup extends Protocol{
 		try {
 			threadWorkers.shutdown();
 			threadWorkers.awaitTermination(1+chunkNo*5000, TimeUnit.MILLISECONDS);
-			System.out.println("File backed up successfully!");
 		}
 		catch (InterruptedException e) {
 			System.err.println("Workers interrupted.");
@@ -104,7 +103,9 @@ public class Backup extends Protocol{
 				int trys = 0;
 				int waitStored = WAIT;
 
-				while(FileManager.getBackedUpChunkPerceivedReplication(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
+				while(FileManager.getPerceivedReplicationDeg(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
+					
+					System.out.println(FileManager.getPerceivedReplicationDeg(fileID, chunkNo));
 					peer.getMdb().sendMessage(msg.getMessage());
 					System.out.println("Sending chunk "+chunkNo);
 					try{
@@ -146,7 +147,7 @@ public class Backup extends Protocol{
 			FileManager.filesTrackReplication.get(message.getFileID()).put(Integer.parseInt(message.getChunkNo()), 0);
 		}
 
-		// Verifies if a file has already the chunk to store in this peer in this peer
+		/* Verifies if a file has already the chunk to store in this peer in this peer */
 		if(FileManager.hasStoredFileID(message.getFileID())){
 			if(FileManager.hasStoredChunkNo(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
 				return;
@@ -155,18 +156,21 @@ public class Backup extends Protocol{
 			FileManager.addStoredFile(message.getFileID());
 		}
 		
-		/* Verifies if a chunk can be saved */
-		if(!FileManager.addUsedStorage(message.getBody().length))
+		System.out.println("sim");
+		/* Verifies if the peer has enough free storage to store the chunk */
+		if(!FileManager.hasEnoughStorage(message.getBody().length))
 			return;
+		
+		System.out.println("has");
 
-		// Storing chunk
+		/* Storing chunk */
 		try {
 			String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), message.getChunkNo());
 			Path chunkPath = Paths.get(path);			
 			Files.createDirectories(chunkPath.getParent());
 			Files.write(chunkPath, message.getBody());
 
-			// Saves in stored files the chunk saved in the server
+			/* Saves in stored files the chunk saved in the server */
 			System.out.println("Saving chunk: File:"+message.getFileID()+" chunk n: "+message.getChunkNo());
 
 			FileManager.addStoredChunk(message.getFileID(), 
@@ -207,7 +211,7 @@ public class Backup extends Protocol{
 	public static void store(Message message){	
 		// Verifies if the peer is the initiator peer
 		if (FileManager.hasBackedUpFileID(message.getFileID()))
-			FileManager.addBackedUpChunkReplication(message.getFileID(), Integer.parseInt(message.getChunkNo()));
+			FileManager.updateBackedUpReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 		else
 			FileManager.updateStoredReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 
