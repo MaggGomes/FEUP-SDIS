@@ -16,12 +16,12 @@ public class Message {
 	private String senderID;
 	private String fileID;
 	private String chunkNo;
-	private String replicationDeg; // 1 char length
+	private String replicationDeg; /* 1 char length */
 	private String header;
 	private byte[] body;
 	private byte[] message;
 
-	// Message types
+	/* Message types */
 	public static final String PUTCHUNK = "PUTCHUNK";
 	public static final String STORED = "STORED";
 	public static final String GETCHUNK = "GETCHUNK";
@@ -36,6 +36,12 @@ public class Message {
 	public static final String CRLF = " \r\n\r\n";
 	public static final String SPACE = " ";
 
+	/**
+	 * Message constructor
+	 * 
+	 * @param header of the message
+	 * @param body of the message
+	 */
 	public Message(String header, byte[] body){
 
 		this.header = header;
@@ -44,6 +50,17 @@ public class Message {
 	}
 
 	// PUTCHUNK
+	/**
+	 * Message constructor
+	 * 
+	 * @param messageType of the message
+	 * @param version of the protocol
+	 * @param senderId of the peer
+	 * @param fileId of the file
+	 * @param chunkNo of the chunk
+	 * @param replicationDeg
+	 * @param body chunk's data
+	 */
 	public Message(String messageType, String version, String senderId, String fileId, int chunkNo,
 			String replicationDeg, byte[] body) {		
 
@@ -59,7 +76,17 @@ public class Message {
 		this.createMessage();
 	}
 
-	// CHUNK
+	/* CHUNK */
+	/**
+	 * Message constructor
+	 * 
+	 * @param messageType of the message
+	 * @param version of the protocol
+	 * @param senderId of the peer
+	 * @param fileId of the file
+	 * @param chunkNo of the chunk
+	 * @param body chunk's data
+	 */
 	public Message(String messageType, String version, String senderId, String fileId, int chunkNo, byte[] body) {		
 
 		this.messageType = messageType;
@@ -73,7 +100,16 @@ public class Message {
 		this.createMessage();
 	}
 
-	// STORED, GETCHUNK, REMOVED
+	/* STORED, GETCHUNK, REMOVED */
+	/**
+	 * Message constructor
+	 * 
+	 * @param messageType of the message
+	 * @param version of the protocol
+	 * @param senderId of the peer
+	 * @param fileId of the file
+	 * @param chunkNo of the chunk
+	 */
 	public Message(String messageType, String version, String senderId, String fileId, String chunkNo) {		
 
 		this.messageType = messageType;
@@ -87,7 +123,15 @@ public class Message {
 		this.createMessage();
 	}
 	
-	// DELETE
+	/* DELETE */
+	/**
+	 * Message constructor
+	 * 
+	 * @param messageType of the message
+	 * @param version of the protocol
+	 * @param senderId of the peer
+	 * @param fileId of the file
+	 */
 	public Message(String messageType, String version, String senderId, String fileId) {		
 
 		this.messageType = messageType;
@@ -100,19 +144,24 @@ public class Message {
 		this.createMessage();
 	}
 
+	/**
+	 * Message constructor
+	 *
+	 * @param packet
+	 */
 	public Message(DatagramPacket packet){
 
 		this.message = Arrays.copyOf(packet.getData(), packet.getLength());
 
 		String msg = new String(message, packet.getOffset(), message.length);
-		String[] messageFields = msg.split("( \\r\\n\\r\\n)"); // CRLF
+		String[] messageFields = msg.split("( \\r\\n\\r\\n)"); /* CRLF */
 
 		header = new String(messageFields[0].getBytes(), StandardCharsets.US_ASCII);
 
-		// Parses header
+		/* Parses header */
 		parseHeader();
 
-		// Reads the body of the message (chunk data)
+		/* Reads the body of the message (chunk data) */
 		if(messageType.equals(Message.PUTCHUNK) || messageType.equals(Message.CHUNK)){
 			body = Arrays.copyOfRange(message, header.length()+CRLF.length(), packet.getLength());
 		}
@@ -144,6 +193,9 @@ public class Message {
 			header += this.replicationDeg+SPACE;
 	}
 
+	/**
+	 * Creates a message
+	 */
 	public void createMessage(){
 		ByteArrayOutputStream byteToStream = new ByteArrayOutputStream();
 
@@ -158,7 +210,9 @@ public class Message {
 		this.message = byteToStream.toByteArray();
 	}
 
-	// Verificar existência de erros??
+	/**
+	 * Parses message header
+	 */
 	public void parseHeader(){
 
 		String[] headerFields = header.split("\\s+");
@@ -200,7 +254,7 @@ public class Message {
 	/**
 	 * Hashes input using SHA-256
 	 * 
-	 * @param fileId
+	 * @param fileId of the file
 	 * @return hash
 	 */
 	public static String createHash(String fileId) {
@@ -219,42 +273,92 @@ public class Message {
 		return DatatypeConverter.printHexBinary(hash);
 	}	
 
+	/**
+	 * Gets message header
+	 * 
+	 * @return header
+	 */
 	public String getHeader(){
 		return header;
 	}
 
+	/**
+	 * Gets message body
+	 * 
+	 * @return body
+	 */
 	public byte[] getBody(){
 		return body;
 	}
 
+	/**
+	 * Gets message data
+	 * 
+	 * @return message data
+	 */
 	public byte[] getMessage(){
 		return message;
 	}
 
+	/**
+	 * Gets message type
+	 * 
+	 * @return message type
+	 */
 	public String getMessageType() {
 		return messageType;
 	}
 
+	/**
+	 * Gets sender ID
+	 * 
+	 * @return ID
+	 */
 	public String getSenderID(){
 		return senderID;
 	}
 
+	/**
+	 * Gets file's fileID
+	 * 
+	 * @return fileID
+	 */
 	public String getFileID() {
 		return fileID;
 	}
 	
+	/**
+	 * Gets the protocol version of the peer
+	 * 
+	 * @return protocol version
+	 */
 	public String getVersion(){
 		return version;
 	}
 
+	/**
+	 * Sets file's fileID
+	 * 
+	 * @param fileID new fileID
+	 */
 	public void setFileId(String fileId) {
 		this.fileID = Message.createHash(fileId);
 	}
 
+	/**
+	 * Gets chunk number
+	 * 
+	 * @return chunk number
+	 */
 	public String getChunkNo() {
 		return chunkNo;
 	}
 
+	/**
+	 * Gets the file's desired replication degree
+	 * 
+	 * @return desired replication degree
+	 */
 	public String getReplicationDeg() {
 		return replicationDeg;
 	}

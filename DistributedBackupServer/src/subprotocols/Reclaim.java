@@ -105,7 +105,7 @@ public class Reclaim extends Protocol {
 		/* Verifies if this peer is the initiator peer */
 		if(message.getSenderID().equals(peer.getServerID()))
 			return;
-		
+
 		FileManager.reduceReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 		
 		/* Verify if has the chunk stored */
@@ -125,7 +125,7 @@ public class Reclaim extends Protocol {
 							Integer.parseInt(message.getChunkNo())), 
 							chunk);
 				} catch (IOException e) {
-					e.printStackTrace();
+					System.out.println("Failed to read chunk bytes!");
 				}				
 			}
 		}
@@ -143,7 +143,7 @@ public class Reclaim extends Protocol {
 	 */
 	public static void sendBackUp(final String fileID, final int chunkNo, final int replicationDeg, byte[] data){	
 		final byte[] chunk = Arrays.copyOf(data, data.length);
-	
+
 		Executors.newSingleThreadScheduledExecutor().schedule(
 				new Runnable(){
 					@Override
@@ -158,6 +158,8 @@ public class Reclaim extends Protocol {
 								else
 									BackupEnhancement.sendReclaimedChunk(fileID, chunkNo, replicationDeg, chunk);
 							}
+							
+							FileManager.removeChunkToSend(fileID, chunkNo);
 						}						
 					}
 				},

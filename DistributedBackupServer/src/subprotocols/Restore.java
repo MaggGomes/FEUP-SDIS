@@ -21,10 +21,8 @@ import filesystem.Chunk;
 import filesystem.FileManager;
 
 public class Restore extends Protocol{
-	// Recovered chunks by the initiator peer
+	/* Recovered chunks by the initiator peer */
 	public static ConcurrentHashMap<Integer, byte[]> chunksRecovered;
-	// Chunks sent by the peers
-	//public static Set<Integer> chunksSent = new HashSet<Integer>();
 	
 	public static ConcurrentHashMap<String, HashSet<Integer>> chunksSent = new ConcurrentHashMap<String, HashSet<Integer>>();
 
@@ -43,25 +41,23 @@ public class Restore extends Protocol{
 			chunksSent = new ConcurrentHashMap<String, HashSet<Integer>>();
 			ConcurrentHashMap<Integer, Chunk> fileChunks = FileManager.getChunksBackedUpFile(fileID);
 			
-			// Requests each chunk
+			/* Requests each chunk */
 			for (Integer chunkNo: fileChunks.keySet())
 				sendGetChunk(fileID, Integer.toString(chunkNo));
 			
 			
 			try {
 				Thread.sleep(fileChunks.size()*1000);
-				// Restoring the file joining all chunks
+				/* Restoring the file joining all chunks */
 				joinChunks(fileID, FileManager.getBackedUpFileName(fileID));
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}	
 			
-			// Shutting down workers
-			
+			/* Shutting down workers */			
 			try {
 				threadWorkers.shutdown();
 				threadWorkers.awaitTermination(fileChunks.size()*5000, TimeUnit.MILLISECONDS);
-				System.out.println("File restored successfully!");
 			}
 			catch (InterruptedException e2) {
 				System.err.println("Workers interrupted.");
@@ -118,18 +114,18 @@ public class Restore extends Protocol{
 	 * @param message
 	 */
 	public static void getChunk(Message message){
-		// Verifies if the sender is the same as the receiver 
+		/* Verifies if the sender is the same as the receiver */
 		if(message.getSenderID().equals(peer.getServerID()))
 			return;
 
-		// Verifies if the peer has any chunk of the requested file
+		/* Verifies if the peer has any chunk of the requested file */
 		if(FileManager.hasStoredFileID(message.getFileID())){
-			// Verifies if the peer has the requested chunk
+			/* Verifies if the peer has the requested chunk */
 			if (FileManager.hasStoredChunkNo(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
 				if(!chunksSent.contains(message.getFileID()))
 					chunksSent.put(message.getFileID(), new HashSet<Integer>());				
 				
-				// Verifies if the chunk was already sent
+				/* Verifies if the chunk was already sent */
 				if(!chunksSent.get(message.getFileID()).contains(Integer.parseInt(message.getChunkNo()))){					
 					String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), message.getChunkNo());
 					Path chunkPath = Paths.get(path);
@@ -185,7 +181,7 @@ public class Restore extends Protocol{
 			chunksSent.get(message.getFileID()).add(Integer.parseInt(message.getChunkNo()));
 		}
 
-		// Verifies if this is the initiator peer which requested the file
+		/* Verifies if this is the initiator peer which requested the file */
 		if(FileManager.hasBackedUpFileID(message.getFileID()))
 			chunksRecovered.put(Integer.parseInt(message.getChunkNo()), message.getBody());
 	}
@@ -222,7 +218,8 @@ public class Restore extends Protocol{
                 }
             }
             
-            fos.close();            
+            fos.close(); 
+            System.out.println("File restored successfully!");
         } catch (IOException e) {
             e.printStackTrace();
         }		 

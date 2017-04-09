@@ -1,5 +1,6 @@
 package filesystem;
 
+import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FileManager {
@@ -16,7 +17,7 @@ public class FileManager {
 	public static ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>> storedChunks = new ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>>();
 
 	// Put chunks prepared to be sent when reclaim protocol starts
-	public static ConcurrentHashMap<String, Integer> chunksToSend = new ConcurrentHashMap<String, Integer>();
+	public static ConcurrentHashMap<String, HashSet<Integer>> chunksToSend = new ConcurrentHashMap<String, HashSet<Integer>>();
 
 	/* Current max storage of the peer */
 	public static float maxStorage = 6000; // KBytes
@@ -146,7 +147,7 @@ public class FileManager {
 		if(storedChunks.containsKey(fileID))
 			if(storedChunks.get(fileID).containsKey(chunkNo))
 				return true;			
-		
+
 		return false;
 	}
 
@@ -233,7 +234,7 @@ public class FileManager {
 	public static ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>>  getStoredFilesChunks(){
 		return storedChunks;
 	}
-	
+
 	/**
 	 * Verifies if a chunk is being prepared to be sent
 	 * 
@@ -243,9 +244,9 @@ public class FileManager {
 	 */
 	public static boolean hasChunkToSend(String fileID, int chunkNo){
 		if(chunksToSend.containsKey(fileID))
-			if(chunksToSend.get(fileID).equals(chunkNo))
+			if(chunksToSend.get(fileID).contains(chunkNo))
 				return true;
-		
+
 		return false;
 	}
 
@@ -256,7 +257,13 @@ public class FileManager {
 	 * @param chunkNo of the chunk
 	 */
 	public static void addChunkToSend(String fileID, int chunkNo){
-		chunksToSend.put(fileID, chunkNo);
+		if(chunksToSend.containsKey(fileID)){
+			if(!chunksToSend.get(fileID).contains(chunkNo))
+				chunksToSend.get(fileID).add(chunkNo);
+		} else {
+			chunksToSend.put(fileID, new HashSet<Integer>());
+			chunksToSend.get(fileID).add(chunkNo);
+		}
 	}
 
 	/**
@@ -266,12 +273,12 @@ public class FileManager {
 	 * @param chunkNo of the chunk
 	 */
 	public static void removeChunkToSend(String fileID, int chunkNo){
-		if(chunksToSend.containsKey(fileID))
-			if(chunksToSend.get(fileID).equals(chunkNo)){
-				//TODO - APAGAR
-				System.out.println("removing");
-				chunksToSend.remove(fileID, chunkNo);
+		System.out.println(fileID+"   "+chunkNo);
+		if(chunksToSend.containsKey(fileID)){
+			if(chunksToSend.get(fileID).contains(chunkNo)){
+				chunksToSend.get(fileID).remove(chunkNo);
 			}
+		}
 	}
 
 	/**
@@ -433,12 +440,14 @@ public class FileManager {
 			state += "\n\n##### STORED CHUNKS #####";
 
 			for(String fileID: storedChunks.keySet()){
-				state += "\n\nFILE ID: "+fileID;
+				if(storedChunks.get(fileID).size() > 0){
+					state += "\n\nFILE ID: "+fileID;
 
-				for(Chunk chunk: storedChunks.get(fileID).values())				
-					state += "\nID: "+chunk.getNumber()+
-					"  |  SIZE: "+chunk.getSize()+
-					" KBytes  |  PERCEIVED REPLICATION DEGREE: "+chunk.getPerceivedReplicationDeg();
+					for(Chunk chunk: storedChunks.get(fileID).values())				
+						state += "\nID: "+chunk.getNumber()+
+						"  |  SIZE: "+chunk.getSize()+
+						" KBytes  |  PERCEIVED REPLICATION DEGREE: "+chunk.getPerceivedReplicationDeg();
+				}				
 			}			
 		}
 

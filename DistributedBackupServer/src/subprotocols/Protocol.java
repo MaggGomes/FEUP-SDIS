@@ -12,6 +12,11 @@ public abstract class Protocol {
 	protected static final int MAX_WORKERS = 10;
 	public static final int CHUNK_MAXSIZE = 64000;	
 	
+	/**
+	 * Initiates a peer
+	 * 
+	 * @param peer to be initiated
+	 */
 	public static void start(Peer peer){
 		Protocol.peer = peer;
 	}
