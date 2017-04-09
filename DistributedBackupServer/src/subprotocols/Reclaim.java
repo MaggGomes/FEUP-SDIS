@@ -17,7 +17,11 @@ import utilities.Utilities;
 
 public class Reclaim extends Protocol {
 
-	// TODO - VERIFICAR SE FUNCIONA
+	/**
+	 * Attempts to reclaim the specified space
+	 * 
+	 * @param space to be reclaimed
+	 */
 	public static void reclaimSpace(long space) {
 		if(space < FileManager.maxStorage){
 			if (space >= FileManager.getUsedStorage())
@@ -33,16 +37,20 @@ public class Reclaim extends Protocol {
 		peer.saveMetadata();
 	}
 	
-	//TODO - VERIFICAR SE FUNCIONA
+	/**
+	 * Reclaims the specified space
+	 * 
+	 * @param space to be reclaimed
+	 */
 	public static void reclaimChunks(long space){
 		
-		// Verifies if the peer has any stored files
+		/* Verifies if the peer has any stored files */
 		if(FileManager.getStoredFilesChunks().size() <= 0)
 			return;
 		
 		PriorityQueue<Chunk> chunks = new PriorityQueue<Chunk>();
 		
-		// Adds chunks to the priority queue
+		/* Adds chunks to the priority queue */
 		for(ConcurrentHashMap<Integer, Chunk> stored: FileManager.storedChunks.values())
 			for(Chunk chunk: stored.values())
 				chunks.add(chunk);
@@ -58,7 +66,7 @@ public class Reclaim extends Protocol {
 			}				
 		}
 		
-		// Sends REMOVED message for each chunk to be deleted
+		/* Sends REMOVED message for each chunk to be deleted */
 		while(!chunks.isEmpty()){
 			Message msg = new Message(Message.REMOVED, 
 					peer.getProtocolVersion(), 
@@ -66,10 +74,10 @@ public class Reclaim extends Protocol {
 					chunks.peek().getFileID(), 
 					Integer.toString(chunks.peek().getNumber()));
 			
-			System.out.println("Sending REMOVED message fo chunk "+chunks.peek().getNumber());
+			System.out.println("Sending REMOVED message for chunk "+chunks.peek().getNumber());
 			peer.getMc().sendMessage(msg.getMessage());
 			
-			// Deleting chunk
+			/* Deleting chunk */
 			try {
 				String path = Utilities.createBackupPath(peer.getServerID(), chunks.peek().getFileID(), Integer.toString(chunks.peek().getNumber()));
 				Path chunkPath = Paths.get(path);
@@ -84,24 +92,28 @@ public class Reclaim extends Protocol {
 			chunks.poll();
 		}
 		
-		// TODO -  CORRIGIR
 		FileManager.maxStorage = space;
 		peer.saveMetadata();
 	}
 
-	//TODO - verificar se funciona
+	/**
+	 * Updates the chunk replication degree
+	 * 
+	 * @param message
+	 */
 	public static void updateChunkReplicationDegree(Message message) {
-		// Verifies if this peer is the initiator peer
+		/* Verifies if this peer is the initiator peer */
 		if(message.getSenderID().equals(peer.getServerID()))
 			return;
 		
 		FileManager.reduceReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 		
-		// Verify if has the chunk stored
+		/* Verify if has the chunk stored */
 		if(FileManager.hasStoredChunkNo(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
-			// Verify if the perceived replication degree is lower than the desired replication degree
+			/* Verify if the perceived replication degree is lower than the desired replication degree */
 			if(FileManager.hasPerceveidedLowerDesired(message.getFileID(), Integer.parseInt(message.getChunkNo()))){
-				
+				/* Signalizes that the peer is preparing to send a PUTCHUNK message */
+				FileManager.addChunkToSend(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 				String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), message.getChunkNo());
 				Path chunkPath = Paths.get(path);
 
@@ -121,28 +133,32 @@ public class Reclaim extends Protocol {
 		peer.saveMetadata();
 	}
 	
-	// TODO -CORRIGIR
+	/**
+	 * Attempts to send a chunk to be treated by the Backup Protocol
+	 * 
+	 * @param fileID of the parent file
+	 * @param chunkNo of the chunk
+	 * @param replicationDeg desired for the chunk
+	 * @param data
+	 */
 	public static void sendBackUp(final String fileID, final int chunkNo, final int replicationDeg, byte[] data){	
 		final byte[] chunk = Arrays.copyOf(data, data.length);
-		
+	
 		Executors.newSingleThreadScheduledExecutor().schedule(
 				new Runnable(){
 					@Override
-					public void run(){
-						// Verifies if the chunk was already stored
-						
-						if(FileManager.filesTrackReplication.get(fileID).get(chunkNo) < replicationDeg){
-							// TODO - VERIFICAR SE ENTRETANTO JA NAO FOI RECEBIDO UM PEDIDO PARA O MESMO FILEID
-							
-							Message msg = new Message(Message.PUTCHUNK, peer.getProtocolVersion(), peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);		
-							System.out.println("Sending PUTCHUNK message for chunk "+chunkNo);
-							peer.getMc().sendMessage(msg.getMessage());	
-							// TODO - USAR FUNÇAO SEND CHUNK AQUI
-						} else {
-							
-							
-							
-						}
+					public void run(){	
+						/* Verifies if was already sent another request for the same chunk */
+						if(FileManager.hasChunkToSend(fileID, chunkNo)){
+							if(FileManager.getPerceivedReplicationDeg(fileID, chunkNo) < replicationDeg){
+								System.out.println("Requesting Backup Protocol to send chunk "+chunkNo);
+								
+								if(peer.getProtocolVersion().equals("1.0"))
+									Backup.sendReclaimedChunk(fileID, chunkNo, replicationDeg, chunk);
+								else
+									BackupEnhancement.sendReclaimedChunk(fileID, chunkNo, replicationDeg, chunk);
+							}
+						}						
 					}
 				},
 				Utilities.randomNumber(0, 400), TimeUnit.MILLISECONDS);

@@ -130,7 +130,11 @@ public class Peer implements IPeerInterface{
 		Delete.deleteFile(filePath);		
 	}
 
-	//TODO - VERIFICAR SE FUNCIONA
+	/**
+	 * Attempts to reclaim the specified space
+	 * 
+	 * @param space to be reclaimed
+	 */
 	@Override
 	public void reclaim(long space) throws RemoteException {
 		Reclaim.reclaimSpace(space);
@@ -167,6 +171,8 @@ public class Peer implements IPeerInterface{
 			os.writeObject(FileManager.backedUpFiles);
 			os.writeObject(FileManager.filesTrackReplication);
 			os.writeObject(FileManager.storedChunks);
+			os.writeObject(FileManager.maxStorage);
+			os.writeFloat(FileManager.maxStorage);
 			os.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -200,6 +206,7 @@ public class Peer implements IPeerInterface{
 			FileManager.backedUpFiles = (ConcurrentHashMap<String, BackedUpFile>) is.readObject();
 			FileManager.filesTrackReplication = (ConcurrentHashMap<String, ConcurrentHashMap<Integer, Integer>>) is.readObject();
 			FileManager.storedChunks = (ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>>) is.readObject();
+			FileManager.maxStorage = (float) is.readObject();
 			is.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -230,18 +237,30 @@ public class Peer implements IPeerInterface{
 		return mdr;
 	}
 
+	/**
+	 * Gets the control channel thread
+	 * 
+	 * @return control channel thread
+	 */
 	public Thread getControl() {
 		return control;
 	}
+	
+	/**
+	 * Gets the backup channel thread
+	 * 
+	 * @return backup channel thread
+	 */
 	public Thread getBackup() {
 		return backup;
 	}
 
+	/**
+	 * Gets the restore channel thread
+	 * 
+	 * @return restore channel thread
+	 */
 	public Thread getRestore() {
 		return restore;
-	}
-
-	public void setServerID(String serverID) {
-		this.serverID = serverID;
 	}
 }

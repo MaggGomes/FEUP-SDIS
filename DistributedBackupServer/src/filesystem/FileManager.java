@@ -3,25 +3,24 @@ package filesystem;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FileManager {
-	
+
 	// Backed up files 
 	// Hash for getting stored fileID  file pathname -> fileID
 	public static ConcurrentHashMap<String, String> nameToFileID = new ConcurrentHashMap<String, String>();
 	// fBacked up files fileID -> file info
 	public static ConcurrentHashMap<String, BackedUpFile> backedUpFiles = new ConcurrentHashMap<String, BackedUpFile>();
-	
+
 	// Replication degree for each chunk
 	public static ConcurrentHashMap<String, ConcurrentHashMap<Integer, Integer>> filesTrackReplication = new ConcurrentHashMap<String, ConcurrentHashMap<Integer, Integer>>();
 	// Stored files fileID -> Map(Chunks)
 	public static ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>> storedChunks = new ConcurrentHashMap<String, ConcurrentHashMap<Integer, Chunk>>();
-			
-	// TODO -  VERIFICAR SE É PARA MANTER
-	// Put chunks received
-	public static ConcurrentHashMap<String, Integer> putChunks = new ConcurrentHashMap<String, Integer>();
-	
+
+	// Put chunks prepared to be sent when reclaim protocol starts
+	public static ConcurrentHashMap<String, Integer> chunksToSend = new ConcurrentHashMap<String, Integer>();
+
 	/* Current max storage of the peer */
 	public static float maxStorage = 6000; // KBytes
-	
+
 	/**
 	 * Adds a file to the backed up files
 	 * 
@@ -31,7 +30,7 @@ public class FileManager {
 		nameToFileID.put(file.getFilePath(), file.getFileID());
 		backedUpFiles.put(file.getFileID(), file);
 	}
-	
+
 	/**
 	 * Adds a backed up chunk to the backed up chunks
 	 * 
@@ -43,7 +42,7 @@ public class FileManager {
 	public static void addBackedUpFileChunk(String fileID, int chunkNo, long size, int desiredReplicationDeg){
 		backedUpFiles.get(fileID).addChunk(chunkNo, size, desiredReplicationDeg);
 	}
-	
+
 	/**
 	 * Verifies if a file is backed up by its file pathname
 	 * 
@@ -53,7 +52,7 @@ public class FileManager {
 	public static boolean hasBackedUpFilePathName(String filePath){	
 		return nameToFileID.containsKey(filePath);
 	}
-	
+
 	/**
 	 * Verifies if a file is backed up by its fileID
 	 * 
@@ -63,7 +62,7 @@ public class FileManager {
 	public static boolean hasBackedUpFileID(String fileID){	
 		return backedUpFiles.containsKey(fileID);
 	}
-	
+
 	/**
 	 * Gets the file's ID of a file providing its file pathname
 	 * 
@@ -73,7 +72,7 @@ public class FileManager {
 	public static String getBackedUpFileID(String filePath) {
 		return nameToFileID.get(filePath);
 	}
-	
+
 	/**
 	 * Gets the file's name of a the specified file
 	 * 
@@ -83,7 +82,7 @@ public class FileManager {
 	public static String getBackedUpFileName(String fileID) {
 		return backedUpFiles.get(fileID).getFileName();
 	}
-	
+
 	/**
 	 * Gets a ConcurrentHashMap with the backed up chunks of a file
 	 * 
@@ -93,7 +92,7 @@ public class FileManager {
 	public static ConcurrentHashMap <Integer, Chunk> getChunksBackedUpFile(String fileID){
 		return backedUpFiles.get(fileID).getChunks();
 	}
-	
+
 	/**
 	 * Deletes a backed up file
 	 * 
@@ -104,7 +103,7 @@ public class FileManager {
 		nameToFileID.remove(filePath);
 		backedUpFiles.remove(fileID);
 	}
-	
+
 	/**
 	 * Increments the perceived replication degree of a chunk
 	 * 
@@ -114,7 +113,7 @@ public class FileManager {
 	public static void addBackedUpChunkReplication(String fileID, int chunkNo){
 		backedUpFiles.get(fileID).addReplication(chunkNo);
 	}
-	
+
 	/**
 	 * Gets the perceived replication degree of a chunk
 	 * 
@@ -125,7 +124,7 @@ public class FileManager {
 	public static int getBackedUpChunkPerceivedReplication(String fileID, int chunkNo){
 		return backedUpFiles.get(fileID).getChunkPerceivedReplication(chunkNo);
 	}
-	
+
 	/**
 	 * Verifies if a 
 	 * 
@@ -135,7 +134,7 @@ public class FileManager {
 	public static boolean hasStoredFileID(String fileID){
 		return storedChunks.containsKey(fileID);
 	}
-	
+
 	/**
 	 * Verifies if a chunk is stored
 	 * 
@@ -144,9 +143,13 @@ public class FileManager {
 	 * @return true if the chunk is stored, false otherwise
 	 */
 	public static boolean hasStoredChunkNo(String fileID, int chunkNo){
-		return storedChunks.get(fileID).containsKey(chunkNo);
+		if(storedChunks.containsKey(fileID))
+			if(storedChunks.get(fileID).containsKey(chunkNo))
+				return true;			
+		
+		return false;
 	}
-	
+
 	/**
 	 * Verifies if the perceived replication degree of a chunk is lower than its desired replication degree
 	 * 
@@ -157,7 +160,7 @@ public class FileManager {
 	public static boolean hasPerceveidedLowerDesired(String fileID, int chunkNo){
 		return storedChunks.get(fileID).get(chunkNo).hasPerceveidedLowerDesired();
 	}
-	
+
 	/**
 	 * Gets the desired replication degree of a chunk
 	 * 
@@ -168,7 +171,7 @@ public class FileManager {
 	public static int getStoredDesiredReplicationDeg(String fileID, int chunkNo){
 		return storedChunks.get(fileID).get(chunkNo).getDesiredReplicationDeg();
 	}
-	
+
 	/**
 	 * Adds a file to the stored files structure
 	 * 
@@ -177,7 +180,7 @@ public class FileManager {
 	public static void addStoredFile(String fileID){
 		storedChunks.put(fileID, new ConcurrentHashMap<Integer, Chunk>());
 	}
-	
+
 	/**
 	 * Adds a chunk to the stored chunks structure
 	 * 
@@ -192,7 +195,7 @@ public class FileManager {
 		chunk.setPerceivedReplicationDeg(perceivedReplicationDeg);
 		storedChunks.get(fileID).put(chunkNo, chunk);
 	}	
-	
+
 	/**
 	 * Removes a stored file
 	 * 
@@ -201,7 +204,7 @@ public class FileManager {
 	public static void removeStoredFile(String fileID){
 		storedChunks.remove(fileID);
 	}
-	
+
 	/**
 	 * Removes a stored chunk and updates the used storage
 	 * 
@@ -211,7 +214,7 @@ public class FileManager {
 	public static void removeStoredChunk(String fileID, int chunkNo){
 		storedChunks.get(fileID).remove(chunkNo);
 	}
-	
+
 	/**
 	 * Gets the chunks of a file
 	 * 
@@ -221,7 +224,7 @@ public class FileManager {
 	public static ConcurrentHashMap<Integer, Chunk> getStoredChunks(String fileID){
 		return storedChunks.get(fileID);
 	}
-	
+
 	/**
 	 * Gets a structure with the stored chunks
 	 * 
@@ -231,6 +234,46 @@ public class FileManager {
 		return storedChunks;
 	}
 	
+	/**
+	 * Verifies if a chunk is being prepared to be sent
+	 * 
+	 * @param fileID
+	 * @param chunkNo
+	 * @return true if the chunk is being prepared to be sent, false otherwise
+	 */
+	public static boolean hasChunkToSend(String fileID, int chunkNo){
+		if(chunksToSend.containsKey(fileID))
+			if(chunksToSend.get(fileID).equals(chunkNo))
+				return true;
+		
+		return false;
+	}
+
+	/**
+	 * Adds a chunk to be send
+	 * 
+	 * @param fileID of the parent file
+	 * @param chunkNo of the chunk
+	 */
+	public static void addChunkToSend(String fileID, int chunkNo){
+		chunksToSend.put(fileID, chunkNo);
+	}
+
+	/**
+	 * Removes a chunk thats was going to be sent
+	 * 
+	 * @param fileID of the parent file
+	 * @param chunkNo of the chunk
+	 */
+	public static void removeChunkToSend(String fileID, int chunkNo){
+		if(chunksToSend.containsKey(fileID))
+			if(chunksToSend.get(fileID).equals(chunkNo)){
+				//TODO - APAGAR
+				System.out.println("removing");
+				chunksToSend.remove(fileID, chunkNo);
+			}
+	}
+
 	/**
 	 * Gets the current perceived replication degree of a chunk
 	 * 
@@ -247,10 +290,10 @@ public class FileManager {
 			filesTrackReplication.put(fileID, new ConcurrentHashMap<Integer, Integer>());
 			filesTrackReplication.get(fileID).put(chunkNo, 0);
 		}
-		
+
 		return filesTrackReplication.get(fileID).get(chunkNo);
 	}
-	
+
 	/**
 	 * Updates perceived replication degree of the backed up files
 	 * 
@@ -258,10 +301,10 @@ public class FileManager {
 	 * @param chunkNo of the chunk to be updated
 	 */
 	public static void updateBackedUpReplicationDeg(String fileID, int chunkNo) {
-		
+
 		/* Updates backed up files structure */
 		addBackedUpChunkReplication(fileID, chunkNo);
-		
+
 		if(FileManager.filesTrackReplication.containsKey(fileID)){
 			if(!FileManager.filesTrackReplication.get(fileID).containsKey(chunkNo)){
 				FileManager.filesTrackReplication.get(fileID).put(chunkNo, 0);	
@@ -270,11 +313,11 @@ public class FileManager {
 			FileManager.filesTrackReplication.put(fileID, new ConcurrentHashMap<Integer, Integer>());
 			FileManager.filesTrackReplication.get(fileID).put(chunkNo, 0);
 		}
-		
+
 		int chunkrep = FileManager.filesTrackReplication.get(fileID).get(chunkNo);
 		FileManager.filesTrackReplication.get(fileID).put(chunkNo, chunkrep+1);
 	}
-	
+
 	/**
 	 * Updates perceived replication degree of the stored chunks
 	 * 
@@ -290,15 +333,15 @@ public class FileManager {
 			FileManager.filesTrackReplication.put(fileID, new ConcurrentHashMap<Integer, Integer>());
 			FileManager.filesTrackReplication.get(fileID).put(chunkNo, 0);
 		}
-		
+
 		int chunkrep = FileManager.filesTrackReplication.get(fileID).get(chunkNo);
 		FileManager.filesTrackReplication.get(fileID).put(chunkNo, chunkrep+1);
-		
+
 		if(FileManager.hasStoredFileID(fileID))
 			if(FileManager.hasStoredChunkNo(fileID, chunkNo))
 				FileManager.storedChunks.get(fileID).get(chunkNo).addPerceivedReplicationDeg();
 	}
-	
+
 	/**
 	 * Reduces the perceived replication degree of the specified chunk
 	 * 
@@ -306,10 +349,9 @@ public class FileManager {
 	 * @param chunkNo of the chunk
 	 */
 	public static void reduceReplicationDeg(String fileID, int chunkNo){
-		// TODO - VERIFICAR SE FUNCIONA
 		if (FileManager.hasBackedUpFileID(fileID))
 			backedUpFiles.get(fileID).reduceReplication(chunkNo);	
-		
+
 		if(FileManager.filesTrackReplication.containsKey(fileID)){
 			if(!FileManager.filesTrackReplication.get(fileID).containsKey(chunkNo)){
 				return;	
@@ -317,15 +359,15 @@ public class FileManager {
 		} else {
 			return;
 		}
-		
+
 		int chunkrep = FileManager.filesTrackReplication.get(fileID).get(chunkNo);
 		FileManager.filesTrackReplication.get(fileID).put(chunkNo, chunkrep-1);
-		
+
 		if(FileManager.hasStoredFileID(fileID))
 			if(FileManager.hasStoredChunkNo(fileID, chunkNo))
 				FileManager.storedChunks.get(fileID).get(chunkNo).reducePerceivedReplicationDeg();		
 	}
-		
+
 	/**
 	 * Verifies if a new amount of storage space can be added to the used storage
 	 * 
@@ -333,25 +375,25 @@ public class FileManager {
 	 * @return true if the 
 	 */
 	public static boolean hasEnoughStorage(float space){
-		
+
 		float chunkSpace = (float)space/1000;
-		
+
 		if((getUsedStorage()+chunkSpace) > maxStorage)
 			return false;
 		else
 			return true;
 	}
-	
+
 	public static float getUsedStorage(){
 		float storage = 0;
-		
+
 		for(String fileID: storedChunks.keySet())
 			for(Chunk chunk: storedChunks.get(fileID).values())
 				storage += chunk.getSize();
-		
+
 		return storage;
 	}
-	
+
 	/**
 	 * Gets the max storage capacity of the peer
 	 * 
@@ -360,7 +402,7 @@ public class FileManager {
 	public static float getMaxStorage(){
 		return maxStorage;
 	}
-	
+
 	/**
 	 * Converts backed up files information to a string
 	 * 
@@ -368,17 +410,17 @@ public class FileManager {
 	 */
 	public static String getBackedUpToString(){
 		String state="";
-		
+
 		if(backedUpFiles.size() > 0){
 			state += "##### BACKED UP FILES #####";
-			
+
 			for (BackedUpFile file: backedUpFiles.values())
 				state += "\n\n"+file;
 		}	
-		
+
 		return state;
 	}
-	
+
 	/**
 	 * Converts stored chunks information to a string
 	 * 
@@ -386,23 +428,23 @@ public class FileManager {
 	 */
 	public static String getStoredChunksToString(){
 		String state="";
-		
+
 		if(storedChunks.size() > 0){
-			state+="\n\n##### STORED CHUNKS #####";
-			
+			state += "\n\n##### STORED CHUNKS #####";
+
 			for(String fileID: storedChunks.keySet()){
-				state+="\n\nFILE ID: "+fileID;
-				
+				state += "\n\nFILE ID: "+fileID;
+
 				for(Chunk chunk: storedChunks.get(fileID).values())				
-				state+="\nID: "+chunk.getNumber()+
-				"  |  SIZE: "+chunk.getSize()+
-				" KBytes  |  PERCEIVED REPLICATION DEGREE: "+chunk.getPerceivedReplicationDeg();
+					state += "\nID: "+chunk.getNumber()+
+					"  |  SIZE: "+chunk.getSize()+
+					" KBytes  |  PERCEIVED REPLICATION DEGREE: "+chunk.getPerceivedReplicationDeg();
 			}			
 		}
-			
+
 		return state;
 	}
-	
+
 	/**
 	 * Converts files information to a string
 	 * 
@@ -410,7 +452,7 @@ public class FileManager {
 	 */
 	public static String getState(){
 		String space = "\n\nMAX STORAGE CAPACITY: "+maxStorage+" KBytes  |  USED STORAGE: "+getUsedStorage()+" KBytes";
-		
+
 		return getBackedUpToString()+getStoredChunksToString()+space;
 	}
 }

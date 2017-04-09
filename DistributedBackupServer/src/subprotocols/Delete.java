@@ -26,7 +26,7 @@ public class Delete extends Protocol {
 			FileManager.deleteBackedUpFile(filePath, fileID);
 			Message message = new Message(Message.DELETE, peer.getProtocolVersion(), peer.getServerID(), fileID);
 			
-			//Sends message to the other peers to delete the chunks from this file
+			/* Sends message to the other peers to delete the chunks from this file */
 			peer.getMc().sendMessage(message.getMessage());
 			peer.saveMetadata();
 		}
@@ -38,7 +38,7 @@ public class Delete extends Protocol {
 	 * @param message
 	 */
 	public static void deleteStoredFile(Message message){
-		// Verifies if this peer is the initiator peer
+		/* Verifies if this peer is the initiator peer */
 		if (message.getSenderID().equals(peer.getServerID()))
 			return;
 		
@@ -46,7 +46,7 @@ public class Delete extends Protocol {
 			ConcurrentHashMap<Integer, Chunk> chunks = FileManager.getStoredChunks(message.getFileID());
 					
 			for (Integer chunkNo : chunks.keySet()){				
-				// Deleting each chunk
+				/* Deleting each chunk */
 				try {
 					String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), Integer.toString(chunkNo));
 					Path chunkPath = Paths.get(path);
@@ -59,7 +59,7 @@ public class Delete extends Protocol {
 				}
 			}			
 			
-			// Deleting directory
+			/* Deleting directory */
 			try {
 				String dir = Utilities.createBackupDir(peer.getServerID(), message.getFileID());
 				Path chunkDir = Paths.get(dir);

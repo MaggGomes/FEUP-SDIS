@@ -28,13 +28,13 @@ public class BackupEnhancement extends Protocol{
 	public static void backUpFile(String filePath, int replicationDeg){
 		BackedUpFile fileInfo = new BackedUpFile(filePath, replicationDeg);
 
-		// Verify if the file was already backed up
+		/* Verifies if the file was already backed up */
 		if(FileManager.hasBackedUpFileID(fileInfo.getFileID())){
 			System.out.println("File already backed up!");
 			return;
 		}
 
-		FileManager.addBackedUpFile(fileInfo); // Adds new file
+		FileManager.addBackedUpFile(fileInfo); /* Adds new file */
 		File file = new File(filePath);
 		String fileID = fileInfo.getFileID();		
 		FileInputStream fis;
@@ -65,11 +65,10 @@ public class BackupEnhancement extends Protocol{
 			e.printStackTrace();
 		}
 
-		// Shutting down workers
-
+		/* Shutting down workers */
 		try {
 			threadWorkers.shutdown();
-			threadWorkers.awaitTermination(1+chunkNo*5000, TimeUnit.MILLISECONDS);
+			threadWorkers.awaitTermination((1+chunkNo)*5000, TimeUnit.MILLISECONDS);
 		}
 		catch (InterruptedException e) {
 			System.err.println("Workers interrupted.");
@@ -123,11 +122,54 @@ public class BackupEnhancement extends Protocol{
 	}
 
 	/**
+	 * Attempts to send a reclaimed chunk to achieve its desired replication degree
+	 * 
+	 * @param fileID of the parent chunk
+	 * @param chunkNo of the chunk
+	 * @param replicationDeg desired for the chunk
+	 * @param data
+	 */
+	public static void sendReclaimedChunk(final String fileID, final int chunkNo, final int replicationDeg, byte[] data){
+		final byte[] chunk = Arrays.copyOf(data, data.length);
+
+		new Thread((
+				new Runnable(){
+					@Override
+					public void run(){
+						Message msg = new Message(Message.PUTCHUNK, peer.getProtocolVersion(), peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);
+						int trys = 0;
+						int waitStored = WAIT;
+
+						while(FileManager.getPerceivedReplicationDeg(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
+							peer.getMdb().sendMessage(msg.getMessage());
+							System.out.println("Sending chunk "+chunkNo);
+							try{
+								Thread.sleep(waitStored);
+							} catch(InterruptedException e){
+								e.printStackTrace();
+							}
+
+							waitStored = waitStored*2;
+							trys++;
+						}
+
+						if (trys >= MAX_TRYS)
+							System.out.println("Failed to save chunk "+chunkNo+".");
+						else 				
+							System.out.println("Chunk "+chunkNo+" saved with success!");						
+					}
+				})).start();	
+	}
+
+	/**
 	 * Saves a chunk in the peer
 	 * 
 	 * @param message
 	 */
 	public static void storeChunk(Message message){
+		/* Removes the chunk received from the chunks to be sent */
+		FileManager.removeChunkToSend(message.getFileID(), Integer.parseInt(message.getChunkNo()));
+
 		// Verifies if the replication degree of a chunk has been achieved
 		if(FileManager.filesTrackReplication.containsKey(message.getFileID())){
 			if(FileManager.filesTrackReplication.get(message.getFileID()).containsKey(Integer.parseInt(message.getChunkNo()))){
@@ -153,9 +195,11 @@ public class BackupEnhancement extends Protocol{
 		}		
 
 		/* Verifies if the peer has enough free storage to store the chunk */
-		if(!FileManager.hasEnoughStorage(message.getBody().length))
+		if(!FileManager.hasEnoughStorage(message.getBody().length)){
+			System.out.println("Chunk discarded! Not enough free storage to store the chunk received!");
 			return;
-		
+		}
+
 		/* Storing the chunk */
 		try {
 			String path = Utilities.createBackupPath(peer.getServerID(), message.getFileID(), message.getChunkNo());
