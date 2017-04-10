@@ -22,6 +22,7 @@ import subprotocols.Delete;
 import subprotocols.Protocol;
 import subprotocols.Reclaim;
 import subprotocols.Restore;
+import subprotocols.RestoreEnhancement;
 import utilities.Utilities;
 
 import channels.BackupChannel;
@@ -48,12 +49,9 @@ public class Peer implements IPeerInterface{
 	public static final String BACKUP = "Backup/";
 	public static final String RESTORED = "Restored/";
 	public static final String DATA = "Data/data";
+	public static final String enhancedProtocolVersion = "2.0";
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Verificar se os argumentos estão corretos e se com o numero suficiente de argumentos		
+	public static void main(String[] args) {	
 
 		try {
 			Peer peer = new Peer(args);	
@@ -67,7 +65,11 @@ public class Peer implements IPeerInterface{
 		}		
 	}
 
-	//TODO - VALIDAR INPUTS
+	/**
+	 * Peer constructor
+	 * 
+	 * @param args
+	 */
 	public Peer(String[] args){
 		this.protocolVersion = args[0];
 		this.serverID = args[1];
@@ -107,17 +109,32 @@ public class Peer implements IPeerInterface{
 		this.mdr.listen();
 	}
 
+	/**
+	 * Back up a file
+	 * 
+	 * @param version
+	 * @param filePath
+	 * @param replicationDeg
+	 */
 	@Override
 	public void backup(String version, String filePath, int replicationDeg) throws RemoteException {		
-		if(version.equals("1.0"))
+		if(version.equals("1.0") && protocolVersion.equals("1.0"))
 			Backup.backUpFile(filePath, replicationDeg);
 		else
 			BackupEnhancement.backUpFile(filePath, replicationDeg);	
 	}
 
+	/**
+	 * Restores a file
+	 * 
+	 * @param filePath
+	 */
 	@Override
-	public void restore(String filePath) throws RemoteException {
-		Restore.restoreFile(filePath);
+	public void restore(String version,String filePath) throws RemoteException {
+		if(version.equals("1.0") && protocolVersion.equals("1.0"))
+			Restore.restoreFile(filePath);
+		else
+			RestoreEnhancement.restoreFile(filePath);
 	}
 
 	/**
@@ -213,26 +230,57 @@ public class Peer implements IPeerInterface{
 		}		
 	}
 
+	/**
+	 * Gets server ID
+	 * 
+	 * @return
+	 */
 	public String getServerID() {
 		return serverID;
 	}	
 
+	/**
+	 * Gets protocol version
+	 * 
+	 * @return
+	 */
 	public String getProtocolVersion(){
 		return protocolVersion;
 	}
 
+	
+	/**
+	 * Gets peer access point
+	 * 
+	 * @return
+	 */
 	public String getAccessPoint() {
 		return accessPoint;
 	}
 
+	/**
+	 * Gets control channel
+	 * 
+	 * @return
+	 */
 	public ControlChannel getMc() {
 		return mc;
 	}
 
+	/**
+	 * Gets back up channel
+	 * 
+	 * @return
+	 */
 	public BackupChannel getMdb() {
 		return mdb;
 	}
 
+	/**
+	 * Gets restore channel
+	 * 
+	 * @return
+	 */
 	public RestoreChannel getMdr() {
 		return mdr;
 	}

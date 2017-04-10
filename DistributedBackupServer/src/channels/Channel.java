@@ -17,6 +17,14 @@ public abstract class Channel implements Runnable {
 	protected int port;
 	protected MulticastSocket socket;
 	
+	/**
+	 * Channel constructor
+	 * 
+	 * @param peer
+	 * @param address
+	 * @param port
+	 * @throws UnknownHostException
+	 */
 	public Channel(Peer peer, String address, String port) throws UnknownHostException{
 		
 		this.address = InetAddress.getByName(address);
@@ -33,10 +41,18 @@ public abstract class Channel implements Runnable {
 		}		
 	}
 	
+	/**
+	 * Initiates channel
+	 */
 	public void listen(){
 		new Thread(this).start();
 	}
 	
+	/**
+	 * Sends a message
+	 * 
+	 * @param message
+	 */
 	public void sendMessage(byte[] message){
 		
 		DatagramPacket packet = new DatagramPacket(message, message.length, address, port);
@@ -48,8 +64,16 @@ public abstract class Channel implements Runnable {
 		}		
 	}
 	
+	/**
+	 * Processes a message
+	 * 
+	 * @param message
+	 */
 	public abstract void processMessage(Message message);
 	
+	/**
+	 * Closes channel
+	 */
 	public void close(){	
 		
 		try {
@@ -60,6 +84,11 @@ public abstract class Channel implements Runnable {
 		}
 	}
 
+	/**
+	 * Gets the channel's socket
+	 * 
+	 * @return
+	 */
 	public MulticastSocket getSocket() {
 		return socket;
 	}

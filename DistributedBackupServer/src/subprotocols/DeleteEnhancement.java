@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
+
+import peer.Peer;
 
 import utilities.Message;
 import utilities.Utilities;
@@ -24,12 +27,44 @@ public class DeleteEnhancement extends Protocol {
 			String fileID = FileManager.getBackedUpFileID(filePath);
 			System.out.println("File found. Attempting to delete now...");
 			FileManager.deleteBackedUpFile(filePath, fileID);
+			//sendDelete(fileID);
 			Message message = new Message(Message.DELETE, peer.getProtocolVersion(), peer.getServerID(), fileID);
 			
 			/* Sends message to the other peers to delete the chunks from this file */
 			peer.getMc().sendMessage(message.getMessage());
 			peer.saveMetadata();
 		}
+	}
+	
+	public static void sendDelete(final String fileID, final int replicationDeg){
+
+		new Thread((
+				new Runnable(){
+					@Override
+					public void run(){
+						/*Message message = new Message(Message.DELETE, peer.getProtocolVersion(), peer.getServerID(), fileID);
+						int trys = 0;
+						int waitStored = WAIT;
+
+						while(FileManager.getPerceivedReplicationDeg(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
+							peer.getMdb().sendMessage(msg.getMessage());
+							System.out.println("Sending chunk "+chunkNo);
+							try{
+								Thread.sleep(waitStored);
+							} catch(InterruptedException e){
+								e.printStackTrace();
+							}
+
+							waitStored = waitStored*2;
+							trys++;
+						}
+
+						if (trys >= MAX_TRYS)
+							System.out.println("Failed to save chunk "+chunkNo+".");
+						else 				
+							System.out.println("Chunk "+chunkNo+" saved with success!");	*/					
+					}
+				})).start();	
 	}
 	
 	/**
@@ -69,7 +104,6 @@ public class DeleteEnhancement extends Protocol {
 			}
 			
 			FileManager.removeStoredFile(message.getFileID());
-			FileManager.filesTrackReplication.remove(message.getFileID());	
 			
 			System.out.println("File chuncks deleted with success!");
 			peer.saveMetadata();

@@ -14,10 +14,21 @@ import utilities.Message;
 
 public class BackupChannel extends Channel {
 
+	/**
+	 * Backup channel constructor
+	 * 
+	 * @param peer
+	 * @param address
+	 * @param port
+	 * @throws UnknownHostException
+	 */
 	public BackupChannel(Peer peer, String address, String port) throws UnknownHostException {
 		super(peer, address, port);
 	}
-
+	
+	/**
+	 * Runs the channel
+	 */
 	@Override
 	public void run() {
 		while (true){			
@@ -34,7 +45,11 @@ public class BackupChannel extends Channel {
 		}	
 	}
 
-	// TODO CORRIGIR PROTOCOL VERSION
+	/**
+	 * Processes message received
+	 * 
+	 * @param
+	 */
 	@Override
 	public void processMessage(Message message) {
 		/* Verifies if the sender and receiver peers are the same */

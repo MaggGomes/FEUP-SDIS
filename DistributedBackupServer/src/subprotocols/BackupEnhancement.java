@@ -11,6 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import peer.Peer;
+
 import utilities.Message;
 import utilities.Utilities;
 
@@ -80,6 +82,8 @@ public class BackupEnhancement extends Protocol{
 			threadWorkers.shutdownNow();
 			System.out.println("Shutdown finished!");
 		}
+		
+		peer.saveMetadata();
 	}
 
 	/**
@@ -95,8 +99,7 @@ public class BackupEnhancement extends Protocol{
 
 		threadWorkers.submit(new Thread() {
 			public void run() {
-				// TODO - CORRIGIR PROTOCOL VERSION
-				Message msg = new Message(Message.PUTCHUNK, "2.0", peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);
+				Message msg = new Message(Message.PUTCHUNK, Peer.enhancedProtocolVersion, peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);
 				int trys = 0;
 				int waitStored = WAIT;
 
@@ -136,7 +139,7 @@ public class BackupEnhancement extends Protocol{
 				new Runnable(){
 					@Override
 					public void run(){
-						Message msg = new Message(Message.PUTCHUNK, peer.getProtocolVersion(), peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);
+						Message msg = new Message(Message.PUTCHUNK, Peer.enhancedProtocolVersion, peer.getServerID(), fileID, chunkNo, Integer.toString(replicationDeg), chunk);
 						int trys = 0;
 						int waitStored = WAIT;
 
@@ -265,5 +268,7 @@ public class BackupEnhancement extends Protocol{
 			FileManager.updateBackedUpReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
 		else
 			FileManager.updateStoredReplicationDeg(message.getFileID(), Integer.parseInt(message.getChunkNo()));
+		
+		peer.saveMetadata();
 	}
 }

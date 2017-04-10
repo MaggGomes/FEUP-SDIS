@@ -21,13 +21,17 @@ public class Message {
 	private byte[] body;
 	private byte[] message;
 
-	/* Message types */
+	/* Standard Message types */
 	public static final String PUTCHUNK = "PUTCHUNK";
 	public static final String STORED = "STORED";
 	public static final String GETCHUNK = "GETCHUNK";
 	public static final String CHUNK = "CHUNK";
 	public static final String DELETE = "DELETE";
 	public static final String REMOVED = "REMOVED";
+	
+	/* Enhancement Message types */
+	public static final String HAVECHUNK = "HAVECHUNK";
+	public static final String SENDCHUNK = "SENDCHUNK";
 	
 	public static final int MIN_DELAY = 0;
 	public static final int MAX_DELAY = 400;
@@ -110,7 +114,7 @@ public class Message {
 	 * @param fileId of the file
 	 * @param chunkNo of the chunk
 	 */
-	public Message(String messageType, String version, String senderId, String fileId, String chunkNo) {		
+	public Message(String messageType, String version, String senderId, String fileId, String chunkNo) {	
 
 		this.messageType = messageType;
 		this.version = version;
@@ -164,6 +168,29 @@ public class Message {
 		/* Reads the body of the message (chunk data) */
 		if(messageType.equals(Message.PUTCHUNK) || messageType.equals(Message.CHUNK)){
 			body = Arrays.copyOfRange(message, header.length()+CRLF.length(), packet.getLength());
+		}
+	}
+	
+	/**
+	 * Message constructor
+	 *
+	 * @param packet
+	 */
+	public Message(byte[] buffer){
+
+		this.message = Arrays.copyOf(buffer, buffer.length);
+
+		String msg = new String(message, 0, message.length);
+		String[] messageFields = msg.split("( \\r\\n\\r\\n)"); /* CRLF */
+
+		header = new String(messageFields[0].getBytes(), StandardCharsets.US_ASCII);
+
+		/* Parses header */
+		parseHeader();
+
+		/* Reads the body of the message (chunk data) */
+		if(messageType.equals(Message.PUTCHUNK) || messageType.equals(Message.CHUNK)){
+			body = Arrays.copyOfRange(message, header.length()+CRLF.length(), buffer.length);
 		}
 	}
 	
@@ -240,6 +267,12 @@ public class Message {
 			case Message.DELETE:
 				break;
 			case Message.REMOVED:
+				chunkNo = headerFields[4];
+				break;
+			case Message.HAVECHUNK:
+				chunkNo = headerFields[4];
+				break;
+			case Message.SENDCHUNK:
 				chunkNo = headerFields[4];
 				break;
 			default:

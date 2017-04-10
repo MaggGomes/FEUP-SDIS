@@ -273,7 +273,6 @@ public class FileManager {
 	 * @param chunkNo of the chunk
 	 */
 	public static void removeChunkToSend(String fileID, int chunkNo){
-		System.out.println(fileID+"   "+chunkNo);
 		if(chunksToSend.containsKey(fileID)){
 			if(chunksToSend.get(fileID).contains(chunkNo)){
 				chunksToSend.get(fileID).remove(chunkNo);

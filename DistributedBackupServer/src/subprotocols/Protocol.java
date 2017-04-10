@@ -1,10 +1,15 @@
 package subprotocols;
 
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 
 import peer.Peer;
 
 public abstract class Protocol {
+	protected static ServerSocket serverSocket;
+	protected static Socket privateSocket;
+	protected static Socket clientSocket;
 	protected static Peer peer;
 	protected static ExecutorService threadWorkers;
 	protected static final int MAX_TRYS = 5;

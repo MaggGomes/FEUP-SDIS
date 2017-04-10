@@ -17,7 +17,6 @@ public class TestApp {
 	private static int replicationDeg;
 	private static IPeerInterface initiatorPeer;
 	
-	// TODO TERMINAR
 	public static void main(String[] args) {	
 		
 		if(!validateInput(args)){
@@ -34,7 +33,6 @@ public class TestApp {
 		init();
 	}
 	
-	//TODO CORRIGIR - VERIFICAR SITUAÇÃO DOS INPUTS
 	/**
 	 * Verifies if the inputs are valid
 	 * 
@@ -46,7 +44,7 @@ public class TestApp {
 			return false;
 		}
 		
-		// Verify if the specified command is available
+		/* Verifies if the specified command is available */
 		switch(args[1]){
 		case "BACKUP":
 			if (args.length == 4 && Utilities.fileExists(args[2])){
@@ -70,6 +68,15 @@ public class TestApp {
 			if (args.length == 3){
 				peerAccessPoint = args[0];
 				operation = "RESTORE";
+				fileName = args[2];
+			}
+			else
+				return false;
+			break;
+		case "RESTOREENH":
+			if (args.length == 3){
+				peerAccessPoint = args[0];
+				operation = "RESTOREENH";
 				fileName = args[2];
 			}
 			else
@@ -130,7 +137,10 @@ public class TestApp {
 				initiatorPeer.backup("2.0", fileName, replicationDeg);
 				break;
 			case "RESTORE":
-				initiatorPeer.restore(fileName);
+				initiatorPeer.restore("1.0", fileName);
+				break;
+			case "RESTOREENH":
+				initiatorPeer.restore("2.0", fileName);
 				break;
 			case "DELETE":
 				initiatorPeer.delete(fileName);

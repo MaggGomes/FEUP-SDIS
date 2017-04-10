@@ -10,14 +10,26 @@ import subprotocols.BackupEnhancement;
 import subprotocols.Delete;
 import subprotocols.Reclaim;
 import subprotocols.Restore;
+import subprotocols.RestoreEnhancement;
 import utilities.Message;
 
 public class ControlChannel extends Channel {
 
+	/**
+	 * Control channel constructor
+	 * 
+	 * @param peer
+	 * @param address
+	 * @param port
+	 * @throws UnknownHostException
+	 */
 	public ControlChannel(Peer peer, String address, String port) throws UnknownHostException {
 		super(peer, address, port);
 	}
 
+	/**
+	 * Runs the channel
+	 */
 	@Override
 	public void run() {
 		while (true){			
@@ -34,7 +46,11 @@ public class ControlChannel extends Channel {
 		}	
 	}
 
-	// TODO - COMPLETAR	- CORRIGIR PROTOCOL VERSION
+	/**
+	 * Processes message received
+	 * 
+	 * @param message
+	 */
 	@Override
 	public void processMessage(Message message) {
 		
@@ -46,7 +62,10 @@ public class ControlChannel extends Channel {
 				BackupEnhancement.store(message);
 			break;
 		case Message.GETCHUNK:
-			Restore.getChunk(message);	
+			if(message.getVersion().equals("1.0"))
+				Restore.getChunk(message);
+			else
+				RestoreEnhancement.getChunk(message);	
 			break;
 		case Message.DELETE:
 			Delete.deleteStoredFile(message);
