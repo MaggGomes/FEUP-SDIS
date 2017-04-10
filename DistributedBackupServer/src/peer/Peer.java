@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import subprotocols.Backup;
 import subprotocols.BackupEnhancement;
 import subprotocols.Delete;
+import subprotocols.DeleteEnhancement;
 import subprotocols.Protocol;
 import subprotocols.Reclaim;
 import subprotocols.Restore;
@@ -51,7 +52,24 @@ public class Peer implements IPeerInterface{
 	public static final String DATA = "Data/data";
 	public static final String enhancedProtocolVersion = "2.0";
 
-	public static void main(String[] args) {	
+	public static void main(String[] args) {
+		
+		if(args.length != 9){
+			System.out.println("Invalid command. Please try again!");			
+			System.out.println("USAGE: java Peer <protocol_version> <peer_id> <peer_ap> <MC> <MC port> <MDB> <MDB port> <MDR> <MDR port>");
+			System.out.println("protocol_version>: Peer's protocol version");
+			System.out.println("<peer_id>: Peer's id");
+			System.out.println("<peer_ap>: Peer's access point");
+			System.out.println("<MC>: MC address");
+			System.out.println("<MC port>: MC port");
+			System.out.println("<MDB>: MDB address");
+			System.out.println("<MDB port>: MDB port");
+			System.out.println("<MDR>: MDR address");
+			System.out.println("<MDR port>: MDR port");
+			System.out.println("\nExiting...");
+			
+			return;
+		}
 
 		try {
 			Peer peer = new Peer(args);	
@@ -143,8 +161,11 @@ public class Peer implements IPeerInterface{
 	 * @param filePath of the file to be deleted
 	 */
 	@Override
-	public void delete(String filePath) throws RemoteException {
-		Delete.deleteFile(filePath);		
+	public void delete(String version, String filePath) throws RemoteException {
+		if(version.equals("1.0") && protocolVersion.equals("1.0"))
+			Delete.deleteFile(filePath);
+		else
+			DeleteEnhancement.deleteFile(filePath);				
 	}
 
 	/**

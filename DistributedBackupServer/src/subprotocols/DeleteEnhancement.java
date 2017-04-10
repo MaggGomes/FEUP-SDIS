@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
-
-import peer.Peer;
 
 import utilities.Message;
 import utilities.Utilities;
@@ -26,29 +23,32 @@ public class DeleteEnhancement extends Protocol {
 		if (FileManager.hasBackedUpFilePathName(filePath)){
 			String fileID = FileManager.getBackedUpFileID(filePath);
 			System.out.println("File found. Attempting to delete now...");
+			ConcurrentHashMap<Integer, Chunk> fileChunks = FileManager.getChunksBackedUpFile(fileID);
+			int numChunks = fileChunks.size();
 			FileManager.deleteBackedUpFile(filePath, fileID);
-			//sendDelete(fileID);
-			Message message = new Message(Message.DELETE, peer.getProtocolVersion(), peer.getServerID(), fileID);
+			sendDelete(fileID);			
 			
-			/* Sends message to the other peers to delete the chunks from this file */
-			peer.getMc().sendMessage(message.getMessage());
+			try {
+				Thread.sleep(numChunks*1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}			
+			
 			peer.saveMetadata();
 		}
 	}
 	
-	public static void sendDelete(final String fileID, final int replicationDeg){
-
+	public static void sendDelete(final String fileID){
 		new Thread((
 				new Runnable(){
 					@Override
-					public void run(){
-						/*Message message = new Message(Message.DELETE, peer.getProtocolVersion(), peer.getServerID(), fileID);
-						int trys = 0;
+					public void run(){												
+						Message message = new Message(Message.DELETE, peer.getProtocolVersion(), peer.getServerID(), fileID);
 						int waitStored = WAIT;
 
-						while(FileManager.getPerceivedReplicationDeg(fileID, chunkNo) < replicationDeg && trys < MAX_TRYS){
-							peer.getMdb().sendMessage(msg.getMessage());
-							System.out.println("Sending chunk "+chunkNo);
+						while(FileManager.filesTrackReplication.get(fileID).size() > 0){
+							/* Sends message to the other peers to delete the chunks from this file */
+							peer.getMc().sendMessage(message.getMessage());
 							try{
 								Thread.sleep(waitStored);
 							} catch(InterruptedException e){
@@ -56,13 +56,9 @@ public class DeleteEnhancement extends Protocol {
 							}
 
 							waitStored = waitStored*2;
-							trys++;
-						}
-
-						if (trys >= MAX_TRYS)
-							System.out.println("Failed to save chunk "+chunkNo+".");
-						else 				
-							System.out.println("Chunk "+chunkNo+" saved with success!");	*/					
+							if (waitStored > 60000)
+								waitStored = 60000;
+						}			
 					}
 				})).start();	
 	}
@@ -89,6 +85,9 @@ public class DeleteEnhancement extends Protocol {
 					
 					/* Removes the stored chunk from the structure and updates used storage */
 					FileManager.removeStoredChunk(message.getFileID(), Integer.parseInt(message.getChunkNo()));
+					
+					Message msg = new Message(Message.SENDDELETE, peer.getProtocolVersion(), peer.getServerID(), message.getFileID(), Integer.toString(chunkNo));
+					peer.getMc().sendMessage(msg.getMessage());
 				} catch(IOException | SecurityException e) {
 					System.out.println("Failed to delete chunk!");
 				}
@@ -108,5 +107,22 @@ public class DeleteEnhancement extends Protocol {
 			System.out.println("File chuncks deleted with success!");
 			peer.saveMetadata();
 		}				
+	}
+	
+	/**
+	 * Updates the delete chunk count
+	 * 
+	 * @param message
+	 */
+	public static void updateDelete(Message message){
+		
+		if (FileManager.filesTrackReplication.containsKey(message.getFileID())){
+			
+			int chunkrep = FileManager.filesTrackReplication.get(message.getFileID()).get(Integer.parseInt(message.getChunkNo()));
+			FileManager.filesTrackReplication.get(message.getFileID()).put(Integer.parseInt(message.getChunkNo()), chunkrep-1);
+			
+			if((chunkrep-1)<= 0)
+				FileManager.filesTrackReplication.get(message.getFileID()).remove(Integer.parseInt(message.getChunkNo()));			
+		}		
 	}
 }

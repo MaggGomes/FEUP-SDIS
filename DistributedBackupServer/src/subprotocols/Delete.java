@@ -24,6 +24,7 @@ public class Delete extends Protocol {
 			String fileID = FileManager.getBackedUpFileID(filePath);
 			System.out.println("File found. Attempting to delete now...");
 			FileManager.deleteBackedUpFile(filePath, fileID);
+			FileManager.filesTrackReplication.remove(fileID);
 			Message message = new Message(Message.DELETE, peer.getProtocolVersion(), peer.getServerID(), fileID);
 			
 			/* Sends message to the other peers to delete the chunks from this file */
@@ -53,7 +54,7 @@ public class Delete extends Protocol {
 					Files.deleteIfExists(chunkPath);
 					
 					/* Removes the stored chunk from the structure and updates used storage */
-					FileManager.removeStoredChunk(message.getFileID(), Integer.parseInt(message.getChunkNo()));
+					FileManager.removeStoredChunk(message.getFileID(), chunkNo);
 				} catch(IOException | SecurityException e) {
 					System.out.println("Failed to delete chunk!");
 				}

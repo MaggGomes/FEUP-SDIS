@@ -8,6 +8,7 @@ import peer.Peer;
 import subprotocols.Backup;
 import subprotocols.BackupEnhancement;
 import subprotocols.Delete;
+import subprotocols.DeleteEnhancement;
 import subprotocols.Reclaim;
 import subprotocols.Restore;
 import subprotocols.RestoreEnhancement;
@@ -68,7 +69,13 @@ public class ControlChannel extends Channel {
 				RestoreEnhancement.getChunk(message);	
 			break;
 		case Message.DELETE:
-			Delete.deleteStoredFile(message);
+			if(message.getVersion().equals("1.0"))
+				Delete.deleteStoredFile(message);
+			else
+				DeleteEnhancement.deleteStoredFile(message);	
+			break;
+		case Message.SENDDELETE:
+			DeleteEnhancement.updateDelete(message);	
 			break;
 		case Message.REMOVED:
 			Reclaim.updateChunkReplicationDegree(message);

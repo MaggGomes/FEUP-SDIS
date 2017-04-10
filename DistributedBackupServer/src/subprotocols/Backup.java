@@ -62,7 +62,7 @@ public class Backup extends Protocol{
 
 			fis.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Failing to read file!");
 		}
 
 		/* Shutting down workers */
@@ -108,7 +108,7 @@ public class Backup extends Protocol{
 					try{
 						Thread.sleep(waitStored);
 					} catch(InterruptedException e){
-						e.printStackTrace();
+						System.out.println("Failed to send chunk!");
 					}
 
 					waitStored = waitStored*2;
@@ -148,7 +148,7 @@ public class Backup extends Protocol{
 							try{
 								Thread.sleep(waitStored);
 							} catch(InterruptedException e){
-								e.printStackTrace();
+								System.out.println("Failed to wait for message!");;
 							}
 
 							waitStored = waitStored*2;

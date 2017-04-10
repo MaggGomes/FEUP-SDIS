@@ -90,6 +90,14 @@ public class TestApp {
 			} else
 				return false;
 			break;
+		case "DELETEENH":
+			if (args.length == 3){
+				peerAccessPoint = args[0];
+				operation = "DELETEENH";
+				fileName = args[2];
+			} else
+				return false;
+			break;
 		case "RECLAIM":
 			if (args.length == 3){
 				peerAccessPoint = args[0];
@@ -143,7 +151,10 @@ public class TestApp {
 				initiatorPeer.restore("2.0", fileName);
 				break;
 			case "DELETE":
-				initiatorPeer.delete(fileName);
+				initiatorPeer.delete("1.0", fileName);
+				break;
+			case "DELETEENH":
+				initiatorPeer.delete("2.0", fileName);
 				break;
 			case "RECLAIM":
 				initiatorPeer.reclaim(spaceSize);

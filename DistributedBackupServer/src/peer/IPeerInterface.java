@@ -12,7 +12,7 @@ public interface IPeerInterface extends Remote {
 	
 	void restore(String protocoloV, String filename) throws RemoteException;
 	
-	void delete(String filename) throws RemoteException;
+	void delete(String protocoloV, String filename) throws RemoteException;
 	
 	void reclaim(long space) throws RemoteException;
 	

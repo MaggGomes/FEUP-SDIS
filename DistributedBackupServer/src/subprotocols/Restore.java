@@ -51,7 +51,7 @@ public class Restore extends Protocol{
 				/* Restoring the file joining all chunks */
 				joinChunks(fileID, FileManager.getBackedUpFileName(fileID));
 			} catch (InterruptedException e1) {
-				e1.printStackTrace();
+				System.out.println("Failed to wait restore file!");
 			}	
 			
 			/* Shutting down workers */			

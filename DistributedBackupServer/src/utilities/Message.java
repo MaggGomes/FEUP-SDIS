@@ -32,6 +32,7 @@ public class Message {
 	/* Enhancement Message types */
 	public static final String HAVECHUNK = "HAVECHUNK";
 	public static final String SENDCHUNK = "SENDCHUNK";
+	public static final String SENDDELETE = "SENDCHUNK";
 	
 	public static final int MIN_DELAY = 0;
 	public static final int MAX_DELAY = 400;
