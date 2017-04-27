@@ -1,2 +1,18 @@
-For compiling the code use in the shell:
-sh compile.sh
+For compiling the code use in the shell at the root of the project:
+$ sh compile.sh
+
+Using 3 PC's, and inside the bin folder, make the following commands:
+
+1. Client PC
+  - 3 shells
+  - First: $ rmiregistry &
+  - Creating client peer (new shell): & java peer.Peer 1.0 1 1 224.0.0.1 4445 224.0.0.2 4446 224.0.0.3 4447
+  - Acessing initiator peer (new shell): $ java cli.TestApp 2 BACKUP ../res/file.txt 2
+  
+2. Server PC:
+  - First: $ rmiregistry &
+  - Peers (one shell for each peer): & java peer.Peer 1.0 2 2 224.0.0.1 4445 224.0.0.2 4446 224.0.0.3 4447
+  - Reclaim (new shell): $ java cli.TestApp 2 RECLAIM spacetoreclaim
+  
+3. McastSnooper:
+  - $ java -jar McastSnooper.jar 224.0.0.1:4445 224.0.0.2:4446 224.0.0.3:4447
