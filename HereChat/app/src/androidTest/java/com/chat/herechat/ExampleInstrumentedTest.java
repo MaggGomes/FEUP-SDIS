@@ -1,4 +1,4 @@
-package com.herechat.herechat;
+package com.chat.herechat;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.herechat.herechat", appContext.getPackageName());
+        assertEquals("com.chat.herechat", appContext.getPackageName());
     }
 }

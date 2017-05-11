@@ -1,4 +1,4 @@
-package com.herechat.herechat;
+package com.chat.herechat;
 
 import org.junit.Test;
 

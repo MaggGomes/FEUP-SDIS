@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "com.herechat.herechat"
-        minSdkVersion 15
+        applicationId "com.chat.herechat"
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
