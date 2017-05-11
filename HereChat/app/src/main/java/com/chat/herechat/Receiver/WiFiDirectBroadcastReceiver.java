@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
+import android.util.Log;
 
 import com.chat.herechat.MainActivity;
-import com.chat.herechat.R;
 
 /**
  * A BroadcastReceiver that notifies of important Wi-Fi p2p events.
@@ -18,6 +19,8 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
     private WifiP2pManager manager;
     private WifiP2pManager.Channel channel;
     private MainActivity activity;
+    private PeerListListener peerListListener;
+
 
     public WiFiDirectBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel,
                                        MainActivity activity) {
@@ -27,7 +30,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
         this.activity = activity;
     }
 
-    // TODO - TERMINAR IMPLEMENTAÇÃO
+    // TODO - TERMINAR IMPLEMENTAÇÃO/CORRIGIR SE NECESSÁRO
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -43,34 +46,23 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
             }
         } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
             if (manager != null) {
-                manager.requestPeers(channel, (WifiP2pManager.PeerListListener) activity.getFragmentManager()
-                        .findFragmentById(R.id.frag_list));
+                manager.requestPeers(channel, peerListListener);
             }
         } else if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)) {
-            if (manager == null) {
-                return;
-            }
+            if (manager != null) {
+                NetworkInfo networkInfo = (NetworkInfo) intent
+                        .getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
 
-            NetworkInfo networkInfo = (NetworkInfo) intent
-                    .getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
-
-            if (networkInfo.isConnected()) {
-
-                // we are connected with the other device, request connection
-                // info to find group owner IP
-
-                DeviceDetailFragment fragment = (DeviceDetailFragment) activity
-                        .getFragmentManager().findFragmentById(R.id.frag_detail);
-                manager.requestConnectionInfo(channel, fragment);
-            } else {
-                // It's a disconnect
-                activity.resetData();
+                if (networkInfo.isConnected()) {
+                    manager.requestConnectionInfo(channel, (WifiP2pManager.ConnectionInfoListener) activity);
+                } else {
+                    // It's a disconnect
+                }
             }
         } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
-            DeviceListFragment fragment = (DeviceListFragment) activity.getFragmentManager()
-                    .findFragmentById(R.id.frag_list);
-            fragment.updateThisDevice((WifiP2pDevice) intent.getParcelableExtra(
-                    WifiP2pManager.EXTRA_WIFI_P2P_DEVICE));
+            // TODO - VERIFICAR SE ESTÁ FUNCIONAL
+            WifiP2pDevice device = (WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
+            Log.d(MainActivity.TAG, "Device status -" + device.status);
         }
     }
 }
