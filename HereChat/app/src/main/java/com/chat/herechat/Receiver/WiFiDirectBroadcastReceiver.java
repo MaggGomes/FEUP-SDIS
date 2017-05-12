@@ -45,9 +45,8 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                 // TODO - RESETAR DADOS??
             }
         } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
-            if (manager != null) {
-                manager.requestPeers(channel, peerListListener);
-            }
+            // TODO - MANTER ESTA VERIFICAÇAO??
+
         } else if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)) {
             if (manager != null) {
                 NetworkInfo networkInfo = (NetworkInfo) intent
