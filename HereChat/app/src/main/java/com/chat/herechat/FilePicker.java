@@ -27,6 +27,6 @@ public class FilePicker {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
         Intent i = Intent.createChooser(intent, "File");
-        startActivityForResult(i, CHOOSE_FILE_REQUESTCODE);
+        //startActivityForResult(i, CHOOSE_FILE_REQUESTCODE);
     }
 }
