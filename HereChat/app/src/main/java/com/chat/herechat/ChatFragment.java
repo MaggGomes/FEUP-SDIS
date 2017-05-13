@@ -47,6 +47,13 @@ public class ChatFragment extends Fragment {
                         }
                     }
                 });
+        view.findViewById(R.id.attachmentButton).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+
+                    }
+                });
         return view;
     }
 
