@@ -19,8 +19,7 @@ import java.util.List;
  * This fragment handles chat related UI which includes a list view for messages
  * and a message entry field with send button.
  */
-public class WiFiChatFragment extends Fragment {
-
+public class ChatFragment extends Fragment {
     private View view;
     private ChatManager chatManager;
     private TextView chatLine;
@@ -29,22 +28,19 @@ public class WiFiChatFragment extends Fragment {
     private List<String> items = new ArrayList<String>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_chat, container, false);
         chatLine = (TextView) view.findViewById(R.id.txtChatLine);
         listView = (ListView) view.findViewById(android.R.id.list);
-        adapter = new ChatMessageAdapter(getActivity(), android.R.id.text1,
-                items);
+        adapter = new ChatMessageAdapter(getActivity(), android.R.id.text1, items);
         listView.setAdapter(adapter);
-        view.findViewById(R.id.button1).setOnClickListener(
-                new View.OnClickListener() {
 
+        view.findViewById(R.id.btnSend).setOnClickListener(
+                new View.OnClickListener() {
                     @Override
                     public void onClick(View arg0) {
                         if (chatManager != null) {
-                            chatManager.write(chatLine.getText().toString()
-                                    .getBytes());
+                            chatManager.write(chatLine.getText().toString().getBytes());
                             pushMessage("Me: " + chatLine.getText().toString());
                             chatLine.setText("");
                             chatLine.clearFocus();
@@ -71,9 +67,6 @@ public class WiFiChatFragment extends Fragment {
      * ArrayAdapter to manage chat messages.
      */
     public class ChatMessageAdapter extends ArrayAdapter<String> {
-
-        List<String> messages = null;
-
         public ChatMessageAdapter(Context context, int textViewResourceId,
                 List<String> items) {
             super(context, textViewResourceId, items);
@@ -81,15 +74,15 @@ public class WiFiChatFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
-            if (v == null) {
+            View view = convertView;
+            if (view == null) {
                 LayoutInflater vi = (LayoutInflater) getActivity()
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(android.R.layout.simple_list_item_1, null);
+                view = vi.inflate(android.R.layout.simple_list_item_1, null);
             }
             String message = items.get(position);
             if (message != null && !message.isEmpty()) {
-                TextView nameText = (TextView) v
+                TextView nameText = (TextView) view
                         .findViewById(android.R.id.text1);
 
                 if (nameText != null) {
@@ -103,7 +96,7 @@ public class WiFiChatFragment extends Fragment {
                     }
                 }
             }
-            return v;
+            return view;
         }
     }
 }

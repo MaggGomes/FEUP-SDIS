@@ -1,59 +1,62 @@
+
 package com.chat.herechat.SocketHandlers;
 
+import android.os.Handler;
 import android.util.Log;
 
+import com.chat.herechat.ChatManager;
+import com.chat.herechat.HereChatActivity;
+
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import static com.chat.herechat.HereChatActivity.SERVER_PORT;
 
 public class ServerSocketHandler extends Thread {
 
+    private ServerSocket socket;
+    private final int THREAD_COUNT = 10;
+    private Handler handler;
     private static final String TAG = "ServerSocketHandler";
-    private static final int SERVER_PORT = 4445;
-    private ArrayList<InetAddress> clients = new ArrayList<>();
-    private ServerSocket serverSocket;
+    private ThreadPoolExecutor workers;
 
-    public ServerSocketHandler(){
+    public ServerSocketHandler(Handler handler) throws IOException {
         try {
-            serverSocket = new ServerSocket(SERVER_PORT);
-            Log.d(TAG, "Socket Started");
+            socket = new ServerSocket(HereChatActivity.SERVER_PORT);
+            this.handler = handler;
+            workers = new ThreadPoolExecutor(THREAD_COUNT, THREAD_COUNT, 10, TimeUnit.SECONDS,
+                    new LinkedBlockingQueue<Runnable>());
+            Log.d("TAG",  "Socket Started");
         } catch (IOException e) {
             e.printStackTrace();
+            workers.shutdownNow();
+            throw e;
         }
     }
 
     @Override
     public void run() {
-        while(true) {
+        while (true) {
             try {
-                Socket clientSocket = serverSocket.accept();
-                if(!clients.contains(clientSocket.getInetAddress())){
-                    clients.add(clientSocket.getInetAddress());
-                    Log.d(TAG, "New client: " + clientSocket.getInetAddress().getHostAddress());
+                workers.execute(new ChatManager(socket.accept(), handler));
+                Log.d(TAG, "Launching the I/O handler");
+
+            } catch (IOException e) {
+                try {
+                    if (socket != null && !socket.isClosed())
+                        socket.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
 
-                clientSocket.close();
-            } catch(IOException e){
                 e.printStackTrace();
+                workers.shutdownNow();
                 break;
             }
         }
     }
 
-    @Override
-    public void interrupt() {
-        super.interrupt();
-        try {
-            serverSocket.close();
-            Log.d(TAG, "Server handler interrupted");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ArrayList<InetAddress> getClients() {
-        return clients;
-    }
 }

@@ -1,4 +1,11 @@
+
 package com.chat.herechat.SocketHandlers;
+
+import android.os.Handler;
+import android.util.Log;
+
+import com.chat.herechat.ChatManager;
+import com.chat.herechat.HereChatActivity;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -7,12 +14,14 @@ import java.net.Socket;
 
 public class ClientSocketHandler extends Thread {
 
-    private static final String TAG = "ServerSocketHandler";
-    private static final int PORT = 4445;
-    private InetAddress serverAddr;
+    private static final String TAG = "ClientSocketHandler";
+    private Handler handler;
+    private ChatManager chat;
+    private InetAddress address;
 
-    public ClientSocketHandler(InetAddress serverAddr){
-        this.serverAddr = serverAddr;
+    public ClientSocketHandler(Handler handler, InetAddress groupOwnerAddress) {
+        this.handler = handler;
+        this.address = groupOwnerAddress;
     }
 
     @Override
@@ -20,10 +29,22 @@ public class ClientSocketHandler extends Thread {
         Socket socket = new Socket();
         try {
             socket.bind(null);
-            socket.connect(new InetSocketAddress(serverAddr, PORT));
-            socket.close();
+            socket.connect(new InetSocketAddress(address.getHostAddress(), HereChatActivity.SERVER_PORT), 5000);
+            Log.d(TAG, "Launching the I/O handler");
+            chat = new ChatManager(socket, handler);
+            new Thread(chat).start();
         } catch (IOException e) {
             e.printStackTrace();
+            try {
+                socket.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
+
+    public ChatManager getChat() {
+        return chat;
+    }
+
 }

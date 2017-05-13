@@ -26,16 +26,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chat.herechat.Receiver.WiFiDirectBroadcastReceiver;
-import com.chat.herechat.WiFiChatFragment.MessageTarget;
-import com.chat.herechat.WiFiDirectServicesList.DeviceClickListener;
+import com.chat.herechat.SocketHandlers.ClientSocketHandler;
+import com.chat.herechat.SocketHandlers.ServerSocketHandler;
+import com.chat.herechat.ChatFragment.MessageTarget;
 import com.chat.herechat.WiFiDirectServicesList.WiFiDevicesAdapter;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HereChatActivity extends Activity implements
-        DeviceClickListener, Handler.Callback, MessageTarget,
+public class HereChatActivity extends Activity implements Handler.Callback, MessageTarget,
         ConnectionInfoListener {
 
     public static final String TAG = "herechat";
@@ -48,7 +48,7 @@ public class HereChatActivity extends Activity implements
     public static final int MY_HANDLE = 0x400 + 2;
     private WifiP2pManager manager;
 
-    static final int SERVER_PORT = 4545;
+    public static final int SERVER_PORT = 4545;
 
     private final IntentFilter intentFilter = new IntentFilter();
     private Channel channel;
@@ -56,18 +56,10 @@ public class HereChatActivity extends Activity implements
     private WifiP2pDnsSdServiceRequest serviceRequest;
 
     private Handler handler = new Handler(this);
-    private WiFiChatFragment chatFragment;
+    private ChatFragment chatFragment;
     private WiFiDirectServicesList servicesList;
 
     private TextView statusTxtView;
-
-    public Handler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(Handler handler) {
-        this.handler = handler;
-    }
 
     /** Called when the activity is first created. */
     @Override
@@ -76,21 +68,7 @@ public class HereChatActivity extends Activity implements
         setContentView(R.layout.main);
         statusTxtView = (TextView) findViewById(R.id.status_text);
 
-        intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
-        intentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
-        intentFilter
-                .addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
-        intentFilter
-                .addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
-
-        manager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
-        channel = manager.initialize(this, getMainLooper(), null);
-        startRegistrationAndDiscovery();
-
-        servicesList = new WiFiDirectServicesList();
-        getFragmentManager().beginTransaction()
-                .add(R.id.container_root, servicesList, "services").commit();
-
+        init();
     }
 
     @Override
@@ -115,14 +93,37 @@ public class HereChatActivity extends Activity implements
                 @Override
                 public void onSuccess() {
                 }
-
             });
         }
+
         super.onStop();
     }
 
-    public void init(){
+    @Override
+    public void onResume() {
+        super.onResume();
+        receiver = new WiFiDirectBroadcastReceiver(manager, channel, this);
+        registerReceiver(receiver, intentFilter);
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
+    }
+
+    public void init(){
+        intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
+        intentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
+        intentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
+        intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
+
+        manager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
+        channel = manager.initialize(this, getMainLooper(), null);
+        startRegistrationAndDiscovery();
+
+        servicesList = new WiFiDirectServicesList();
+        getFragmentManager().beginTransaction().add(R.id.container_root, servicesList, "services").commit();
     }
 
     /**
@@ -132,10 +133,9 @@ public class HereChatActivity extends Activity implements
         Map<String, String> record = new HashMap<>();
         record.put(AVAILABLE, "visible");
 
-        WifiP2pDnsSdServiceInfo service = WifiP2pDnsSdServiceInfo.newInstance(
-                SERVICE_INSTANCE, SERVICE_TYPE, record);
-        manager.addLocalService(channel, service, new ActionListener() {
+        WifiP2pDnsSdServiceInfo service = WifiP2pDnsSdServiceInfo.newInstance(SERVICE_INSTANCE, SERVICE_TYPE, record);
 
+        manager.addLocalService(channel, service, new ActionListener() {
             @Override
             public void onSuccess() {
                 appendStatus("Added Local Service");
@@ -148,31 +148,17 @@ public class HereChatActivity extends Activity implements
         });
 
         discoverService();
-
     }
 
     private void discoverService() {
-
-        /*
-         * Register listeners for DNS-SD services. These are callbacks invoked
-         * by the system when a service is actually discovered.
-         */
-
-        manager.setDnsSdResponseListeners(channel,
-                new DnsSdServiceResponseListener() {
-
+        manager.setDnsSdResponseListeners(channel, new DnsSdServiceResponseListener() {
                     @Override
-                    public void onDnsSdServiceAvailable(String instanceName,
-                            String registrationType, WifiP2pDevice srcDevice) {
-
-                        // A service has been discovered. Is this our app?
-
+                    public void onDnsSdServiceAvailable(String instanceName, String registrationType, WifiP2pDevice srcDevice) {
+                        /* Verifies if the service discovered is the same app */
                         if (instanceName.equalsIgnoreCase(SERVICE_INSTANCE)) {
-
-                            // update the UI and add the item the discovered
-                            // device.
                             WiFiDirectServicesList fragment = (WiFiDirectServicesList) getFragmentManager()
                                     .findFragmentByTag("services");
+
                             if (fragment != null) {
                                 WiFiDevicesAdapter adapter = ((WiFiDevicesAdapter) fragment
                                         .getListAdapter());
@@ -182,60 +168,46 @@ public class HereChatActivity extends Activity implements
                                 service.serviceRegistrationType = registrationType;
                                 adapter.add(service);
                                 adapter.notifyDataSetChanged();
-                                Log.d(TAG, "onBonjourServiceAvailable "
-                                        + instanceName);
+                                Log.d(TAG, "onBonjourServiceAvailable " + instanceName);
                             }
                         }
-
                     }
                 }, new DnsSdTxtRecordListener() {
-
-                    /**
-                     * A new TXT record is available. Pick up the advertised
-                     * buddy name.
-                     */
                     @Override
-                    public void onDnsSdTxtRecordAvailable(
-                            String fullDomainName, Map<String, String> record,
-                            WifiP2pDevice device) {
-                        Log.d(TAG,
-                                device.deviceName + " is "
-                                        + record.get(AVAILABLE));
+                    public void onDnsSdTxtRecordAvailable(String fullDomainName, Map<String, String> record, WifiP2pDevice device) {
+                        Log.d(TAG, device.deviceName + " is " + record.get(AVAILABLE));
                     }
                 });
 
-        // After attaching listeners, create a service request and initiate
-        // discovery.
         serviceRequest = WifiP2pDnsSdServiceRequest.newInstance();
+
         manager.addServiceRequest(channel, serviceRequest,
                 new ActionListener() {
-
                     @Override
                     public void onSuccess() {
-                        appendStatus("Added service discovery request");
+                        Log.d(TAG, "Added service discovery request");
                     }
 
                     @Override
                     public void onFailure(int arg0) {
-                        appendStatus("Failed adding service discovery request");
+                        Log.d(TAG, "Failed adding service discovery request");
                     }
                 });
-        manager.discoverServices(channel, new ActionListener() {
 
+        /* Started looking for other peer devices supporting the same service */
+        manager.discoverServices(channel,new ActionListener() {
             @Override
             public void onSuccess() {
-                appendStatus("Service discovery initiated");
+                Log.d(TAG, "Service discovery initiated");
             }
 
             @Override
             public void onFailure(int arg0) {
-                appendStatus("Service discovery failed");
-
+                Log.d(TAG, "Service discovery failed");
             }
         });
     }
 
-    @Override
     public void connectP2p(WiFiP2pService service) {
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = service.device.deviceAddress;
@@ -243,7 +215,6 @@ public class HereChatActivity extends Activity implements
         if (serviceRequest != null)
             manager.removeServiceRequest(channel, serviceRequest,
                     new ActionListener() {
-
                         @Override
                         public void onSuccess() {
                         }
@@ -254,7 +225,6 @@ public class HereChatActivity extends Activity implements
                     });
 
         manager.connect(channel, config, new ActionListener() {
-
             @Override
             public void onSuccess() {
                 appendStatus("Connecting to service");
@@ -272,7 +242,6 @@ public class HereChatActivity extends Activity implements
         switch (msg.what) {
             case MESSAGE_READ:
                 byte[] readBuf = (byte[]) msg.obj;
-                // construct a string from the valid bytes in the buffer
                 String readMessage = new String(readBuf, 0, msg.arg1);
                 Log.d(TAG, readMessage);
                 (chatFragment).pushMessage("Buddy: " + readMessage);
@@ -281,55 +250,41 @@ public class HereChatActivity extends Activity implements
             case MY_HANDLE:
                 Object obj = msg.obj;
                 (chatFragment).setChatManager((ChatManager) obj);
-
         }
+
         return true;
     }
 
+    /* Notifies when the state of the connection changes */
     @Override
-    public void onResume() {
-        super.onResume();
-        receiver = new WiFiDirectBroadcastReceiver(manager, channel, this);
-        registerReceiver(receiver, intentFilter);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterReceiver(receiver);
-    }
-
-    @Override
-    public void onConnectionInfoAvailable(WifiP2pInfo p2pInfo) {
+    public void onConnectionInfoAvailable(WifiP2pInfo info) {
         Thread handler = null;
-        /*
-         * The group owner accepts connections using a server socket and then spawns a
-         * client socket for every client. This is handled by {@code
-         * GroupOwnerSocketHandler}
-         */
 
-        if (p2pInfo.isGroupOwner) {
+        /* Group owner */
+        if (info.isGroupOwner) {
             Log.d(TAG, "Connected as group owner");
             try {
-                handler = new GroupOwnerSocketHandler(
-                        ((MessageTarget) this).getHandler());
+                handler = new ServerSocketHandler(((MessageTarget) this).getHandler());
                 handler.start();
             } catch (IOException e) {
-                Log.d(TAG,
-                        "Failed to create a server thread - " + e.getMessage());
+                Log.d(TAG, "Failed to create a server thread - " + e.getMessage());
                 return;
             }
+
+            /* Peer */
         } else {
             Log.d(TAG, "Connected as peer");
-            handler = new ClientSocketHandler(
-                    ((MessageTarget) this).getHandler(),
-                    p2pInfo.groupOwnerAddress);
+            handler = new ClientSocketHandler(((MessageTarget) this).getHandler(), info.groupOwnerAddress);
             handler.start();
         }
-        chatFragment = new WiFiChatFragment();
-        getFragmentManager().beginTransaction()
-                .replace(R.id.container_root, chatFragment).commit();
+
+        chatFragment = new ChatFragment();
+        getFragmentManager().beginTransaction().replace(R.id.container_root, chatFragment).commit();
         statusTxtView.setVisibility(View.GONE);
+    }
+
+    public Handler getHandler() {
+        return handler;
     }
 
     public void appendStatus(String status) {

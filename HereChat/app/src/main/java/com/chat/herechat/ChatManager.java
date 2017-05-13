@@ -17,31 +17,29 @@ public class ChatManager implements Runnable {
 
     private Socket socket = null;
     private Handler handler;
+    private InputStream is;
+    private OutputStream os;
+    private static final String TAG = "ChatHandler";
 
     public ChatManager(Socket socket, Handler handler) {
         this.socket = socket;
         this.handler = handler;
     }
 
-    private InputStream iStream;
-    private OutputStream oStream;
-    private static final String TAG = "ChatHandler";
-
     @Override
     public void run() {
         try {
-
-            iStream = socket.getInputStream();
-            oStream = socket.getOutputStream();
+            is = socket.getInputStream();
+            os = socket.getOutputStream();
             byte[] buffer = new byte[1024];
             int bytes;
-            handler.obtainMessage(HereChatActivity.MY_HANDLE, this)
-                    .sendToTarget();
+
+            handler.obtainMessage(HereChatActivity.MY_HANDLE, this).sendToTarget();
 
             while (true) {
                 try {
                     // Read from the InputStream
-                    bytes = iStream.read(buffer);
+                    bytes = is.read(buffer);
                     if (bytes == -1) {
                         break;
                     }
@@ -67,7 +65,7 @@ public class ChatManager implements Runnable {
 
     public void write(byte[] buffer) {
         try {
-            oStream.write(buffer);
+            os.write(buffer);
         } catch (IOException e) {
             Log.e(TAG, "Exception during write", e);
         }
