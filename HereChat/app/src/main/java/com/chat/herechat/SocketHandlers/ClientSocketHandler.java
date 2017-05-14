@@ -4,7 +4,7 @@ package com.chat.herechat.SocketHandlers;
 import android.os.Handler;
 import android.util.Log;
 
-import com.chat.herechat.ChatManager;
+import com.chat.herechat.Chat.ChatManager;
 import com.chat.herechat.HereChatActivity;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class ClientSocketHandler extends Thread {
         Socket socket = new Socket();
         try {
             socket.bind(null);
-            socket.connect(new InetSocketAddress(address.getHostAddress(), HereChatActivity.SERVER_PORT), 5000);
+            socket.connect(new InetSocketAddress(address.getHostAddress(), HereChatActivity.SERVER_PORT), HereChatActivity.TIMEOUT);
             Log.d(TAG, "Launching the I/O handler");
             chat = new ChatManager(socket, handler);
             new Thread(chat).start();

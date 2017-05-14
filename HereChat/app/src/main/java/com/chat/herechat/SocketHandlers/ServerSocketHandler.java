@@ -4,7 +4,7 @@ package com.chat.herechat.SocketHandlers;
 import android.os.Handler;
 import android.util.Log;
 
-import com.chat.herechat.ChatManager;
+import com.chat.herechat.Chat.ChatManager;
 import com.chat.herechat.HereChatActivity;
 
 import java.io.IOException;
@@ -12,8 +12,6 @@ import java.net.ServerSocket;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import static com.chat.herechat.HereChatActivity.SERVER_PORT;
 
 public class ServerSocketHandler extends Thread {
 
@@ -29,7 +27,7 @@ public class ServerSocketHandler extends Thread {
             this.handler = handler;
             workers = new ThreadPoolExecutor(THREAD_COUNT, THREAD_COUNT, 10, TimeUnit.SECONDS,
                     new LinkedBlockingQueue<Runnable>());
-            Log.d("TAG",  "Socket Started");
+            Log.d("TAG",  "Server socket started");
         } catch (IOException e) {
             e.printStackTrace();
             workers.shutdownNow();
@@ -41,9 +39,8 @@ public class ServerSocketHandler extends Thread {
     public void run() {
         while (true) {
             try {
+                Log.d(TAG, "Worker started");
                 workers.execute(new ChatManager(socket.accept(), handler));
-                Log.d(TAG, "Launching the I/O handler");
-
             } catch (IOException e) {
                 try {
                     if (socket != null && !socket.isClosed())

@@ -1,4 +1,4 @@
-package com.chat.herechat;
+package com.chat.herechat.FileTransfer;
 
 /**
  * Created by almeida on 13/05/2017.

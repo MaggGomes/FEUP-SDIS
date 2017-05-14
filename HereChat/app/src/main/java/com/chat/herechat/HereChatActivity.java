@@ -25,18 +25,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chat.herechat.Chat.ChatFragment;
+import com.chat.herechat.Chat.ChatManager;
 import com.chat.herechat.Receiver.WiFiDirectBroadcastReceiver;
 import com.chat.herechat.SocketHandlers.ClientSocketHandler;
 import com.chat.herechat.SocketHandlers.ServerSocketHandler;
-import com.chat.herechat.ChatFragment.MessageTarget;
 import com.chat.herechat.WiFiDirectServicesList.WiFiDevicesAdapter;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HereChatActivity extends Activity implements Handler.Callback, MessageTarget,
-        ConnectionInfoListener {
+public class HereChatActivity extends Activity implements Handler.Callback, ConnectionInfoListener {
 
     public static final String TAG = "herechat";
 
@@ -48,11 +48,12 @@ public class HereChatActivity extends Activity implements Handler.Callback, Mess
     public static final int MY_HANDLE = 0x400 + 2;
     private WifiP2pManager manager;
 
+    public static final int TIMEOUT =  5000;
     public static final int SERVER_PORT = 4545;
 
-    private final IntentFilter intentFilter = new IntentFilter();
+    private IntentFilter intentFilter;
     private Channel channel;
-    private BroadcastReceiver receiver = null;
+    private BroadcastReceiver receiver;
     private WifiP2pDnsSdServiceRequest serviceRequest;
 
     private Handler handler = new Handler(this);
@@ -113,6 +114,7 @@ public class HereChatActivity extends Activity implements Handler.Callback, Mess
     }
 
     public void init(){
+        intentFilter = new IntentFilter();
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
@@ -212,6 +214,7 @@ public class HereChatActivity extends Activity implements Handler.Callback, Mess
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = service.device.deviceAddress;
         config.wps.setup = WpsInfo.PBC;
+
         if (serviceRequest != null)
             manager.removeServiceRequest(channel, serviceRequest,
                     new ActionListener() {
@@ -258,14 +261,14 @@ public class HereChatActivity extends Activity implements Handler.Callback, Mess
     /* Notifies when the state of the connection changes */
     @Override
     public void onConnectionInfoAvailable(WifiP2pInfo info) {
-        Thread handler = null;
+        Thread socketHandler = null;
 
         /* Group owner */
         if (info.isGroupOwner) {
             Log.d(TAG, "Connected as group owner");
             try {
-                handler = new ServerSocketHandler(((MessageTarget) this).getHandler());
-                handler.start();
+                socketHandler = new ServerSocketHandler(this.getHandler());
+                socketHandler.start();
             } catch (IOException e) {
                 Log.d(TAG, "Failed to create a server thread - " + e.getMessage());
                 return;
@@ -273,9 +276,9 @@ public class HereChatActivity extends Activity implements Handler.Callback, Mess
 
             /* Peer */
         } else {
-            Log.d(TAG, "Connected as peer");
-            handler = new ClientSocketHandler(((MessageTarget) this).getHandler(), info.groupOwnerAddress);
-            handler.start();
+            Log.d(TAG, "Connected as a peer");
+            socketHandler = new ClientSocketHandler(this.getHandler(), info.groupOwnerAddress);
+            socketHandler.start();
         }
 
         chatFragment = new ChatFragment();

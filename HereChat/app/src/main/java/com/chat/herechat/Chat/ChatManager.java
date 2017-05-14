@@ -1,8 +1,10 @@
 
-package com.chat.herechat;
+package com.chat.herechat.Chat;
 
 import android.os.Handler;
 import android.util.Log;
+
+import com.chat.herechat.HereChatActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +21,7 @@ public class ChatManager implements Runnable {
     private Handler handler;
     private InputStream is;
     private OutputStream os;
-    private static final String TAG = "ChatHandler";
+    private static final String TAG = "ChatManager";
 
     public ChatManager(Socket socket, Handler handler) {
         this.socket = socket;

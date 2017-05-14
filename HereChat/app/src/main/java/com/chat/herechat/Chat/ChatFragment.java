@@ -1,16 +1,17 @@
 
-package com.chat.herechat;
+package com.chat.herechat.Chat;
 
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.chat.herechat.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class ChatFragment extends Fragment {
     private TextView chatLine;
     private ListView listView;
     ChatMessageAdapter adapter = null;
-    private List<String> items = new ArrayList<String>();
+    private List<String> items = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class ChatFragment extends Fragment {
                         }
                     }
                 });
+
         view.findViewById(R.id.attachmentButton).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -55,10 +57,6 @@ public class ChatFragment extends Fragment {
                     }
                 });
         return view;
-    }
-
-    public interface MessageTarget {
-        public Handler getHandler();
     }
 
     public void setChatManager(ChatManager obj) {
@@ -74,8 +72,7 @@ public class ChatFragment extends Fragment {
      * ArrayAdapter to manage chat messages.
      */
     public class ChatMessageAdapter extends ArrayAdapter<String> {
-        public ChatMessageAdapter(Context context, int textViewResourceId,
-                List<String> items) {
+        public ChatMessageAdapter(Context context, int textViewResourceId, List<String> items) {
             super(context, textViewResourceId, items);
         }
 
@@ -87,6 +84,7 @@ public class ChatFragment extends Fragment {
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = vi.inflate(android.R.layout.simple_list_item_1, null);
             }
+
             String message = items.get(position);
             if (message != null && !message.isEmpty()) {
                 TextView nameText = (TextView) view
@@ -103,6 +101,7 @@ public class ChatFragment extends Fragment {
                     }
                 }
             }
+
             return view;
         }
     }
