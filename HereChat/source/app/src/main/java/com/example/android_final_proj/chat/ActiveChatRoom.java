@@ -10,11 +10,11 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.example.android_final_proj.Constants;
-import com.example.android_final_proj.FileHandlerThread;
+import com.example.android_final_proj.thread.FileHandlerThread;
 import com.example.android_final_proj.LocalService;
 import com.example.android_final_proj.MainScreenActivity;
-import com.example.android_final_proj.NewConnectionWorkerThread;
-import com.example.android_final_proj.SendSingleStringViaSocketThread;
+import com.example.android_final_proj.thread.NewConnectionWorkerThread;
+import com.example.android_final_proj.thread.SendSingleStringViaSocketThread;
 import com.example.android_final_proj.User;
 
 /**

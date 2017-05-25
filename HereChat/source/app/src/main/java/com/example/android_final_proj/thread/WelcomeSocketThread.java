@@ -1,4 +1,7 @@
-package com.example.android_final_proj;
+package com.example.android_final_proj.thread;
+
+import com.example.android_final_proj.Constants;
+import com.example.android_final_proj.LocalService;
 
 import java.io.IOException;
 import java.net.ServerSocket;

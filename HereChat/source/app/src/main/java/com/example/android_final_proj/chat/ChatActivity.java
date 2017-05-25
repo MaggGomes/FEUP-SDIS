@@ -31,7 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.android_final_proj.Constants;
-import com.example.android_final_proj.FileHandlerThread;
+import com.example.android_final_proj.thread.FileHandlerThread;
 import com.example.android_final_proj.LocalService;
 import com.example.android_final_proj.MainScreenActivity;
 import com.example.android_final_proj.QuickPrefsActivity;

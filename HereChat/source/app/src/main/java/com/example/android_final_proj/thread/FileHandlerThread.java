@@ -1,4 +1,4 @@
-package com.example.android_final_proj;
+package com.example.android_final_proj.thread;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -9,6 +9,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
+import com.example.android_final_proj.Constants;
 
 /**
  * Handles file read/write operations.

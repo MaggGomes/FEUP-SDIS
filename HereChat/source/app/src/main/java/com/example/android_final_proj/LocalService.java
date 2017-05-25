@@ -30,6 +30,9 @@ import com.example.android_final_proj.chat.ActiveChatRoom;
 import com.example.android_final_proj.chat.ChatActivity;
 import com.example.android_final_proj.chat.ChatRoomDetails;
 import com.example.android_final_proj.chat.ChatSearchScreenFrag;
+import com.example.android_final_proj.thread.NewConnectionWorkerThread;
+import com.example.android_final_proj.thread.SendSingleStringViaSocketThread;
+import com.example.android_final_proj.thread.WelcomeSocketThread;
 
 /**
  * Our service is in charge of managing all the chat rooms and conversations. It'll be started with

@@ -1,4 +1,4 @@
-package com.example.android_final_proj;
+package com.example.android_final_proj.thread;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 
+import com.example.android_final_proj.Constants;
 import com.example.android_final_proj.chat.ChatHistoryScreenFrag;
 
 /**

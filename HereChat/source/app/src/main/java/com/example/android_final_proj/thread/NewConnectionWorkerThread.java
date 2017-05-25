@@ -1,5 +1,9 @@
-package com.example.android_final_proj;
+package com.example.android_final_proj.thread;
 
+import com.example.android_final_proj.Constants;
+import com.example.android_final_proj.LocalService;
+import com.example.android_final_proj.MainScreenActivity;
+import com.example.android_final_proj.User;
 import com.example.android_final_proj.chat.ActiveChatRoom;
 import com.example.android_final_proj.chat.ChatRoomDetails;
 

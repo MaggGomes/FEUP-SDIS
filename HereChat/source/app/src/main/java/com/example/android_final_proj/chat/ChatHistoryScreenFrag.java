@@ -26,7 +26,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.android_final_proj.Constants;
-import com.example.android_final_proj.CreatHistoryEntryFromFileNameThread;
+import com.example.android_final_proj.thread.CreatHistoryEntryFromFileNameThread;
 import com.example.android_final_proj.HistoryActivity;
 import com.example.android_final_proj.MainScreenActivity;
 import com.example.android_final_proj.R;

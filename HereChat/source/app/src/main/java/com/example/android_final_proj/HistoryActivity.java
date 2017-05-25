@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.example.android_final_proj.chat.ChatMessage;
 import com.example.android_final_proj.chat.CustomChatAdapter;
+import com.example.android_final_proj.thread.FileHandlerThread;
 
 /**
  * Displays the content of a history file, with a similar view to that of a 'ChatActivity'

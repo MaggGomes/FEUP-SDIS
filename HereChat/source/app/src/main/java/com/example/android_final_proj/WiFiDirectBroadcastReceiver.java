@@ -13,6 +13,7 @@ import android.net.wifi.p2p.WifiP2pManager.ConnectionInfoListener;
 import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
 
 import com.example.android_final_proj.chat.ChatSearchScreenFrag;
+import com.example.android_final_proj.thread.NewConnectionWorkerThread;
 
 /**
  * A BroadcastReceiver that notifies of important Wi-Fi p2p events.

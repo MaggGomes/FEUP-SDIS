@@ -1,4 +1,4 @@
-package com.example.android_final_proj;
+package com.example.android_final_proj.thread;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,6 +10,8 @@ import java.net.Socket;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
+import com.example.android_final_proj.Constants;
 
 /**
  * Opens a socket to a peer and sends a single string. Used to send control messages and user text messages
