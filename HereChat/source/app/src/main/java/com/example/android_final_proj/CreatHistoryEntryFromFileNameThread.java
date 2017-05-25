@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 
+import com.example.android_final_proj.chat.ChatHistoryScreenFrag;
+
 /**
  * 
  * This thread receives a file's name and an empty "history entry" and puts

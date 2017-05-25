@@ -81,22 +81,22 @@ category#android.intent.category.LAUNCHER
 ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:32:17-77
 	android:name
 		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:32:27-74
-activity#com.example.android_final_proj.ChatSearchScreenFrag
+activity#com.example.android_final_proj.chat.ChatSearchScreenFrag
 ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:35:9-39:20
 	android:label
 		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:37:13-75
 	android:configChanges
 		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:38:13-59
 	android:name
-		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:36:13-79
-activity#com.example.android_final_proj.ChatHistoryScreenFrag
+		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:36:13-84
+activity#com.example.android_final_proj.chat.ChatHistoryScreenFrag
 ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:40:9-44:20
 	android:label
 		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:42:13-76
 	android:configChanges
 		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:43:13-59
 	android:name
-		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:41:13-80
+		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:41:13-85
 activity#com.example.android_final_proj.QuickPrefsActivity
 ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:45:9-57:20
 	android:label
@@ -117,7 +117,7 @@ service#com.example.android_final_proj.LocalService
 ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:59:9-60:19
 	android:name
 		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:59:18-76
-activity#com.example.android_final_proj.ChatActivity
+activity#com.example.android_final_proj.chat.ChatActivity
 ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:61:9-71:20
 	android:label
 		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:63:13-56
@@ -126,7 +126,7 @@ ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\
 	android:configChanges
 		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:64:13-59
 	android:name
-		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:62:13-71
+		ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:62:13-76
 activity#com.example.android_final_proj.HistoryActivity
 ADDED from C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\src\main\AndroidManifest.xml:72:9-82:20
 	android:label

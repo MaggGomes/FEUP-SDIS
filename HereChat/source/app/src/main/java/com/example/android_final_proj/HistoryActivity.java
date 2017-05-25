@@ -12,6 +12,9 @@ import android.os.Message;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import com.example.android_final_proj.chat.ChatMessage;
+import com.example.android_final_proj.chat.CustomChatAdapter;
+
 /**
  * Displays the content of a history file, with a similar view to that of a 'ChatActivity'
  *
@@ -20,7 +23,7 @@ import android.view.MenuItem;
 public class HistoryActivity extends ListActivity
 {
 	private  ArrayList<ChatMessage> mListContent = null; //the list's content
-	private  CustomChatAdapter mListAdapter=null;				 //the list's adapter
+	private CustomChatAdapter mListAdapter=null;				 //the list's adapter
 	Handler mHandler=null;
 	ProgressDialog historyLoadDialog;
 	

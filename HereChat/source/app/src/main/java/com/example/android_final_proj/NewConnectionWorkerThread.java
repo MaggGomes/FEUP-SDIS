@@ -1,5 +1,8 @@
 package com.example.android_final_proj;
 
+import com.example.android_final_proj.chat.ActiveChatRoom;
+import com.example.android_final_proj.chat.ChatRoomDetails;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
