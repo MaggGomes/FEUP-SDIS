@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+        "outputFile": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -12,14 +12,14 @@
                     "endOffset": 211
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 662,
+                        "startOffset": 677,
                         "endLine": 19,
                         "endColumn": 19,
-                        "endOffset": 818
+                        "endOffset": 837
                     }
                 }
             },
@@ -33,14 +33,14 @@
                     "endOffset": 352
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 823,
+                        "startOffset": 843,
                         "endLine": 24,
                         "endColumn": 19,
-                        "endOffset": 959
+                        "endOffset": 983
                     }
                 }
             },
@@ -54,14 +54,14 @@
                     "endOffset": 602
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
-                        "startOffset": 1147,
+                        "startOffset": 1177,
                         "endLine": 37,
                         "endColumn": 19,
-                        "endOffset": 1392
+                        "endOffset": 1429
                     }
                 }
             },
@@ -75,14 +75,14 @@
                     "endOffset": 821
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 38,
                         "startColumn": 4,
-                        "startOffset": 1397,
+                        "startOffset": 1435,
                         "endLine": 45,
                         "endColumn": 19,
-                        "endOffset": 1611
+                        "endOffset": 1656
                     }
                 }
             },
@@ -96,14 +96,14 @@
                     "endOffset": 1020
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\arrays.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\arrays.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 1,
-                        "startOffset": 54,
+                        "startOffset": 58,
                         "endLine": 9,
                         "endColumn": 16,
-                        "endOffset": 248
+                        "endOffset": 257
                     }
                 }
             },
@@ -117,14 +117,14 @@
                     "endOffset": 1205
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\arrays.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\arrays.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 1,
-                        "startOffset": 252,
+                        "startOffset": 263,
                         "endLine": 17,
                         "endColumn": 16,
-                        "endOffset": 432
+                        "endOffset": 449
                     }
                 }
             },
@@ -137,13 +137,13 @@
                     "endOffset": 1249
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 47,
                         "startColumn": 1,
-                        "startOffset": 1861,
+                        "startOffset": 1908,
                         "endColumn": 40,
-                        "endOffset": 1900
+                        "endOffset": 1947
                     }
                 }
             },
@@ -156,13 +156,13 @@
                     "endOffset": 1296
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 37,
                         "startColumn": 1,
-                        "startOffset": 1461,
+                        "startOffset": 1498,
                         "endColumn": 43,
-                        "endOffset": 1503
+                        "endOffset": 1540
                     }
                 }
             },
@@ -175,13 +175,13 @@
                     "endOffset": 1335
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 127,
                         "startColumn": 1,
-                        "startOffset": 5187,
+                        "startOffset": 5314,
                         "endColumn": 35,
-                        "endOffset": 5221
+                        "endOffset": 5348
                     }
                 }
             },
@@ -194,13 +194,13 @@
                     "endOffset": 1380
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 100,
                         "startColumn": 1,
-                        "startOffset": 4027,
+                        "startOffset": 4127,
                         "endColumn": 41,
-                        "endOffset": 4067
+                        "endOffset": 4167
                     }
                 }
             },
@@ -213,13 +213,13 @@
                     "endOffset": 1420
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 45,
                         "startColumn": 1,
-                        "startOffset": 1784,
+                        "startOffset": 1829,
                         "endColumn": 36,
-                        "endOffset": 1819
+                        "endOffset": 1864
                     }
                 }
             },
@@ -232,13 +232,13 @@
                     "endOffset": 1460
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 42,
                         "startColumn": 1,
-                        "startOffset": 1668,
+                        "startOffset": 1710,
                         "endColumn": 36,
-                        "endOffset": 1703
+                        "endOffset": 1745
                     }
                 }
             },
@@ -251,13 +251,13 @@
                     "endOffset": 1501
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 1,
-                        "startOffset": 627,
+                        "startOffset": 643,
                         "endColumn": 37,
-                        "endOffset": 663
+                        "endOffset": 679
                     }
                 }
             },
@@ -270,13 +270,13 @@
                     "endOffset": 1541
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 142,
                         "startColumn": 1,
-                        "startOffset": 5783,
+                        "startOffset": 5925,
                         "endColumn": 36,
-                        "endOffset": 5818
+                        "endOffset": 5960
                     }
                 }
             },
@@ -289,13 +289,13 @@
                     "endOffset": 1590
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 1,
-                        "startOffset": 540,
+                        "startOffset": 554,
                         "endColumn": 45,
-                        "endOffset": 584
+                        "endOffset": 598
                     }
                 }
             },
@@ -308,13 +308,13 @@
                     "endOffset": 1629
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 138,
                         "startColumn": 1,
-                        "startOffset": 5629,
+                        "startOffset": 5767,
                         "endColumn": 35,
-                        "endOffset": 5663
+                        "endOffset": 5801
                     }
                 }
             },
@@ -327,13 +327,13 @@
                     "endOffset": 1674
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 93,
                         "startColumn": 1,
-                        "startOffset": 3753,
+                        "startOffset": 3846,
                         "endColumn": 41,
-                        "endOffset": 3793
+                        "endOffset": 3886
                     }
                 }
             },
@@ -346,13 +346,13 @@
                     "endOffset": 1714
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 81,
                         "startColumn": 1,
-                        "startOffset": 3255,
+                        "startOffset": 3336,
                         "endColumn": 36,
-                        "endOffset": 3290
+                        "endOffset": 3371
                     }
                 }
             },
@@ -365,13 +365,13 @@
                     "endOffset": 1758
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 55,
                         "startColumn": 1,
-                        "startOffset": 2187,
+                        "startOffset": 2242,
                         "endColumn": 40,
-                        "endOffset": 2226
+                        "endOffset": 2281
                     }
                 }
             },
@@ -384,13 +384,13 @@
                     "endOffset": 1802
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 111,
                         "startColumn": 1,
-                        "startOffset": 4501,
+                        "startOffset": 4612,
                         "endColumn": 40,
-                        "endOffset": 4540
+                        "endOffset": 4651
                     }
                 }
             },
@@ -403,13 +403,13 @@
                     "endOffset": 1847
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 101,
                         "startColumn": 1,
-                        "startOffset": 4069,
+                        "startOffset": 4170,
                         "endColumn": 41,
-                        "endOffset": 4109
+                        "endOffset": 4210
                     }
                 }
             },
@@ -422,13 +422,13 @@
                     "endOffset": 1891
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 65,
                         "startColumn": 1,
-                        "startOffset": 2583,
+                        "startOffset": 2648,
                         "endColumn": 40,
-                        "endOffset": 2622
+                        "endOffset": 2687
                     }
                 }
             },
@@ -441,13 +441,13 @@
                     "endOffset": 1931
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 1,
-                        "startOffset": 1025,
+                        "startOffset": 1051,
                         "endColumn": 36,
-                        "endOffset": 1060
+                        "endOffset": 1086
                     }
                 }
             },
@@ -460,13 +460,13 @@
                     "endOffset": 1980
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 110,
                         "startColumn": 1,
-                        "startOffset": 4455,
+                        "startOffset": 4565,
                         "endColumn": 45,
-                        "endOffset": 4499
+                        "endOffset": 4609
                     }
                 }
             },
@@ -479,13 +479,13 @@
                     "endOffset": 2023
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 1,
-                        "startOffset": 373,
+                        "startOffset": 383,
                         "endColumn": 39,
-                        "endOffset": 411
+                        "endOffset": 421
                     }
                 }
             },
@@ -498,13 +498,13 @@
                     "endOffset": 2065
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 58,
                         "startColumn": 1,
-                        "startOffset": 2305,
+                        "startOffset": 2363,
                         "endColumn": 38,
-                        "endOffset": 2342
+                        "endOffset": 2400
                     }
                 }
             },
@@ -517,13 +517,13 @@
                     "endOffset": 2104
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 128,
                         "startColumn": 1,
-                        "startOffset": 5223,
+                        "startOffset": 5351,
                         "endColumn": 35,
-                        "endOffset": 5257
+                        "endOffset": 5385
                     }
                 }
             },
@@ -536,13 +536,13 @@
                     "endOffset": 2147
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 140,
                         "startColumn": 1,
-                        "startOffset": 5707,
+                        "startOffset": 5847,
                         "endColumn": 39,
-                        "endOffset": 5745
+                        "endOffset": 5885
                     }
                 }
             },
@@ -555,13 +555,13 @@
                     "endOffset": 2190
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 134,
                         "startColumn": 1,
-                        "startOffset": 5475,
+                        "startOffset": 5609,
                         "endColumn": 39,
-                        "endOffset": 5513
+                        "endOffset": 5647
                     }
                 }
             },
@@ -574,13 +574,13 @@
                     "endOffset": 2238
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 73,
                         "startColumn": 1,
-                        "startOffset": 2912,
+                        "startOffset": 2985,
                         "endColumn": 44,
-                        "endOffset": 2955
+                        "endOffset": 3028
                     }
                 }
             },
@@ -593,13 +593,13 @@
                     "endOffset": 2281
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 80,
                         "startColumn": 1,
-                        "startOffset": 3215,
+                        "startOffset": 3295,
                         "endColumn": 39,
-                        "endOffset": 3253
+                        "endOffset": 3333
                     }
                 }
             },
@@ -612,13 +612,13 @@
                     "endOffset": 2325
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 137,
                         "startColumn": 1,
-                        "startOffset": 5588,
+                        "startOffset": 5725,
                         "endColumn": 40,
-                        "endOffset": 5627
+                        "endOffset": 5764
                     }
                 }
             },
@@ -631,13 +631,13 @@
                     "endOffset": 2369
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 70,
                         "startColumn": 1,
-                        "startOffset": 2786,
+                        "startOffset": 2856,
                         "endColumn": 40,
-                        "endOffset": 2825
+                        "endOffset": 2895
                     }
                 }
             },
@@ -650,13 +650,13 @@
                     "endOffset": 2415
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 91,
                         "startColumn": 1,
-                        "startOffset": 3671,
+                        "startOffset": 3762,
                         "endColumn": 42,
-                        "endOffset": 3712
+                        "endOffset": 3803
                     }
                 }
             },
@@ -669,13 +669,13 @@
                     "endOffset": 2464
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 112,
                         "startColumn": 1,
-                        "startOffset": 4542,
+                        "startOffset": 4654,
                         "endColumn": 45,
-                        "endOffset": 4586
+                        "endOffset": 4698
                     }
                 }
             },
@@ -688,13 +688,13 @@
                     "endOffset": 2509
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 1,
-                        "startOffset": 983,
+                        "startOffset": 1008,
                         "endColumn": 41,
-                        "endOffset": 1023
+                        "endOffset": 1048
                     }
                 }
             },
@@ -707,13 +707,13 @@
                     "endOffset": 2554
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 84,
                         "startColumn": 1,
-                        "startOffset": 3373,
+                        "startOffset": 3457,
                         "endColumn": 41,
-                        "endOffset": 3413
+                        "endOffset": 3497
                     }
                 }
             },
@@ -726,13 +726,13 @@
                     "endOffset": 2596
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 92,
                         "startColumn": 1,
-                        "startOffset": 3714,
+                        "startOffset": 3806,
                         "endColumn": 38,
-                        "endOffset": 3751
+                        "endOffset": 3843
                     }
                 }
             },
@@ -745,13 +745,13 @@
                     "endOffset": 2641
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 52,
                         "startColumn": 1,
-                        "startOffset": 2064,
+                        "startOffset": 2116,
                         "endColumn": 41,
-                        "endOffset": 2104
+                        "endOffset": 2156
                     }
                 }
             },
@@ -764,13 +764,13 @@
                     "endOffset": 2688
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 89,
                         "startColumn": 1,
-                        "startOffset": 3584,
+                        "startOffset": 3673,
                         "endColumn": 43,
-                        "endOffset": 3626
+                        "endOffset": 3715
                     }
                 }
             },
@@ -783,13 +783,13 @@
                     "endOffset": 2736
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 115,
                         "startColumn": 1,
-                        "startOffset": 4673,
+                        "startOffset": 4788,
                         "endColumn": 44,
-                        "endOffset": 4716
+                        "endOffset": 4831
                     }
                 }
             },
@@ -802,13 +802,13 @@
                     "endOffset": 2784
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 121,
                         "startColumn": 1,
-                        "startOffset": 4928,
+                        "startOffset": 5049,
                         "endColumn": 44,
-                        "endOffset": 4971
+                        "endOffset": 5092
                     }
                 }
             },
@@ -821,13 +821,13 @@
                     "endOffset": 2832
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 132,
                         "startColumn": 1,
-                        "startOffset": 5387,
+                        "startOffset": 5519,
                         "endColumn": 44,
-                        "endOffset": 5430
+                        "endOffset": 5562
                     }
                 }
             },
@@ -840,13 +840,13 @@
                     "endOffset": 2877
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 86,
                         "startColumn": 1,
-                        "startOffset": 3456,
+                        "startOffset": 3542,
                         "endColumn": 41,
-                        "endOffset": 3496
+                        "endOffset": 3582
                     }
                 }
             },
@@ -859,13 +859,13 @@
                     "endOffset": 2920
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 1,
-                        "startOffset": 1180,
+                        "startOffset": 1210,
                         "endColumn": 39,
-                        "endOffset": 1218
+                        "endOffset": 1248
                     }
                 }
             },
@@ -878,13 +878,13 @@
                     "endOffset": 2966
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 133,
                         "startColumn": 1,
-                        "startOffset": 5432,
+                        "startOffset": 5565,
                         "endColumn": 42,
-                        "endOffset": 5473
+                        "endOffset": 5606
                     }
                 }
             },
@@ -897,13 +897,13 @@
                     "endOffset": 3008
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 108,
                         "startColumn": 1,
-                        "startOffset": 4368,
+                        "startOffset": 4476,
                         "endColumn": 38,
-                        "endOffset": 4405
+                        "endOffset": 4513
                     }
                 }
             },
@@ -916,13 +916,13 @@
                     "endOffset": 3053
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 125,
                         "startColumn": 1,
-                        "startOffset": 5101,
+                        "startOffset": 5226,
                         "endColumn": 41,
-                        "endOffset": 5141
+                        "endOffset": 5266
                     }
                 }
             },
@@ -935,13 +935,13 @@
                     "endOffset": 3097
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 74,
                         "startColumn": 1,
-                        "startOffset": 2957,
+                        "startOffset": 3031,
                         "endColumn": 40,
-                        "endOffset": 2996
+                        "endOffset": 3070
                     }
                 }
             },
@@ -954,13 +954,13 @@
                     "endOffset": 3143
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 1,
-                        "startOffset": 286,
+                        "startOffset": 294,
                         "endColumn": 42,
-                        "endOffset": 327
+                        "endOffset": 335
                     }
                 }
             },
@@ -973,13 +973,13 @@
                     "endOffset": 3189
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 123,
                         "startColumn": 1,
-                        "startOffset": 5013,
+                        "startOffset": 5136,
                         "endColumn": 42,
-                        "endOffset": 5054
+                        "endOffset": 5177
                     }
                 }
             },
@@ -992,13 +992,13 @@
                     "endOffset": 3231
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 31,
                         "startColumn": 1,
-                        "startOffset": 1220,
+                        "startOffset": 1251,
                         "endColumn": 38,
-                        "endOffset": 1257
+                        "endOffset": 1288
                     }
                 }
             },
@@ -1011,13 +1011,13 @@
                     "endOffset": 3275
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 57,
                         "startColumn": 1,
-                        "startOffset": 2264,
+                        "startOffset": 2321,
                         "endColumn": 40,
-                        "endOffset": 2303
+                        "endOffset": 2360
                     }
                 }
             },
@@ -1030,13 +1030,13 @@
                     "endOffset": 3317
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 150,
                         "startColumn": 0,
-                        "startOffset": 5981,
+                        "startOffset": 6131,
                         "endColumn": 37,
-                        "endOffset": 6018
+                        "endOffset": 6168
                     }
                 }
             },
@@ -1049,13 +1049,13 @@
                     "endOffset": 3362
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 39,
                         "startColumn": 1,
-                        "startOffset": 1543,
+                        "startOffset": 1582,
                         "endColumn": 41,
-                        "endOffset": 1583
+                        "endOffset": 1622
                     }
                 }
             },
@@ -1068,13 +1068,13 @@
                     "endOffset": 3401
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 1,
-                        "startOffset": 789,
+                        "startOffset": 809,
                         "endColumn": 35,
-                        "endOffset": 823
+                        "endOffset": 843
                     }
                 }
             },
@@ -1087,13 +1087,13 @@
                     "endOffset": 3445
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 60,
                         "startColumn": 1,
-                        "startOffset": 2389,
+                        "startOffset": 2449,
                         "endColumn": 40,
-                        "endOffset": 2428
+                        "endOffset": 2488
                     }
                 }
             },
@@ -1106,13 +1106,13 @@
                     "endOffset": 3484
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 96,
                         "startColumn": 1,
-                        "startOffset": 3878,
+                        "startOffset": 3974,
                         "endColumn": 35,
-                        "endOffset": 3912
+                        "endOffset": 4008
                     }
                 }
             },
@@ -1125,13 +1125,13 @@
                     "endOffset": 3524
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 136,
                         "startColumn": 1,
-                        "startOffset": 5551,
+                        "startOffset": 5687,
                         "endColumn": 36,
-                        "endOffset": 5586
+                        "endOffset": 5722
                     }
                 }
             },
@@ -1144,13 +1144,13 @@
                     "endOffset": 3569
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 152,
                         "startColumn": 0,
-                        "startOffset": 6021,
+                        "startOffset": 6173,
                         "endColumn": 40,
-                        "endOffset": 6061
+                        "endOffset": 6213
                     }
                 }
             },
@@ -1163,13 +1163,13 @@
                     "endOffset": 3615
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 78,
                         "startColumn": 1,
-                        "startOffset": 3131,
+                        "startOffset": 3209,
                         "endColumn": 42,
-                        "endOffset": 3172
+                        "endOffset": 3250
                     }
                 }
             },
@@ -1182,13 +1182,13 @@
                     "endOffset": 3658
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 46,
                         "startColumn": 1,
-                        "startOffset": 1821,
+                        "startOffset": 1867,
                         "endColumn": 39,
-                        "endOffset": 1859
+                        "endOffset": 1905
                     }
                 }
             },
@@ -1201,13 +1201,13 @@
                     "endOffset": 3700
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 1,
-                        "startOffset": 1062,
+                        "startOffset": 1089,
                         "endColumn": 38,
-                        "endOffset": 1099
+                        "endOffset": 1126
                     }
                 }
             },
@@ -1220,13 +1220,13 @@
                     "endOffset": 3744
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 67,
                         "startColumn": 1,
-                        "startOffset": 2660,
+                        "startOffset": 2727,
                         "endColumn": 40,
-                        "endOffset": 2699
+                        "endOffset": 2766
                     }
                 }
             },
@@ -1239,13 +1239,13 @@
                     "endOffset": 3785
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 113,
                         "startColumn": 1,
-                        "startOffset": 4588,
+                        "startOffset": 4701,
                         "endColumn": 37,
-                        "endOffset": 4624
+                        "endOffset": 4737
                     }
                 }
             },
@@ -1258,13 +1258,13 @@
                     "endOffset": 3825
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 1,
-                        "startOffset": 132,
+                        "startOffset": 136,
                         "endColumn": 36,
-                        "endOffset": 167
+                        "endOffset": 171
                     }
                 }
             },
@@ -1277,13 +1277,13 @@
                     "endOffset": 3865
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 48,
                         "startColumn": 1,
-                        "startOffset": 1902,
+                        "startOffset": 1950,
                         "endColumn": 36,
-                        "endOffset": 1937
+                        "endOffset": 1985
                     }
                 }
             },
@@ -1296,13 +1296,13 @@
                     "endOffset": 3908
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 53,
                         "startColumn": 1,
-                        "startOffset": 2106,
+                        "startOffset": 2159,
                         "endColumn": 39,
-                        "endOffset": 2144
+                        "endOffset": 2197
                     }
                 }
             },
@@ -1315,13 +1315,13 @@
                     "endOffset": 3956
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 1,
-                        "startOffset": 453,
+                        "startOffset": 465,
                         "endColumn": 44,
-                        "endOffset": 496
+                        "endOffset": 508
                     }
                 }
             },
@@ -1334,13 +1334,13 @@
                     "endOffset": 4000
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 102,
                         "startColumn": 1,
-                        "startOffset": 4111,
+                        "startOffset": 4213,
                         "endColumn": 40,
-                        "endOffset": 4150
+                        "endOffset": 4252
                     }
                 }
             },
@@ -1353,13 +1353,13 @@
                     "endOffset": 4047
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 1,
-                        "startOffset": 329,
+                        "startOffset": 338,
                         "endColumn": 43,
-                        "endOffset": 371
+                        "endOffset": 380
                     }
                 }
             },
@@ -1372,13 +1372,13 @@
                     "endOffset": 4091
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 79,
                         "startColumn": 1,
-                        "startOffset": 3174,
+                        "startOffset": 3253,
                         "endColumn": 40,
-                        "endOffset": 3213
+                        "endOffset": 3292
                     }
                 }
             },
@@ -1391,13 +1391,13 @@
                     "endOffset": 4136
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 49,
                         "startColumn": 1,
-                        "startOffset": 1939,
+                        "startOffset": 1988,
                         "endColumn": 41,
-                        "endOffset": 1979
+                        "endOffset": 2028
                     }
                 }
             },
@@ -1410,13 +1410,13 @@
                     "endOffset": 4180
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 54,
                         "startColumn": 1,
-                        "startOffset": 2146,
+                        "startOffset": 2200,
                         "endColumn": 40,
-                        "endOffset": 2185
+                        "endOffset": 2239
                     }
                 }
             },
@@ -1429,13 +1429,13 @@
                     "endOffset": 4235
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 35,
                         "startColumn": 1,
-                        "startOffset": 1372,
+                        "startOffset": 1407,
                         "endColumn": 51,
-                        "endOffset": 1422
+                        "endOffset": 1457
                     }
                 }
             },
@@ -1448,13 +1448,13 @@
                     "endOffset": 4280
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 88,
                         "startColumn": 1,
-                        "startOffset": 3542,
+                        "startOffset": 3630,
                         "endColumn": 41,
-                        "endOffset": 3582
+                        "endOffset": 3670
                     }
                 }
             },
@@ -1467,13 +1467,13 @@
                     "endOffset": 4324
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 63,
                         "startColumn": 1,
-                        "startOffset": 2507,
+                        "startOffset": 2570,
                         "endColumn": 40,
-                        "endOffset": 2546
+                        "endOffset": 2609
                     }
                 }
             },
@@ -1486,13 +1486,13 @@
                     "endOffset": 4370
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 1,
-                        "startOffset": 52,
+                        "startOffset": 54,
                         "endColumn": 42,
-                        "endOffset": 93
+                        "endOffset": 95
                     }
                 }
             },
@@ -1505,13 +1505,13 @@
                     "endOffset": 4414
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 1,
-                        "startOffset": 861,
+                        "startOffset": 883,
                         "endColumn": 40,
-                        "endOffset": 900
+                        "endOffset": 922
                     }
                 }
             },
@@ -1524,13 +1524,13 @@
                     "endOffset": 4460
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 1,
-                        "startOffset": 940,
+                        "startOffset": 964,
                         "endColumn": 42,
-                        "endOffset": 981
+                        "endOffset": 1005
                     }
                 }
             },
@@ -1543,13 +1543,13 @@
                     "endOffset": 4508
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 124,
                         "startColumn": 1,
-                        "startOffset": 5056,
+                        "startOffset": 5180,
                         "endColumn": 44,
-                        "endOffset": 5099
+                        "endOffset": 5223
                     }
                 }
             },
@@ -1562,13 +1562,13 @@
                     "endOffset": 4555
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 94,
                         "startColumn": 1,
-                        "startOffset": 3795,
+                        "startOffset": 3889,
                         "endColumn": 43,
-                        "endOffset": 3837
+                        "endOffset": 3931
                     }
                 }
             },
@@ -1581,13 +1581,13 @@
                     "endOffset": 4604
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 104,
                         "startColumn": 1,
-                        "startOffset": 4199,
+                        "startOffset": 4303,
                         "endColumn": 45,
-                        "endOffset": 4243
+                        "endOffset": 4347
                     }
                 }
             },
@@ -1600,13 +1600,13 @@
                     "endOffset": 4653
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 76,
                         "startColumn": 1,
-                        "startOffset": 3040,
+                        "startOffset": 3116,
                         "endColumn": 45,
-                        "endOffset": 3084
+                        "endOffset": 3160
                     }
                 }
             },
@@ -1619,13 +1619,13 @@
                     "endOffset": 4699
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 1,
-                        "startOffset": 169,
+                        "startOffset": 174,
                         "endColumn": 42,
-                        "endOffset": 210
+                        "endOffset": 215
                     }
                 }
             },
@@ -1638,13 +1638,13 @@
                     "endOffset": 4738
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 130,
                         "startColumn": 1,
-                        "startOffset": 5302,
+                        "startOffset": 5432,
                         "endColumn": 35,
-                        "endOffset": 5336
+                        "endOffset": 5466
                     }
                 }
             },
@@ -1657,13 +1657,13 @@
                     "endOffset": 4782
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 120,
                         "startColumn": 1,
-                        "startOffset": 4887,
+                        "startOffset": 5007,
                         "endColumn": 40,
-                        "endOffset": 4926
+                        "endOffset": 5046
                     }
                 }
             },
@@ -1676,13 +1676,13 @@
                     "endOffset": 4822
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 36,
                         "startColumn": 1,
-                        "startOffset": 1424,
+                        "startOffset": 1460,
                         "endColumn": 36,
-                        "endOffset": 1459
+                        "endOffset": 1495
                     }
                 }
             },
@@ -1695,13 +1695,13 @@
                     "endOffset": 4864
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 1,
-                        "startOffset": 1259,
+                        "startOffset": 1291,
                         "endColumn": 38,
-                        "endOffset": 1296
+                        "endOffset": 1328
                     }
                 }
             },
@@ -1714,13 +1714,13 @@
                     "endOffset": 4905
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 99,
                         "startColumn": 1,
-                        "startOffset": 3989,
+                        "startOffset": 4088,
                         "endColumn": 37,
-                        "endOffset": 4025
+                        "endOffset": 4124
                     }
                 }
             },
@@ -1733,13 +1733,13 @@
                     "endOffset": 4956
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 109,
                         "startColumn": 1,
-                        "startOffset": 4407,
+                        "startOffset": 4516,
                         "endColumn": 47,
-                        "endOffset": 4453
+                        "endOffset": 4562
                     }
                 }
             },
@@ -1752,13 +1752,13 @@
                     "endOffset": 5001
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 139,
                         "startColumn": 1,
-                        "startOffset": 5665,
+                        "startOffset": 5804,
                         "endColumn": 41,
-                        "endOffset": 5705
+                        "endOffset": 5844
                     }
                 }
             },
@@ -1771,13 +1771,13 @@
                     "endOffset": 5048
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 72,
                         "startColumn": 1,
-                        "startOffset": 2868,
+                        "startOffset": 2940,
                         "endColumn": 43,
-                        "endOffset": 2910
+                        "endOffset": 2982
                     }
                 }
             },
@@ -1790,13 +1790,13 @@
                     "endOffset": 5095
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 87,
                         "startColumn": 1,
-                        "startOffset": 3498,
+                        "startOffset": 3585,
                         "endColumn": 43,
-                        "endOffset": 3540
+                        "endOffset": 3627
                     }
                 }
             },
@@ -1809,13 +1809,13 @@
                     "endOffset": 5144
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 119,
                         "startColumn": 1,
-                        "startOffset": 4841,
+                        "startOffset": 4960,
                         "endColumn": 45,
-                        "endOffset": 4885
+                        "endOffset": 5004
                     }
                 }
             },
@@ -1828,13 +1828,13 @@
                     "endOffset": 5194
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 103,
                         "startColumn": 1,
-                        "startOffset": 4152,
+                        "startOffset": 4255,
                         "endColumn": 46,
-                        "endOffset": 4197
+                        "endOffset": 4300
                     }
                 }
             },
@@ -1847,13 +1847,13 @@
                     "endOffset": 5246
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 131,
                         "startColumn": 1,
-                        "startOffset": 5338,
+                        "startOffset": 5469,
                         "endColumn": 48,
-                        "endOffset": 5385
+                        "endOffset": 5516
                     }
                 }
             },
@@ -1866,13 +1866,13 @@
                     "endOffset": 5296
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 114,
                         "startColumn": 1,
-                        "startOffset": 4626,
+                        "startOffset": 4740,
                         "endColumn": 46,
-                        "endOffset": 4671
+                        "endOffset": 4785
                     }
                 }
             },
@@ -1885,13 +1885,13 @@
                     "endOffset": 5346
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 68,
                         "startColumn": 1,
-                        "startOffset": 2701,
+                        "startOffset": 2769,
                         "endColumn": 46,
-                        "endOffset": 2746
+                        "endOffset": 2814
                     }
                 }
             },
@@ -1904,13 +1904,13 @@
                     "endOffset": 5393
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 126,
                         "startColumn": 1,
-                        "startOffset": 5143,
+                        "startOffset": 5269,
                         "endColumn": 43,
-                        "endOffset": 5185
+                        "endOffset": 5311
                     }
                 }
             },
@@ -1923,13 +1923,13 @@
                     "endOffset": 5437
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 40,
                         "startColumn": 1,
-                        "startOffset": 1585,
+                        "startOffset": 1625,
                         "endColumn": 40,
-                        "endOffset": 1624
+                        "endOffset": 1664
                     }
                 }
             },
@@ -1942,13 +1942,13 @@
                     "endOffset": 5481
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 1,
-                        "startOffset": 586,
+                        "startOffset": 601,
                         "endColumn": 40,
-                        "endOffset": 625
+                        "endOffset": 640
                     }
                 }
             },
@@ -1961,13 +1961,13 @@
                     "endOffset": 5524
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 1,
-                        "startOffset": 665,
+                        "startOffset": 682,
                         "endColumn": 39,
-                        "endOffset": 703
+                        "endOffset": 720
                     }
                 }
             },
@@ -1980,13 +1980,13 @@
                     "endOffset": 5570
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 1,
-                        "startOffset": 705,
+                        "startOffset": 723,
                         "endColumn": 42,
-                        "endOffset": 746
+                        "endOffset": 764
                     }
                 }
             },
@@ -1999,13 +1999,13 @@
                     "endOffset": 5609
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 141,
                         "startColumn": 1,
-                        "startOffset": 5747,
+                        "startOffset": 5888,
                         "endColumn": 35,
-                        "endOffset": 5781
+                        "endOffset": 5922
                     }
                 }
             },
@@ -2018,13 +2018,13 @@
                     "endOffset": 5651
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 34,
                         "startColumn": 1,
-                        "startOffset": 1333,
+                        "startOffset": 1367,
                         "endColumn": 38,
-                        "endOffset": 1370
+                        "endOffset": 1404
                     }
                 }
             },
@@ -2037,13 +2037,13 @@
                     "endOffset": 5691
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 97,
                         "startColumn": 1,
-                        "startOffset": 3914,
+                        "startOffset": 4011,
                         "endColumn": 36,
-                        "endOffset": 3949
+                        "endOffset": 4046
                     }
                 }
             },
@@ -2056,13 +2056,13 @@
                     "endOffset": 5735
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 106,
                         "startColumn": 1,
-                        "startOffset": 4286,
+                        "startOffset": 4392,
                         "endColumn": 40,
-                        "endOffset": 4325
+                        "endOffset": 4431
                     }
                 }
             },
@@ -2075,13 +2075,13 @@
                     "endOffset": 5776
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 1,
-                        "startOffset": 902,
+                        "startOffset": 925,
                         "endColumn": 37,
-                        "endOffset": 938
+                        "endOffset": 961
                     }
                 }
             },
@@ -2094,13 +2094,13 @@
                     "endOffset": 5820
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 29,
                         "startColumn": 1,
-                        "startOffset": 1139,
+                        "startOffset": 1168,
                         "endColumn": 40,
-                        "endOffset": 1178
+                        "endOffset": 1207
                     }
                 }
             },
@@ -2113,13 +2113,13 @@
                     "endOffset": 5861
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 61,
                         "startColumn": 1,
-                        "startOffset": 2430,
+                        "startOffset": 2491,
                         "endColumn": 37,
-                        "endOffset": 2466
+                        "endOffset": 2527
                     }
                 }
             },
@@ -2132,13 +2132,13 @@
                     "endOffset": 5909
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 50,
                         "startColumn": 1,
-                        "startOffset": 1981,
+                        "startOffset": 2031,
                         "endColumn": 44,
-                        "endOffset": 2024
+                        "endOffset": 2074
                     }
                 }
             },
@@ -2151,13 +2151,13 @@
                     "endOffset": 5953
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 85,
                         "startColumn": 1,
-                        "startOffset": 3415,
+                        "startOffset": 3500,
                         "endColumn": 40,
-                        "endOffset": 3454
+                        "endOffset": 3539
                     }
                 }
             },
@@ -2170,13 +2170,13 @@
                     "endOffset": 6001
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 77,
                         "startColumn": 1,
-                        "startOffset": 3086,
+                        "startOffset": 3163,
                         "endColumn": 44,
-                        "endOffset": 3129
+                        "endOffset": 3206
                     }
                 }
             },
@@ -2189,13 +2189,13 @@
                     "endOffset": 6049
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 59,
                         "startColumn": 1,
-                        "startOffset": 2344,
+                        "startOffset": 2403,
                         "endColumn": 44,
-                        "endOffset": 2387
+                        "endOffset": 2446
                     }
                 }
             },
@@ -2208,13 +2208,13 @@
                     "endOffset": 6094
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 1,
-                        "startOffset": 498,
+                        "startOffset": 511,
                         "endColumn": 41,
-                        "endOffset": 538
+                        "endOffset": 551
                     }
                 }
             },
@@ -2227,13 +2227,13 @@
                     "endOffset": 6138
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 1,
-                        "startOffset": 748,
+                        "startOffset": 767,
                         "endColumn": 40,
-                        "endOffset": 787
+                        "endOffset": 806
                     }
                 }
             },
@@ -2246,13 +2246,13 @@
                     "endOffset": 6177
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 66,
                         "startColumn": 1,
-                        "startOffset": 2624,
+                        "startOffset": 2690,
                         "endColumn": 35,
-                        "endOffset": 2658
+                        "endOffset": 2724
                     }
                 }
             },
@@ -2265,13 +2265,13 @@
                     "endOffset": 6216
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 1,
-                        "startOffset": 825,
+                        "startOffset": 846,
                         "endColumn": 35,
-                        "endOffset": 859
+                        "endOffset": 880
                     }
                 }
             },
@@ -2284,13 +2284,13 @@
                     "endOffset": 6255
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 56,
                         "startColumn": 1,
-                        "startOffset": 2228,
+                        "startOffset": 2284,
                         "endColumn": 35,
-                        "endOffset": 2262
+                        "endOffset": 2318
                     }
                 }
             },
@@ -2303,13 +2303,13 @@
                     "endOffset": 6300
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 75,
                         "startColumn": 1,
-                        "startOffset": 2998,
+                        "startOffset": 3073,
                         "endColumn": 41,
-                        "endOffset": 3038
+                        "endOffset": 3113
                     }
                 }
             },
@@ -2322,13 +2322,13 @@
                     "endOffset": 6341
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 98,
                         "startColumn": 1,
-                        "startOffset": 3951,
+                        "startOffset": 4049,
                         "endColumn": 37,
-                        "endOffset": 3987
+                        "endOffset": 4085
                     }
                 }
             },
@@ -2341,13 +2341,13 @@
                     "endOffset": 6386
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 153,
                         "startColumn": 0,
-                        "startOffset": 6062,
+                        "startOffset": 6215,
                         "endColumn": 40,
-                        "endOffset": 6102
+                        "endOffset": 6255
                     }
                 }
             },
@@ -2360,13 +2360,13 @@
                     "endOffset": 6424
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 33,
                         "startColumn": 1,
-                        "startOffset": 1298,
+                        "startOffset": 1331,
                         "endColumn": 34,
-                        "endOffset": 1331
+                        "endOffset": 1364
                     }
                 }
             },
@@ -2379,13 +2379,13 @@
                     "endOffset": 6468
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 71,
                         "startColumn": 1,
-                        "startOffset": 2827,
+                        "startOffset": 2898,
                         "endColumn": 40,
-                        "endOffset": 2866
+                        "endOffset": 2937
                     }
                 }
             },
@@ -2398,13 +2398,13 @@
                     "endOffset": 6512
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 117,
                         "startColumn": 1,
-                        "startOffset": 4759,
+                        "startOffset": 4876,
                         "endColumn": 40,
-                        "endOffset": 4798
+                        "endOffset": 4915
                     }
                 }
             },
@@ -2417,13 +2417,13 @@
                     "endOffset": 6558
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 90,
                         "startColumn": 1,
-                        "startOffset": 3628,
+                        "startOffset": 3718,
                         "endColumn": 42,
-                        "endOffset": 3669
+                        "endOffset": 3759
                     }
                 }
             },
@@ -2436,13 +2436,13 @@
                     "endOffset": 6599
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 38,
                         "startColumn": 1,
-                        "startOffset": 1505,
+                        "startOffset": 1543,
                         "endColumn": 37,
-                        "endOffset": 1541
+                        "endOffset": 1579
                     }
                 }
             },
@@ -2455,13 +2455,13 @@
                     "endOffset": 6644
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 44,
                         "startColumn": 1,
-                        "startOffset": 1742,
+                        "startOffset": 1786,
                         "endColumn": 41,
-                        "endOffset": 1782
+                        "endOffset": 1826
                     }
                 }
             },
@@ -2474,13 +2474,13 @@
                     "endOffset": 6687
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 122,
                         "startColumn": 1,
-                        "startOffset": 4973,
+                        "startOffset": 5095,
                         "endColumn": 39,
-                        "endOffset": 5011
+                        "endOffset": 5133
                     }
                 }
             },
@@ -2493,13 +2493,13 @@
                     "endOffset": 6730
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 1,
-                        "startOffset": 413,
+                        "startOffset": 424,
                         "endColumn": 39,
-                        "endOffset": 451
+                        "endOffset": 462
                     }
                 }
             },
@@ -2512,13 +2512,13 @@
                     "endOffset": 6771
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 82,
                         "startColumn": 1,
-                        "startOffset": 3292,
+                        "startOffset": 3374,
                         "endColumn": 37,
-                        "endOffset": 3328
+                        "endOffset": 3410
                     }
                 }
             },
@@ -2531,13 +2531,13 @@
                     "endOffset": 6812
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 69,
                         "startColumn": 1,
-                        "startOffset": 2748,
+                        "startOffset": 2817,
                         "endColumn": 37,
-                        "endOffset": 2784
+                        "endOffset": 2853
                     }
                 }
             },
@@ -2550,13 +2550,13 @@
                     "endOffset": 6854
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 95,
                         "startColumn": 1,
-                        "startOffset": 3839,
+                        "startOffset": 3934,
                         "endColumn": 38,
-                        "endOffset": 3876
+                        "endOffset": 3971
                     }
                 }
             },
@@ -2569,13 +2569,13 @@
                     "endOffset": 6898
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 107,
                         "startColumn": 1,
-                        "startOffset": 4327,
+                        "startOffset": 4434,
                         "endColumn": 40,
-                        "endOffset": 4366
+                        "endOffset": 4473
                     }
                 }
             },
@@ -2588,13 +2588,13 @@
                     "endOffset": 6942
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 105,
                         "startColumn": 1,
-                        "startOffset": 4245,
+                        "startOffset": 4350,
                         "endColumn": 40,
-                        "endOffset": 4284
+                        "endOffset": 4389
                     }
                 }
             },
@@ -2607,13 +2607,13 @@
                     "endOffset": 6981
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 1,
-                        "startOffset": 250,
+                        "startOffset": 257,
                         "endColumn": 35,
-                        "endOffset": 284
+                        "endOffset": 291
                     }
                 }
             },
@@ -2626,13 +2626,13 @@
                     "endOffset": 7027
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 129,
                         "startColumn": 1,
-                        "startOffset": 5259,
+                        "startOffset": 5388,
                         "endColumn": 42,
-                        "endOffset": 5300
+                        "endOffset": 5429
                     }
                 }
             },
@@ -2645,13 +2645,13 @@
                     "endOffset": 7071
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 116,
                         "startColumn": 1,
-                        "startOffset": 4718,
+                        "startOffset": 4834,
                         "endColumn": 40,
-                        "endOffset": 4757
+                        "endOffset": 4873
                     }
                 }
             },
@@ -2664,13 +2664,13 @@
                     "endOffset": 7109
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 64,
                         "startColumn": 1,
-                        "startOffset": 2548,
+                        "startOffset": 2612,
                         "endColumn": 34,
-                        "endOffset": 2581
+                        "endOffset": 2645
                     }
                 }
             },
@@ -2683,13 +2683,13 @@
                     "endOffset": 7148
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 135,
                         "startColumn": 1,
-                        "startOffset": 5515,
+                        "startOffset": 5650,
                         "endColumn": 35,
-                        "endOffset": 5549
+                        "endOffset": 5684
                     }
                 }
             },
@@ -2702,13 +2702,13 @@
                     "endOffset": 7190
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 62,
                         "startColumn": 1,
-                        "startOffset": 2468,
+                        "startOffset": 2530,
                         "endColumn": 38,
-                        "endOffset": 2505
+                        "endOffset": 2567
                     }
                 }
             },
@@ -2721,13 +2721,13 @@
                     "endOffset": 7231
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 1,
-                        "startOffset": 1101,
+                        "startOffset": 1129,
                         "endColumn": 37,
-                        "endOffset": 1137
+                        "endOffset": 1165
                     }
                 }
             },
@@ -2740,13 +2740,13 @@
                     "endOffset": 7275
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 118,
                         "startColumn": 1,
-                        "startOffset": 4800,
+                        "startOffset": 4918,
                         "endColumn": 40,
-                        "endOffset": 4839
+                        "endOffset": 4957
                     }
                 }
             },
@@ -2759,13 +2759,13 @@
                     "endOffset": 7316
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 51,
                         "startColumn": 1,
-                        "startOffset": 2026,
+                        "startOffset": 2077,
                         "endColumn": 37,
-                        "endOffset": 2062
+                        "endOffset": 2113
                     }
                 }
             },
@@ -2778,13 +2778,13 @@
                     "endOffset": 7356
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 43,
                         "startColumn": 1,
-                        "startOffset": 1705,
+                        "startOffset": 1748,
                         "endColumn": 36,
-                        "endOffset": 1740
+                        "endOffset": 1783
                     }
                 }
             },
@@ -2797,13 +2797,13 @@
                     "endOffset": 7396
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 1,
-                        "startOffset": 95,
+                        "startOffset": 98,
                         "endColumn": 36,
-                        "endOffset": 130
+                        "endOffset": 133
                     }
                 }
             },
@@ -2816,13 +2816,13 @@
                     "endOffset": 7441
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 41,
                         "startColumn": 1,
-                        "startOffset": 1626,
+                        "startOffset": 1667,
                         "endColumn": 41,
-                        "endOffset": 1666
+                        "endOffset": 1707
                     }
                 }
             },
@@ -2835,13 +2835,13 @@
                     "endOffset": 7482
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 1,
-                        "startOffset": 212,
+                        "startOffset": 218,
                         "endColumn": 37,
-                        "endOffset": 248
+                        "endOffset": 254
                     }
                 }
             },
@@ -2854,13 +2854,13 @@
                     "endOffset": 7528
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 83,
                         "startColumn": 1,
-                        "startOffset": 3330,
+                        "startOffset": 3413,
                         "endColumn": 42,
-                        "endOffset": 3371
+                        "endOffset": 3454
                     }
                 }
             },
@@ -2873,13 +2873,13 @@
                     "endOffset": 7575
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 161,
                         "startColumn": 0,
-                        "startOffset": 6242,
+                        "startOffset": 6403,
                         "endColumn": 42,
-                        "endOffset": 6284
+                        "endOffset": 6445
                     }
                 }
             },
@@ -2892,13 +2892,13 @@
                     "endOffset": 7623
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 163,
                         "startColumn": 0,
-                        "startOffset": 6330,
+                        "startOffset": 6493,
                         "endColumn": 43,
-                        "endOffset": 6373
+                        "endOffset": 6536
                     }
                 }
             },
@@ -2911,13 +2911,13 @@
                     "endOffset": 7672
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 162,
                         "startColumn": 0,
-                        "startOffset": 6285,
+                        "startOffset": 6447,
                         "endColumn": 44,
-                        "endOffset": 6329
+                        "endOffset": 6491
                     }
                 }
             },
@@ -2930,13 +2930,13 @@
                     "endOffset": 7717
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 147,
                         "startColumn": 0,
-                        "startOffset": 5938,
+                        "startOffset": 6085,
                         "endColumn": 40,
-                        "endOffset": 5978
+                        "endOffset": 6125
                     }
                 }
             },
@@ -2949,13 +2949,13 @@
                     "endOffset": 7765
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 159,
                         "startColumn": 0,
-                        "startOffset": 6197,
+                        "startOffset": 6356,
                         "endColumn": 43,
-                        "endOffset": 6240
+                        "endOffset": 6399
                     }
                 }
             },
@@ -2968,13 +2968,13 @@
                     "endOffset": 7814
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 157,
                         "startColumn": 0,
-                        "startOffset": 6106,
+                        "startOffset": 6263,
                         "endColumn": 44,
-                        "endOffset": 6150
+                        "endOffset": 6307
                     }
                 }
             },
@@ -2987,13 +2987,13 @@
                     "endOffset": 7864
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 158,
                         "startColumn": 0,
-                        "startOffset": 6151,
+                        "startOffset": 6309,
                         "endColumn": 45,
-                        "endOffset": 6196
+                        "endOffset": 6354
                     }
                 }
             },
@@ -3006,13 +3006,13 @@
                     "endOffset": 7905
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 144,
                         "startColumn": 0,
-                        "startOffset": 5821,
+                        "startOffset": 5965,
                         "endColumn": 36,
-                        "endOffset": 5857
+                        "endOffset": 6001
                     }
                 }
             },
@@ -3025,13 +3025,13 @@
                     "endOffset": 7951
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 145,
                         "startColumn": 0,
-                        "startOffset": 5858,
+                        "startOffset": 6003,
                         "endColumn": 41,
-                        "endOffset": 5899
+                        "endOffset": 6044
                     }
                 }
             },
@@ -3044,13 +3044,13 @@
                     "endOffset": 7993
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\colors.xml",
                     "position": {
                         "startLine": 146,
                         "startColumn": 0,
-                        "startOffset": 5900,
+                        "startOffset": 6046,
                         "endColumn": 37,
-                        "endOffset": 5937
+                        "endOffset": 6083
                     }
                 }
             },
@@ -3063,13 +3063,13 @@
                     "endOffset": 8051
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\dimens.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 89,
+                        "startOffset": 92,
                         "endColumn": 57,
-                        "endOffset": 142
+                        "endOffset": 145
                     }
                 }
             },
@@ -3082,13 +3082,13 @@
                     "endOffset": 8107
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\dimens.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 147,
+                        "startOffset": 151,
                         "endColumn": 55,
-                        "endOffset": 198
+                        "endOffset": 202
                     }
                 }
             },
@@ -3101,13 +3101,13 @@
                     "endOffset": 8160
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 101,
+                        "startOffset": 104,
                         "endColumn": 52,
-                        "endOffset": 149
+                        "endOffset": 152
                     }
                 }
             },
@@ -3120,13 +3120,13 @@
                     "endOffset": 8223
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 782,
+                        "startOffset": 796,
                         "endColumn": 62,
-                        "endOffset": 840
+                        "endOffset": 854
                     }
                 }
             },
@@ -3139,13 +3139,13 @@
                     "endOffset": 8269
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 55,
+                        "startOffset": 57,
                         "endColumn": 45,
-                        "endOffset": 96
+                        "endOffset": 98
                     }
                 }
             },
@@ -3158,13 +3158,13 @@
                     "endOffset": 8315
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
-                        "startOffset": 1876,
+                        "startOffset": 1908,
                         "endColumn": 45,
-                        "endOffset": 1917
+                        "endOffset": 1949
                     }
                 }
             },
@@ -3177,13 +3177,13 @@
                     "endOffset": 8379
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
-                        "startOffset": 1338,
+                        "startOffset": 1361,
                         "endColumn": 63,
-                        "endOffset": 1397
+                        "endOffset": 1420
                     }
                 }
             },
@@ -3196,13 +3196,13 @@
                     "endOffset": 8458
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
-                        "startOffset": 1749,
+                        "startOffset": 1779,
                         "endColumn": 78,
-                        "endOffset": 1823
+                        "endOffset": 1853
                     }
                 }
             },
@@ -3215,13 +3215,13 @@
                     "endOffset": 8514
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 1095,
+                        "startOffset": 1114,
                         "endColumn": 55,
-                        "endOffset": 1146
+                        "endOffset": 1165
                     }
                 }
             },
@@ -3234,13 +3234,13 @@
                     "endOffset": 8580
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 4,
-                        "startOffset": 1272,
+                        "startOffset": 1294,
                         "endColumn": 65,
-                        "endOffset": 1333
+                        "endOffset": 1355
                     }
                 }
             },
@@ -3253,13 +3253,13 @@
                     "endOffset": 8658
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
-                        "startOffset": 1454,
+                        "startOffset": 1479,
                         "endColumn": 77,
-                        "endOffset": 1527
+                        "endOffset": 1552
                     }
                 }
             },
@@ -3272,13 +3272,13 @@
                     "endOffset": 8722
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 1208,
+                        "startOffset": 1229,
                         "endColumn": 63,
-                        "endOffset": 1267
+                        "endOffset": 1288
                     }
                 }
             },
@@ -3291,13 +3291,13 @@
                     "endOffset": 8802
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 1015,
+                        "startOffset": 1033,
                         "endColumn": 79,
-                        "endOffset": 1090
+                        "endOffset": 1108
                     }
                 }
             },
@@ -3310,13 +3310,13 @@
                     "endOffset": 8848
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 675,
+                        "startOffset": 687,
                         "endColumn": 45,
-                        "endOffset": 716
+                        "endOffset": 728
                     }
                 }
             },
@@ -3329,13 +3329,13 @@
                     "endOffset": 8901
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 349,
+                        "startOffset": 356,
                         "endColumn": 52,
-                        "endOffset": 397
+                        "endOffset": 404
                     }
                 }
             },
@@ -3348,13 +3348,13 @@
                     "endOffset": 8958
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 1151,
+                        "startOffset": 1171,
                         "endColumn": 56,
-                        "endOffset": 1203
+                        "endOffset": 1223
                     }
                 }
             },
@@ -3367,13 +3367,13 @@
                     "endOffset": 9010
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 4,
-                        "startOffset": 1402,
+                        "startOffset": 1426,
                         "endColumn": 51,
-                        "endOffset": 1449
+                        "endOffset": 1473
                     }
                 }
             },
@@ -3386,13 +3386,13 @@
                     "endOffset": 9058
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 31,
                         "startColumn": 4,
-                        "startOffset": 1828,
+                        "startOffset": 1859,
                         "endColumn": 47,
-                        "endOffset": 1871
+                        "endOffset": 1902
                     }
                 }
             },
@@ -3405,13 +3405,13 @@
                     "endOffset": 9099
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 634,
+                        "startOffset": 645,
                         "endColumn": 40,
-                        "endOffset": 670
+                        "endOffset": 681
                     }
                 }
             },
@@ -3424,13 +3424,13 @@
                     "endOffset": 9164
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 845,
+                        "startOffset": 860,
                         "endColumn": 64,
-                        "endOffset": 905
+                        "endOffset": 920
                     }
                 }
             },
@@ -3443,13 +3443,13 @@
                     "endOffset": 9221
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 154,
+                        "startOffset": 158,
                         "endColumn": 56,
-                        "endOffset": 206
+                        "endOffset": 210
                     }
                 }
             },
@@ -3462,13 +3462,13 @@
                     "endOffset": 9280
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 211,
+                        "startOffset": 216,
                         "endColumn": 58,
-                        "endOffset": 265
+                        "endOffset": 270
                     }
                 }
             },
@@ -3481,13 +3481,13 @@
                     "endOffset": 9348
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 33,
                         "startColumn": 4,
-                        "startOffset": 1922,
+                        "startOffset": 1955,
                         "endColumn": 67,
-                        "endOffset": 1985
+                        "endOffset": 2018
                     }
                 }
             },
@@ -3500,13 +3500,13 @@
                     "endOffset": 9393
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 4,
-                        "startOffset": 1641,
+                        "startOffset": 1669,
                         "endColumn": 44,
-                        "endOffset": 1681
+                        "endOffset": 1709
                     }
                 }
             },
@@ -3519,13 +3519,13 @@
                     "endOffset": 9458
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 509,
+                        "startOffset": 521,
                         "endColumn": 64,
-                        "endOffset": 569
+                        "endOffset": 581
                     }
                 }
             },
@@ -3538,13 +3538,13 @@
                     "endOffset": 9594
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 308,
+                        "startOffset": 318,
                         "endColumn": 135,
-                        "endOffset": 439
+                        "endOffset": 449
                     }
                 }
             },
@@ -3557,13 +3557,13 @@
                     "endOffset": 9660
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,
-                        "startOffset": 1011,
+                        "startOffset": 1038,
                         "endColumn": 65,
-                        "endOffset": 1072
+                        "endOffset": 1099
                     }
                 }
             },
@@ -3576,13 +3576,13 @@
                     "endOffset": 9716
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 160,
+                        "startOffset": 168,
                         "endColumn": 55,
-                        "endOffset": 211
+                        "endOffset": 219
                     }
                 }
             },
@@ -3595,13 +3595,13 @@
                     "endOffset": 9784
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 50,
                         "startColumn": 4,
-                        "startOffset": 1747,
+                        "startOffset": 1797,
                         "endColumn": 67,
-                        "endOffset": 1810
+                        "endOffset": 1860
                     }
                 }
             },
@@ -3614,13 +3614,13 @@
                     "endOffset": 9840
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 53,
                         "startColumn": 4,
-                        "startOffset": 1963,
+                        "startOffset": 2016,
                         "endColumn": 55,
-                        "endOffset": 2014
+                        "endOffset": 2067
                     }
                 }
             },
@@ -3633,13 +3633,13 @@
                     "endOffset": 9927
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 574,
+                        "startOffset": 587,
                         "endColumn": 86,
-                        "endOffset": 656
+                        "endOffset": 669
                     }
                 }
             },
@@ -3652,13 +3652,13 @@
                     "endOffset": 9992
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 444,
+                        "startOffset": 455,
                         "endColumn": 64,
-                        "endOffset": 504
+                        "endOffset": 515
                     }
                 }
             },
@@ -3671,13 +3671,13 @@
                     "endOffset": 10083
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 51,
                         "startColumn": 4,
-                        "startOffset": 1815,
+                        "startOffset": 1866,
                         "endColumn": 90,
-                        "endOffset": 1901
+                        "endOffset": 1952
                     }
                 }
             },
@@ -3690,13 +3690,13 @@
                     "endOffset": 10140
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 52,
                         "startColumn": 4,
-                        "startOffset": 1906,
+                        "startOffset": 1958,
                         "endColumn": 56,
-                        "endOffset": 1958
+                        "endOffset": 2010
                     }
                 }
             },
@@ -3709,13 +3709,13 @@
                     "endOffset": 10232
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 216,
+                        "startOffset": 225,
                         "endColumn": 91,
-                        "endOffset": 303
+                        "endOffset": 312
                     }
                 }
             },
@@ -3728,13 +3728,13 @@
                     "endOffset": 10301
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 4,
-                        "startOffset": 1077,
+                        "startOffset": 1105,
                         "endColumn": 68,
-                        "endOffset": 1141
+                        "endOffset": 1169
                     }
                 }
             },
@@ -3747,13 +3747,13 @@
                     "endOffset": 10382
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 47,
                         "startColumn": 4,
-                        "startOffset": 1617,
+                        "startOffset": 1664,
                         "endColumn": 80,
-                        "endOffset": 1693
+                        "endOffset": 1740
                     }
                 }
             },
@@ -3766,13 +3766,13 @@
                     "endOffset": 10437
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 54,
                         "startColumn": 4,
-                        "startOffset": 2019,
+                        "startOffset": 2073,
                         "endColumn": 54,
-                        "endOffset": 2069
+                        "endOffset": 2123
                     }
                 }
             },
@@ -3785,13 +3785,13 @@
                     "endOffset": 10491
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 580,
+                        "startOffset": 590,
                         "endColumn": 53,
-                        "endOffset": 629
+                        "endOffset": 639
                     }
                 }
             },
@@ -3804,13 +3804,13 @@
                     "endOffset": 10544
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,
-                        "startOffset": 1588,
+                        "startOffset": 1615,
                         "endColumn": 52,
-                        "endOffset": 1636
+                        "endOffset": 1663
                     }
                 }
             },
@@ -3823,13 +3823,13 @@
                     "endOffset": 10607
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 29,
                         "startColumn": 4,
-                        "startOffset": 1686,
+                        "startOffset": 1715,
                         "endColumn": 62,
-                        "endOffset": 1744
+                        "endOffset": 1773
                     }
                 }
             },
@@ -3842,13 +3842,13 @@
                     "endOffset": 10645
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
-                        "startOffset": 977,
+                        "startOffset": 994,
                         "endColumn": 37,
-                        "endOffset": 1010
+                        "endOffset": 1027
                     }
                 }
             },
@@ -3861,13 +3861,13 @@
                     "endOffset": 10706
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 721,
+                        "startOffset": 734,
                         "endColumn": 60,
-                        "endOffset": 777
+                        "endOffset": 790
                     }
                 }
             },
@@ -3880,13 +3880,13 @@
                     "endOffset": 10796
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 490,
+                        "startOffset": 499,
                         "endColumn": 89,
-                        "endOffset": 575
+                        "endOffset": 584
                     }
                 }
             },
@@ -3899,13 +3899,13 @@
                     "endOffset": 10875
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 270,
+                        "startOffset": 276,
                         "endColumn": 78,
-                        "endOffset": 344
+                        "endOffset": 350
                     }
                 }
             },
@@ -3918,13 +3918,13 @@
                     "endOffset": 10963
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 402,
+                        "startOffset": 410,
                         "endColumn": 87,
-                        "endOffset": 485
+                        "endOffset": 493
                     }
                 }
             },
@@ -3937,13 +3937,13 @@
                     "endOffset": 11030
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
-                        "startOffset": 910,
+                        "startOffset": 926,
                         "endColumn": 66,
-                        "endOffset": 972
+                        "endOffset": 988
                     }
                 }
             },
@@ -3956,13 +3956,13 @@
                     "endOffset": 11091
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings_activity_settings.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 17,
+                        "startOffset": 19,
                         "endColumn": 60,
-                        "endOffset": 73
+                        "endOffset": 75
                     }
                 }
             },
@@ -3975,13 +3975,13 @@
                     "endOffset": 11147
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 4,
-                        "startOffset": 1532,
+                        "startOffset": 1558,
                         "endColumn": 55,
-                        "endOffset": 1583
+                        "endOffset": 1609
                     }
                 }
             },
@@ -3995,14 +3995,14 @@
                     "endOffset": 11438
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\styles.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 186,
+                        "startOffset": 192,
                         "endLine": 12,
                         "endColumn": 12,
-                        "endOffset": 472
+                        "endOffset": 484
                     }
                 }
             },
@@ -4016,14 +4016,14 @@
                     "endOffset": 11598
                 },
                 "from": {
-                    "file": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\styles.xml",
+                    "file": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
-                        "startOffset": 510,
+                        "startOffset": 525,
                         "endLine": 17,
                         "endColumn": 12,
-                        "endOffset": 665
+                        "endOffset": 682
                     }
                 }
             }

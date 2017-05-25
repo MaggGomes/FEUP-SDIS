@@ -1,4 +1,4 @@
-#Thu May 25 19:43:09 BST 2017
-base.0=C\:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_8
+#Thu May 25 22:56:30 BST 2017
+base.0=C\:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_8
 renamed.0=classes.dex
-file.0=C\:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_8\\classes.dex
+file.0=C\:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_8\\classes.dex

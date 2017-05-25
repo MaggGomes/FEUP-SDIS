@@ -1,4 +1,4 @@
-#Thu May 25 19:43:08 BST 2017
-base.0=C\:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-v4-18.0.0_b4a52a8fbc79dbc622b00311c075541b4f883f0b
+#Thu May 25 22:56:29 BST 2017
+base.0=C\:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-v4-18.0.0_2205dc014a04cdd7fdcc3c6d3e2e8c6be689c2fc
 renamed.0=classes.dex
-file.0=C\:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-v4-18.0.0_b4a52a8fbc79dbc622b00311c075541b4f883f0b\\classes.dex
+file.0=C\:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-v4-18.0.0_2205dc014a04cdd7fdcc3c6d3e2e8c6be689c2fc\\classes.dex
