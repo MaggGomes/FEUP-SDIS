@@ -1,0 +1,233 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* Android_Final_Proj.apk
+* alert_icon-web.png
+* hosted_icon-web.png
+* ic_launcher-web.png
+* ignored_user_icon-web.png
+* key_icon-web.png
+* lock_icon-web.png
+* lock_icon_green-web.png
+* lock_icon_red-web.png
+* msg_icon-web.png
+* notification_icon-web.png
+* plug_icon-web.png
+* private_chat_icon-web.png
+* proguard-project.txt
+* public_chat_icon-web.png
+* settings_icon-web.png
+* source\
+* source\.idea\
+* source\.idea\.name
+* source\.idea\compiler.xml
+* source\.idea\copyright\
+* source\.idea\copyright\profiles_settings.xml
+* source\.idea\misc.xml
+* source\.idea\workspace.xml
+* source\app\
+* source\app\build.gradle
+* source\app\src\
+* source\app\src\main\
+* source\app\src\main\AndroidManifest.xml
+* source\app\src\main\java\
+* source\app\src\main\java\com\
+* source\app\src\main\java\com\example\
+* source\app\src\main\java\com\example\android_final_proj\
+* source\app\src\main\java\com\example\android_final_proj\ActiveChatRoom.java
+* source\app\src\main\java\com\example\android_final_proj\ChatActivity.java
+* source\app\src\main\java\com\example\android_final_proj\ChatHistoryScreenFrag.java
+* source\app\src\main\java\com\example\android_final_proj\ChatMessage.java
+* source\app\src\main\java\com\example\android_final_proj\ChatRoomDetails.java
+* source\app\src\main\java\com\example\android_final_proj\ChatSearchScreenFrag.java
+* source\app\src\main\java\com\example\android_final_proj\Constants.java
+* source\app\src\main\java\com\example\android_final_proj\CreatHistoryEntryFromFileNameThread.java
+* source\app\src\main\java\com\example\android_final_proj\CustomChatAdapter.java
+* source\app\src\main\java\com\example\android_final_proj\EnableWifiDirectDialog.java
+* source\app\src\main\java\com\example\android_final_proj\FileHandlerThread.java
+* source\app\src\main\java\com\example\android_final_proj\HistoryActivity.java
+* source\app\src\main\java\com\example\android_final_proj\LocalService.java
+* source\app\src\main\java\com\example\android_final_proj\MainScreenActivity.java
+* source\app\src\main\java\com\example\android_final_proj\NewConnectionWorkerThread.java
+* source\app\src\main\java\com\example\android_final_proj\QuickPrefsActivity.java
+* source\app\src\main\java\com\example\android_final_proj\SendSingleStringViaSocketThread.java
+* source\app\src\main\java\com\example\android_final_proj\User.java
+* source\app\src\main\java\com\example\android_final_proj\WelcomeSocketThread.java
+* source\app\src\main\java\com\example\android_final_proj\WiFiDirectBroadcastReceiver.java
+* source\app\src\main\res\
+* source\app\src\main\res\drawable-hdpi\
+* source\app\src\main\res\drawable-hdpi\alert_icon.png
+* source\app\src\main\res\drawable-hdpi\green.psd
+* source\app\src\main\res\drawable-hdpi\hosted_icon.png
+* source\app\src\main\res\drawable-hdpi\ic_launcher.png
+* source\app\src\main\res\drawable-hdpi\ignored_user_icon.png
+* source\app\src\main\res\drawable-hdpi\key_icon.png
+* source\app\src\main\res\drawable-hdpi\lock_icon_green.png
+* source\app\src\main\res\drawable-hdpi\lock_icon_orange.png
+* source\app\src\main\res\drawable-hdpi\lock_icon_red.png
+* source\app\src\main\res\drawable-hdpi\msg_icon.png
+* source\app\src\main\res\drawable-hdpi\orange.psd
+* source\app\src\main\res\drawable-hdpi\plug_icon.png
+* source\app\src\main\res\drawable-hdpi\plus_icon.png
+* source\app\src\main\res\drawable-hdpi\private_chat_icon.png
+* source\app\src\main\res\drawable-hdpi\public_chat_icon.png
+* source\app\src\main\res\drawable-hdpi\settings_action_bar_icon.png
+* source\app\src\main\res\drawable-hdpi\settings_icon.png
+* source\app\src\main\res\drawable-hdpi\speech_bubble_green.9.png
+* source\app\src\main\res\drawable-hdpi\speech_bubble_orange.9.png
+* source\app\src\main\res\drawable-ldpi\
+* source\app\src\main\res\drawable-ldpi\green.psd
+* source\app\src\main\res\drawable-ldpi\orange.psd
+* source\app\src\main\res\drawable-ldpi\speech_bubble_green.9.png
+* source\app\src\main\res\drawable-ldpi\speech_bubble_orange.9.png
+* source\app\src\main\res\drawable-mdpi\
+* source\app\src\main\res\drawable-mdpi\alert_icon.png
+* source\app\src\main\res\drawable-mdpi\green.psd
+* source\app\src\main\res\drawable-mdpi\hosted_icon.png
+* source\app\src\main\res\drawable-mdpi\ic_launcher.png
+* source\app\src\main\res\drawable-mdpi\ignored_user_icon.png
+* source\app\src\main\res\drawable-mdpi\key_icon.png
+* source\app\src\main\res\drawable-mdpi\lock_icon_green.png
+* source\app\src\main\res\drawable-mdpi\lock_icon_orange.png
+* source\app\src\main\res\drawable-mdpi\lock_icon_red.png
+* source\app\src\main\res\drawable-mdpi\msg_icon.png
+* source\app\src\main\res\drawable-mdpi\orange.psd
+* source\app\src\main\res\drawable-mdpi\plug_icon.png
+* source\app\src\main\res\drawable-mdpi\plus_icon.png
+* source\app\src\main\res\drawable-mdpi\private_chat_icon.png
+* source\app\src\main\res\drawable-mdpi\public_chat_icon.png
+* source\app\src\main\res\drawable-mdpi\settings_action_bar_icon.png
+* source\app\src\main\res\drawable-mdpi\settings_icon.png
+* source\app\src\main\res\drawable-mdpi\speech_bubble_green.9.png
+* source\app\src\main\res\drawable-mdpi\speech_bubble_orange.9.png
+* source\app\src\main\res\drawable-xhdpi\
+* source\app\src\main\res\drawable-xhdpi\alert_icon.png
+* source\app\src\main\res\drawable-xhdpi\green.psd
+* source\app\src\main\res\drawable-xhdpi\hosted_icon.png
+* source\app\src\main\res\drawable-xhdpi\ic_launcher.png
+* source\app\src\main\res\drawable-xhdpi\ignored_user_icon.png
+* source\app\src\main\res\drawable-xhdpi\key_icon.png
+* source\app\src\main\res\drawable-xhdpi\lock_icon_green.png
+* source\app\src\main\res\drawable-xhdpi\lock_icon_orange.png
+* source\app\src\main\res\drawable-xhdpi\lock_icon_red.png
+* source\app\src\main\res\drawable-xhdpi\msg_icon.png
+* source\app\src\main\res\drawable-xhdpi\orange.psd
+* source\app\src\main\res\drawable-xhdpi\plug_icon.png
+* source\app\src\main\res\drawable-xhdpi\plus_icon.png
+* source\app\src\main\res\drawable-xhdpi\private_chat_icon.png
+* source\app\src\main\res\drawable-xhdpi\public_chat_icon.png
+* source\app\src\main\res\drawable-xhdpi\settings_action_bar_icon.png
+* source\app\src\main\res\drawable-xhdpi\settings_icon.png
+* source\app\src\main\res\drawable-xhdpi\speech_bubble_green.9.png
+* source\app\src\main\res\drawable-xhdpi\speech_bubble_orange.9.png
+* source\app\src\main\res\drawable-xxhdpi\
+* source\app\src\main\res\drawable-xxhdpi\alert_icon.png
+* source\app\src\main\res\drawable-xxhdpi\hosted_icon.png
+* source\app\src\main\res\drawable-xxhdpi\ic_launcher.png
+* source\app\src\main\res\drawable-xxhdpi\ignored_user_icon.png
+* source\app\src\main\res\drawable-xxhdpi\key_icon.png
+* source\app\src\main\res\drawable-xxhdpi\lock_icon_green.png
+* source\app\src\main\res\drawable-xxhdpi\lock_icon_orange.png
+* source\app\src\main\res\drawable-xxhdpi\lock_icon_red.png
+* source\app\src\main\res\drawable-xxhdpi\msg_icon.png
+* source\app\src\main\res\drawable-xxhdpi\plug_icon.png
+* source\app\src\main\res\drawable-xxhdpi\private_chat_icon.png
+* source\app\src\main\res\drawable-xxhdpi\public_chat_icon.png
+* source\app\src\main\res\drawable-xxhdpi\settings_icon.png
+* source\app\src\main\res\drawable\
+* source\app\src\main\res\drawable\custom_button_normal.xml
+* source\app\src\main\res\drawable\custom_button_selected.xml
+* source\app\src\main\res\drawable\custom_button_selector.xml
+* source\app\src\main\res\drawable\message_bar.xml
+* source\app\src\main\res\drawable\message_field.xml
+* source\app\src\main\res\drawable\send_button.xml
+* source\app\src\main\res\layout\
+* source\app\src\main\res\layout\activity_chat.xml
+* source\app\src\main\res\layout\activity_chat_history_screen_frag.xml
+* source\app\src\main\res\layout\activity_chat_search_screen_frag.xml
+* source\app\src\main\res\layout\activity_history.xml
+* source\app\src\main\res\layout\activity_main_screen.xml
+* source\app\src\main\res\layout\alert_dialog_text_entry.xml
+* source\app\src\main\res\layout\chat_activity_list_item.xml
+* source\app\src\main\res\layout\chat_search_list_item.xml
+* source\app\src\main\res\layout\public_chat_creation_dialog.xml
+* source\app\src\main\res\layout\show_settings_layout.xml
+* source\app\src\main\res\menu\
+* source\app\src\main\res\menu\chat_activity_hosted_room_context_menu.xml
+* source\app\src\main\res\menu\chat_history_frag_context_menu.xml
+* source\app\src\main\res\menu\chat_prv_room_menu.xml
+* source\app\src\main\res\menu\chat_pub_room_menu.xml
+* source\app\src\main\res\menu\chat_search_frag_context_menu.xml
+* source\app\src\main\res\menu\main_screen_menu.xml
+* source\app\src\main\res\values-sw600dp\
+* source\app\src\main\res\values-sw600dp\dimens.xml
+* source\app\src\main\res\values-sw720dp-land\
+* source\app\src\main\res\values-sw720dp-land\dimens.xml
+* source\app\src\main\res\values-v11\
+* source\app\src\main\res\values-v11\styles.xml
+* source\app\src\main\res\values-v14\
+* source\app\src\main\res\values-v14\styles.xml
+* source\app\src\main\res\values\
+* source\app\src\main\res\values\arrays.xml
+* source\app\src\main\res\values\colors.xml
+* source\app\src\main\res\values\dimens.xml
+* source\app\src\main\res\values\strings.xml
+* source\app\src\main\res\values\strings_activity_settings.xml
+* source\app\src\main\res\values\styles.xml
+* source\app\src\main\res\xml\
+* source\app\src\main\res\xml\pref_data_sync.xml
+* source\app\src\main\res\xml\pref_general.xml
+* source\app\src\main\res\xml\pref_headers.xml
+* source\app\src\main\res\xml\pref_notification.xml
+* source\app\src\main\res\xml\preferences.xml
+* source\build.gradle
+* source\gradle\
+* source\gradle\wrapper\
+* source\gradle\wrapper\gradle-wrapper.jar
+* source\gradle\wrapper\gradle-wrapper.properties
+* source\gradlew
+* source\gradlew.bat
+* source\local.properties
+* source\settings.gradle
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:18.0.0
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app\src\main\AndroidManifest.xml
+* res\ => app\src\main\res\
+* src\ => app\src\main\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)
