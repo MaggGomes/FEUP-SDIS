@@ -33,6 +33,10 @@ import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.example.android_final_proj.chat.ChatActivity;
+import com.example.android_final_proj.chat.ChatHistoryScreenFrag;
+import com.example.android_final_proj.chat.ChatSearchScreenFrag;
+
 /**
  * The app's main entry point. Holds 2 fragments: {@link ChatSearchScreenFrag} and {@link ChatHistoryScreenFrag}.
  * The 1st fragment offers to scan for new chat groups and users. The 2nd offers to view chat history.

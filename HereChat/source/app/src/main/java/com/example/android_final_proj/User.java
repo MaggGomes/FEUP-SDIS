@@ -7,9 +7,9 @@ package com.example.android_final_proj;
 public class User
 {
 	
-	String uniqueID;
-	String IPaddr;
-	String name;
+	public String uniqueID;
+	public String IPaddr;
+	public String name;
 
 	public User(String uniqueID,String IPaddr,String name)
 	{

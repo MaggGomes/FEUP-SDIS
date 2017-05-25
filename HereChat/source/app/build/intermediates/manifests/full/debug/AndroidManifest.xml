@@ -32,12 +32,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.android_final_proj.ChatSearchScreenFrag"
+            android:name="com.example.android_final_proj.chat.ChatSearchScreenFrag"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_chat_search_screen_frag" >
         </activity>
         <activity
-            android:name="com.example.android_final_proj.ChatHistoryScreenFrag"
+            android:name="com.example.android_final_proj.chat.ChatHistoryScreenFrag"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_chat_history_screen_frag" >
         </activity>
@@ -58,7 +58,7 @@
         </service>
 
         <activity
-            android:name="com.example.android_final_proj.ChatActivity"
+            android:name="com.example.android_final_proj.chat.ChatActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_chat"
             android:parentActivityName="com.example.android_final_proj.MainScreenActivity" >

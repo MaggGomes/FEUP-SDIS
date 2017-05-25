@@ -33,12 +33,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.android_final_proj.ChatSearchScreenFrag"
+            android:name="com.example.android_final_proj.chat.ChatSearchScreenFrag"
             android:label="@string/title_activity_chat_search_screen_frag" 
             android:configChanges="orientation|screenSize">
         </activity>
         <activity
-            android:name="com.example.android_final_proj.ChatHistoryScreenFrag"
+            android:name="com.example.android_final_proj.chat.ChatHistoryScreenFrag"
             android:label="@string/title_activity_chat_history_screen_frag"
             android:configChanges="orientation|screenSize" >
         </activity>
@@ -59,7 +59,7 @@
         <service android:name="com.example.android_final_proj.LocalService" >
         </service>
         <activity
-            android:name="com.example.android_final_proj.ChatActivity"
+            android:name="com.example.android_final_proj.chat.ChatActivity"
             android:label="@string/title_activity_chat"   
             android:configChanges="orientation|screenSize"       
             android:parentActivityName="com.example.android_final_proj.MainScreenActivity" >
