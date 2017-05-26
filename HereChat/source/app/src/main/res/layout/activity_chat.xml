@@ -17,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_margin="5sp"
-            android:layout_weight="1"
+            android:layout_weight="0.69"
             android:background="@drawable/message_field"
             android:inputType="textMultiLine"
             android:padding="5sp"
@@ -25,6 +25,20 @@
 
         <Button
             android:id="@+id/chat_activity_send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_margin="5sp"
+            android:background="@color/primaryColor"
+            android:onClick="OnSendButtonClicked"
+            android:paddingBottom="5sp"
+            android:paddingLeft="15sp"
+            android:paddingRight="15sp"
+            android:paddingTop="5sp"
+            android:text="File"
+            android:textColor="@color/White" />
+
+        <Button
+            android:id="@+id/chat_activity_file_button"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_margin="5sp"
