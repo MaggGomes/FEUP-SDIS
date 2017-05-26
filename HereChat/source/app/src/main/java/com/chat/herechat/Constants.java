@@ -12,8 +12,8 @@ import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-import com.chat.herechat.ChatManager.ChatSearchScreenFrag;
-import com.chat.herechat.Peer.Peer;
+import com.chat.herechat.chatmanager.ChatSearchScreenFrag;
+import com.chat.herechat.peer.Peer;
 
 /**
  * Contains all final values and static methods used within this app

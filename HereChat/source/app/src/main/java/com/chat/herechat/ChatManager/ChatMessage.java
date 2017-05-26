@@ -1,4 +1,4 @@
-package com.chat.herechat.ChatManager;
+package com.chat.herechat.chatmanager;
 
 /**
  * Message is a custom object to encapsulate message information/fields

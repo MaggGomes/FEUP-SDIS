@@ -1,11 +1,11 @@
-package com.chat.herechat.ServiceHandlers;
+package com.chat.herechat.servicehandlers;
 
 import com.chat.herechat.Constants;
 import com.chat.herechat.LocalService;
-import com.chat.herechat.MainScreenActivity;
-import com.chat.herechat.Peer.Peer;
-import com.chat.herechat.ChatManager.ActiveChatRoom;
-import com.chat.herechat.ChatManager.ChatRoomDetails;
+import com.chat.herechat.activities.MainScreenActivity;
+import com.chat.herechat.peer.Peer;
+import com.chat.herechat.chatmanager.ActiveChatRoom;
+import com.chat.herechat.chatmanager.ChatRoomDetails;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
