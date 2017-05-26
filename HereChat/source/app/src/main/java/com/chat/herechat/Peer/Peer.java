@@ -1,4 +1,4 @@
-package com.chat.herechat.Peer;
+package com.chat.herechat.peer;
 
 /**
  * A data structure to hold information about a discovered peer

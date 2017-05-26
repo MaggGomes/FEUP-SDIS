@@ -1,4 +1,4 @@
-package com.chat.herechat.ServiceHandlers;
+package com.chat.herechat.servicehandlers;
 
 import com.chat.herechat.LocalService;
 

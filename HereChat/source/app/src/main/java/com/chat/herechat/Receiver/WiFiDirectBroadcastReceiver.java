@@ -1,4 +1,4 @@
-package com.chat.herechat.Receiver;
+package com.chat.herechat.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,11 +12,11 @@ import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.ConnectionInfoListener;
 import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
 
-import com.chat.herechat.ChatManager.ChatSearchScreenFrag;
+import com.chat.herechat.chatmanager.ChatSearchScreenFrag;
 import com.chat.herechat.Constants;
 import com.chat.herechat.LocalService;
-import com.chat.herechat.ServiceHandlers.ClientSocketHandler;
-import com.chat.herechat.Peer.Peer;
+import com.chat.herechat.servicehandlers.ClientSocketHandler;
+import com.chat.herechat.peer.Peer;
 
 /**
  * A BroadcastReceiver that notifies of important Wi-Fi p2p events.
