@@ -25,12 +25,11 @@ public final class Constants
 	public static final char CHAT_MSG_ENTRY_SEPARATOR_CHAR = (char)223;
 	public static final char ENTER_REPLACEMENT_CHAR = (char)224;
 
-	//A chat rooms is defined as timed-out after it wasn't seen for TO_FACTOR * MainScreenActivity.RefreshPeriodInMs
 	public static int TO_FACTOR = 2;
 
 	public static long MIN_TIME_BETWEEN_WIFI_DISCOVER_OPERATIONS_IN_MS = 60000; //60 seconds between discoveries
 	public final static long MIN_TIME_BETWEEN_WIFI_CONNECT_ATTEMPTS_IN_MS = 30000; 	//30 seconds between connection attempts
-	//from the time of connection, we set a TO to check if this peer is responsive and runs our app correctly
+
 	public final static long VALID_COMM_WITH_WIFI_PEER_TO = 40000;
 
 	public final static int NUM_OF_QUERY_RECEIVE_RETRIES = 30;
@@ -121,11 +120,9 @@ public final class Constants
 		 return Calendar.getInstance().getTime();
 	}
 
-	public static String UserListToString(ArrayList<Peer> list)
-	{
+	public static String UserListToString(ArrayList<Peer> list) {
 		StringBuilder ans = new StringBuilder();
-		if (list!=null && list.size()>0) //if the list has any content at all
-		{
+		if (list!=null && list.size()>0) {
 			for (Peer user : list) //for each chat room
 			{
 				ans.append(user.name + ", ");
@@ -134,7 +131,7 @@ public final class Constants
 		ans.delete(ans.length()-2,ans.length()); //remove the last 2 chars
 
 		return ans.toString();
-		}//if
+		}
 		else
 			return "";
 	}
@@ -145,13 +142,11 @@ public final class Constants
 	 * @param separator - the separator char to be placed between strings
 	 * @return single string with separators
 	 */
-	public static String StringArrayToStringWithSeperators (String[] input, char separator)
-	{
+	public static String StringArrayToStringWithSeperators (String[] input, char separator) {
 		int length = input.length;
 		StringBuilder buffer = new StringBuilder();
 
-		for (int i=0; i<length ;i++)
-		{
+		for (int i=0; i<length ;i++) {
 			buffer.append(input[i]);
 
 			if (i<length-1)  //for every string except the last one
@@ -173,8 +168,7 @@ public final class Constants
 		if (list==null)
 			return null;
 
-		for (Peer user : list) //for each item
-		{
+		for (Peer user : list){
 			if (user.uniqueID != null && user.uniqueID.equalsIgnoreCase(userUniqueId))
 				return user;
 		}
@@ -187,8 +181,7 @@ public final class Constants
 	 * @param txt - String to be put in the toast
 	 * @param act - reference to an activity that'll display the toast
 	 */
-	public static void showBubble(String txt, Activity act)
-	{
+	public static void showBubble(String txt, Activity act) {
 		Context context = act.getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;
 
@@ -200,8 +193,7 @@ public final class Constants
 	 * Shows a notification of a new chat message arrival event
 	 * @param msg - the contentText for this notification
 	 */
-    public static void ShowNotification(String msg, PendingIntent intent)
-    {
+    public static void ShowNotification(String msg, PendingIntent intent) {
     	//create a new notification
     	NotificationCompat.Builder mBuilder =
     	        new NotificationCompat.Builder(ChatSearchScreenFrag.mService)
@@ -211,8 +203,7 @@ public final class Constants
     	        .setContentText(msg)
     			.setContentIntent(intent);
 
-        // Send the notification.
     	LocalService.mNotificationManager.notify(0xdeadbeef, mBuilder.build());
-    }//end of showNotification()
+    }
 
 }
