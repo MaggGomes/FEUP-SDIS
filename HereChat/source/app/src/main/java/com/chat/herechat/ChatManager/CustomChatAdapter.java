@@ -82,7 +82,7 @@ public class CustomChatAdapter extends BaseAdapter{
 		holder.mMessage.setText(message.getMessage());
 		holder.mTimeAndUserName.setText("   "+message.getTime()+"  "+message.getUserName()+"   ");
 	
-		holder.mTimeAndUserName.setTextColor(R.color.textFieldColor);
+		holder.mTimeAndUserName.setTextColor(mContext.getResources().getColor(R.color.White));
 		holder.mTimeAndUserName.setTextSize(14);
 		
 		LayoutParams lp = (LayoutParams) holder.mMessage.getLayoutParams();
@@ -106,7 +106,7 @@ public class CustomChatAdapter extends BaseAdapter{
 			 msgColor = getColorForUser(message.mUserUnique);
 			
 			//sets color to the MSG
-			holder.mMessage.setTextColor(mContext.getResources().getColor(msgColor));
+			holder.mMessage.setTextColor(mContext.getResources().getColor(R.color.primaryColor));
 			
 			lp.gravity = Gravity.LEFT;
 			lp2.gravity = Gravity.LEFT;
