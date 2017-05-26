@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="C:\Users\Manuel Gomes\Documents\FEUP-SDIS\HereChat\source\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.3"
-        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
-        <dex dex="C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_eab99b36a32325fc106968fda1bc8100f86ba004\classes.dex" />
+        sha1="990704fdb6974f74a327908fa1a25626c4ac9d96">
+        <dex dex="C:\Users\Manuel Gomes\Documents\FEUP-SDIS\HereChat\source\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_07f207d628eae4767cd0b9f0b4961133a267f395\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="C:\Users\Manuel Gomes\Documents\FEUP-SDIS\HereChat\source\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.3"
-        sha1="e353a329392149e0c7343cb81d504a50cf70c238">
-        <dex dex="C:\Users\joliveira\Documents\Universidade\3A\2S\SDIS\HereChat\source\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_d9d1ed6f048150aa902315a7e149844876c7861f\classes.dex" />
+        sha1="12920f9016b8b05acbc2af7cdc13cef6946fe7d3">
+        <dex dex="C:\Users\Manuel Gomes\Documents\FEUP-SDIS\HereChat\source\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_a7dc4d7bd2997ed7d3f1b98a543753367c8d8104\classes.dex" />
     </item>
 
 </items>

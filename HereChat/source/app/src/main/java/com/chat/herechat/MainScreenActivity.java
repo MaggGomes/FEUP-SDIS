@@ -34,11 +34,10 @@ import com.chat.herechat.Utilities.Constants;
 
 public class MainScreenActivity extends FragmentActivity implements ActionBar.TabListener {
     private AlertDialog mDialog = null;
-    private OnClickListener AlertCheckBoxClickListener = null;  //used to handle check-box click events for a dialog
+    private OnClickListener AlertCheckBoxClickListener = null;
 
-    SectionsPagerAdapter mSectionsPagerAdapter;  //adapter for the tab view. Contains all the frags
-    ViewPager mViewPager; //a layout widget in which each child view is a separate page (a separate tab) in the layout.
-    //both fragment will initialize these references when they're created:
+    SectionsPagerAdapter mSectionsPagerAdapter;
+    ViewPager mViewPager;
     public ChatHistoryScreenFrag mHistoryFrag = null;
     public ChatSearchScreenFrag mSearchFrag = null;
 
@@ -48,9 +47,9 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
     static int mDisplayedFragIndex = 0;
     public static long ChatRoomAccumulatingSerialNumber = 0;
     public static String UniqueID = null;
-    public static String UserName = ":>~";                  //setting a default user name
-    static boolean isToNotifyOnNewMsg = false;              //defines if notifications should be shown on arrival of new messages
-    static int refreshPeriod = 40000;                  //defines the peer refresh period
+    public static String UserName = ":>~";
+    static boolean isToNotifyOnNewMsg = false;
+    static int refreshPeriod = 40000;
 
     private boolean mIsRunForTheFirstTime = false;
 
@@ -72,12 +71,10 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         if (MainScreenActivity.UniqueID == null) {
             UserName = new String(Secure.getString(getContentResolver(), Secure.ANDROID_ID)); //get a unique id
             UniqueID = new String(UserName);
-        }//if
+        }
 
-        //Remove the title bar for out entire app
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setDisplayShowHomeEnabled(false);
-
     }
 
     @Override
@@ -89,16 +86,15 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
     @Override
     protected void onResume() {
         super.onResume();
-        //check if this activity was launched by the b-cast receiver after a wifi shutdown
+
         boolean isToDisplayWifiDialog = getIntent()
                 .getBooleanExtra(Constants.WIFI_BCAST_RCVR_WIFI_OFF_EVENT_INTENT_EXTRA_KEY, false);
 
         if (isToDisplayWifiDialog && !wasWifiDialogShown) {
-            new EnableWifiDirectDialog().show(getSupportFragmentManager(), "MyDialog"); //show a dialog
+            new EnableWifiDirectDialog().show(getSupportFragmentManager(), "MyDialog");
             wasWifiDialogShown = true;
         }
 
-        //if this app is run for the very 1st time, we want to launch the settings activity first.
         if (mIsRunForTheFirstTime) {
             //launch the preferences activity
             startActivity(new Intent(this, QuickPrefsActivity.class));
@@ -110,42 +106,29 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Create the adapter that will return a fragment for each of the two
-        // primary sections of the app.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        // When swiping between different sections, select the corresponding
-        // tab. We can also use ActionBar.Tab#select() to do this if we have
-        // a reference to the Tab.
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             //if a tab was changed by a swipe gesture
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position); //update the tab bar to match the selected page
                 mDisplayedFragIndex = position;   //update the index of the currently displayed frag
-                if (position == 1)  //if the view has moved to the history fragment:
-                {
-                    mHistoryFrag.loadHistory(); //reload the history list view
+                if (position == 1) {
+                    mHistoryFrag.loadHistory();
                 }
                 invalidateOptionsMenu();
             }
         });
 
-        // For each of the sections in the app, add a tab to the action bar.
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
             actionBar.addTab(actionBar.newTab()
                     .setText(mSectionsPagerAdapter.getPageTitle(i))
                     .setTabListener(this));
-        }//for
-    }//end of InitializeTabHandlerAndAdapter()
+        }
+    }
 
     /**
      * Used to modify menu item according to the app's state
@@ -153,23 +136,20 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        //if the wifi-direct is disabled, we want to disable the chat room creation option
         menu.getItem(0).setEnabled(ChatSearchScreenFrag.mIsWifiDirectEnabled);
 
-        //if this menu is opened when the chat search is active:
+        //if this menu is opened when the chat search is active
         if (mDisplayedFragIndex == 0) {
-            //hide the 'delete history option:
+            //hide the delete history option
             menu.findItem(R.id.action_delete_all_history).setVisible(false);
-        } else  //history frag is active:
-        {
-            //show the 'delete history option:
+        } else {
+            //show the delete history option
             menu.findItem(R.id.action_delete_all_history).setVisible(true);
             menu.findItem(R.id.clear_ignore_list).setVisible(false);
         }
 
         return true;
     }
-
 
     @SuppressLint("HandlerLeak")
     Handler FirstTimeMenuUpdater = new Handler() {
@@ -179,32 +159,24 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         }
     };
 
-
-    /**
-     * Called only once when the app starts
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_screen_menu, menu);
 
         FirstTimeMenuUpdater.sendEmptyMessageDelayed(0, 500);
 
         return true;
-    }//end of onCreateOptionsMenu()
-
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings://setting was clicked
-            {
+            case R.id.action_settings: {
                 startActivity(new Intent(this, QuickPrefsActivity.class));
                 break;
             }
-            case R.id.action_create_new_chat_room: //exit app was clicked
-            {
 
+            case R.id.action_create_new_chat_room: {
                 mDialog = CreatePublicChatCreationDialog();
                 mDialog.show();
 
@@ -216,7 +188,6 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
                         EditText ed = (EditText) dialog.findViewById(R.id.choosePassword);
                         boolean b = !ed.isEnabled();
                         ed.setEnabled(b);
-
                     }
                 };
 
@@ -224,34 +195,31 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
                 ch.setOnClickListener(AlertCheckBoxClickListener);
                 break;
             }
-            case R.id.clear_ignore_list: //exit app was clicked
-            {
+
+            case R.id.clear_ignore_list: {
                 if (mSearchFrag != null)
                     mSearchFrag.ClearIgnoredUsersList();
                 break;
             }
-            case R.id.action_exit: //exit app was clicked
-            {
+
+            case R.id.action_exit: {
                 kill();
                 break;
             }
-            case R.id.action_delete_all_history: //delete all history was clicked
-            {
+
+            case R.id.action_delete_all_history: {
                 mHistoryFrag.DeleteAllHistory();
                 break;
             }
-        }//switch
+        }
 
         return true;
-    }//end of onOptionsItemSelected()
-
+    }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in
-        // the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
-    }//end of onTabSelected()
+    }
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -261,39 +229,32 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
-    /**
-     * A FragmentPagerAdapter that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            Fragment fragment = null; //will hold the relevant fragment to be returned
+            Fragment fragment = null;
 
             switch (position) {
                 case 0:
-                    fragment = new ChatSearchScreenFrag();  //create a new chat search fragment
+                    fragment = new ChatSearchScreenFrag();
                     break;
                 case 1:
-                    fragment = new ChatHistoryScreenFrag();  //create a new history display fragment
+                    fragment = new ChatHistoryScreenFrag();
                     break;
             }
 
             return fragment;
-        }//end of getItem()
+        }
 
         @Override
         public int getCount() {
-            return 2;        // Show 2 total pages.
+            return 2;
         }
 
-        //Returns the title for each tab
         @Override
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
@@ -305,16 +266,11 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
             }
             return null;
         }
-    }//end of class
+    }
 
-
-    /**
-     * Called when the refresh button in the chat search fragment is clicked
-     */
     public void onRefreshButtonClicked(View v) {
         mSearchFrag.onRefreshButtonClicked(v); //call the frag's method
-    }//end of onRefreshButtonClicked()
-
+    }
 
     /**
      * Reads the saved preferences
@@ -327,7 +283,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         isToNotifyOnNewMsg = prefs.getBoolean(Constants.SHARED_PREF_ENABLE_NOTIFICATION, false);
         refreshPeriod = prefs.getInt(Constants.SHARED_PREF_REFRESH_PERIOD, 10000);
         mIsRunForTheFirstTime = prefs.getBoolean(Constants.SHARED_PREF_IS_FIRST_RUN, true);
-    }//end of getPrefs(){
+    }
 
     /**
      * Saved the shared preferences
@@ -343,16 +299,10 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         editor.commit();
     }
 
-    /**
-     * Calls the kill() method of {@link ChatSearchScreenFrag}, resets all static variables,
-     * calls the system's garbage collector and finishes.
-     */
     public void kill() {
         savePrefs();
-        mSearchFrag.kill();  //close the entire app (service and welcome socket)
+        mSearchFrag.kill();
 
-
-        //we'de like to reset all static variables in our app:
         ChatActivity.mIsActive = false;
         ChatActivity.mMsgsWaitingForSendResult = null;
         ChatSearchScreenFrag.mService = null;
@@ -362,12 +312,9 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         ChatSearchScreenFrag.mChannel = null;
         LocalService.mNotificationManager = null;
 
-        //Indicates to the VM that it would be a good time to run the garbage collector
         System.gc();
-
         finish();
     }
-
 
     private AlertDialog CreatePublicChatCreationDialog() {
         LayoutInflater factory = LayoutInflater.from(this);
@@ -417,18 +364,15 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
                                     })
 
                                     .show();
-                            //end of alert dialog
-                        }//if
+                        }
 
-                        else {//there is a room name
-                            //the room is ready to be created
-                            //call the service and create a new public chat room
+                        else {
                             if (password.equalsIgnoreCase(""))
                                 password = null;
 
                             ChatSearchScreenFrag.mService.CreateNewHostedPublicChatRoom(roomName, password);
 
-                        }//else
+                        }
                     }//onClick dialog listener
 
 

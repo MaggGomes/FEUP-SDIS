@@ -17,24 +17,17 @@ import com.chat.herechat.ChatManager.CustomChatAdapter;
 import com.chat.herechat.ServiceHandlers.FileHandler;
 import com.chat.herechat.Utilities.Constants;
 
-/**
- * Displays the content of a history file, with a similar view to that of a 'ChatActivity'
- *
- */
-
-public class HistoryActivity extends ListActivity
-{
-	private  ArrayList<ChatMessage> mListContent = null; //the list's content
-	private CustomChatAdapter mListAdapter=null;				 //the list's adapter
-	Handler mHandler=null;
+public class HistoryActivity extends ListActivity {
+	private  ArrayList<ChatMessage> mListContent = null;
+	private CustomChatAdapter mListAdapter = null;
+	Handler mHandler = null;
 	ProgressDialog historyLoadDialog;
 	
 	String mChatRoomID = null;
 
 	@SuppressLint("HandlerLeak")
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_history);
 		
@@ -45,28 +38,20 @@ public class HistoryActivity extends ListActivity
 		
 		InitAdapter();
 		
-		mHandler = new Handler(){ //define a new message handler for the file thread
-			//Here we'll receive the content of the history file that was read by a thread
+		mHandler = new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
-				//parse the data and update the list view
 				if (msg.getData().getBoolean(Constants.FILE_THREAD_WAS_DATA_READ_KEY, false)) //if a history exists
 					ParseHistoryFileDataAndUpdateListView((msg.getData().getString(Constants.FILE_THREAD_DATA_CONTENT_KEY, null)));
-				else
-				{
-					//TODO DISPLAY AN ERROR. NO WAY THIS FILE DOESN'T EXIST
-				}
-				
-				//dismiss the progress dialog
+
 				if (historyLoadDialog.isShowing())
 				historyLoadDialog.dismiss();
 			}
 		};
-	}//end of onCreate()
+	}
 	
 	@Override
-	protected void onResume()
-	{
+	protected void onResume() {
 		super.onResume();
 		//load the history
 		historyLoadDialog = new ProgressDialog(this);
@@ -74,67 +59,52 @@ public class HistoryActivity extends ListActivity
 		historyLoadDialog.setMessage("Please Wait.");
 		historyLoadDialog.show();
 	
-		new FileHandler(mChatRoomID, mHandler, true,this).start(); //launch the history file reader
-	}//end of onResume()
+		new FileHandler(mChatRoomID, mHandler, true,this).start();
+	}
 	
-	private void ParseHistoryFileDataAndUpdateListView(String data)
-	{
-		String[] parsedHistory = data.split("["+Constants.STANDART_FIELD_SEPERATOR+"]"); //parse the string by the separator char
+	private void ParseHistoryFileDataAndUpdateListView(String data) {
+		String[] parsedHistory = data.split("["+Constants.STANDART_FIELD_SEPERATOR+"]");
 		int length = parsedHistory.length;
 		
-		setTitle(parsedHistory[0]);   //set the window's title to be the chat's name
-		//set icon
+		setTitle(parsedHistory[0]);
 		if (parsedHistory[1].equalsIgnoreCase("private"))
 			getActionBar().setIcon(R.drawable.private_chat_icon);
 		else
 			getActionBar().setIcon(R.drawable.public_chat_icon);
 		
 		
-		for (int i=2; i<length && length>2 ;i++) //for each msg string
-		{
-			String[] parsedSingleMsg = parsedHistory[i].split("["+Constants.CHAT_MSG_ENTRY_SEPARATOR_CHAR+"]"); //parse by the inner separator
+		for (int i = 2; i < length && length > 2 ;i++) {
+			String[] parsedSingleMsg = parsedHistory[i].split("["+Constants.CHAT_MSG_ENTRY_SEPARATOR_CHAR+"]");
      		ChatMessage msg = new ChatMessage(parsedSingleMsg[1], parsedSingleMsg[2].replace(Constants.ENTER_REPLACEMENT_CHAR, '\n'),
      				parsedSingleMsg[0], parsedSingleMsg[3], 
      				parsedSingleMsg[1].equalsIgnoreCase(MainScreenActivity.UniqueID));
      		mListContent.add(msg);
-		}//for
+		}
 		
 		mListAdapter.notifyDataSetChanged();
 		getListView().setSelection(mListContent.size()-1);
-			
-	}//end of ParseHistoryFileDataAndUpdateListView()
-	
-	/**
-	 * Initializes the content, list adapter and performs a peer scan for the the 1st run only.
-	 */
-	private void InitAdapter()
-	{
-	   if (mListContent==null){mListContent = new ArrayList<ChatMessage>();} //create a new array list that'll hold all the data
-	   if (mListAdapter==null)
-	   		{
-		    mListAdapter = new CustomChatAdapter(this,mListContent);  //create a new adapter		    
-			setListAdapter(mListAdapter);   						//set the content
-		   	}
-	}//end of InitAdapter()
+	}
 
-	 private void setupActionBar()
-	 {
-	  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-	  {
-	   // enables the activity icon as a 'home' button. required if "android:targetSdkVersion" > 14
+	private void InitAdapter() {
+	   if (mListContent == null)
+		   mListContent = new ArrayList<ChatMessage>();
+
+	   if (mListAdapter == null) {
+		    mListAdapter = new CustomChatAdapter(this,mListContent);
+			setListAdapter(mListAdapter);
+	   }
+	}
+
+	 private void setupActionBar() {
 	   getActionBar().setHomeButtonEnabled(true);
 	   getActionBar().setDisplayHomeAsUpEnabled(true);
-	  }
 	 }
 	 
-	 public boolean onOptionsItemSelected(MenuItem item)
-	 {
-	  switch (item.getItemId())
-	  {
+	 public boolean onOptionsItemSelected(MenuItem item) {
+	  switch (item.getItemId()) {
 	   case android.R.id.home:
 	    NavUtils.navigateUpFromSameTask(this);
 	  } 
 	  return true;
 	 }
-	
-}//end of class()
+}

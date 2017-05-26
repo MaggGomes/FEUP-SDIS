@@ -187,6 +187,8 @@
     <color name="barLightColor">#F2F2F2</color>
     <color name="barMeduimColor">#DFDEE0</color>
     <color name="listViewBg">#DADFEE</color>
+    <color name="primaryColor">#03A9F4</color>
+    <color name="primaryDarkColor">#0288D1</color>
     <color name="sendDarkColor">#515F9F</color>
     <color name="sendLightColor">#8897BF</color>
     <color name="sendMeduimColor">#17A8F8</color>

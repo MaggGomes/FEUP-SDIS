@@ -9,12 +9,10 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 /**
- * Shows a dialogue asking the user to turn on the wifi-p2p. On positive response: Takes the user to the Android Settings screen.
- *
+ * Shows a dialogue asking the user to turn on the wifi-p2p.
  */
-public class EnableWifiDirectDialog extends DialogFragment 
-{
-	 Context context;
+public class EnableWifiDirectDialog extends DialogFragment {
+    Context context;
 	 
     public EnableWifiDirectDialog() {
         context = getActivity();
@@ -22,14 +20,13 @@ public class EnableWifiDirectDialog extends DialogFragment
 	    
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("The WiFi Direct option is currently disabled and is essential to this application." +
+        builder.setMessage("The WiFi Direct option is currently disabled." +
         		"\r\nWould you like to turn it on now?")
                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                    @Override
 				public void onClick(DialogInterface dialog, int id) {
-                   startActivity(new Intent(Settings.ACTION_SETTINGS)); //take the user to the settings screen  
+                   startActivity(new Intent(Settings.ACTION_SETTINGS));
                    }
                })
                .setNegativeButton("No", new DialogInterface.OnClickListener() {
