@@ -26,25 +26,25 @@
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/no_discovered_peers"
         android:textSize="16sp" />
-      
+
     <Button
-         android:id="@+id/chat_srch_frag_refresh_btn"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_marginLeft="20sp"
-         android:layout_marginRight="20sp"
-         android:layout_marginTop="5sp"
-         android:layout_marginBottom="5sp"
-         android:paddingBottom="5sp"
-         android:paddingLeft="15sp"
-         android:paddingRight="15sp"
-         android:paddingTop="5sp"
-         android:layout_alignParentBottom="true"
-         android:layout_gravity="center_horizontal"
-         android:textColor="@color/Black"
-         android:text="@string/refresh_list" 
-         android:background="@drawable/custom_button_selector"
-         android:onClick ="onRefreshButtonClicked">
+        android:id="@+id/chat_srch_frag_refresh_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="5sp"
+        android:background="@android:color/white"
+        android:onClick="onRefreshButtonClicked"
+        android:paddingBottom="5sp"
+        android:paddingLeft="15sp"
+        android:paddingRight="15sp"
+        android:paddingTop="5sp"
+        android:text="@string/refresh_list"
+        android:textColor="@color/primaryDarkColor">
 
     </Button>
 

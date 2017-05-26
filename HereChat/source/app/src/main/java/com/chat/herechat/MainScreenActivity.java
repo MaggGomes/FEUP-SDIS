@@ -48,7 +48,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
     static int mDisplayedFragIndex = 0;
     public static long ChatRoomAccumulatingSerialNumber = 0;
     public static String UniqueID = null;
-    public static String UserName = ":>~";                  //setting a default user name
+    public static String UserName = "usName";                  //setting a default user name
     static boolean isToNotifyOnNewMsg = false;              //defines if notifications should be shown on arrival of new messages
     static int refreshPeriod = 40000;                  //defines the peer refresh period
 
