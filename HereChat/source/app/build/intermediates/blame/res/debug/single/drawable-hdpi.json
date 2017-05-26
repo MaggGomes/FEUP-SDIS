@@ -28,12 +28,12 @@
         "source": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-hdpi\\private_chat_icon.png"
     },
     {
-        "merged": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\hosted_icon.png",
-        "source": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-hdpi\\hosted_icon.png"
-    },
-    {
         "merged": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_launcher.png",
         "source": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\hosted_icon.png",
+        "source": "C:\\Users\\joliveira\\Documents\\Universidade\\3A\\2S\\SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-hdpi\\hosted_icon.png"
     },
     {
         "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\public_chat_icon.png",
