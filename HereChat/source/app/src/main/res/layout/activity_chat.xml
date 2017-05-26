@@ -5,7 +5,6 @@
     android:background="@color/listViewBg"
     android:orientation="vertical" >
 
-    <!-- This linear layout is the views lower part: Edit-text and a send button  -->
     <LinearLayout
         android:id="@+id/bottom_write_bar"
         android:layout_width="fill_parent"
@@ -41,7 +40,7 @@
 
     </LinearLayout>
 
-    <!-- this is the upper part: list view and empty view TV  -->
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"

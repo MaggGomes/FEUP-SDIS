@@ -1,4 +1,4 @@
-package com.example.android_final_proj.thread;
+package com.chat.herechat.ServiceHandlers;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -11,52 +11,44 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.example.android_final_proj.Constants;
+import com.chat.herechat.Constants;
 
 /**
  * Opens a socket to a peer and sends a single string. Used to send control messages and user text messages
- * If given a valid Handler, returns a message containing information about whether the sending was successful or not.
  */
-public class SendSingleStringViaSocketThread extends Thread
-{
-	Socket mSocket;
-	Handler mHandler;
-	String mMsg;
-	String mPeerIP;
-	String mRoomUniqueID;  //needed only if we're using a handler
+public class SendControlMessage extends Thread {
+	private Socket mSocket;
+	private Handler mHandler;
+	private String mMsg;
+	private String mPeerIP;
+	private String mRoomUniqueID;
+	private static final int SOCKET_PORT = 4000;
 	
-	public SendSingleStringViaSocketThread(Handler h, String PeerIP, String msg, String RoomUniqueID)
-	{
+	public SendControlMessage(Handler h, String peerIP, String msg, String RoomUniqueID) {
 		mHandler = h;
-		mPeerIP = PeerIP;
+		mPeerIP = peerIP;
 		mMsg = msg;
 		mRoomUniqueID=RoomUniqueID;
 	}
 	
-	public SendSingleStringViaSocketThread(String PeerIP, String msg)
-	{
-		this(null,PeerIP,msg,null);
+	public SendControlMessage(String peerIP, String msg) {
+		this(null,peerIP,msg,null);
 	}
 
 	@Override
-	public void run()
-	{
+	public void run() {
 		PrintWriter mOut=null;
-		try
-		{
+		try {
 		    /**
 		     * Create a client socket with the host,
 		     * port, and timeout information.
 		     */
 			mSocket = new Socket();
 			mSocket.bind(null);
-		    mSocket.connect((new InetSocketAddress(mPeerIP, Constants.WELCOME_SOCKET_PORT)), 3000);
+		    mSocket.connect((new InetSocketAddress(mPeerIP, SOCKET_PORT)), 3000);
 		    mOut =  new PrintWriter(new BufferedWriter(new OutputStreamWriter(mSocket.getOutputStream())), true);
-		}
-
-		catch (IOException e)
-		{
-			SendMessageViaHandler(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_FAILED); //notify that the send has failed
+		} catch (IOException e) {
+			SendMessageViaHandler(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_FAILED);
 			e.printStackTrace();
 			return;
 		}
@@ -67,19 +59,16 @@ public class SendSingleStringViaSocketThread extends Thread
 		
 		if (mHandler!=null) //if we have a handler to return the result to
 			SendMessageViaHandler(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_SUCCESS); //notify that the send was successful
-	}//run()
+	}
 	
-	private void SendMessageViaHandler(String result)
-	{
-		if (mHandler!=null)
-		{
+	private void SendMessageViaHandler(String result) {
+		if (mHandler!=null) {
 			Message msg = mHandler.obtainMessage();
 			Bundle data = new Bundle();
 			data.putString(Constants.SINGLE_SEND_THREAD_KEY_UNIQUE_ROOM_ID, mRoomUniqueID);  //set the room's ID
 			data.putString(Constants.SINGLE_SEND_THREAD_KEY_RESULT, result);  //put the result in the data
 			msg.setData(data);
 			mHandler.sendMessage(msg);
-		}//if
-	}//end of SendMessageViaHandler()
-
-}//class
+		}
+	}
+}

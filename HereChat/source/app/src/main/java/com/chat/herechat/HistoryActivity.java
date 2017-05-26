@@ -1,4 +1,4 @@
-package com.example.android_final_proj;
+package com.chat.herechat;
 
 import java.util.ArrayList;
 
@@ -12,9 +12,9 @@ import android.os.Message;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
-import com.example.android_final_proj.chat.ChatMessage;
-import com.example.android_final_proj.chat.CustomChatAdapter;
-import com.example.android_final_proj.thread.FileHandlerThread;
+import com.chat.herechat.ChatManager.ChatMessage;
+import com.chat.herechat.ChatManager.CustomChatAdapter;
+import com.chat.herechat.ServiceHandlers.FileHandler;
 
 /**
  * Displays the content of a history file, with a similar view to that of a 'ChatActivity'
@@ -73,7 +73,7 @@ public class HistoryActivity extends ListActivity
 		historyLoadDialog.setMessage("Please Wait.");
 		historyLoadDialog.show();
 	
-		new FileHandlerThread(mChatRoomID, mHandler, true,this).start(); //launch the history file reader
+		new FileHandler(mChatRoomID, mHandler, true,this).start(); //launch the history file reader
 	}//end of onResume()
 	
 	private void ParseHistoryFileDataAndUpdateListView(String data)

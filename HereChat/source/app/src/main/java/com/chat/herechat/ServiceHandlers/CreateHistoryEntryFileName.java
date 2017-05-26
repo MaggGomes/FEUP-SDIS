@@ -1,4 +1,4 @@
-package com.example.android_final_proj.thread;
+package com.chat.herechat.ServiceHandlers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,8 +7,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 
-import com.example.android_final_proj.Constants;
-import com.example.android_final_proj.chat.ChatHistoryScreenFrag;
+import com.chat.herechat.Constants;
+import com.chat.herechat.ChatManager.ChatHistoryScreenFrag;
 
 /**
  * 
@@ -19,17 +19,14 @@ import com.example.android_final_proj.chat.ChatHistoryScreenFrag;
 
 
 @SuppressLint("HandlerLeak")
-public class CreatHistoryEntryFromFileNameThread extends Thread
-{
-	ChatHistoryScreenFrag.HistoryEntry mEntry=null;
-	Handler mWorkerHandler=null;
-	Handler mResultHanlder=null;
-	FileHandlerThread mFileHandler=null;
-	Activity mActivity=null;
-
+public class CreateHistoryEntryFileName extends Thread {
+	private ChatHistoryScreenFrag.HistoryEntry mEntry=null;
+	private Handler mWorkerHandler=null;
+	private Handler mResultHanlder=null;
+	private FileHandler mFileHandler=null;
+	private Activity mActivity=null;
 	
-	public CreatHistoryEntryFromFileNameThread(String fileFullName,ChatHistoryScreenFrag.HistoryEntry entery, FragmentActivity fragmentActivity, Handler resHandler)
-	{
+	public CreateHistoryEntryFileName(String fileFullName, ChatHistoryScreenFrag.HistoryEntry entery, FragmentActivity fragmentActivity, Handler resHandler) {
 		mActivity= fragmentActivity;
 		mEntry=entery;
 		mEntry.mID= fileFullName.split("[.]")[0]; //name.txt => name
@@ -56,21 +53,16 @@ public class CreatHistoryEntryFromFileNameThread extends Thread
 	}//end of constructor()
 
 	@Override
-	public void run()
-	{
+	public void run() {
 		super.run();
-		mFileHandler= new FileHandlerThread(mEntry.mID, mWorkerHandler, true,mActivity);
+		mFileHandler= new FileHandler(mEntry.mID, mWorkerHandler, true,mActivity);
 		mFileHandler.start();
-	
-		//wait for the file handler to finish
-		try
-		{
+
+		try {
 			mFileHandler.join();
-		}
-		catch (InterruptedException e)
-		{
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
 	}
-}//end of class
+}

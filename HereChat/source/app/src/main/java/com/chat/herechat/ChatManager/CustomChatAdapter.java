@@ -1,4 +1,4 @@
-package com.example.android_final_proj.chat;
+package com.chat.herechat.ChatManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.example.android_final_proj.R;
+import com.chat.herechat.R;
 
 /**
  * CustomChatAdapter is a Custom BaseAdapter to implement custom ListView rows

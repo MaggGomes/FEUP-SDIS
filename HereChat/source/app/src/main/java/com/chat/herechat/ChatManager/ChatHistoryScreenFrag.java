@@ -1,5 +1,5 @@
 
-package com.example.android_final_proj.chat;
+package com.chat.herechat.ChatManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,11 +25,11 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.example.android_final_proj.Constants;
-import com.example.android_final_proj.thread.CreatHistoryEntryFromFileNameThread;
-import com.example.android_final_proj.HistoryActivity;
-import com.example.android_final_proj.MainScreenActivity;
-import com.example.android_final_proj.R;
+import com.chat.herechat.Constants;
+import com.chat.herechat.ServiceHandlers.CreateHistoryEntryFileName;
+import com.chat.herechat.HistoryActivity;
+import com.chat.herechat.MainScreenActivity;
+import com.chat.herechat.R;
 
 /**
  * The 2nd fragment that is contained in the 'MainScreenActivity'
@@ -264,7 +264,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 
 		for(int i=0; i<mNumOfExistingFiles ;i++){
 			mEntries[i]= new HistoryEntry();
-			CreatHistoryEntryFromFileNameThread th = new CreatHistoryEntryFromFileNameThread(fileList[i], mEntries[i], getActivity(), mHandler);
+			CreateHistoryEntryFileName th = new CreateHistoryEntryFileName(fileList[i], mEntries[i], getActivity(), mHandler);
 			th.start();
 		}//for
 	}//end of loadHistory()

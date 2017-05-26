@@ -1,4 +1,4 @@
-package com.example.android_final_proj.chat;
+package com.chat.herechat.ChatManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,12 +30,12 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.example.android_final_proj.Constants;
-import com.example.android_final_proj.EnableWifiDirectDialog;
-import com.example.android_final_proj.LocalService;
-import com.example.android_final_proj.LocalService.LocalBinder;
-import com.example.android_final_proj.MainScreenActivity;
-import com.example.android_final_proj.R;
+import com.chat.herechat.Constants;
+import com.chat.herechat.EnableWifiDirectDialog;
+import com.chat.herechat.LocalService;
+import com.chat.herechat.LocalService.LocalBinder;
+import com.chat.herechat.MainScreenActivity;
+import com.chat.herechat.R;
 
 /**
  * The 1st fragment that is contained in the 'MainScreenActivity'

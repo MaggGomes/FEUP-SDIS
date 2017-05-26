@@ -1,4 +1,4 @@
-package com.example.android_final_proj;
+package com.chat.herechat;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -35,7 +35,7 @@ public class EnableWifiDirectDialog extends DialogFragment
                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                    @Override
 				public void onClick(DialogInterface dialog, int id) {
-                       // User cancelled the dialog
+                       // Peer cancelled the dialog
                    }
                });
         

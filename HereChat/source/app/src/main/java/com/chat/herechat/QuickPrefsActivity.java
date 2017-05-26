@@ -1,4 +1,4 @@
-package com.example.android_final_proj;
+package com.chat.herechat;
 
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -18,8 +18,7 @@ public class QuickPrefsActivity extends PreferenceActivity {
         setupActionBar();
     }
 
-	 private void setupActionBar()
-	 {
+	 private void setupActionBar() {
 	  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 	  {
 	   // enables the activity icon as a 'home' button. required if "android:targetSdkVersion" > 14
@@ -56,6 +55,5 @@ public class QuickPrefsActivity extends PreferenceActivity {
     	String refreshPeriod = sharedPrefs.getString(Constants.SHARED_PREF_REFRESH_PERIOD, "10000");
     		MainScreenActivity.refreshPeriod = Integer.parseInt(refreshPeriod); //update the refresh period
 
-    }//end of onStop()
-    
+    }
 }

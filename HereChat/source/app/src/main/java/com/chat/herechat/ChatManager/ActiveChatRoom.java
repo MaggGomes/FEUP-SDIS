@@ -1,4 +1,4 @@
-package com.example.android_final_proj.chat;
+package com.chat.herechat.ChatManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,13 +9,13 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 
-import com.example.android_final_proj.Constants;
-import com.example.android_final_proj.thread.FileHandlerThread;
-import com.example.android_final_proj.LocalService;
-import com.example.android_final_proj.MainScreenActivity;
-import com.example.android_final_proj.thread.NewConnectionWorkerThread;
-import com.example.android_final_proj.thread.SendSingleStringViaSocketThread;
-import com.example.android_final_proj.User;
+import com.chat.herechat.Constants;
+import com.chat.herechat.Peer.Peer;
+import com.chat.herechat.ServiceHandlers.ClientSocketHandler;
+import com.chat.herechat.ServiceHandlers.FileHandler;
+import com.chat.herechat.LocalService;
+import com.chat.herechat.MainScreenActivity;
+import com.chat.herechat.ServiceHandlers.SendControlMessage;
 
 /**
  * This class holds all the functionality of an active chat room, both private and group chat, hosted and not hosted.
@@ -23,49 +23,39 @@ import com.example.android_final_proj.User;
  *
  */
 
-public class ActiveChatRoom
-{
-
+public class ActiveChatRoom {
 	public ChatRoomDetails mRoomInfo;            //reference to to the details object of this room
 	public boolean isHostedGroupChat;	          //indicates whether this is a hosted public chat or not
-	public LocalService mService;				  //reference to the service
-	public ArrayList<User> mBannedUsers=null;	  //a list of users that are banned from joining this room
-	public Handler mSingleSendThreadMessageReceiver=null;	//used for receiving messages from a 'SendSingleStringViaSocketThread'
-	public Handler mFileWriterResultHandler=null;			//used for receiving messages from a 'FileHandlerThread' 
+	private LocalService mService;				  //reference to the service
+	private ArrayList<Peer> mBannedUsers=null;	  //a list of users that are banned from joining this room
+	public Handler mSingleSendThreadMessageReceiver=null;	//used for receiving messages from a 'SendControlMessage'
+	private Handler mFileWriterResultHandler=null;			//used for receiving messages from a 'FileHandler'
 	private Semaphore semaphore = new Semaphore(1, true);   //used to synch between file writers
 
-
-	//Constructor
 	@SuppressLint("HandlerLeak")
-	public ActiveChatRoom(LocalService srv,boolean isHosted, ChatRoomDetails info)
-	{
+	public ActiveChatRoom(LocalService srv,boolean isHosted, ChatRoomDetails info) {
 		mService = srv;
 		this.isHostedGroupChat = isHosted;
 		mRoomInfo = info;
-		mBannedUsers = new ArrayList<User>();
+		mBannedUsers = new ArrayList<Peer>();
 
 		//define a handler to be triggered when the file-writer completes the job
-		mFileWriterResultHandler = new Handler(mService.getMainLooper())
-		{
+		mFileWriterResultHandler = new Handler(mService.getMainLooper()) {
 			@Override
-			public void handleMessage(Message msg)
-			{
+			public void handleMessage(Message msg) {
 				ActiveChatRoom.this.semaphore.release(); //release the semaphore when the file is read
 			}
 		};
 
-	}//end of constructor
+	}
 
 	/**
 	 * Forwards a newly received message to all relevant users
 	 * @param msg - the string, as came via the socket
 	 * @param isSelfMsg - indicating if this message came from us or a peer
 	 */
-	public void ForwardMessage(String[] msg, boolean isSelfMsg)
-	{
-
-		if (!isSelfMsg) //if this msg came from a peer
-		{
+	public void ForwardMessage(String[] msg, boolean isSelfMsg) {
+		if (!isSelfMsg) {
 			if (!mRoomInfo.hasNewMsg) //on a state change of this flag
 				mService.BroadcastRoomsUpdatedEvent(); //notify that this room has an unread message
 			mRoomInfo.hasNewMsg=true; //mark that this room has received a message. Will be reset by the 'ChatAcvitiy'
@@ -74,19 +64,17 @@ public class ActiveChatRoom
 		String entireMsg = Constants.StringArrayToStringWithSeperators(msg,Constants.STANDART_FIELD_SEPERATOR);  //convert back to the original string
 
 		// we need to forward an incoming message only if this chat is hosted or this chat isn't hosted and it's a self message
-		if (isHostedGroupChat || (!isHostedGroupChat && isSelfMsg))
-		{
-			for (User user : mRoomInfo.Users)  //for every participating user
+		if (isHostedGroupChat || (!isHostedGroupChat && isSelfMsg)) {
+			for (Peer user : mRoomInfo.Users)  //for every participating user
 			{
 				if (!user.uniqueID.equalsIgnoreCase(senderUnique)) //if this user isn't the one who sent this message (done to avoid loopbacks)
 					{
-					new SendSingleStringViaSocketThread(null,user.IPaddr,entireMsg,mRoomInfo.RoomID).start(); //forward the msg
+					new SendControlMessage(null,user.IPaddr,entireMsg,mRoomInfo.RoomID).start(); //forward the msg
 					}
-			}//for
-		}//if
+			}
+		}
 
-		if (!isSelfMsg)
-		{
+		if (!isSelfMsg) {
 			//No we change the incoming string to a file writeable format
 			String[] temp = new String[4];
 			temp[0] = msg[1];
@@ -103,9 +91,7 @@ public class ActiveChatRoom
 			intent.putExtra(Constants.SINGLE_SEND_THREAD_KEY_UNIQUE_ROOM_ID, mRoomInfo.RoomID); //set the room's ID
 			mService.sendBroadcast(intent);
 		}
-
-	}//end of ForwardMessage()
-
+	}
 
 	/**
 	 * Will be called by the service when a new message for this room arrives.
@@ -113,21 +99,18 @@ public class ActiveChatRoom
 	 * by the 'ChatActivity'
 	 * @param msg - the string to write to the file
 	 */
-	public void UpdateFileWithNewMsg (String msg)
-	{
-		try
-		{
+	public void UpdateFileWithNewMsg (String msg) {
+		try {
 			semaphore.acquire();
-		}
-		catch (InterruptedException e)
-		{
+		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}  //lock the access to the history file. Unlock is done by a handler
-		FileHandlerThread fh = new FileHandlerThread (mRoomInfo.RoomID,mFileWriterResultHandler,false,mService);
-		fh.UpdateDataToWriteBuffer(msg);   //give the thread a new data string to write
-		fh.start(); 					   //start a writer thread
-		fh.Kill();                         //close the thread nicely
-	}//end of UpdateFileWithNewMsg()
+		}
+
+		FileHandler fh = new FileHandler(mRoomInfo.RoomID,mFileWriterResultHandler,false,mService);
+		fh.UpdateDataToWriteBuffer(msg);
+		fh.start();
+		fh.Kill();
+	}
 
 	/**
 	 * Used only by a hosted group chat. Adds a user to the chat group if he's not banned and the password matches
@@ -136,8 +119,7 @@ public class ActiveChatRoom
 	 * Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_BANNED if the user is banned
 	 * and Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_WRONG_PW if the offered password is wrong
 	 */
-	public String AddUser (User user, String suggestedPw)
-	{
+	public String AddUser (Peer user, String suggestedPw) {
 		//check if this user already exists in the room:
 		if ( Constants.CheckIfUserExistsInListByUniqueID(user.uniqueID, mRoomInfo.Users)!=null)
 			return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST;
@@ -151,48 +133,33 @@ public class ActiveChatRoom
 		mRoomInfo.Users.add(user);  //add this user to the mailing list
 		//return positive reply
 		return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST;
-	}//end of AddUser()
+	}
 
 	/**
 	 * Deletes and re-initiates the history file associated with this chat.
 	 */
-	public void DeleteHistory()
-	{
+	public void DeleteHistory() {
 		String path  = mService.getFilesDir().getPath()+ "/" +mRoomInfo.RoomID + ".txt";
 		File f = new File(path);
-		try
-		{
+		try {
 			semaphore.acquire();
-		}
-		catch (InterruptedException e)
-		{
+		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}  //lock. Unlock is done by the handler
+		}
 
 		if (f.delete())  //delete the file. if successful, rebuild a new file template
 			ChatActivity.InitHistoryFile(mRoomInfo.RoomID, mFileWriterResultHandler, mRoomInfo.Name, mRoomInfo.isPrivateChatRoom, mService);
 		else //if the file deletion has failed
 			semaphore.release();
-
-	}//end of DeleteHistory()
-
-	/**
-	 * returns true if this is a group chat room, false if it's a private chat.
-	 * @return true if this is a group chat room, false otherwise
-	 */
-	public boolean getIsGroupChat()
-	{
-		return !(mRoomInfo.isPrivateChatRoom);
 	}
 
 	/**
 	 * Removes a user from the chat room
 	 * @param userUniqueId - the unique id of the user to be removed
 	 */
-	public void RemoveUserFromTheUsersList(String userUniqueId)
-	{
+	public void RemoveUserFromTheUsersList(String userUniqueId) {
 		HandleKickOrBanRequest(userUniqueId, false, false);
-	}//end of RemoveUserFromTheUsersList()
+	}
 
 
 	/**
@@ -201,84 +168,71 @@ public class ActiveChatRoom
 	 * @param isBanned - indicating whether this user is also banned
 	 * @param isToSendMsgToPeer - indicates whether a reply message should be sent to the peer
 	 */
-	public void HandleKickOrBanRequest (String userUniqueId, boolean isBanned, boolean isToSendMsgToPeer)
-	{
-		User userToKick=null;
+	public void HandleKickOrBanRequest (String userUniqueId, boolean isBanned, boolean isToSendMsgToPeer) {
+		Peer userToKick=null;
 
-		for (User user : mRoomInfo.Users) //for each user
-		{
-			if (user.uniqueID.equalsIgnoreCase(userUniqueId))
-			{
+		for (Peer user : mRoomInfo.Users) {
+			if (user.uniqueID.equalsIgnoreCase(userUniqueId)) {
 				userToKick=user;
 				break;
 			}
 		}
 
-		if (userToKick!=null)
-		{
+		if (userToKick!=null) {
 			mRoomInfo.Users.remove(userToKick);
 
 			if (isToSendMsgToPeer)
 				SendKickOrBanMsgToUser(userToKick.IPaddr, isBanned);
 		}
-
-	}//end of KickUser()
-
+	}
 
 	/**
 	 * Sends a kick or ban message to a peer that participates in this room
 	 * @param IPaddr - peer's IP address
 	 * @param isBanned - true indicates that the user is banned, false indicates that he's kicked.
 	 */
-	private void SendKickOrBanMsgToUser(String IPaddr, boolean isBanned)
-	{
-		if (isBanned) //send a ban msg
-		{
-			NewConnectionWorkerThread.SendReplyForAJoinRequest(
+	private void SendKickOrBanMsgToUser(String IPaddr, boolean isBanned) {
+		if (isBanned) {
+			ClientSocketHandler.SendReplyForAJoinRequest(
 					IPaddr, false, mRoomInfo.RoomID, Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_BANNED, false);
-		}
-		else //send a kick msg
-		{
-			NewConnectionWorkerThread.SendReplyForAJoinRequest(
+		} else {
+			ClientSocketHandler.SendReplyForAJoinRequest(
 					IPaddr, false, mRoomInfo.RoomID, Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_KICKED, false);
 		}
-	}//end of SendKickOrBanMsgToUser()
+	}
 
 	/**
 	 * Bans and kicks a user from this chat room
 	 * @param userUniqueId - the user's unique id
 	 */
-	public void BanUser (String userUniqueId)
-	{
+	public void BanUser (String userUniqueId) {
 		if (!CheckIfUserIsBanned(userUniqueId)) //if this user isn't banned already
 		{
-			User toBan =  Constants.CheckIfUserExistsInListByUniqueID(userUniqueId, mService.mDiscoveredUsers); //find the user to ban
+			Peer toBan =  Constants.CheckIfUserExistsInListByUniqueID(userUniqueId, mService.mDiscoveredUsers); //find the user to ban
 			mBannedUsers.add(toBan);  //add to the shitlist
 			HandleKickOrBanRequest(userUniqueId, true, true);
 		}
-	}//end of BanUser()
+	}
 
 	/**
 	 * Kicks a user out of the room and send an appropriate message
 	 * @param userUniqueId - the user's unique id
 	 */
-	public void KickUser (String userUniqueId)
-	{
+	public void KickUser (String userUniqueId) {
 		HandleKickOrBanRequest(userUniqueId, false, true);
-	}//end of KickUser()
+	}
 
 	/**
 	 * Checks if a user is banned. Used when a user tries to join this room or send a message to it.
 	 * @param userUniqueId - the peer's unique ID
 	 * @return true if he's banned, false otherwise.
 	 */
-	public boolean CheckIfUserIsBanned (String userUniqueId)
-	{
+	public boolean CheckIfUserIsBanned (String userUniqueId) {
 		if ( Constants.CheckIfUserExistsInListByUniqueID(userUniqueId, mBannedUsers)!=null)
 			return true;
 
 		return false;
-	}//end of CheckIfUserIsBanned()
+	}
 
 	/**
 	 * this function is called when we discovered that the room's name was changed and should be updated.
@@ -308,13 +262,13 @@ public class ActiveChatRoom
 					//is the history was deleted we want to create new one
 					if(f.delete())
 						UpdateFileWithNewMsg(ans);
-				}//if
+				}
 			}// handleMessage(Message msg)
-		};//new handle
+		};
 
 		//read file
-		new FileHandlerThread(mRoomInfo.RoomID, msgHandler, true, ActiveChatRoom.this.mService).start();
-	}//updateUserNameInTheHistoryLogFile()
+		new FileHandler(mRoomInfo.RoomID, msgHandler, true, ActiveChatRoom.this.mService).start();
+	}
 
 
 	/**
@@ -325,21 +279,19 @@ public class ActiveChatRoom
 	private String StringArrayToStringWithSeperatedWith_lines(String [] input){
 		StringBuilder buffer = new StringBuilder();
 		int length = input.length;
-		for (int i=0; i<length ;i++)
-		{
+		for (int i=0; i<length ;i++) {
 			buffer.append(input[i]);
 			buffer.append("\r\n");
 		}
 		return new String(buffer.toString());
-	}// StringArrayToStringWithSeperatedWith_lines(String [] input)
+	}
 
 	/**
 	 * Used to convert the chat room's info to a string that can be sent to other users
 	 * String structure: RoomName$RoomID$UserList$RequiresPw(True/False)
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		StringBuilder ans = new StringBuilder();
 		ans.append(mRoomInfo.Name+Constants.STANDART_FIELD_SEPERATOR); //set the name
 		ans.append(mRoomInfo.RoomID+Constants.STANDART_FIELD_SEPERATOR); //set the ID
@@ -348,10 +300,9 @@ public class ActiveChatRoom
 		ans.append((mRoomInfo.Password==null? "false" : "true")+Constants.STANDART_FIELD_SEPERATOR); //set pw requirement
 
 		return ans.toString();
-	}//end of tostring()
+	}
 
-	public void CloseRoomAndNotifyUsers()
-	{
+	public void CloseRoomAndNotifyUsers() {
 		StringBuilder msg = new StringBuilder();
 
 		msg.append(Integer.toString(Constants.CONNECTION_CODE_JOIN_ROOM_REPLY) + Constants.STANDART_FIELD_SEPERATOR); //set opcode
@@ -361,11 +312,10 @@ public class ActiveChatRoom
 		msg.append(Constants.SERVICE_NEGATIVE_REPLY_REASON_ROOM_CLOSED + Constants.STANDART_FIELD_SEPERATOR);  //set denial reason
 		msg.append(mRoomInfo.RoomID + Constants.STANDART_FIELD_SEPERATOR);  //set room's ID
 
-		for (User user : mRoomInfo.Users)  //for every participating user
-		{
-			new SendSingleStringViaSocketThread(null,user.IPaddr,msg.toString(),mRoomInfo.RoomID).start(); //send the msg
-		}//for
-	}//end of CloseRoomAndNotifyUsers()
+		for (Peer user : mRoomInfo.Users) {
+			new SendControlMessage(null,user.IPaddr,msg.toString(),mRoomInfo.RoomID).start(); //send the msg
+		}
+	}
 
 	/**
 	 * Clears the banned users list
@@ -379,8 +329,7 @@ public class ActiveChatRoom
 	 * Valid only for a not-hosted public chat room
 	 * Closes a connection to a not-hosted public chat room
 	 */
-	public void DisconnectFromHostingPeer()
-	{
+	public void DisconnectFromHostingPeer() {
 		StringBuilder msg = new StringBuilder();
 		 //set the 'Leave room' opcode:
 		msg.append(Integer.toString(Constants.CONNECTION_CODE_DISCONNECT_FROM_CHAT_ROOM) + Constants.STANDART_FIELD_SEPERATOR);
@@ -388,7 +337,6 @@ public class ActiveChatRoom
 		msg.append(MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);   //add the self unique
 		msg.append(mRoomInfo.RoomID + Constants.STANDART_FIELD_SEPERATOR);  //set the room's ID
 
-		new SendSingleStringViaSocketThread(mRoomInfo.Users.get(0).IPaddr, msg.toString()).start();  //send the reply
-	}//end of DisconnectFromHostingPeer()
-
-}//Class
+		new SendControlMessage(mRoomInfo.Users.get(0).IPaddr, msg.toString()).start();  //send the reply
+	}
+}

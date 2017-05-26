@@ -1,4 +1,4 @@
-package com.example.android_final_proj;
+package com.chat.herechat;
 
 
 import java.io.File;
@@ -26,14 +26,15 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.TaskStackBuilder;
 
-import com.example.android_final_proj.chat.ActiveChatRoom;
-import com.example.android_final_proj.chat.ChatActivity;
-import com.example.android_final_proj.chat.ChatRoomDetails;
-import com.example.android_final_proj.chat.ChatSearchScreenFrag;
-import com.example.android_final_proj.Receiver.WiFiDirectBroadcastReceiver;
-import com.example.android_final_proj.thread.NewConnectionWorkerThread;
-import com.example.android_final_proj.thread.SendSingleStringViaSocketThread;
-import com.example.android_final_proj.thread.WelcomeSocketThread;
+import com.chat.herechat.ChatManager.ActiveChatRoom;
+import com.chat.herechat.ChatManager.ChatActivity;
+import com.chat.herechat.ChatManager.ChatRoomDetails;
+import com.chat.herechat.ChatManager.ChatSearchScreenFrag;
+import com.chat.herechat.Peer.Peer;
+import com.chat.herechat.Receiver.WiFiDirectBroadcastReceiver;
+import com.chat.herechat.ServiceHandlers.ClientSocketHandler;
+import com.chat.herechat.ServiceHandlers.SendControlMessage;
+import com.chat.herechat.ServiceHandlers.ServerSocketHandler;
 
 /**
  * Our service is in charge of managing all the chat rooms and conversations. It'll be started with
@@ -46,7 +47,7 @@ public class LocalService extends Service
 {
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
-	WelcomeSocketThread mWelcomeSocketThread = null;  //the welcome socket thread
+	ServerSocketHandler mWelcomeSocketThread = null;  //the welcome socket thread
     Handler mSocketSendResultHandler=null;  		  //used to receive the result of message sending operations
     public Handler mRefreshHandler=null;					  //acts a timer to count time between refresh operations
 	public WiFiDirectBroadcastReceiver mWifiP2PReceiver=null; //b-cast receiver
@@ -54,7 +55,7 @@ public class LocalService extends Service
 	public WifiP2pDevice[] mDevices;						  //used to discover new peers
 	public HashMap<String, ActiveChatRoom> mActiveChatRooms = null;        //all the chat rooms in which this peer is active in
 	public HashMap<String, ChatRoomDetails> mDiscoveredChatRoomsHash=null; //all discovered chat rooms
-	public ArrayList<User> mDiscoveredUsers = null;						//all discovered peers
+	public ArrayList<Peer> mDiscoveredUsers = null;						//all discovered peers
 	public HashMap<String, String> mBannedFromPrivateChatUsers = null;	    //peers that are banned form private chat with us
 
 	public boolean mIsWifiGroupOwner=false;             //indicates that this device is the group owner, meaning he's the one
@@ -70,11 +71,10 @@ public class LocalService extends Service
 	public final int Handler_WHAT_valueForActivePeerTO = 10;
 
 	@Override
-    public void onCreate()
-    {
+    public void onCreate() {
     	super.onCreate();
     	InitClassMembers();
-      	 //create a message handler that'll work with the "SendSingleStringViaSocketThread" threads
+      	 //create a message handler that'll work with the "SendControlMessage" threads
     	if (mSocketSendResultHandler==null)
 	      	mSocketSendResultHandler = new Handler()
 	      	{
@@ -121,7 +121,7 @@ public class LocalService extends Service
 	      	mRefreshHandler.sendEmptyMessageDelayed(0, 500);
       	}//if
 
-    }//end of onCreate()
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
@@ -130,7 +130,7 @@ public class LocalService extends Service
 
     	if (mWelcomeSocketThread==null) // if a welcome socket thread wasn't created yet
     	{
-    		mWelcomeSocketThread = new WelcomeSocketThread(this); //create a new welcome socket thread
+    		mWelcomeSocketThread = new ServerSocketHandler(this); //create a new welcome socket thread
     		mWelcomeSocketThread.start(); //launch the thread
     	}
 
@@ -185,7 +185,7 @@ public class LocalService extends Service
 			   msg = ConstructJoinMessage(Constants.CONNECTION_CODE_JOIN_ROOM_REQUEST, roomUniqueID, password); //create a connection msg for a public chat room
 
 		   String peerIP = mDiscoveredChatRoomsHash.get(roomUniqueID).Users.get(0).IPaddr; //get the target's IP
-		   new SendSingleStringViaSocketThread(mSocketSendResultHandler, peerIP, msg, roomUniqueID).start(); //start the thread
+		   new SendControlMessage(mSocketSendResultHandler, peerIP, msg, roomUniqueID).start(); //start the thread
 	   }//if
 	   else //an active room already exists
 	   {
@@ -198,11 +198,10 @@ public class LocalService extends Service
 	   }
    }//end of EstablishChatConnection()
 
-   public void OnWelcomeSocketCreateError()
-   {
+   public void OnServerSocketError() {
 	   Intent intent = CreateBroadcastIntent();
 	   intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY,Constants.SERVICE_BROADCAST_WELCOME_SOCKET_CREATE_FAIL);
-   }//end of OnWelcomeSocketCreateError()
+   }
 
    /**
     * Called by a worker thread when a new chat message arrives.
@@ -298,10 +297,10 @@ public class LocalService extends Service
 	   {
 		   //Now we want to create a newly discovered private chat room
 			ArrayList<ChatRoomDetails> ChatRooms = new ArrayList<ChatRoomDetails>();
-			User host = Constants.CheckIfUserExistsInListByUniqueID(msg[2], mDiscoveredUsers);
+			Peer host = Constants.CheckIfUserExistsInListByUniqueID(msg[2], mDiscoveredUsers);
 
 			//Create an array list to hold this single user
-			ArrayList<User> user = new ArrayList<User>(); //a list with a single peer
+			ArrayList<Peer> user = new ArrayList<Peer>(); //a list with a single peer
 			user.add(host);
 
 			ChatRoomDetails PrivateChatRoom = new ChatRoomDetails(host.uniqueID, host.name, Constants.GetTime(), user,true); //create a new private chat room detail
@@ -355,7 +354,7 @@ public class LocalService extends Service
 	   {
 		   String peerIP = mDiscoveredChatRoomsHash.get(chatRoomUnique).Users.get(0).IPaddr; //get the target's IP
 		   //create a new sender thread:
-		    new SendSingleStringViaSocketThread(mSocketSendResultHandler, peerIP, toSend, chatRoomUnique).start();
+		    new SendControlMessage(mSocketSendResultHandler, peerIP, toSend, chatRoomUnique).start();
 	   }
    }//end of SendMessage()
 
@@ -377,7 +376,7 @@ public class LocalService extends Service
    }//end of ConvertMsgTextToSocketStringFormat()
 
    /**
-    * Will be called by a 'NewConnectionWorkerThread' when a reply comes from a peer we've requested to chat with.
+    * Will be called by a 'ClientSocketHandler' when a reply comes from a peer we've requested to chat with.
     * Sends a broadcast with the result's details
     * @param isApproved - true / false
     * @param reason - the reason in the case of denial of access
@@ -548,7 +547,7 @@ public class LocalService extends Service
     	{
 			synchronized (mDiscoveredUsers)
 			{
-				for (User user: mDiscoveredUsers) //for each existing user
+				for (Peer user: mDiscoveredUsers) //for each existing user
 				{
 					if (user.IPaddr.equalsIgnoreCase(peerIP)) //if this IP exists
 					{
@@ -559,7 +558,7 @@ public class LocalService extends Service
 
 				if (!isFound)
 				{
-					User peer = new User(null, peerIP, null); //create a new peer
+					Peer peer = new Peer(null, peerIP, null); //create a new peer
 					mDiscoveredUsers.add(peer);
 				}
 			}//synch
@@ -568,7 +567,7 @@ public class LocalService extends Service
     	{
 			synchronized (mDiscoveredUsers)
 			{
-				for (User user: mDiscoveredUsers) //for each existing user
+				for (Peer user: mDiscoveredUsers) //for each existing user
 				{
 					//if we found the user
 					if ( (user.uniqueID!=null && user.uniqueID.equalsIgnoreCase(unique)) || user.IPaddr.equalsIgnoreCase(peerIP))
@@ -584,7 +583,7 @@ public class LocalService extends Service
 
 				if(!isFound) //if this peer doesn't exist in our registry at all
 				{
-					User peer = new User(unique, peerIP, name); //create a new peer
+					Peer peer = new Peer(unique, peerIP, name); //create a new peer
 					mDiscoveredUsers.add(peer);
 				}
 
@@ -628,12 +627,12 @@ public class LocalService extends Service
 
     	if (!mDiscoveredUsers.isEmpty())
     	{
-    	for (User user : mDiscoveredUsers) //for each discovered user
+    	for (Peer user : mDiscoveredUsers) //for each discovered user
     		{
-    		new NewConnectionWorkerThread(this, user, Constants.CONNECTION_CODE_DISCOVER).start(); //start a new query
+    		new ClientSocketHandler(this, user, Constants.CONNECTION_CODE_DISCOVER).start(); //start a new query
     		//if this is the group's owner: send a peer publication string
     		if (mIsWifiGroupOwner && allDiscovredUsers!=null)
-    			new SendSingleStringViaSocketThread(user.IPaddr, allDiscovredUsers).start(); //send a peer publication message
+    			new SendControlMessage(user.IPaddr, allDiscovredUsers).start(); //send a peer publication message
     		}
     	}
 
@@ -770,56 +769,51 @@ public class LocalService extends Service
 	 */
 	public void kill(){
 		if(mWelcomeSocketThread!=null){
-			mWelcomeSocketThread.kill();
+			mWelcomeSocketThread.stopSocket();
 			mWelcomeSocketThread.interrupt(); //close the welcome socket thread
 		}
-		try
-		{
+
+		try {
 			if (mWifiP2PReceiver!=null)
 				unregisterReceiver(mWifiP2PReceiver);
-		}
-		catch (Exception e) {}
+		} catch (Exception e) {}
 
-		stopSelf(); //commit suicide
-	}//end of kill()
+		stopSelf();
+	}
 
 	/**
 	 * Initializes member variables
 	 */
-	private void InitClassMembers()
-	{
-    	if (mDiscoveredChatRoomsHash==null)
-    	{
+	private void InitClassMembers() {
+    	if (mDiscoveredChatRoomsHash==null) {
     		mDiscoveredChatRoomsHash = new HashMap<String, ChatRoomDetails>();
     	}
-    	if (mDiscoveredUsers==null)
-    	{
-    		mDiscoveredUsers = new ArrayList<User>();
+
+    	if (mDiscoveredUsers==null) {
+    		mDiscoveredUsers = new ArrayList<Peer>();
     	}
-      	if (mActiveChatRooms==null)
-    	{
+
+      	if (mActiveChatRooms==null) {
       		mActiveChatRooms = new HashMap<String, ActiveChatRoom>();
     	}
-      	if (mBannedFromPrivateChatUsers==null)
-    	{
+
+      	if (mBannedFromPrivateChatUsers==null) {
       		mBannedFromPrivateChatUsers= new HashMap<String,String>();
     	}
 
 		if (mNotificationManager==null)
 			mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-	}//end of InitClassMembers()
+	}
 
 	/**
 	 * Creates a new hosted public chat room
 	 * @param name - the room's desired name
 	 * @param password - the room's desired password. NULL means that there's no password
 	 */
-	public void CreateNewHostedPublicChatRoom (String name, String password)
-	{
-		//create new details:
+	public void CreateNewHostedPublicChatRoom (String name, String password) {
 		ChatRoomDetails newDetails = new ChatRoomDetails(
 				MainScreenActivity.UniqueID + "_" + (++MainScreenActivity.ChatRoomAccumulatingSerialNumber),
-						name, null, new ArrayList<User>(), password, false);
+						name, null, new ArrayList<Peer>(), password, false);
 		//create a new active room:
 		ActiveChatRoom newActiveRoom = new ActiveChatRoom(this, true, newDetails);
 		//init a history file if necessary:
@@ -830,25 +824,23 @@ public class LocalService extends Service
 		BroadcastRoomsUpdatedEvent();
 		//start a new logic discovery procedure to update all peers about the new room list
 		OnRefreshButtonclicked();
-	}//end of CreateNewPublicChatRoom()
+	}
 
 	/**
 	 * Creates a new active chat room, if it doesn't exist already
 	 * @param input - incoming request string after parsing
 	 */
-	public void CreateNewPrivateChatRoom(String[] input)
-	{
-		   if (mActiveChatRooms.get(input[2])==null) //if this chat doesn't exist already
-		   {
+	public void CreateNewPrivateChatRoom(String[] input) {
+		   if (mActiveChatRooms.get(input[2])==null) {
 			   ChatRoomDetails details = mDiscoveredChatRoomsHash.get(input[2]); //get a reference to the chat's details
 			   ActiveChatRoom room = new ActiveChatRoom(this,false, details);  //create a new chat room
 
 			   //check if a history file should be created for this new room
 			   InitHistoryFileIfNecessary(details.RoomID,details.Name, details.isPrivateChatRoom);
 
-			   mActiveChatRooms.put(input[2], room);  //add to the active chats hash
+			   mActiveChatRooms.put(input[2], room);
 		   }
-	}//end of CreateNewPrivateChatRoom()
+	}
 
 	/**
 	 * Initializes a history file if it doesn't exist already
@@ -856,29 +848,26 @@ public class LocalService extends Service
 	 * @param RoomName - the chat room's name
 	 * @param isPrivate - true if this room is private, false otherwise
 	 */
-	private void InitHistoryFileIfNecessary(String roomID, String RoomName, boolean isPrivate)
-	{
+	private void InitHistoryFileIfNecessary(String roomID, String RoomName, boolean isPrivate) {
 			//We want to know if a history file exists already
 			String path  = getFilesDir().getPath()+ "/" +roomID + ".txt";
 			File f = new File(path);
-		   if (!f.isFile()) //if a history file doesn't exist already
-		   {
+		   if (!f.isFile()) {
 			   //create a new history file:
 			   ChatActivity.InitHistoryFile(roomID, null, RoomName, isPrivate, this);
 		   }
-	}//end of InitHistoryFileIfNecessary()
+	}
 
 	/**
 	 * Called by {@link ChatActivity} when a peer wants to leave a public chat that we host
 	 * @param peerUnique - the peer's unique ID
 	 * @param roomUnique - the chat room's unique ID
 	 */
-	public void OnRequestToRemoveFromHostedChat(String peerUnique, String roomUnique)
-	{
+	public void OnRequestToRemoveFromHostedChat(String peerUnique, String roomUnique) {
 		ActiveChatRoom activeRoom = mActiveChatRooms.get(roomUnique);
 		if (activeRoom!=null)
 			activeRoom.RemoveUserFromTheUsersList(peerUnique);
-	}//end of OnRequestToRemoveFromHostedChat()
+	}
 
 	/**
 	 * Called by {@link ChatActivity} when a host wished to kick or ban a participating peer
@@ -886,8 +875,7 @@ public class LocalService extends Service
 	 * @param userUnique - the peer's unique ID
 	 * @param isBanned - true if the user should be banned, false if he should be kicked only
 	 */
-	public void KickOrBanUserFromHostedChat(ChatRoomDetails info, String userUnique, boolean isBanned)
-	{
+	public void KickOrBanUserFromHostedChat(ChatRoomDetails info, String userUnique, boolean isBanned) {
 		ActiveChatRoom activeRoom = mActiveChatRooms.get(info.RoomID);
 		if (activeRoom!=null)
 		{
@@ -896,60 +884,54 @@ public class LocalService extends Service
 			else
 				activeRoom.KickUser(userUnique);
 		}
-	}//end of KickUserFromHostedChat()
+	}
 
 	/**
 	 * The user wished to leave a public chat room which he's not the host of
 	 * @param info - the room's details
 	 */
-	public void CloseNotHostedPublicChatRoom (ChatRoomDetails info)
-	{
+	public void CloseNotHostedPublicChatRoom (ChatRoomDetails info) {
 		ActiveChatRoom activeRoom = mActiveChatRooms.get(info.RoomID);
-		if (activeRoom!=null)
-		{
+		if (activeRoom!=null) {
 			activeRoom.DisconnectFromHostingPeer();
 			mActiveChatRooms.remove(activeRoom.mRoomInfo.RoomID);  //remove from the active rooms list
 			BroadcastRoomsUpdatedEvent();
 		}
-	}//end of CloseNotHostedPublicChatRoom()
+	}
 
 	/**
 	 * The host wished to leave and close a public chat room
 	 * @param info - the room's details
 	 */
-	public void CloseHostedPublicChatRoom (ChatRoomDetails info)
-	{
+	public void CloseHostedPublicChatRoom (ChatRoomDetails info) {
 		ActiveChatRoom activeRoom = mActiveChatRooms.get(info.RoomID);
-		if (activeRoom!=null)
-		{
+		if (activeRoom!=null) {
 			activeRoom.CloseRoomAndNotifyUsers();
-			mActiveChatRooms.remove(activeRoom.mRoomInfo.RoomID);  //remove from the active chat rooms list
+			mActiveChatRooms.remove(activeRoom.mRoomInfo.RoomID);
 			BroadcastRoomsUpdatedEvent();
 		}
-	}//end of CloseHostedPublicChatRoom()
+	}
 
 	/**
 	 * Clears the banned users list of a single public chat room
 	 * @param info - the room's details
 	 */
-	public void ClearBannedUsersListInPublicRoom (ChatRoomDetails info)
-	{
+	public void ClearBannedUsersListInPublicRoom (ChatRoomDetails info) {
 		ActiveChatRoom room = mActiveChatRooms.get(info.RoomID);
 		if (room!=null)
 			room.ClearBannedUsersList();
-	}//end of ClearBannedUsersListInPublicRoom()
+	}
 
 	/**
 	 * Relevant only for a private chat
 	 * Updates the peer's name in the history log file
 	 * @param info - the room's details
 	 */
-	public void UpdatePrivateChatRoomNameInHistoryFile(ChatRoomDetails info)
-	{
+	public void UpdatePrivateChatRoomNameInHistoryFile(ChatRoomDetails info) {
 		ActiveChatRoom room = mActiveChatRooms.get(info.RoomID);
 		if (room!=null)
 			room.updateUserNameInTheHistoryLogFile();
-	}//end of UpdatePrivateChatRoomNameInHistoryFile()
+	}
 
 
 	/**
@@ -957,14 +939,12 @@ public class LocalService extends Service
 	 * This string is later shown to the user via notification
 	 * @return string
 	 */
-	private String CreateNewMsgNotificationString ()
-	{
+	private String CreateNewMsgNotificationString () {
 		StringBuilder builder = new StringBuilder();
 		int numOfRoomsWithNewMsgs=0;
 
 		Collection<ActiveChatRoom> chatRooms = mActiveChatRooms.values();  //get all available active chat rooms
-		for (ActiveChatRoom room : chatRooms) //for each chat room
-		{
+		for (ActiveChatRoom room : chatRooms) {
 			//we want to check every active room, except the one that is displayed by the chat activity, for new messages
 			if ( (DisplayedAtChatActivity==null || !room.mRoomInfo.RoomID.equalsIgnoreCase(DisplayedAtChatActivity.RoomID))
 					&& room.mRoomInfo.hasNewMsg)
@@ -972,7 +952,7 @@ public class LocalService extends Service
 				builder.append(room.mRoomInfo.Name+", "); //add the room's name
 				numOfRoomsWithNewMsgs++;
 				}
-		}//for
+		}
 
 		if (numOfRoomsWithNewMsgs==0) //if we don't need to raise a notification
 			return null;
@@ -987,48 +967,40 @@ public class LocalService extends Service
 					" chat rooms: ");
 
 		return builder.toString();
-	}//end of CreateNewMsgNotificationString()
+	}
 
 	/**
 	 * Removes a single chat room from the discovered rooms list
 	 * Called by the {@link ChatActivity} when a 'Room closed' or 'Room not exisitng' message is received
 	 * @param RoomID
 	 */
-	public void RemoveFromDiscoveredChatRooms (String RoomID)
-	{
-		synchronized (mDiscoveredChatRoomsHash)
-		{
-			//get the room to be removed
+	public void RemoveFromDiscoveredChatRooms (String RoomID) {
+		synchronized (mDiscoveredChatRoomsHash) {
 			ChatRoomDetails toRemove = mDiscoveredChatRoomsHash.get(RoomID);
 			if (toRemove!=null)
 				mDiscoveredChatRoomsHash.remove(RoomID);
-		}//synch
+		}
 
 		BroadcastRoomsUpdatedEvent();
-	}//end of RemoveFromDiscoveredChatRooms()
-
+	}
 	/**
 	 * Called by the {@link ChatActivity} when a public room's owner kicks or bans us
 	 * @param details
 	 */
-	public void RemoveActiveRoomOnKickOrBan(ChatRoomDetails details)
-	{
-		synchronized (mActiveChatRooms)
-		{
+	public void RemoveActiveRoomOnKickOrBan(ChatRoomDetails details) {
+		synchronized (mActiveChatRooms) {
 			if (mActiveChatRooms.containsKey(details.RoomID))
 				mActiveChatRooms.remove(details.RoomID);
 		}
-	}//end of RemoveActiveRoomOnKickOrBan()
+	}
 
 	/**
 	 * Removes a single discovered chat room on the event of timeout
 	 * @param details - the room's details
 	 * @param isCalledByService - true if called from the service, false otherwise
 	 */
-	public void RemoveSingleTimedOutRoom (ChatRoomDetails details, boolean isCalledByService)
-	{
-		if (isCalledByService) //if this method was called by the service
-		{
+	public void RemoveSingleTimedOutRoom (ChatRoomDetails details, boolean isCalledByService) {
+		if (isCalledByService) {
 			//if no room is displayed or the room to be deleted isn't the displayed room
 			if (DisplayedAtChatActivity==null || !DisplayedAtChatActivity.RoomID.equalsIgnoreCase(details.RoomID) )
 			{
@@ -1051,13 +1023,9 @@ public class LocalService extends Service
 				sendBroadcast(intent);
 			}
 
-		} //this method is called by the 'ChatActivity'
-		else
-		{
-			synchronized (mActiveChatRooms)
-			{
-				synchronized (mDiscoveredChatRoomsHash)
-				{
+		} else {
+			synchronized (mActiveChatRooms) {
+				synchronized (mDiscoveredChatRoomsHash) {
 				if (mActiveChatRooms.containsKey(details.RoomID))
 						mActiveChatRooms.remove(details.RoomID);
 
@@ -1095,31 +1063,29 @@ public class LocalService extends Service
 			//go over all of the rooms and check if they've timed out
 			for (i=0; i<numOfRooms ;i++)
 			{
-				timeDiff = currentTime.getTime() - allRooms[i].LastSeen.getTime();  //get the time diff
-				if (timeDiff >= MainScreenActivity.refreshPeriod*Constants.TO_FACTOR) //if this room has time out
+				timeDiff = currentTime.getTime() - allRooms[i].LastSeen.getTime();
+				if (timeDiff >= MainScreenActivity.refreshPeriod*Constants.TO_FACTOR)
 				{
 					RemoveSingleTimedOutRoom(allRooms[i],true);
 				}
 			}
-		}	//fir
+		}
+
 		BroadcastRoomsUpdatedEvent();
-	}//end of DeleteTimedOutRooms()
+	}
 
 	/**
 	 * Used by a peer who's also the groups owner. Creates a string of all available users to be sent across the group.
 	 * @return valid publication string, NULL if there are no discovered users
 	 */
-	private String BuildUsersPublicationString()
-	{
-		//Build the users publication string
+	private String BuildUsersPublicationString() {
 		StringBuilder res = new StringBuilder(Integer.toString(Constants.CONNECTION_CODE_PEER_DETAILS_BCAST) + Constants.STANDART_FIELD_SEPERATOR
 				+ MainScreenActivity.UserName + Constants.STANDART_FIELD_SEPERATOR
 				+ MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);
 		boolean isUserListNotEmpty=false;
 
-		for (User user : mDiscoveredUsers) //for each discovered user
-		{
-			//each entry is: IP$NAME$UNIQUE
+		for (Peer user : mDiscoveredUsers) {
+
 			if (user.IPaddr!=null && user.name!=null && user.uniqueID!=null) //we advertise only hosted rooms
 			{
 				res.append(	user.IPaddr + Constants.STANDART_FIELD_SEPERATOR
@@ -1128,10 +1094,9 @@ public class LocalService extends Service
 				isUserListNotEmpty=true;
 			}
 		}
-		if (!isUserListNotEmpty)  //if there is no info about discovered users
+		if (!isUserListNotEmpty)
 			return null;
 
 		return res.toString();
-	}//end of BuildUsersPublicationString()
-
-}//Class
+	}
+}

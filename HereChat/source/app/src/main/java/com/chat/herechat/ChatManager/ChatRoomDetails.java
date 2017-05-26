@@ -1,6 +1,6 @@
-package com.example.android_final_proj.chat;
+package com.chat.herechat.ChatManager;
 
-import com.example.android_final_proj.User;
+import com.chat.herechat.Peer.Peer;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,11 +15,11 @@ public class ChatRoomDetails
 	public String Password=null;  //a suggested password by a user trying to connect to this room
 	public Date LastSeen=null;
 	public boolean isPrivateChatRoom;
-	public ArrayList<User> Users=null;
+	public ArrayList<Peer> Users=null;
 	public String UserNamesString = null;  //will be used to hold the users string for not-hosted chat rooms
 	public boolean hasNewMsg=false;
 
-	public ChatRoomDetails(String RoomID,String Name,Date LastSeen,ArrayList<User> mUsers,String Password,boolean isPrivate)
+	public ChatRoomDetails(String RoomID, String Name, Date LastSeen, ArrayList<Peer> mUsers, String Password, boolean isPrivate)
 	{
 
 		this.Password=Password;
@@ -30,12 +30,12 @@ public class ChatRoomDetails
 		this.isPrivateChatRoom=isPrivate;
 	}
 
-	public ChatRoomDetails(String RoomID,String Name,Date LastSeen,ArrayList<User> mUsers,boolean isPrivate)
+	public ChatRoomDetails(String RoomID, String Name, Date LastSeen, ArrayList<Peer> mUsers, boolean isPrivate)
 	{
 		this(RoomID, Name, LastSeen, mUsers,null,isPrivate);
 	}
 
-	public ChatRoomDetails(String RoomID,String Name,Date LastSeen,ArrayList<User> mUsers,String isPwRequired,String usersString)
+	public ChatRoomDetails(String RoomID, String Name, Date LastSeen, ArrayList<Peer> mUsers, String isPwRequired, String usersString)
 	{
 
 		this.Password= isPwRequired.equals("true")? "yup" : null;

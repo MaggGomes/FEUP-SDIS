@@ -1,28 +1,23 @@
-package com.example.android_final_proj;
-
+package com.chat.herechat.Peer;
 
 /**
  * A data structure to hold information about a discovered peer
  */
-public class User
-{
-	
+public class Peer {
 	public String uniqueID;
 	public String IPaddr;
 	public String name;
 
-	public User(String uniqueID,String IPaddr,String name)
-	{
+	public Peer(String uniqueID, String IPaddr, String name) {
 		this.uniqueID = uniqueID;
 		this.IPaddr = IPaddr;
 		this.name = name;
 	}
 	
 	@Override
-	public boolean equals(Object other_)
-	{
-		if(other_==null || !( other_ instanceof User) ){return false;}
-		User other = (User)other_;
+	public boolean equals(Object other_) {
+		if(other_==null || !( other_ instanceof Peer) ){return false;}
+		Peer other = (Peer)other_;
 		
 		if(uniqueID==null && IPaddr==null && name==null && other.uniqueID==null && other.IPaddr==null && other.name==null){return true;}
 		
@@ -45,4 +40,4 @@ public class User
 		
 		return true;
 	}
-}//class
+}

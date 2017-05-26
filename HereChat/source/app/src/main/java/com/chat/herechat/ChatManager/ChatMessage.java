@@ -1,4 +1,4 @@
-package com.example.android_final_proj.chat;
+package com.chat.herechat.ChatManager;
 
 /**
  * Message is a custom object to encapsulate message information/fields

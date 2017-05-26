@@ -1,4 +1,4 @@
-package com.example.android_final_proj.chat;
+package com.chat.herechat.ChatManager;
 
 import java.util.ArrayList;
 
@@ -30,19 +30,18 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.android_final_proj.Constants;
-import com.example.android_final_proj.thread.FileHandlerThread;
-import com.example.android_final_proj.LocalService;
-import com.example.android_final_proj.MainScreenActivity;
-import com.example.android_final_proj.QuickPrefsActivity;
-import com.example.android_final_proj.R;
+import com.chat.herechat.Constants;
+import com.chat.herechat.ServiceHandlers.FileHandler;
+import com.chat.herechat.LocalService;
+import com.chat.herechat.MainScreenActivity;
+import com.chat.herechat.QuickPrefsActivity;
+import com.chat.herechat.R;
 
 /**
  * Displays an ongoing chat activity. Shows incoming messages and allows the users to write and send messages.
  *
  */
-public class ChatActivity extends ListActivity
-{
+public class ChatActivity extends ListActivity {
 	ChatRoomDetails mChatRoomInfo=null;					     //reference to this room's details
 	private  ArrayList<ChatMessage> mListContent = null; 	 //the list's content
 	private CustomChatAdapter mListAdapter=null;		     //the list's adapter
@@ -140,7 +139,7 @@ public class ChatActivity extends ListActivity
 		historyLoadDialog.setMessage("Please Wait.");
 		historyLoadDialog.show();
 
-		new FileHandlerThread(mChatRoomInfo.RoomID, mHandler, true,this).start(); //launch the history file reader
+		new FileHandler(mChatRoomInfo.RoomID, mHandler, true,this).start(); //launch the history file reader
 
 		mService.isChatActivityActive=true;   //mark that the chat activity is active
 		mService.DisplayedAtChatActivity=mChatRoomInfo;  //set the details of the displayed room
@@ -494,7 +493,7 @@ public class ChatActivity extends ListActivity
 		else
 			data.append("public"+"\r\n");
 
-		FileHandlerThread fh = new FileHandlerThread(unique, handler, false, con); //create a new file handler
+		FileHandler fh = new FileHandler(unique, handler, false, con); //create a new file handler
 		fh.UpdateDataToWriteBuffer(data.toString());  //set the data to write
 		fh.start(); //run the thread
 		fh.Kill();  //exit the thread gracefully
@@ -851,7 +850,7 @@ public class ChatActivity extends ListActivity
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
-                 /* User clicked cancel so do some stuff */
+                 /* Peer clicked cancel so do some stuff */
                 	ChatActivity.this.finish();  //the user chose not to enter a password. close the activity
                 }
             })

@@ -1,4 +1,4 @@
-package com.example.android_final_proj;
+package com.chat.herechat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +12,8 @@ import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-import com.example.android_final_proj.chat.ChatSearchScreenFrag;
+import com.chat.herechat.ChatManager.ChatSearchScreenFrag;
+import com.chat.herechat.Peer.Peer;
 
 /**
  * Contains all final values and static methods used within this app
@@ -26,7 +27,6 @@ public final class Constants
 
 	//A chat rooms is defined as timed-out after it wasn't seen for TO_FACTOR * MainScreenActivity.RefreshPeriodInMs
 	public static int TO_FACTOR = 2;
-	public static int WELCOME_SOCKET_PORT = 4000;
 
 	public static long MIN_TIME_BETWEEN_WIFI_DISCOVER_OPERATIONS_IN_MS = 60000; //60 seconds between discoveries
 	public final static long MIN_TIME_BETWEEN_WIFI_CONNECT_ATTEMPTS_IN_MS = 30000; 	//30 seconds between connection attempts
@@ -121,12 +121,12 @@ public final class Constants
 		 return Calendar.getInstance().getTime();
 	}
 
-	public static String UserListToString(ArrayList<User> list)
+	public static String UserListToString(ArrayList<Peer> list)
 	{
 		StringBuilder ans = new StringBuilder();
 		if (list!=null && list.size()>0) //if the list has any content at all
 		{
-			for (User user : list) //for each chat room
+			for (Peer user : list) //for each chat room
 			{
 				ans.append(user.name + ", ");
 			}
@@ -163,17 +163,17 @@ public final class Constants
 	}
 
 	/**
-	 * Searches a 'User' list for a user with a specific unique ID
+	 * Searches a 'Peer' list for a user with a specific unique ID
 	 * @param userUniqueId - the searched unique ID
-	 * @param list - the 'User' list to search in
+	 * @param list - the 'Peer' list to search in
 	 * @return the user if exists, null otherwise
 	 */
-	public static User CheckIfUserExistsInListByUniqueID (String userUniqueId, ArrayList<User> list)
+	public static Peer CheckIfUserExistsInListByUniqueID (String userUniqueId, ArrayList<Peer> list)
 	{
 		if (list==null)
 			return null;
 
-		for (User user : list) //for each item
+		for (Peer user : list) //for each item
 		{
 			if (user.uniqueID != null && user.uniqueID.equalsIgnoreCase(userUniqueId))
 				return user;
@@ -205,7 +205,7 @@ public final class Constants
     	//create a new notification
     	NotificationCompat.Builder mBuilder =
     	        new NotificationCompat.Builder(ChatSearchScreenFrag.mService)
-    	        .setSmallIcon(com.example.android_final_proj.R.drawable.msg_icon) //set a small icon
+    	        .setSmallIcon(com.chat.herechat.R.drawable.msg_icon) //set a small icon
     	        .setContentTitle("New messages available:")
     	        .setAutoCancel(true)
     	        .setContentText(msg)
