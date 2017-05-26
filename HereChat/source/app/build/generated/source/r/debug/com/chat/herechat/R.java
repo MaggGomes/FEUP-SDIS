@@ -167,12 +167,14 @@ public final class R {
         public static final int barLightColor=0x7f080091;
         public static final int barMeduimColor=0x7f080092;
         public static final int listViewBg=0x7f080093;
-        public static final int sendDarkColor=0x7f080094;
-        public static final int sendLightColor=0x7f080095;
-        public static final int sendMeduimColor=0x7f080096;
-        public static final int textColor=0x7f080097;
-        public static final int textFieldColor=0x7f080098;
-        public static final int textShadow=0x7f080099;
+        public static final int primaryColor=0x7f080094;
+        public static final int primaryDarkColor=0x7f080095;
+        public static final int sendDarkColor=0x7f080096;
+        public static final int sendLightColor=0x7f080097;
+        public static final int sendMeduimColor=0x7f080098;
+        public static final int textColor=0x7f080099;
+        public static final int textFieldColor=0x7f08009a;
+        public static final int textShadow=0x7f08009b;
     }
     public static final class dimen {
         public static final int activity_horizontal_margin=0x7f050000;

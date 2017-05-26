@@ -18,7 +18,7 @@
 	            android:layout_marginLeft="5dip"
 	            android:lines="1"
 	            android:textSize="25sp"
-	            android:textColor="@color/PurpleDark" >
+                android:textColor="@color/White" >
 	            
 	        </TextView>
 	
@@ -28,8 +28,8 @@
 	            android:layout_height="wrap_content"
 	            android:layout_marginLeft="5dip"
 	            android:lines="1"
-	            android:textSize="20sp" 
-	             android:textColor="@color/PurpleDark" >
+	            android:textSize="20sp"
+                android:textColor="@color/White">
 	        </TextView>
     </LinearLayout>
     

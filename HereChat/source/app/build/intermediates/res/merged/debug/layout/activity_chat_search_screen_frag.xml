@@ -3,11 +3,12 @@
       android:orientation="vertical"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
-      android:background="@color/GreenLight"
+      android:background="@color/primaryDarkColor"
   >
      
     <ListView
         android:id="@android:id/list"
+        android:textColor="@color/White"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_above="@+id/chat_srch_frag_refresh_btn"
@@ -18,7 +19,7 @@
     <TextView
         android:id="@android:id/empty"
         android:layout_width="fill_parent"
-        android:textColor="@color/Black"
+        android:textColor="@color/White"
         android:layout_height="fill_parent"
         android:layout_above="@+id/chat_srch_frag_refresh_btn"
         android:layout_alignParentTop="true"
