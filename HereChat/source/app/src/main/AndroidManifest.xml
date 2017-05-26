@@ -23,7 +23,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.chat.herechat.activities.MainScreenActivity"
+            android:name="com.chat.herechat.MainScreenActivity"
             android:label="@string/app_name" 
             android:configChanges="orientation|screenSize">
             <intent-filter>
@@ -33,25 +33,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.chat.herechat.chatmanager.ChatSearchScreenFrag"
+            android:name="com.chat.herechat.ChatManager.ChatSearchScreenFrag"
             android:label="@string/title_activity_chat_search_screen_frag" 
             android:configChanges="orientation|screenSize">
         </activity>
         <activity
-            android:name="com.chat.herechat.chatmanager.ChatHistoryScreenFrag"
+            android:name="com.chat.herechat.ChatManager.ChatHistoryScreenFrag"
             android:label="@string/title_activity_chat_history_screen_frag"
             android:configChanges="orientation|screenSize" >
         </activity>
         <activity
-            android:name="com.chat.herechat.activities.QuickPrefsActivity"
+            android:name="com.chat.herechat.QuickPrefsActivity"
             android:label="@string/app_name" 
             android:configChanges="orientation|screenSize"
-            android:parentActivityName="com.chat.herechat.activities.MainScreenActivity" >
+            android:parentActivityName="com.chat.herechat.MainScreenActivity" >
             
                         <!-- Parent activity meta-data to support API level 7+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chat.herechat.activities.MainScreenActivity" />
+                android:value="com.chat.herechat.MainScreenActivity" />
 
             >
         </activity>
@@ -59,26 +59,26 @@
         <service android:name="com.chat.herechat.LocalService" >
         </service>
         <activity
-            android:name="com.chat.herechat.activities.ChatActivity"
+            android:name="com.chat.herechat.ChatManager.ChatActivity"
             android:label="@string/title_activity_chat"   
             android:configChanges="orientation|screenSize"       
-            android:parentActivityName="com.chat.herechat.activities.MainScreenActivity" >
+            android:parentActivityName="com.chat.herechat.MainScreenActivity" >
             
                         <!-- Parent activity meta-data to support API level 7+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chat.herechat.activities.MainScreenActivity" />
+                android:value="com.chat.herechat.MainScreenActivity" />
         </activity>
         <activity
-            android:name="com.chat.herechat.activities.HistoryActivity"
+            android:name="com.chat.herechat.HistoryActivity"
             android:label="@string/title_activity_history" 
             android:configChanges="orientation|screenSize"
-            android:parentActivityName="com.chat.herechat.activities.MainScreenActivity" >
+            android:parentActivityName="com.chat.herechat.MainScreenActivity" >
             
                         <!-- Parent activity meta-data to support API level 7+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chat.herechat.activities.MainScreenActivity" />
+                android:value="com.chat.herechat.MainScreenActivity" />
         </activity>
     </application>
 

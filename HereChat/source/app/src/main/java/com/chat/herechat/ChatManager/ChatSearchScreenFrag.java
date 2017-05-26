@@ -1,4 +1,4 @@
-package com.chat.herechat.chatmanager;
+package com.chat.herechat.ChatManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,8 +34,7 @@ import com.chat.herechat.Constants;
 import com.chat.herechat.EnableWifiDirectDialog;
 import com.chat.herechat.LocalService;
 import com.chat.herechat.LocalService.LocalBinder;
-import com.chat.herechat.activities.ChatActivity;
-import com.chat.herechat.activities.MainScreenActivity;
+import com.chat.herechat.MainScreenActivity;
 import com.chat.herechat.R;
 
 /**

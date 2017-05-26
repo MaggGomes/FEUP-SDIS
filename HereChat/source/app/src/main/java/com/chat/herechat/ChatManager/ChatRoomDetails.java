@@ -1,6 +1,6 @@
-package com.chat.herechat.chatmanager;
+package com.chat.herechat.ChatManager;
 
-import com.chat.herechat.peer.Peer;
+import com.chat.herechat.Peer.Peer;
 
 import java.util.ArrayList;
 import java.util.Date;

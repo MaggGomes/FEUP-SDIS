@@ -1,4 +1,4 @@
-package com.chat.herechat.chatmanager;
+package com.chat.herechat.ChatManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,13 +10,12 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.chat.herechat.Constants;
-import com.chat.herechat.peer.Peer;
-import com.chat.herechat.servicehandlers.ClientSocketHandler;
-import com.chat.herechat.servicehandlers.FileHandler;
+import com.chat.herechat.Peer.Peer;
+import com.chat.herechat.ServiceHandlers.ClientSocketHandler;
+import com.chat.herechat.ServiceHandlers.FileHandler;
 import com.chat.herechat.LocalService;
-import com.chat.herechat.activities.ChatActivity;
-import com.chat.herechat.activities.MainScreenActivity;
-import com.chat.herechat.servicehandlers.SendControlMessage;
+import com.chat.herechat.MainScreenActivity;
+import com.chat.herechat.ServiceHandlers.SendControlMessage;
 
 /**
  * This class holds all the functionality of an active chat room, both private and group chat, hosted and not hosted.

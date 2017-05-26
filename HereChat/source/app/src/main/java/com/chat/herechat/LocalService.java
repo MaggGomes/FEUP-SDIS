@@ -26,16 +26,15 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.TaskStackBuilder;
 
-import com.chat.herechat.chatmanager.ActiveChatRoom;
-import com.chat.herechat.activities.ChatActivity;
-import com.chat.herechat.chatmanager.ChatRoomDetails;
-import com.chat.herechat.chatmanager.ChatSearchScreenFrag;
-import com.chat.herechat.peer.Peer;
-import com.chat.herechat.receiver.WiFiDirectBroadcastReceiver;
-import com.chat.herechat.servicehandlers.ClientSocketHandler;
-import com.chat.herechat.servicehandlers.SendControlMessage;
-import com.chat.herechat.servicehandlers.ServerSocketHandler;
-import com.chat.herechat.activities.MainScreenActivity;
+import com.chat.herechat.ChatManager.ActiveChatRoom;
+import com.chat.herechat.ChatManager.ChatActivity;
+import com.chat.herechat.ChatManager.ChatRoomDetails;
+import com.chat.herechat.ChatManager.ChatSearchScreenFrag;
+import com.chat.herechat.Peer.Peer;
+import com.chat.herechat.Receiver.WiFiDirectBroadcastReceiver;
+import com.chat.herechat.ServiceHandlers.ClientSocketHandler;
+import com.chat.herechat.ServiceHandlers.SendControlMessage;
+import com.chat.herechat.ServiceHandlers.ServerSocketHandler;
 
 /**
  * Our service is in charge of managing all the chat rooms and conversations. It'll be started with

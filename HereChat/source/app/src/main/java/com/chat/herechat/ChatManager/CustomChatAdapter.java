@@ -1,4 +1,4 @@
-package com.chat.herechat.chatmanager;
+package com.chat.herechat.ChatManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;

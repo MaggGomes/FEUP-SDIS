@@ -1,4 +1,4 @@
-package com.chat.herechat.servicehandlers;
+package com.chat.herechat.ServiceHandlers;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;

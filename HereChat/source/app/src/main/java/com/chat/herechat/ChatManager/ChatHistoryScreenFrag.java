@@ -1,5 +1,5 @@
 
-package com.chat.herechat.chatmanager;
+package com.chat.herechat.ChatManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,9 +26,9 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.chat.herechat.Constants;
-import com.chat.herechat.servicehandlers.CreateHistoryEntryFileName;
-import com.chat.herechat.activities.HistoryActivity;
-import com.chat.herechat.activities.MainScreenActivity;
+import com.chat.herechat.ServiceHandlers.CreateHistoryEntryFileName;
+import com.chat.herechat.HistoryActivity;
+import com.chat.herechat.MainScreenActivity;
 import com.chat.herechat.R;
 
 /**

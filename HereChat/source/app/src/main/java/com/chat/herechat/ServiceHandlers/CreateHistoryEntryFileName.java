@@ -1,4 +1,4 @@
-package com.chat.herechat.servicehandlers;
+package com.chat.herechat.ServiceHandlers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -8,7 +8,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 
 import com.chat.herechat.Constants;
-import com.chat.herechat.chatmanager.ChatHistoryScreenFrag;
+import com.chat.herechat.ChatManager.ChatHistoryScreenFrag;
 
 /**
  * 
