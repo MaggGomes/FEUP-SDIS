@@ -30,7 +30,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.chat.herechat.Constants;
+import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.ServiceHandlers.FileHandler;
 import com.chat.herechat.LocalService;
 import com.chat.herechat.MainScreenActivity;

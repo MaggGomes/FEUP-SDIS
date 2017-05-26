@@ -13,7 +13,7 @@ import android.net.wifi.p2p.WifiP2pManager.ConnectionInfoListener;
 import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
 
 import com.chat.herechat.ChatManager.ChatSearchScreenFrag;
-import com.chat.herechat.Constants;
+import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.LocalService;
 import com.chat.herechat.ServiceHandlers.ClientSocketHandler;
 import com.chat.herechat.Peer.Peer;
@@ -101,7 +101,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
         // Out with the old, in with the new.
         service.CreateAndBroadcastWifiP2pEvent(Constants.SERVICE_BROADCAST_WIFI_EVENT_PEERS_AVAILABLE, -1);
         //gets WifiP2pDevice array out of the peerList
-        service.mDevices = createWifiP2pDeviceArray(peerList);
+        service.devices = createWifiP2pDeviceArray(peerList);
         //call the method that continues with the chat room discovery protocol
         service.onPeerDeviceListAvailable();
     }

@@ -1,0 +1,70 @@
+[
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\alert_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\alert_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\speech_bubble_orange.9.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\speech_bubble_orange.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\ic_launcher.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\private_chat_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\private_chat_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\msg_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\msg_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\ignored_user_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\ignored_user_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\plus_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\plus_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\lock_icon_green.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\lock_icon_green.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\key_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\key_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\lock_icon_red.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\lock_icon_red.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\public_chat_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\public_chat_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\plug_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\plug_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\hosted_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\hosted_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\settings_action_bar_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\settings_action_bar_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\lock_icon_orange.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\lock_icon_orange.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\speech_bubble_green.9.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\speech_bubble_green.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\settings_icon.png",
+        "source": "C:\\Users\\Manuel Gomes\\Documents\\FEUP-SDIS\\HereChat\\source\\app\\src\\main\\res\\drawable-mdpi\\settings_icon.png"
+    }
+]

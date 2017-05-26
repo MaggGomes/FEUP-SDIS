@@ -1,6 +1,6 @@
 package com.chat.herechat.ServiceHandlers;
 
-import com.chat.herechat.Constants;
+import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.LocalService;
 import com.chat.herechat.MainScreenActivity;
 import com.chat.herechat.Peer.Peer;
@@ -318,7 +318,6 @@ public class ClientSocketHandler extends Thread {
 		}
 		
 		String toSend = BuildDiscoveryString(); //get the query string to be send
-		service.CreateAndBroadcastToast("Sending a query message string!");
 		mOut.println(toSend); //send via socket
 		mOut.flush();
 			

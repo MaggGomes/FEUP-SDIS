@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.chat.herechat.Constants;
+import com.chat.herechat.Utilities.Constants;
 
 /**
  * Opens a socket to a peer and sends a single string. Used to send control messages and user text messages

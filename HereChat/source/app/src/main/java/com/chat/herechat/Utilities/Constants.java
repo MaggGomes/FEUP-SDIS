@@ -1,4 +1,4 @@
-package com.chat.herechat;
+package com.chat.herechat.Utilities;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,14 +13,10 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.chat.herechat.ChatManager.ChatSearchScreenFrag;
+import com.chat.herechat.LocalService;
 import com.chat.herechat.Peer.Peer;
 
-/**
- * Contains all final values and static methods used within this app
- *
- */
-public final class Constants
-{
+public final class Constants {
 	public static final char STANDART_FIELD_SEPERATOR = (char)222;
 	public static final char CHAT_MSG_ENTRY_SEPARATOR_CHAR = (char)223;
 	public static final char ENTER_REPLACEMENT_CHAR = (char)224;
@@ -79,8 +75,6 @@ public final class Constants
 	public static final String HASH_MAP_KEY_SEARCH_LOCKED_PUBLIC_ROOM_ICON = "LOCK ICON";
 	public static final String HASH_MAP_KEY_SEARCH_NEW_MSG_ICON = "NEW MSG";
 
-	/////////////////////////
-	//The key values that'll be used in an intent bundle
 	public final static String SERVICE_BROADCAST_OPCODE_KEY = "OPCODE";
 
 	public final static String SERVICE_BROADCAST_WIFI_EVENT_KEY = "WIFI EVENT";
@@ -111,30 +105,26 @@ public final class Constants
 
 	@SuppressLint("SimpleDateFormat")
 	public static String getTimeString(){//in this format: MM/dd HH:mm
-		 Calendar c = Calendar.getInstance();
+		 Calendar calendar = Calendar.getInstance();
 		 SimpleDateFormat df = new SimpleDateFormat("dd/MM HH:mm");
-	    return df.format(c.getTime());
+	    return df.format(calendar.getTime());
 	}
 
-	public static Date GetTime()
-	{
+	public static Date GetTime() {
 		 return Calendar.getInstance().getTime();
 	}
 
-	public static String UserListToString(ArrayList<Peer> list)
-	{
+	public static String UserListToString(ArrayList<Peer> list) {
 		StringBuilder ans = new StringBuilder();
-		if (list!=null && list.size()>0) //if the list has any content at all
-		{
-			for (Peer user : list) //for each chat room
-			{
+		if (list!=null && list.size()>0) {
+			for (Peer user : list) {
 				ans.append(user.name + ", ");
 			}
 
-		ans.delete(ans.length()-2,ans.length()); //remove the last 2 chars
+		ans.delete(ans.length()-2,ans.length());
 
 		return ans.toString();
-		}//if
+		}
 		else
 			return "";
 	}
@@ -145,18 +135,16 @@ public final class Constants
 	 * @param separator - the separator char to be placed between strings
 	 * @return single string with separators
 	 */
-	public static String StringArrayToStringWithSeperators (String[] input, char separator)
-	{
+	public static String StringArrayToStringWithSeperators (String[] input, char separator) {
 		int length = input.length;
 		StringBuilder buffer = new StringBuilder();
 
-		for (int i=0; i<length ;i++)
-		{
+		for (int i=0; i<length ;i++) {
 			buffer.append(input[i]);
 
-			if (i<length-1)  //for every string except the last one
+			if (i<length-1)
 				buffer.append(separator);
-			else             //for the last string only
+			else
 				buffer.append("\r\n");
 		}
 		return buffer.toString();
@@ -168,13 +156,11 @@ public final class Constants
 	 * @param list - the 'Peer' list to search in
 	 * @return the user if exists, null otherwise
 	 */
-	public static Peer CheckIfUserExistsInListByUniqueID (String userUniqueId, ArrayList<Peer> list)
-	{
+	public static Peer CheckIfUserExistsInListByUniqueID (String userUniqueId, ArrayList<Peer> list) {
 		if (list==null)
 			return null;
 
-		for (Peer user : list) //for each item
-		{
+		for (Peer user : list) {
 			if (user.uniqueID != null && user.uniqueID.equalsIgnoreCase(userUniqueId))
 				return user;
 		}
@@ -187,8 +173,7 @@ public final class Constants
 	 * @param txt - String to be put in the toast
 	 * @param act - reference to an activity that'll display the toast
 	 */
-	public static void showBubble(String txt, Activity act)
-	{
+	public static void showBubble(String txt, Activity act) {
 		Context context = act.getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;
 
@@ -200,8 +185,7 @@ public final class Constants
 	 * Shows a notification of a new chat message arrival event
 	 * @param msg - the contentText for this notification
 	 */
-    public static void ShowNotification(String msg, PendingIntent intent)
-    {
+    public static void ShowNotification(String msg, PendingIntent intent) {
     	//create a new notification
     	NotificationCompat.Builder mBuilder =
     	        new NotificationCompat.Builder(ChatSearchScreenFrag.mService)
@@ -211,8 +195,6 @@ public final class Constants
     	        .setContentText(msg)
     			.setContentIntent(intent);
 
-        // Send the notification.
     	LocalService.mNotificationManager.notify(0xdeadbeef, mBuilder.build());
-    }//end of showNotification()
-
+    }
 }

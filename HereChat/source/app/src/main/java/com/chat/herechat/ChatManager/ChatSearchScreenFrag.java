@@ -30,7 +30,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.chat.herechat.Constants;
+import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.EnableWifiDirectDialog;
 import com.chat.herechat.LocalService;
 import com.chat.herechat.LocalService.LocalBinder;

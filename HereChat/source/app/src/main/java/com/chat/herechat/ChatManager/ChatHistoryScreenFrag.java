@@ -25,7 +25,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.chat.herechat.Constants;
+import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.ServiceHandlers.CreateHistoryEntryFileName;
 import com.chat.herechat.HistoryActivity;
 import com.chat.herechat.MainScreenActivity;

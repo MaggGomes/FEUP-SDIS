@@ -8,6 +8,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import com.chat.herechat.Utilities.Constants;
+
 public class QuickPrefsActivity extends PreferenceActivity {
 	
     @SuppressWarnings("deprecation")

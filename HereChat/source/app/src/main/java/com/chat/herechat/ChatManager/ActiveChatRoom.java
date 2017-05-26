@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 
-import com.chat.herechat.Constants;
+import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.Peer.Peer;
 import com.chat.herechat.ServiceHandlers.ClientSocketHandler;
 import com.chat.herechat.ServiceHandlers.FileHandler;

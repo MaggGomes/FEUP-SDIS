@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.chat.herechat.Constants;
+import com.chat.herechat.Utilities.Constants;
 
 /**
  * Handles file read/write operations.

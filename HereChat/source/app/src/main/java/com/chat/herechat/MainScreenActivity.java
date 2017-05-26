@@ -30,6 +30,7 @@ import android.widget.EditText;
 import com.chat.herechat.ChatManager.ChatActivity;
 import com.chat.herechat.ChatManager.ChatHistoryScreenFrag;
 import com.chat.herechat.ChatManager.ChatSearchScreenFrag;
+import com.chat.herechat.Utilities.Constants;
 
 public class MainScreenActivity extends FragmentActivity implements ActionBar.TabListener {
     private AlertDialog mDialog = null;

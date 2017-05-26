@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.chat.herechat.ChatManager.ChatMessage;
 import com.chat.herechat.ChatManager.CustomChatAdapter;
 import com.chat.herechat.ServiceHandlers.FileHandler;
+import com.chat.herechat.Utilities.Constants;
 
 /**
  * Displays the content of a history file, with a similar view to that of a 'ChatActivity'
