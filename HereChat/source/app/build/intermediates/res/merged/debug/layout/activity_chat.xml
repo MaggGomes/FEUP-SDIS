@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/listViewBg"
+    android:background="@color/primaryDarkColor"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/message_bar" >
+        android:background="@color/Black" >
 
         <EditText
             android:id="@+id/MsgText"
@@ -28,15 +28,14 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_margin="5sp"
-            android:background="@drawable/send_button"
+            android:background="@color/primaryColor"
             android:onClick="OnSendButtonClicked"
             android:paddingBottom="5sp"
             android:paddingLeft="15sp"
             android:paddingRight="15sp"
             android:paddingTop="5sp"
             android:text="@string/send"
-            android:textColor="@color/Black"
-             />
+            android:textColor="@color/White" />
 
     </LinearLayout>
 
