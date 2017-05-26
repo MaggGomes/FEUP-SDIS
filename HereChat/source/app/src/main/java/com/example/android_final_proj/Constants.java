@@ -78,33 +78,22 @@ public final class Constants
 	public static final String HASH_MAP_KEY_SEARCH_HOSTED_PUBLIC_ROOM_ICON = "HOSTED ICON";
 	public static final String HASH_MAP_KEY_SEARCH_LOCKED_PUBLIC_ROOM_ICON = "LOCK ICON";
 	public static final String HASH_MAP_KEY_SEARCH_NEW_MSG_ICON = "NEW MSG";
-	public static final String HASH_MAP_KEY_CLOSE_THE_APP = "CLOSE";
-
-
-	public static final String HASH_MAP_KEY_CHAT_ACT_USERNAME = "NAME";
-	public static final String HASH_MAP_KEY_CHAT_ACT_TIME = "TIME";
-	public static final String HASH_MAP_KEY_CHAT_ACT_MSG = "MSG";
 
 	/////////////////////////
 	//The key values that'll be used in an intent bundle
 	public final static String SERVICE_BROADCAST_OPCODE_KEY = "OPCODE";
 
-	public final static String SERVICE_BROADCAST_TOAST_STRING_KEY = "ToastString";
-	public final static String SERVICE_BROADCAST_SHOW_MSG_KEY="show msg";
 	public final static String SERVICE_BROADCAST_WIFI_EVENT_KEY = "WIFI EVENT";
 
 	public final static String SERVICE_BROADCAST_WIFI_EVENT_FAIL_REASON_KEY = "FAIL KEY";
 	public final static String SERVICE_BROADCAST_MSG_CONTENT_KEY = "MSG KEY";
-	public final static String SERVICE_BROADCAST_MSG_ROOM_ID_KEY = "ROOMID KEY";
 
 	public final static String FILE_THREAD_WAS_DATA_READ_KEY = "DATA READ";
 	public final static String FILE_THREAD_DATA_CONTENT_KEY = "DATA";
 
 	public final static int SERVICE_BROADCAST_OPCODE_ACTION_WIFI_EVENT_VALUE = 1;
 	public final static int SERVICE_BROADCAST_OPCODE_ACTION_DO_TOAST = 110;
-	public final static int SERVICE_BROADCAST_OPCODE_ACTION_DO_SHOW_MSG=112;
 	public final static int SERVICE_BROADCAST_OPCODE_ACTION_CHAT_ROOM_LIST_CHANGED=113;
-	public final static int SERVICE_BROADCAST_OPCODE_ACTION_NEW_CHAT_MSG_RECEIVED=114;
 	public final static int SERVICE_BROADCAST_OPCODE_JOIN_SENDING_RESULT=115;
 	public final static int SERVICE_BROADCAST_OPCODE_JOIN_REPLY_RESULT=116;
 	public final static int SERVICE_BROADCAST_OPCODE_ROOM_TIMED_OUT = 118;
@@ -125,7 +114,7 @@ public final class Constants
 		 Calendar c = Calendar.getInstance();
 		 SimpleDateFormat df = new SimpleDateFormat("dd/MM HH:mm");
 	    return df.format(c.getTime());
-	}//end of getTime()
+	}
 
 	public static Date GetTime()
 	{
@@ -148,7 +137,7 @@ public final class Constants
 		}//if
 		else
 			return "";
-	}//end of UserListToString()
+	}
 
 	/**
 	 * Makes a single string with separators out of a string array
@@ -171,7 +160,7 @@ public final class Constants
 				buffer.append("\r\n");
 		}
 		return buffer.toString();
-	}//end of StringArrayToStringWithSeperators()
+	}
 
 	/**
 	 * Searches a 'User' list for a user with a specific unique ID
@@ -191,7 +180,7 @@ public final class Constants
 		}
 
 		return null;
-	}//end of CheckIfUserExistsInList()
+	}
 
 	/**
 	 * pops up a toast message
@@ -205,7 +194,7 @@ public final class Constants
 
 		Toast toast = Toast.makeText(context, txt, duration);
 		toast.show();
-	}//end of showBuble()
+	}
 
 	/**
 	 * Shows a notification of a new chat message arrival event
@@ -226,4 +215,4 @@ public final class Constants
     	LocalService.mNotificationManager.notify(0xdeadbeef, mBuilder.build());
     }//end of showNotification()
 
-} //end of class
+}

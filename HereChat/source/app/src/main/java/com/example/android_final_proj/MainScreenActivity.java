@@ -1,11 +1,5 @@
 package com.example.android_final_proj;
 
-/** 
- * Android final project. 
- * Wifi-Direct based multi-user chat application
- * Presented by 309930006 and 301224283
- */
-
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
@@ -37,10 +31,6 @@ import com.example.android_final_proj.chat.ChatActivity;
 import com.example.android_final_proj.chat.ChatHistoryScreenFrag;
 import com.example.android_final_proj.chat.ChatSearchScreenFrag;
 
-/**
- * The app's main entry point. Holds 2 fragments: {@link ChatSearchScreenFrag} and {@link ChatHistoryScreenFrag}.
- * The 1st fragment offers to scan for new chat groups and users. The 2nd offers to view chat history.
- */
 public class MainScreenActivity extends FragmentActivity implements ActionBar.TabListener 
 {
 	private AlertDialog mDialog=null;			
@@ -60,20 +50,18 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
 	public static String UniqueID=null;
 	public static String UserName = ":>~";				  //setting a default user name
     static boolean isToNotifyOnNewMsg = false; 			  //defines if notifications should be shown on arrival of new messages
-    static int RefreshPeriodInMs = 30000;				  //defines the peer refresh period
+    static int refreshPeriod = 40000;				  //defines the peer refresh period
     
     private boolean mIsRunForTheFirstTime=false;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_screen);
 
 		InitializeTabHandlerAndAdapter();
 		
-		if (!isServiceStarted && ChatSearchScreenFrag.mService==null)
-		{
+		if (!isServiceStarted && ChatSearchScreenFrag.mService == null) {
 			startService(new Intent(this, LocalService.class));
 			isServiceStarted=true;
 		}
@@ -91,7 +79,13 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
 	    getActionBar().setDisplayShowTitleEnabled(false);
 	    getActionBar().setDisplayShowHomeEnabled(false);
 	    
-	}//end of onCreate()
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		savePrefs();
+	}
 	
 	@Override
 	protected void onResume()
@@ -101,15 +95,13 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
 		boolean isToDisplayWifiDialog = getIntent()
 				.getBooleanExtra(Constants.WIFI_BCAST_RCVR_WIFI_OFF_EVENT_INTENT_EXTRA_KEY, false);
 		
-		if (isToDisplayWifiDialog && !wasWifiDialogShown)
-		{
+		if (isToDisplayWifiDialog && !wasWifiDialogShown) {
 			new EnableWifiDirectDialog().show(getSupportFragmentManager(),"MyDialog"); //show a dialog	
 			wasWifiDialogShown=true;
 		}
 		
 		//if this app is run for the very 1st time, we want to launch the settings activity first.
-		if (mIsRunForTheFirstTime)
-		{
+		if (mIsRunForTheFirstTime) {
 			//launch the preferences activity
 			startActivity(new Intent(this, QuickPrefsActivity.class));
 			mIsRunForTheFirstTime=false;
@@ -117,12 +109,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
 	}
 	
 	
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-		savePrefs(); //save the preferences
-	}//end of onPause()
+
 	
 	private void InitializeTabHandlerAndAdapter()
 	{
@@ -235,14 +222,12 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
 					case R.id.action_create_new_chat_room: //exit app was clicked
 					{
 						
-						mDialog =CreatePublicChatCreationDialog();
+						mDialog = CreatePublicChatCreationDialog();
 						mDialog.show();
 						
-						AlertCheckBoxClickListener= new OnClickListener()
-						{
+						AlertCheckBoxClickListener= new OnClickListener() {
 							@Override
-							public void onClick(View v)
-							{
+							public void onClick(View v) {
 								
 								AlertDialog dialog = MainScreenActivity.this.mDialog;
 								EditText ed = (EditText) dialog.findViewById(R.id.choosePassword);
@@ -362,31 +347,29 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
 	/**
 	 * Reads the saved preferences
 	 */
-	protected void getPrefs()
-	{		      
+	protected void getPrefs() {
 	      SharedPreferences prefs  = getPreferences(0);
 	      ChatRoomAccumulatingSerialNumber = prefs.getLong(Constants.SHARED_PREF_CHAT_ROOM_SERIAL_NUM, 0);
 	      UserName = prefs.getString(Constants.SHARED_PREF_USER_NAME, null);
 	      UniqueID = prefs.getString(Constants.SHARED_PREF_UNIQUE_ID, null);
 	      isToNotifyOnNewMsg = prefs.getBoolean(Constants.SHARED_PREF_ENABLE_NOTIFICATION, false);
-	      RefreshPeriodInMs = prefs.getInt(Constants.SHARED_PREF_REFRESH_PERIOD, 10000);
+	      refreshPeriod = prefs.getInt(Constants.SHARED_PREF_REFRESH_PERIOD, 10000);
 	      mIsRunForTheFirstTime = prefs.getBoolean(Constants.SHARED_PREF_IS_FIRST_RUN, true);
 	}//end of getPrefs(){		
 	
 	/**
 	 * Saved the shared preferences
 	 */
-	protected void savePrefs()
-	{
+	protected void savePrefs() {
 		  SharedPreferences.Editor editor = getPreferences(0).edit();
 	      editor.putLong(Constants.SHARED_PREF_CHAT_ROOM_SERIAL_NUM, ChatRoomAccumulatingSerialNumber); //save to current SN
 	      editor.putString(Constants.SHARED_PREF_USER_NAME, UserName);
 	      editor.putString(Constants.SHARED_PREF_UNIQUE_ID, UniqueID);
 	      editor.putBoolean(Constants.SHARED_PREF_ENABLE_NOTIFICATION, isToNotifyOnNewMsg);
-	      editor.putInt(Constants.SHARED_PREF_REFRESH_PERIOD, RefreshPeriodInMs);
+	      editor.putInt(Constants.SHARED_PREF_REFRESH_PERIOD, refreshPeriod);
 	      editor.putBoolean(Constants.SHARED_PREF_IS_FIRST_RUN, false);
 	      editor.commit();
-	}//end of savePrefs()
+	}
 	
 	/**
 	 * Calls the kill() method of {@link ChatSearchScreenFrag}, resets all static variables,
@@ -410,13 +393,12 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
 		//Indicates to the VM that it would be a good time to run the garbage collector
 		System.gc();	
 		
-		finish();         //close this activity
-	}//kill()
+		finish();
+	}
 	
 	
 	private AlertDialog CreatePublicChatCreationDialog()
 	{
-        // This example shows how to add a custom layout to an AlertDialog
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.public_chat_creation_dialog, null);
        return new AlertDialog.Builder(this)
@@ -476,6 +458,5 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
                 public void onClick(DialogInterface dialog, int whichButton) {}
          
             }).create();
-    }//end of ShowPublicChatCreationDialog()
-
-}//end of class
+    }
+}

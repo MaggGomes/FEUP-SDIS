@@ -54,7 +54,7 @@ public class QuickPrefsActivity extends PreferenceActivity {
     		MainScreenActivity.isToNotifyOnNewMsg = isToNotify; //update the value
     	 //get the refresh period in MS
     	String refreshPeriod = sharedPrefs.getString(Constants.SHARED_PREF_REFRESH_PERIOD, "10000");
-    		MainScreenActivity.RefreshPeriodInMs = Integer.parseInt(refreshPeriod); //update the refresh period
+    		MainScreenActivity.refreshPeriod = Integer.parseInt(refreshPeriod); //update the refresh period
 
     }//end of onStop()
     

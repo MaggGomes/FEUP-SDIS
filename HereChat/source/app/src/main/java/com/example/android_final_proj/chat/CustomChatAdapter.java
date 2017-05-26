@@ -14,7 +14,6 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.example.android_final_proj.R;
-import com.example.android_final_proj.chat.ChatMessage;
 
 /**
  * CustomChatAdapter is a Custom BaseAdapter to implement custom ListView rows

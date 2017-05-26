@@ -30,6 +30,7 @@ import com.example.android_final_proj.chat.ActiveChatRoom;
 import com.example.android_final_proj.chat.ChatActivity;
 import com.example.android_final_proj.chat.ChatRoomDetails;
 import com.example.android_final_proj.chat.ChatSearchScreenFrag;
+import com.example.android_final_proj.Receiver.WiFiDirectBroadcastReceiver;
 import com.example.android_final_proj.thread.NewConnectionWorkerThread;
 import com.example.android_final_proj.thread.SendSingleStringViaSocketThread;
 import com.example.android_final_proj.thread.WelcomeSocketThread;
@@ -47,7 +48,7 @@ public class LocalService extends Service
     private final IBinder mBinder = new LocalBinder();
 	WelcomeSocketThread mWelcomeSocketThread = null;  //the welcome socket thread
     Handler mSocketSendResultHandler=null;  		  //used to receive the result of message sending operations
-    Handler mRefreshHandler=null;					  //acts a timer to count time between refresh operations
+    public Handler mRefreshHandler=null;					  //acts a timer to count time between refresh operations
 	public WiFiDirectBroadcastReceiver mWifiP2PReceiver=null; //b-cast receiver
 	public IntentFilter mIntentFilter; 					  //an intent filter for the b-cast receiver
 	public WifiP2pDevice[] mDevices;						  //used to discover new peers
@@ -112,7 +113,7 @@ public class LocalService extends Service
 		      				LocalService.this.OnRefreshButtonclicked();  //perform a peer refresh
 		      			DeleteTimedOutRooms();  //delete TO'd rooms if necessary
 		      			//send a delayed empty message to ourselves
-		      			sendEmptyMessageDelayed(0, MainScreenActivity.RefreshPeriodInMs);
+		      			sendEmptyMessageDelayed(0, MainScreenActivity.refreshPeriod);
 		      		}
 	      		}
 	      	};
@@ -169,7 +170,7 @@ public class LocalService extends Service
     * Protocol: Firstly we only send a 'Join' request message and wait for a reply.
     * We b-cast the result of the physical sending operation so it'll be handled by the activity.
     * WE STILL HAVE TO WAIT ON AN ANSWER FROM THE PEER TO KNOW IF OUR REQUEST IS APPROVED OR NOT
-    * @param RoomUniqueID - the chat's unique id value
+    * @param roomUniqueID - the chat's unique id value
     */
    public void EstablishChatConnection(String roomUniqueID, String password, boolean isPrivateChat)
    {
@@ -288,7 +289,6 @@ public class LocalService extends Service
    /**
     * Called when an undiscovered peer sends us a private message, meaning that a proper discovery procedure never happened.
     * @param msg - the msg as it was received via socket
-    * @param peerIP - the peer's IP address
     * @param isChatMsg - indicating what kind of message it is. Since we haven't discovered the sending peer properly,
     * this can be a 'chat request message' or a 'chat message'
     */
@@ -665,7 +665,7 @@ public class LocalService extends Service
 		//if the search fragment is bound to this service (the receiver is created in onBind())
 		if (mWifiP2PReceiver!=null)
 			{
-			mWifiP2PReceiver.mIsPeersDiscoveredInCurrentRefresh=false; //lower a flag in the receiver that'll allow peer discovery
+			mWifiP2PReceiver.isPeersDiscovered=false; //lower a flag in the receiver that'll allow peer discovery
 
 			//start a new discovery
 			ChatSearchScreenFrag.mManager.discoverPeers(ChatSearchScreenFrag.mChannel, new WifiP2pManager.ActionListener() {
@@ -1024,7 +1024,6 @@ public class LocalService extends Service
 	 * Removes a single discovered chat room on the event of timeout
 	 * @param details - the room's details
 	 * @param isCalledByService - true if called from the service, false otherwise
-	 * @param iter - if this method is called by the service, the service iterates over the hash.
 	 */
 	public void RemoveSingleTimedOutRoom (ChatRoomDetails details, boolean isCalledByService)
 	{
@@ -1097,7 +1096,7 @@ public class LocalService extends Service
 			for (i=0; i<numOfRooms ;i++)
 			{
 				timeDiff = currentTime.getTime() - allRooms[i].LastSeen.getTime();  //get the time diff
-				if (timeDiff >= MainScreenActivity.RefreshPeriodInMs*Constants.TO_FACTOR) //if this room has time out
+				if (timeDiff >= MainScreenActivity.refreshPeriod*Constants.TO_FACTOR) //if this room has time out
 				{
 					RemoveSingleTimedOutRoom(allRooms[i],true);
 				}

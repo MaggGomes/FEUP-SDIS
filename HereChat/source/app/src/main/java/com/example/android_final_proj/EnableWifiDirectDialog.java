@@ -14,10 +14,10 @@ import android.support.v4.app.DialogFragment;
  */
 public class EnableWifiDirectDialog extends DialogFragment 
 {
-	 Context mContext;
+	 Context context;
 	 
     public EnableWifiDirectDialog() {
-        mContext = getActivity();
+        context = getActivity();
     }
 	    
     @Override
@@ -28,15 +28,13 @@ public class EnableWifiDirectDialog extends DialogFragment
         		"\r\nWould you like to turn it on now?")
                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                    @Override
-				public void onClick(DialogInterface dialog, int id) 
-                   {
+				public void onClick(DialogInterface dialog, int id) {
                    startActivity(new Intent(Settings.ACTION_SETTINGS)); //take the user to the settings screen  
                    }
                })
                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                    @Override
-				public void onClick(DialogInterface dialog, int id) 
-                   {
+				public void onClick(DialogInterface dialog, int id) {
                        // User cancelled the dialog
                    }
                });
