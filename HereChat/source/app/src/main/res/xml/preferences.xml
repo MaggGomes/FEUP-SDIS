@@ -6,21 +6,23 @@
 	    android:title="Settings"
 		android:key="first_category">
 		
-		<EditTextPreference android:key="NAME" 
-		    android:title="User Name" 
-		    android:summary="Click To Change Your User Name" 
-		    android:dialogTitle="User Name Changing" 
-		    android:dialogMessage="Enter New User Name" 
-		    android:defaultValue=":>~" />
-		<CheckBoxPreference android:key="ENABLE_NOTIFICATION" 
-		    android:summary="Enable notifications on arrival of new meesages" 
-		    android:title="Enable notifications" android:defaultValue="true" />
-		<ListPreference android:key="PERIOD" 
-		    android:title="Set refresh period" 
-		    android:summary="Set the time between automatic refresh actions" 
-		    android:defaultValue="30000" 
-		    android:entries="@array/updateInterval" 
-		    android:entryValues="@array/updateIntervalValues" />
+		<!--suppress AndroidDomInspection -->
+		<EditTextPreference
+			android:defaultValue="usName"
+			android:dialogMessage="Enter New User Name"
+			android:dialogTitle="User Name Changing"
+			android:key="NAME"
+			android:title="Change username" />
+		<CheckBoxPreference
+			android:defaultValue="true"
+			android:key="ENABLE_NOTIFICATION"
+			android:title="Enable notifications" />
+		<ListPreference
+			android:defaultValue="30000"
+			android:entries="@array/updateInterval"
+			android:entryValues="@array/updateIntervalValues"
+			android:key="PERIOD"
+			android:title="Set refresh period" />
 				
 	</PreferenceCategory>
 
