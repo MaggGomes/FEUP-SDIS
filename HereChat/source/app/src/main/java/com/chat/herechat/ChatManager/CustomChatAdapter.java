@@ -103,8 +103,6 @@ public class CustomChatAdapter extends BaseAdapter{
 		{
 			holder.mMessage.setBackgroundResource(R.drawable.speech_bubble_orange);
 			
-			 msgColor = getColorForUser(message.mUserUnique);
-			
 			//sets color to the MSG
 			holder.mMessage.setTextColor(mContext.getResources().getColor(R.color.primaryColor));
 			
