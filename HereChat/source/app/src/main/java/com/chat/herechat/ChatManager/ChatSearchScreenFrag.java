@@ -604,6 +604,6 @@ public class ChatSearchScreenFrag extends ListFragment
         public void onServiceDisconnected(ComponentName arg0) {
         	mIsServiceBound = false;
         }
-    };        
+    };
 	        
 }//end of class

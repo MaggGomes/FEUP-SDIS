@@ -2,7 +2,9 @@ package com.chat.herechat;
 
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -930,5 +932,16 @@ public class LocalService extends Service {
 			return null;
 
 		return res.toString();
+	}
+
+	public Vector<ChatRoomDetails> getChatRooms(){
+		Vector<ChatRoomDetails> ret = new Vector<ChatRoomDetails>();
+		Collection<ChatRoomDetails> tempRoomCol = mDiscoveredChatRoomsHash.values();
+
+		for (ChatRoomDetails tempRoom : tempRoomCol){
+			ret.add(tempRoom);
+		}
+
+		return ret;
 	}
 }

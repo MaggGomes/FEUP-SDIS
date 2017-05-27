@@ -2,6 +2,7 @@ package com.chat.herechat.ChatManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.concurrent.Semaphore;
 
 import android.annotation.SuppressLint;
@@ -38,6 +39,8 @@ public class ActiveChatRoom {
 		this.isHostedGroupChat = isHosted;
 		mRoomInfo = info;
 		mBannedUsers = new ArrayList<Peer>();
+
+		Vector<ChatRoomDetails> temp = mService.getChatRooms();
 
 		//define a handler to be triggered when the file-writer completes the job
 		mFileWriterResultHandler = new Handler(mService.getMainLooper()) {
