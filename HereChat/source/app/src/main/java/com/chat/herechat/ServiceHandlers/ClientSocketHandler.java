@@ -414,7 +414,7 @@ public class ClientSocketHandler extends Thread {
 		     */
 			clientSocket = new Socket();
 			clientSocket.bind(null);
-		    clientSocket.connect((new InetSocketAddress(peer.IPaddr, SERVER_PORT)), 3000);
+		    clientSocket.connect((new InetSocketAddress(peer.IPaddr, SERVER_PORT)), 10000);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			return;
