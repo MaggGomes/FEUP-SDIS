@@ -58,6 +58,7 @@ public class ActiveChatRoom {
 	 * @param isSelfMsg - indicating if this message came from us or a peer
 	 */
 	public void ForwardMessage(String[] msg, boolean isSelfMsg) {
+		System.out.println(213);
 		if (!isSelfMsg) {
 			if (!mRoomInfo.hasNewMsg) //on a state change of this flag
 				mService.BroadcastRoomsUpdatedEvent(); //notify that this room has an unread message

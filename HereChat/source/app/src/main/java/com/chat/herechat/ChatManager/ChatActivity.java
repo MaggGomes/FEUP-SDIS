@@ -450,29 +450,113 @@ public class ChatActivity extends ListActivity {
 	private void ShowSingleButtonDialogAndFinishActivity(String title, String message)
 	{
 		new AlertDialog.Builder(this)
-	    .setTitle(title)
-	    .setIcon(R.drawable.alert_icon)
-	    .setMessage(message)
+				.setTitle(title)
+				.setIcon(R.drawable.alert_icon)
+				.setMessage(message)
 
-	    //yes button setter
-	    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int which) {
+				//yes button setter
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
 
-			finish();  //close the activity
+						finish();  //close the activity
 
-	        }//onClick-Yes
-	     })//setPositive
-	     .setOnCancelListener(new OnCancelListener()
-		{
+					}//onClick-Yes
+				})//setPositive
+				.setOnCancelListener(new OnCancelListener()
+				{
 
-			@Override
-			public void onCancel(DialogInterface dialog)
-			{
-				finish();
+					@Override
+					public void onCancel(DialogInterface dialog)
+					{
+						finish();
 
-			}
-		})
-	     .show();
+					}
+				})
+				.show();
+
+	}//end of ShowChatRoomWasClosedDialog()
+
+
+	private void ShowSingleButtonDialogAndAssumeHost()
+	{
+		new AlertDialog.Builder(this)
+				.setTitle("Host the chat?")
+				.setIcon(R.drawable.alert_icon)
+				.setMessage("You'll be the new host!")
+
+				//yes button setter
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						//ASSUME O HOST DO CHAT
+						ChatHandOver handover = new ChatHandOver(mChatRoomInfo, mService);
+						/*boolean isPassword = false;
+						String password = "";
+						String roomName = null;
+
+						EditText ed = (EditText) mDialog.findViewById(R.id.choosePassword);
+
+						//gets password if exists
+						isPassword = ed.isEnabled();
+						if (isPassword) {
+							password = ed.getText().toString();
+						}
+
+						//gets rooms name
+						ed = (EditText) mDialog.findViewById(R.id.chooseRoomsName);
+						roomName = ed.getText().toString();
+
+						//if the room's name is invalid:
+						if (roomName == null || roomName.length() < 1) {
+							// pop alert dialog and reload this dialog
+							new AlertDialog.Builder(MainScreenActivity.this)
+									.setTitle("Missing name error")
+									.setMessage("A room must have a name")
+
+									//yes button setter
+									.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int which) {
+											mDialog.show();
+										}
+									})//setPositive
+
+									.setOnCancelListener(new OnCancelListener() {
+										public void onCancel(DialogInterface dialog) {
+											mDialog.show();
+										}
+									})
+
+									.show();
+						}
+						else {
+							if (password.equalsIgnoreCase(""))
+								password = null;
+
+							ChatSearchScreenFrag.mService.CreateNewHostedPublicChatRoom(roomName, password);
+
+						}
+
+*/
+
+					}//onClick-Yes
+				})//setPositive
+				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+
+						finish();  //close the activity
+
+					}//onClick-Yes
+				})
+				.setOnCancelListener(new OnCancelListener()
+				{
+
+					@Override
+					public void onCancel(DialogInterface dialog)
+					{
+						finish();
+
+					}
+				})
+				.show();
 
 	}//end of ShowChatRoomWasClosedDialog()
 
@@ -563,7 +647,7 @@ public class ChatActivity extends ListActivity {
 							{
 								DismissDialog(PeerConnectDialog);
 								Constants.showBubble("SEND FAILED! SOCK CRASHED!",mActivity);
-
+								new ChatHandOver(mChatRoomInfo, mService);
 								if (mIsActive) //if a send failed after this chat is active, it means that a message has failed to be sent
 								{
 									if (!mMsgsWaitingForSendResult.isEmpty())
@@ -630,8 +714,7 @@ public class ChatActivity extends ListActivity {
 								}
 								if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_REASON).equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_REASON_ROOM_CLOSED))
 								{
-									ShowSingleButtonDialogAndFinishActivity("Room was closed!",
-											"The hosting peer has closed the chat room!");
+									ShowSingleButtonDialogAndAssumeHost();
 									mService.RemoveFromDiscoveredChatRooms(msgDst); //msgDst is the room's unique
 								}
 
