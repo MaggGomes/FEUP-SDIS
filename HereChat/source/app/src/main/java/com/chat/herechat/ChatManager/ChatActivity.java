@@ -68,6 +68,7 @@ public class ChatActivity extends ListActivity {
 		mService = ChatSearchScreenFrag.mService; //get a reference to the service
 		Bundle extras = getIntent().getExtras();
 		String ChatRoomID = extras.getString(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE); //get the chat room ID from the intent
+		this.mListContent = this.mService.mListContent;
 
 		if(mChatRoomInfo==null)
 			mChatRoomInfo = mService.mDiscoveredChatRoomsHash.get(ChatRoomID);  //get the room's info if it's not a hosted chat room
@@ -488,54 +489,8 @@ public class ChatActivity extends ListActivity {
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						//ASSUME O HOST DO CHAT
-						ChatHandOver handover = new ChatHandOver(mChatRoomInfo, mService);
-						/*boolean isPassword = false;
-						String password = "";
-						String roomName = null;
-
-						EditText ed = (EditText) mDialog.findViewById(R.id.choosePassword);
-
-						//gets password if exists
-						isPassword = ed.isEnabled();
-						if (isPassword) {
-							password = ed.getText().toString();
-						}
-
-						//gets rooms name
-						ed = (EditText) mDialog.findViewById(R.id.chooseRoomsName);
-						roomName = ed.getText().toString();
-
-						//if the room's name is invalid:
-						if (roomName == null || roomName.length() < 1) {
-							// pop alert dialog and reload this dialog
-							new AlertDialog.Builder(MainScreenActivity.this)
-									.setTitle("Missing name error")
-									.setMessage("A room must have a name")
-
-									//yes button setter
-									.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int which) {
-											mDialog.show();
-										}
-									})//setPositive
-
-									.setOnCancelListener(new OnCancelListener() {
-										public void onCancel(DialogInterface dialog) {
-											mDialog.show();
-										}
-									})
-
-									.show();
-						}
-						else {
-							if (password.equalsIgnoreCase(""))
-								password = null;
-
-							ChatSearchScreenFrag.mService.CreateNewHostedPublicChatRoom(roomName, password);
-
-						}
-
-*/
+						ChatHandOver handover = new ChatHandOver(mChatRoomInfo, mService, mListContent);
+						finish();
 
 					}//onClick-Yes
 				})//setPositive
@@ -647,7 +602,7 @@ public class ChatActivity extends ListActivity {
 							{
 								DismissDialog(PeerConnectDialog);
 								Constants.showBubble("SEND FAILED! SOCK CRASHED!",mActivity);
-								new ChatHandOver(mChatRoomInfo, mService);
+								new ChatHandOver(mChatRoomInfo, mService, mListContent);
 								if (mIsActive) //if a send failed after this chat is active, it means that a message has failed to be sent
 								{
 									if (!mMsgsWaitingForSendResult.isEmpty())
