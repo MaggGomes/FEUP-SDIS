@@ -19,11 +19,11 @@ public class CreateHistoryEntryFileName extends Thread {
 	private Handler mWorkerHandler = null;
 	
 	public CreateHistoryEntryFileName(String fileFullName, ChatHistoryScreenFrag.HistoryEntry entery, FragmentActivity fragmentActivity, Handler resHandler) {
-		mEntry.mID = fileFullName.split("[.]")[0];
 		mResultHanlder = resHandler;
 		mActivity = fragmentActivity;
 		mEntry = entery;
-		
+		mEntry.mID = fileFullName.split("[.]")[0];
+
 		mWorkerHandler = new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
