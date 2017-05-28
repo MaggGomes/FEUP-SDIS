@@ -145,6 +145,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         } else {
             //show the delete history option
             menu.findItem(R.id.action_delete_all_history).setVisible(true);
+            menu.findItem(R.id.clear_ignore_list).setVisible(false);
         }
 
         return true;
@@ -192,6 +193,12 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
 
                 CheckBox ch = (CheckBox) mDialog.findViewById(R.id.checkBoxSetPassword);
                 ch.setOnClickListener(AlertCheckBoxClickListener);
+                break;
+            }
+
+            case R.id.clear_ignore_list: {
+                if (mSearchFrag != null)
+                    mSearchFrag.ClearIgnoredUsersList();
                 break;
             }
 

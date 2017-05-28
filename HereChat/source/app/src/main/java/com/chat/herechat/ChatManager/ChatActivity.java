@@ -189,6 +189,40 @@ public class ChatActivity extends ListActivity {
 		return true;
 	}//end of onCreateOptionsMenu()
 
+
+	/**
+	 * Used to modify menu item according to the app's state
+	 */
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		super.onPrepareOptionsMenu(menu);
+        menu.clear(); //Clear view of previous menu
+        MenuInflater inflater = getMenuInflater();
+        //switch between 2 different menus, according to if it's a private chat or not
+        if(mChatRoomInfo.isPrivateChatRoom)
+        {
+            inflater.inflate(R.menu.chat_prv_room_menu, menu);
+            if (mService.mBannedFromPrivateChatUsers.containsKey(mChatRoomInfo.RoomID)) //if this user is currently ignored
+        	{
+	        	//show the unignore option
+	        	menu.findItem(R.id.action_unignore_user).setVisible(true);
+	        	menu.findItem(R.id.action_ignore_user).setVisible(false);
+        	}
+            else
+        	{
+	        	//show the ignore option
+	           	menu.findItem(R.id.action_unignore_user).setVisible(false);
+	        	menu.findItem(R.id.action_ignore_user).setVisible(true);
+        	}
+        }
+        else //this is a public chat room
+            inflater.inflate(R.menu.chat_pub_room_menu, menu);
+
+        return true;
+
+	}//end of onPrepareOptionsMenu()
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -204,6 +238,28 @@ public class ChatActivity extends ListActivity {
 				{
 					mListContent.clear();
 					mListAdapter.notifyDataSetChanged();
+					break;
+				}
+				case R.id.action_ignore_user: //ignore user was clicked (prv chat)
+				{
+					mService.mBannedFromPrivateChatUsers.put(mChatRoomInfo.RoomID, "true"); //update the ignore list
+
+					//now we want to broadcast an intent that'll force the "search fragment" to refresh it's list view
+		    		Intent intent = mService.CreateBroadcastIntent();
+		    		intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.SERVICE_BROADCAST_OPCODE_ACTION_CHAT_ROOM_LIST_CHANGED);
+		    		 sendBroadcast(intent); //send the intent
+
+					finish();  //close the activity
+					break;
+				}
+				case R.id.action_unignore_user: //ignore user was clicked (prv chat)
+				{
+					mService.mBannedFromPrivateChatUsers.remove(mChatRoomInfo.RoomID); //update the ignore list
+
+					//now we want to broadcast an intent that'll force the "search fragment" to refresh it's list view
+		    		Intent intent = mService.CreateBroadcastIntent();
+		    		intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.SERVICE_BROADCAST_OPCODE_ACTION_CHAT_ROOM_LIST_CHANGED);
+		    		sendBroadcast(intent); //send the intent
 					break;
 				}
 				case R.id.action_close_room: //close chat room was clicked
@@ -280,6 +336,11 @@ public class ChatActivity extends ListActivity {
 			{
 				mListContent.clear();
 				mListAdapter.notifyDataSetChanged();
+				break;
+			}
+			case R.id.action_clear_banned_users://clear banned users was clicked
+			{
+				mService.ClearBannedUsersListInPublicRoom(mChatRoomInfo);
 				break;
 			}
 			case R.id.action_close_room://close room was clicked

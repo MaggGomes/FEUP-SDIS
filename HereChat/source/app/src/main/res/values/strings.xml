@@ -18,12 +18,17 @@
     <string name="send">Send</string>
     <string name="create_new_public_chat_room">Create public chat room</string>
     <string name="clear_display">Clear display</string>
+    <string name="ignore_this_user">Ignore user</string>
     <string name="close_pub_chat_room">Close chat room</string>
     <string name="clear_history_file">Clear history file</string>
     <string name="clear_all_history">Clear all history</string>
+    <string name="ignore_user">Ignore user</string>
+    <string name="clear_igonred_users_list">Clear ignored users list</string>
+    <string name="unginore_user">Unignore user</string>
     <string name="rooms_name">Room\'s name:</string>
     <string name="pasword">Password</string>
     <string name="roonNameIsMust">Room name is a must</string>
+    <string name="clear_banned_users_in_room">Clear banned users list</string>
     <string name="kick_user">Kick user</string>
     <string name="ban_user">Ban user</string>
     <string name="no_discovered_peers">No discovered peers</string>
