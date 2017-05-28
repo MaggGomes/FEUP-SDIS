@@ -12,65 +12,63 @@ import android.os.Message;
 
 import com.chat.herechat.Utilities.Constants;
 
-/**
- * Handles file read/write operations.
- * If this read is run as a reader, it reads the entire file, replaces all "\r\n"
- * occurrences with 'Constants.STANDART_FIELD_SEPERATOR', sends it as a single string via handler and finishes.
- * If this thread is run as a writer, it runs infinitely until stopped.
- * In writer mode, the data to write should be inserted via UpdateDataToWriteBuffer(String). When this writer thread is no
- * longer needed, Kill() should be called. If a handler was passed to a writer thread, an empty message will be sent just before
- * termination, indicating that the writing operation is complete.
- */
 public class FileHandler extends Thread {
-	private Handler mHandler = null;
-	private String mRoomID = null;
-	private Context mContext = null;
-	private FileOutputStream mOutputStream = null;
-	private BufferedReader mReader = null;
-	private String mFileName = null;
-	public Boolean mIsDataToWrite=false;
-	public StringBuilder mDataToWrite = new StringBuilder("");  //will hold the data to be written to the file
-	boolean mIsReader = false; //our thread can be a reader or a writer
-	boolean isToKill=false;
+	private Handler handler = null;
+	private FileOutputStream outputStream = null;
+	private BufferedReader reader = null;
+	private String fileName = null;
+	public Boolean mIsDataToWrite = false;
+	private String roomID = null;
+	private Context context = null;
+	boolean isReader = false;
+	boolean isToStop = false;
+	public StringBuilder dataToWrite = new StringBuilder("");
 	
 	/**
-	 * Handles read from file and write to file operations. 
-	 * If the thread is constructed as a reader, it reads the entire file and sends the result via handler
-	 * If the thread is constructed as a writer, it runs infinitely and writes data to the file as it becomes available
-	 * @param RoomID - will be used for the file's name
+	 * Handles read from file and write to file operations.
+	 * @param RoomID
 	 * @param handler - a reader thread will use this handler to return a result
-	 * @param isReader - defines if it's a reader or a writer
+	 * @param isReader
 	 */
 	public FileHandler(String RoomID, Handler handler, boolean isReader, Context con) {
-		mRoomID = RoomID;
-		mIsReader = isReader;
-		mFileName = mRoomID+".txt";
-		mContext = con;
-		mHandler = handler;
+		this.roomID = RoomID;
+		this.context = con;
+		this.isReader = isReader;
+		this.handler = handler;
+		fileName = roomID+".txt";
 
+		initReader();
+	}
+
+	public void initReader(){
 		try {
-			if (isReader)
-				mReader = new BufferedReader(new InputStreamReader(mContext.openFileInput(mFileName)));		
+			if (!isReader)
+				outputStream = context.openFileOutput(fileName, Context.MODE_APPEND);
 			else
-				mOutputStream = mContext.openFileOutput(mFileName, Context.MODE_APPEND); //Open a file for appending. Create it if necessary                                                           
+				reader = new BufferedReader(new InputStreamReader(context.openFileInput(fileName)));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
+	public void Kill() {
+		isToStop = true;
+	}
 	
 	@Override
 	public void run() {
-		while (!isToKill) {
-			if (mIsReader) {
-				ReadEntireFile();
-				break; 			//end the thread
-			}
+		while (!isToStop) {
 			if (mIsDataToWrite) {
 				WriteToFile();
 			}
+
+			if (isReader) {
+				ReadEntireFile();
+				break;
+			}
 			
 			try {
-				sleep(200);
+				sleep(300);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -79,60 +77,46 @@ public class FileHandler extends Thread {
 		if (mIsDataToWrite)
 			WriteToFile();
 		
-		if (mHandler!=null && !mIsReader)
-			mHandler.sendEmptyMessage(0);
+		if (handler!=null && !isReader)
+			handler.sendEmptyMessage(0);
 		
 		try {
-			if (mOutputStream!=null)
-				mOutputStream.close();
-			if (mReader!=null)
-				mReader.close();
+			if (outputStream!=null)
+				outputStream.close();
+			if (reader!=null)
+				reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
-	public void Kill() {
-		isToKill=true;
-	}
 
-	/**
-	 * Writes the entire buffer to the file
-	 */
 	private void WriteToFile () {
-		synchronized (mDataToWrite) {
+		synchronized (dataToWrite) {
 			try {
-				mOutputStream.write(mDataToWrite.toString().getBytes());
+				outputStream.write(dataToWrite.toString().getBytes());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
-			mDataToWrite.setLength(0);
-			mIsDataToWrite=false;
+			dataToWrite.setLength(0);
+			mIsDataToWrite = false;
 		}
 	}
-	
-	public void UpdateDataToWriteBuffer (String data) {
-		synchronized (mDataToWrite) {
-			mDataToWrite.append(data);
-			mIsDataToWrite=true;
-		}
-	}
-	
+
 	/**
 	 * Read from a file and send a msg with the content to the handler
 	 */
 	private void ReadEntireFile () {
-		boolean isDataFileNotEmpty=false;
-		String inputString=null;
+		String inputString = null;
 		StringBuffer buffer = new StringBuffer();
+		boolean isDataFileNotEmpty = false;
 		
-		if (mReader!=null) {
+		if (reader!=null) {
 		    try {
-				while ((inputString = mReader.readLine()) != null) {
+				while ((inputString = reader.readLine()) != null) {
 				    buffer.append(inputString + Constants.STANDART_FIELD_SEPERATOR);
-					isDataFileNotEmpty=true;
+					isDataFileNotEmpty = true;
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -140,16 +124,23 @@ public class FileHandler extends Thread {
 		}
 	    
 	    Bundle bundle = new Bundle();
-	    Message msg = mHandler.obtainMessage();  //get a new message from the handler
+	    Message msg = handler.obtainMessage();  //get a new message from the handler
 	    if (!isDataFileNotEmpty) {
-	    	bundle.putBoolean(Constants.FILE_THREAD_WAS_DATA_READ_KEY, false);  //mark that no data was read
+			bundle.putBoolean(Constants.FILE_THREAD_WAS_DATA_READ_KEY, true);
+			bundle.putString(Constants.FILE_THREAD_DATA_CONTENT_KEY, buffer.toString());
 	    }
 	    else {
-	    	bundle.putBoolean(Constants.FILE_THREAD_WAS_DATA_READ_KEY, true);  //mark that the data was read
-	    	bundle.putString(Constants.FILE_THREAD_DATA_CONTENT_KEY, buffer.toString());  //insert the entire read data
+			bundle.putBoolean(Constants.FILE_THREAD_WAS_DATA_READ_KEY, false);  //mark that no data was read
 	    }
 
 	    msg.setData(bundle);
-	    mHandler.sendMessage(msg);
+	    handler.sendMessage(msg);
+	}
+
+	public void UpdateDataToWriteBuffer (String data) {
+		synchronized (dataToWrite) {
+			dataToWrite.append(data);
+			mIsDataToWrite=true;
+		}
 	}
 }

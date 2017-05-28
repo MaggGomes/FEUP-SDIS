@@ -10,9 +10,9 @@ import java.net.Socket;
  * Server socket that creates a new client socket to handle new requests
  */
 public class ServerSocketHandler extends Thread {
-    private ServerSocket serverSocket;
-    private LocalService service;
     private static final int SOCKET_PORT = 4000;
+    private LocalService service;
+    private ServerSocket serverSocket;
 
     /**
      * Constructor
