@@ -69,10 +69,11 @@
         android:id="@android:id/empty"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/bottom_write_bar"
-        android:layout_alignParentTop="true"
         android:gravity="center_vertical|center_horizontal"
         android:textSize="16sp"
-        android:text="@string/main_empty_list" />
+        android:text="@string/main_empty_list"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

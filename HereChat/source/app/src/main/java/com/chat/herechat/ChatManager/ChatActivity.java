@@ -30,6 +30,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.chat.herechat.FilePickerActivity;
 import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.ServiceHandlers.FileHandler;
 import com.chat.herechat.LocalService;
@@ -56,6 +57,8 @@ public class ChatActivity extends ListActivity {
 	AlertDialog mDialog=null;								 //an alert dialog holder
 	boolean mIsTimedOut=false;
 	private final int Handler_WHAT_valueForPeerConnect = 10;
+    static final int PICK_CONTACT_REQUEST = 1;
+
 
 	@SuppressLint("HandlerLeak")
 	@Override
@@ -733,6 +736,13 @@ public class ChatActivity extends ListActivity {
 		}//if
 	}//end of OnSendButtonClicked()
 
+
+    public boolean OnFileButtonClicked(View v)
+    {
+        Intent chooseFileIntent = new Intent(this, FilePickerActivity.class);
+        startActivityForResult(chooseFileIntent,PICK_CONTACT_REQUEST);
+        return true;
+    }
 	/**
 	 * Checks if this chat room is a hosted public chat room
 	 * @return true if so, false otherwise

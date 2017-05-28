@@ -80,6 +80,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.chat.herechat.MainScreenActivity" />
         </activity>
+        <activity
+            android:name="com.chat.herechat.FilePickerActivity"
+            android:label="@string/title_activity_file_picker"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName="com.chat.herechat.MainScreenActivity" >
+
+            <!-- Parent activity meta-data to support API level 7+ -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.chat.herechat.MainScreenActivity" />
+        </activity>
     </application>
 
 </manifest>

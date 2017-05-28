@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory 
+	    android:title="Settings"
+		android:key="first_category">
+		
+		<!--suppress AndroidDomInspection -->
+		<EditTextPreference
+			android:defaultValue="usName"
+			android:dialogMessage="Enter New User Name"
+			android:dialogTitle="User Name Changing"
+			android:key="NAME"
+			android:title="Change username" />
+		<CheckBoxPreference
+			android:defaultValue="true"
+			android:key="ENABLE_NOTIFICATION"
+			android:title="Enable notifications" />
+		<ListPreference
+			android:defaultValue="30000"
+			android:entries="@array/updateInterval"
+			android:entryValues="@array/updateIntervalValues"
+			android:key="PERIOD"
+			android:title="Set refresh period" />
+				
+	</PreferenceCategory>
+
+	
+</PreferenceScreen>
