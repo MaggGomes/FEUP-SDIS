@@ -138,44 +138,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	        mIsServiceBound = false;
 	    	}
 	}//end of onStop()
-	
-	
-	/**
-	 * For this context menu, we'de like to display a single option only if a private chat item was selected.
-	 * If a public chat item was selected, no context menu should be displayed
-	 * @param menu
-	 * @param v
-	 * @param menuInfo
-	 */
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo)
-	{
-	    super.onCreateContextMenu(menu, v, menuInfo);
-	    
-	    AdapterContextMenuInfo selectedRow = (AdapterContextMenuInfo) menuInfo; //get the current selected item
-	    boolean isPrivateChat = mListContent.get((int)selectedRow.id).
-	    		get(Constants.HASH_MAP_KEY_SEARCH_FRAG_PARTICIPANTS).equalsIgnoreCase("Private chat");
-	    
-	    MenuInflater inflater = mActivity.getMenuInflater();
-	    inflater.inflate(R.menu.chat_search_frag_context_menu, menu);
-	    
-	    boolean isIgnored=false;
-	
-	    if (isPrivateChat) //a context should be shown only for a private chat
-	    {
-	    	isIgnored = mListContent.get((int)selectedRow.id).get(Constants.HASH_MAP_KEY_SEARCH_FRAG_ICON)
-	    			.equalsIgnoreCase(Integer.toString(R.drawable.ignored_user_icon));
-	    	
-	    	 menu.findItem(R.id.action_ignore_user).setVisible(!isIgnored);  //set visibility for the ignore option 
-	    	 menu.findItem(R.id.action_unignore_user).setVisible(isIgnored);  //set visibility the unignore option 
-	    }
-	    else //if this is a public chat, we don't no context menu
-	    {
-	    	 menu.findItem(R.id.action_ignore_user).setVisible(false);  //set visibility for the ignore option 
-	    	 menu.findItem(R.id.action_unignore_user).setVisible(false);  //set visibility the unignore option 
-	    }
-	}//end of onCreateContextMenu()
+
 	
 	/**
 	 * Define an item selection handler for the context menu
@@ -187,18 +150,6 @@ public class ChatSearchScreenFrag extends ListFragment
 		
 			switch(item.getItemId()) //switch by the selected operation:
 			{
-				case R.id.action_ignore_user:
-				{
-					//get the unique id of the user to ignore
-					String unique  = mListContent.get((int)selectedRow.id).get(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE);
-					
-					//we'de like to change the icon
-					mListContent.get((int)selectedRow.id).put(Constants.HASH_MAP_KEY_SEARCH_FRAG_ICON, Integer.toString(R.drawable.ignored_user_icon));
-					mListAdapter.notifyDataSetChanged();
-					
-					mService.mBannedFromPrivateChatUsers.put(unique, "true"); //update the ignore list
-					return true;
-				}
 				case R.id.action_unignore_user:
 				{
 					//get the unique id of the user to ignore
