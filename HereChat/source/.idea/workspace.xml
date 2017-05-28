@@ -50,21 +50,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChatActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ChatActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7769">
-              <caret line="492" column="33" selection-start-line="492" selection-start-column="33" selection-end-line="492" selection-end-column="33" />
+            <state relative-caret-position="577">
+              <caret line="665" column="74" selection-start-line="665" selection-start-column="74" selection-end-line="665" selection-end-column="74" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChatHandOver.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ChatHandOver.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatHandOver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="33" column="130" selection-start-line="33" selection-start-column="130" selection-end-line="33" selection-end-column="130" />
+            <state relative-caret-position="170">
+              <caret line="10" column="25" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1785,10 +1785,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatHistoryScreenFrag.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ActiveChatRoom.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/MainScreenActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/LocalService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatHandOver.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java" />
       </list>
     </option>
   </component>
@@ -2335,6 +2335,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16684435" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
@@ -2347,7 +2348,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -2381,18 +2381,6 @@
           <line>40</line>
           <properties />
           <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java</url>
-          <line>603</line>
-          <properties />
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java</url>
-          <line>605</line>
-          <properties />
-          <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java</url>
@@ -2694,14 +2682,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7769">
-          <caret line="492" column="33" selection-start-line="492" selection-start-column="33" selection-end-line="492" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -2733,11 +2713,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatHandOver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" column="130" selection-start-line="33" selection-start-column="130" selection-end-line="33" selection-end-column="130" />
+        <state relative-caret-position="170">
+          <caret line="10" column="25" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="577">
+          <caret line="665" column="74" selection-start-line="665" selection-start-column="74" selection-end-line="665" selection-end-column="74" />
+          <folding />
         </state>
       </provider>
     </entry>

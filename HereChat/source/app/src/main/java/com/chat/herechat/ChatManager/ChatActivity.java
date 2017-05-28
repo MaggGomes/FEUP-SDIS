@@ -489,7 +489,7 @@ public class ChatActivity extends ListActivity {
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						//ASSUME O HOST DO CHAT
-						ChatHandOver handover = new ChatHandOver(mChatRoomInfo, mService, mListContent);
+						new ChatHandOver(mChatRoomInfo, mService, mListContent);
 						finish();
 
 					}//onClick-Yes
@@ -602,7 +602,7 @@ public class ChatActivity extends ListActivity {
 							{
 								DismissDialog(PeerConnectDialog);
 								Constants.showBubble("SEND FAILED! SOCK CRASHED!",mActivity);
-								new ChatHandOver(mChatRoomInfo, mService, mListContent);
+
 								if (mIsActive) //if a send failed after this chat is active, it means that a message has failed to be sent
 								{
 									if (!mMsgsWaitingForSendResult.isEmpty())
@@ -663,8 +663,7 @@ public class ChatActivity extends ListActivity {
 								}
 								if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_REASON).equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_NON_EXITISING_ROOM))
 								{
-									ShowSingleButtonDialogAndFinishActivity("Invalid Room",
-											"The requested room no longer exists!");
+                                    ShowSingleButtonDialogAndAssumeHost();
 									mService.RemoveFromDiscoveredChatRooms(msgDst); //msgDst is the room's unique
 								}
 								if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_REASON).equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_REASON_ROOM_CLOSED))
