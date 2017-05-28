@@ -53,7 +53,6 @@ public class LocalService extends Service {
     public HashMap<String, ActiveChatRoom> mActiveChatRooms = null;
     public HashMap<String, ChatRoomDetails> mDiscoveredChatRoomsHash = null;
     public ArrayList<Peer> mDiscoveredUsers = null;
-    public HashMap<String, String> mBannedFromPrivateChatUsers = null;
     public boolean mIsWifiGroupOwner = false;
     public ArrayList<ChatMessage> mListContent;
 
@@ -318,20 +317,6 @@ public class LocalService extends Service {
                 ChatRoomDetails details = mDiscoveredChatRoomsHash.get(RoomID); //get the room's details
                 ActiveChatRoom room = new ActiveChatRoom(this, false, details);  //create a new chat room
                 mActiveChatRooms.put(RoomID, room);  //add to the active chats hash
-            }
-        }
-
-        //if this message is a 'kick' or 'ban' message
-        if (reason.equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_BANNED) ||
-                reason.equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_KICKED)) {
-            //if this room isn't currently displayed, we want to handle the disconnection
-            if (DisplayedAtChatActivity == null || !RoomID.equalsIgnoreCase(DisplayedAtChatActivity.RoomID)) {
-                ActiveChatRoom activeRoom = mActiveChatRooms.get(RoomID);
-                if (activeRoom != null)
-                    RemoveActiveRoomOnKickOrBan(activeRoom.mRoomInfo);
-
-                BroadcastRoomsUpdatedEvent();
-                return;
             }
         }
 
@@ -655,10 +640,6 @@ public class LocalService extends Service {
             mActiveChatRooms = new HashMap<String, ActiveChatRoom>();
         }
 
-        if (mBannedFromPrivateChatUsers == null) {
-            mBannedFromPrivateChatUsers = new HashMap<String, String>();
-        }
-
         if (mNotificationManager == null)
             mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
@@ -736,35 +717,6 @@ public class LocalService extends Service {
     }
 
     /**
-     * Called by {@link ChatActivity} when a peer wants to leave a public chat that we host
-     *
-     * @param peerUnique - the peer's unique ID
-     * @param roomUnique - the chat room's unique ID
-     */
-    public void OnRequestToRemoveFromHostedChat(String peerUnique, String roomUnique) {
-        ActiveChatRoom activeRoom = mActiveChatRooms.get(roomUnique);
-        if (activeRoom != null)
-            activeRoom.RemoveUserFromTheUsersList(peerUnique);
-    }
-
-    /**
-     * Called by {@link ChatActivity} when a host wished to kick or ban a participating peer
-     *
-     * @param info       - the chat room's details
-     * @param userUnique - the peer's unique ID
-     * @param isBanned   - true if the user should be banned, false if he should be kicked only
-     */
-    public void KickOrBanUserFromHostedChat(ChatRoomDetails info, String userUnique, boolean isBanned) {
-        ActiveChatRoom activeRoom = mActiveChatRooms.get(info.RoomID);
-        if (activeRoom != null) {
-            if (isBanned)
-                activeRoom.BanUser(userUnique);
-            else
-                activeRoom.KickUser(userUnique);
-        }
-    }
-
-    /**
      * The user wished to leave a public chat room which he's not the host of
      *
      * @param info - the room's details
@@ -790,17 +742,6 @@ public class LocalService extends Service {
             mActiveChatRooms.remove(activeRoom.mRoomInfo.RoomID);
             BroadcastRoomsUpdatedEvent();
         }
-    }
-
-    /**
-     * Clears the banned users list of a single public chat room
-     *
-     * @param info - the room's details
-     */
-    public void ClearBannedUsersListInPublicRoom(ChatRoomDetails info) {
-        ActiveChatRoom room = mActiveChatRooms.get(info.RoomID);
-        if (room != null)
-            room.ClearBannedUsersList();
     }
 
     /**
@@ -864,18 +805,6 @@ public class LocalService extends Service {
         }
 
         BroadcastRoomsUpdatedEvent();
-    }
-
-    /**
-     * Called by the {@link ChatActivity} when a public room's owner kicks or bans us
-     *
-     * @param details
-     */
-    public void RemoveActiveRoomOnKickOrBan(ChatRoomDetails details) {
-        synchronized (mActiveChatRooms) {
-            if (mActiveChatRooms.containsKey(details.RoomID))
-                mActiveChatRooms.remove(details.RoomID);
-        }
     }
 
     /**

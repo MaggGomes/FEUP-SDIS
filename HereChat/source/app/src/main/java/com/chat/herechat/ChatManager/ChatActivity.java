@@ -328,37 +328,6 @@ public class ChatActivity extends ListActivity {
 
 	}//end of ShowCloseHostedRoomDialog()
 
-	/**
-	 * Shows an alert dialog when a we are being ignored by the target peer
-	 */
-	private void ShowPeerIsIgnoringDialog()
-	{
-		new AlertDialog.Builder(this)
-	    .setTitle("Unable start chat")
-	    .setIcon(R.drawable.alert_icon)
-	    .setMessage("You are blocked by the hosting peer!")
-
-	    //yes button setter
-	    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int which) {
-
-			finish();  //close the activity
-
-	        }//onClick-Yes
-	     })//setPositive
-	     .setOnCancelListener(new OnCancelListener()
-		{
-
-			@Override
-			public void onCancel(DialogInterface dialog)
-			{
-				finish();
-
-			}
-		})
-	     .show();
-
-	}//end of ShowPeerIsIgnoringDialog()
 
 
 	/**
@@ -578,20 +547,6 @@ public class ChatActivity extends ListActivity {
 							{
 								DismissDialog(PeerConnectDialog);
 								mIsActive=false;
-								if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_REASON).equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_KICKED))
-								{
-									mIsActive=false;
-									mService.RemoveActiveRoomOnKickOrBan(mChatRoomInfo);
-									ShowSingleButtonDialogAndFinishActivity("Kicked out!",
-											"The host has kicked you out of the chat room!");
-								}
-								//if the peer has banned us:
-								if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_REASON).equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_BANNED))
-								{
-									mIsActive=false;
-									mService.RemoveActiveRoomOnKickOrBan(mChatRoomInfo);
-									ShowPeerIsIgnoringDialog(); //show dialog and close the activity
-								}
 								//
 								if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_REASON).equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_WRONG_PW))
 								{

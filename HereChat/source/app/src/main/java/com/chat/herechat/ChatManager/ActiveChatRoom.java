@@ -28,7 +28,6 @@ public class ActiveChatRoom {
 	public ChatRoomDetails mRoomInfo;            //reference to to the details object of this room
 	public boolean isHostedGroupChat;	          //indicates whether this is a hosted public chat or not
 	private LocalService mService;				  //reference to the service
-	private ArrayList<Peer> mBannedUsers=null;	  //a list of users that are banned from joining this room
 	public Handler mSingleSendThreadMessageReceiver=null;	//used for receiving messages from a 'SendControlMessage'
 	private Handler mFileWriterResultHandler=null;			//used for receiving messages from a 'FileHandler'
 	private Semaphore semaphore = new Semaphore(1, true);   //used to synch between file writers
@@ -38,7 +37,6 @@ public class ActiveChatRoom {
 		mService = srv;
 		this.isHostedGroupChat = isHosted;
 		mRoomInfo = info;
-		mBannedUsers = new ArrayList<Peer>();
 
 		Vector<ChatRoomDetails> temp = mService.getChatRooms();
 
@@ -117,19 +115,15 @@ public class ActiveChatRoom {
 	}
 
 	/**
-	 * Used only by a hosted group chat. Adds a user to the chat group if he's not banned and the password matches
+	 * Used only by a hosted group chat. Adds a user to the chat group if the password matches
 	 * @param user - reference to the user to be added
 	 * @return result - Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST if the user already exists or was added successfully,
-	 * Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_BANNED if the user is banned
 	 * and Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_WRONG_PW if the offered password is wrong
 	 */
 	public String AddUser (Peer user, String suggestedPw) {
 		//check if this user already exists in the room:
 		if ( Constants.CheckIfUserExistsInListByUniqueID(user.uniqueID, mRoomInfo.Users)!=null)
 			return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST;
-		//check if not banned:
-		if (CheckIfUserIsBanned(user.uniqueID))
-			return Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_BANNED;
 		//check if the pw is correct:
 		if (mRoomInfo.Password!=null && !suggestedPw.equalsIgnoreCase(mRoomInfo.Password))
 			return Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_WRONG_PW;
@@ -155,87 +149,6 @@ public class ActiveChatRoom {
 			ChatActivity.InitHistoryFile(mRoomInfo.RoomID, mFileWriterResultHandler, mRoomInfo.Name, mRoomInfo.isPrivateChatRoom, mService);
 		else //if the file deletion has failed
 			semaphore.release();
-	}
-
-	/**
-	 * Removes a user from the chat room
-	 * @param userUniqueId - the unique id of the user to be removed
-	 */
-	public void RemoveUserFromTheUsersList(String userUniqueId) {
-		HandleKickOrBanRequest(userUniqueId, false, false);
-	}
-
-
-	/**
-	 * Handles kick or ban requests made by a host of a public room
-	 * @param userUniqueId - the user's unique id
-	 * @param isBanned - indicating whether this user is also banned
-	 * @param isToSendMsgToPeer - indicates whether a reply message should be sent to the peer
-	 */
-	public void HandleKickOrBanRequest (String userUniqueId, boolean isBanned, boolean isToSendMsgToPeer) {
-		Peer userToKick=null;
-
-		for (Peer user : mRoomInfo.Users) {
-			if (user.uniqueID.equalsIgnoreCase(userUniqueId)) {
-				userToKick=user;
-				break;
-			}
-		}
-
-		if (userToKick!=null) {
-			mRoomInfo.Users.remove(userToKick);
-
-			if (isToSendMsgToPeer)
-				SendKickOrBanMsgToUser(userToKick.IPaddr, isBanned);
-		}
-	}
-
-	/**
-	 * Sends a kick or ban message to a peer that participates in this room
-	 * @param IPaddr - peer's IP address
-	 * @param isBanned - true indicates that the user is banned, false indicates that he's kicked.
-	 */
-	private void SendKickOrBanMsgToUser(String IPaddr, boolean isBanned) {
-		if (isBanned) {
-			ClientSocketHandler.SendReplyForAJoinRequest(
-					IPaddr, false, mRoomInfo.RoomID, Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_BANNED, false);
-		} else {
-			ClientSocketHandler.SendReplyForAJoinRequest(
-					IPaddr, false, mRoomInfo.RoomID, Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_KICKED, false);
-		}
-	}
-
-	/**
-	 * Bans and kicks a user from this chat room
-	 * @param userUniqueId - the user's unique id
-	 */
-	public void BanUser (String userUniqueId) {
-		if (!CheckIfUserIsBanned(userUniqueId)) //if this user isn't banned already
-		{
-			Peer toBan =  Constants.CheckIfUserExistsInListByUniqueID(userUniqueId, mService.mDiscoveredUsers); //find the user to ban
-			mBannedUsers.add(toBan);  //add to the shitlist
-			HandleKickOrBanRequest(userUniqueId, true, true);
-		}
-	}
-
-	/**
-	 * Kicks a user out of the room and send an appropriate message
-	 * @param userUniqueId - the user's unique id
-	 */
-	public void KickUser (String userUniqueId) {
-		HandleKickOrBanRequest(userUniqueId, false, true);
-	}
-
-	/**
-	 * Checks if a user is banned. Used when a user tries to join this room or send a message to it.
-	 * @param userUniqueId - the peer's unique ID
-	 * @return true if he's banned, false otherwise.
-	 */
-	public boolean CheckIfUserIsBanned (String userUniqueId) {
-		if ( Constants.CheckIfUserExistsInListByUniqueID(userUniqueId, mBannedUsers)!=null)
-			return true;
-
-		return false;
 	}
 
 	/**
@@ -320,14 +233,6 @@ public class ActiveChatRoom {
 			new SendControlMessage(null,user.IPaddr,msg.toString(),mRoomInfo.RoomID).start(); //send the msg
 		}
 	}
-
-	/**
-	 * Clears the banned users list
-	 */
-	public void ClearBannedUsersList()
-	{
-		mBannedUsers.clear();
-	}//end of ClearBannedUsersList()
 
 	/**
 	 * Valid only for a not-hosted public chat room

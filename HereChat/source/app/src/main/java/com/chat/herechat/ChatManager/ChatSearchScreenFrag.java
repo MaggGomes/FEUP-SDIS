@@ -331,18 +331,6 @@ public class ChatSearchScreenFrag extends ListFragment
 		}//switch
 	}//end of HandleWifiP2pEvent()
 	
-	/**
-	 * Clears the ignored-for-private-chat users list
-	 */
-	public void ClearIgnoredUsersList()
-	{
-		if (mService!=null)
-		{
-		mService.mBannedFromPrivateChatUsers.clear(); //clear the banned users list
-		UpdateListView();
-		}
-	}//end of ClearIgnoredUsersList()
-	
 
 	/**
 	 * Called by the activity when the refresh button is clicked
@@ -465,8 +453,6 @@ public class ChatSearchScreenFrag extends ListFragment
 						//now we'de like to check if this user is ignored
 						if (room.hasNewMsg)
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_NEW_MSG_ICON, Integer.toString(R.drawable.msg_icon));
-						if (mService.mBannedFromPrivateChatUsers.containsKey(room.RoomID))
-							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_ICON, Integer.toString(R.drawable.ignored_user_icon));
 						else
 						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_ICON, Integer.toString(R.drawable.private_chat_icon));
 						

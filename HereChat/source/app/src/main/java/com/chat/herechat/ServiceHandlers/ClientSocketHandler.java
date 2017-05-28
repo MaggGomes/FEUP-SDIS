@@ -111,21 +111,15 @@ public class ClientSocketHandler extends Thread {
 		}
 		//if this is a join request for a private chat:
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_PRIVATE_CHAT_REQUEST))) {
-			String result = CheckIfNotIgnored(input); //check if this user is banned or not
-			
-			if (result.equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST)) //if connection is approved
-			{
+
+
 				if (service.mDiscoveredChatRoomsHash.get(input[2])!=null) //if a matching discovered room exists
 					service.CreateNewPrivateChatRoom(input);
 				else //a matching discovered room doesn't exist
 					service.BypassDiscoveryProcedure(input,false,false);
 				
 				SendReplyForAJoinRequest(PeerIP,true,MainScreenActivity.UniqueID,null,true);
-			}
-			else  //connection wasn't approved. result contains the reason why
-			{
-				SendReplyForAJoinRequest(PeerIP,false,MainScreenActivity.UniqueID,result,true);
-			}	
+
 		}
 		//if this is a join request for a public chat:	
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_JOIN_ROOM_REQUEST))) {
@@ -154,10 +148,6 @@ public class ClientSocketHandler extends Thread {
 			boolean isAccepted = input[3].equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST);
 			service.OnReceptionOfChatEstablishmentReply(input[5],isAccepted,input[4]); //call the service to handle the result
 		}
-		//if a user has request us to remove him from a room we host
-		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_DISCONNECT_FROM_CHAT_ROOM))) {
-			service.OnRequestToRemoveFromHostedChat(input[2], input[3]);
-		}
 		//if this is a new message targeted to on of the active chat rooms
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_NEW_CHAT_MSG))) {
 			//if this is a private message
@@ -166,9 +156,6 @@ public class ClientSocketHandler extends Thread {
 				//if this message came from a user which is not in the ignore list:
 				if (result.equals(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST))
 					service.OnNewChatMessageArrvial(input, clientSocket.getInetAddress().getHostAddress());  //let the service handle the new message
-				//if this user should be ignored:
-				if (result.equals(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_BANNED))
-					SendReplyForAJoinRequest(PeerIP,false,MainScreenActivity.UniqueID,result,true);
 			} else { //this message came for a public chat room
 				ActiveChatRoom room = service.mActiveChatRooms.get(input[3]);
 				boolean isHostedByMe=input[3].split("[_]")[0].equals(MainScreenActivity.UniqueID);
@@ -217,7 +204,7 @@ public class ClientSocketHandler extends Thread {
 	}
 
 	/**
-	 * Sends a reply for a join request (also used when a banned user tries to send us a message)
+	 * Sends a reply for a join request (
 	 * Format: PC reply opcode$(accepted/denied)$denial reason$self unique
 	 * @param peerIP
 	 * @param isApproved
@@ -264,14 +251,10 @@ public class ClientSocketHandler extends Thread {
 	/**
 	 * Checks if the user is approved to join the desired chat room
 	 * @param input - incoming request string after parsing
-	 * @return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST if the user is not ignored, 
-	 * Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_BANNED otherwise
+	 * @return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST if the user is not ignored
 	 */
 	private String CheckIfNotIgnored(String[] input) {
-		if (!service.mBannedFromPrivateChatUsers.containsKey(input[2]))
-			return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST;
-		else
-			return Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_BANNED;
+		return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST;
 	}
 	/**
 	 * Passive transaction
