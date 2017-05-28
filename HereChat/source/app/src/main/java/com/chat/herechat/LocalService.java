@@ -30,7 +30,6 @@ import android.support.v4.app.TaskStackBuilder;
 
 import com.chat.herechat.ChatManager.ActiveChatRoom;
 import com.chat.herechat.ChatManager.ChatActivity;
-import com.chat.herechat.ChatManager.ChatMessage;
 import com.chat.herechat.ChatManager.ChatRoomDetails;
 import com.chat.herechat.ChatManager.ChatSearchScreenFrag;
 import com.chat.herechat.Peer.Peer;
@@ -55,7 +54,6 @@ public class LocalService extends Service {
 	public ArrayList<Peer> mDiscoveredUsers = null;
 	public HashMap<String, String> mBannedFromPrivateChatUsers = null;
 	public boolean mIsWifiGroupOwner=false;
-	public ArrayList<ChatMessage> mListContent;
 
 
 	public static NotificationManager mNotificationManager=null;
@@ -657,18 +655,10 @@ public class LocalService extends Service {
 
 	/**
 	 * Creates a new hosted public chat room
-	 */
-	public void CreateNewHostedPublicChatRoom(String name, String password) {
-		CreateNewHostedPublicChatRoom(name,password,null);
-	}
-
-	/**
-	 * Creates a new hosted public chat room
 	 * @param name - the room's desired name
 	 * @param password - the room's desired password. NULL means that there's no password
-	 * @param mListContent
 	 */
-	public void CreateNewHostedPublicChatRoom(String name, String password, ArrayList<ChatMessage> mListContent) {
+	public void CreateNewHostedPublicChatRoom (String name, String password) {
 		ChatRoomDetails newDetails = new ChatRoomDetails(
 				MainScreenActivity.UniqueID + "_" + (++MainScreenActivity.ChatRoomAccumulatingSerialNumber),
 						name, null, new ArrayList<Peer>(), password, false);
@@ -682,8 +672,6 @@ public class LocalService extends Service {
 		BroadcastRoomsUpdatedEvent();
 		//start a new logic discovery procedure to update all peers about the new room list
 		OnRefreshButtonclicked();
-
-		this.mListContent = mListContent;
 	}
 
 	/**
