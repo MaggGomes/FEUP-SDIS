@@ -150,18 +150,6 @@ public class ChatSearchScreenFrag extends ListFragment
 		
 			switch(item.getItemId()) //switch by the selected operation:
 			{
-				case R.id.action_unignore_user:
-				{
-					//get the unique id of the user to ignore
-					String unqiue  = mListContent.get((int)selectedRow.id).get(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE);
-					
-					//we'de like to change the icon
-					mListContent.get((int)selectedRow.id).put(Constants.HASH_MAP_KEY_SEARCH_FRAG_ICON, Integer.toString(R.drawable.private_chat_icon));
-					mListAdapter.notifyDataSetChanged();
-					
-					mService.mBannedFromPrivateChatUsers.remove(unqiue); //remove the user from the ignore list
-					return true;
-				}
 				//Context menu choices from the history frag are received here, so we just call the frag to handle this event
 				case R.id.action_delete_history_file:
 				{

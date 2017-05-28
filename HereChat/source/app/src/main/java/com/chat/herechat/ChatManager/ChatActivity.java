@@ -206,16 +206,6 @@ public class ChatActivity extends ListActivity {
 					mListAdapter.notifyDataSetChanged();
 					break;
 				}
-				case R.id.action_unignore_user: //ignore user was clicked (prv chat)
-				{
-					mService.mBannedFromPrivateChatUsers.remove(mChatRoomInfo.RoomID); //update the ignore list
-
-					//now we want to broadcast an intent that'll force the "search fragment" to refresh it's list view
-		    		Intent intent = mService.CreateBroadcastIntent();
-		    		intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.SERVICE_BROADCAST_OPCODE_ACTION_CHAT_ROOM_LIST_CHANGED);
-		    		sendBroadcast(intent); //send the intent
-					break;
-				}
 				case R.id.action_close_room: //close chat room was clicked
 				{
 					if (mService.mActiveChatRooms.get(mChatRoomInfo.RoomID).isHostedGroupChat) //trying to close a hosted public chat
@@ -290,11 +280,6 @@ public class ChatActivity extends ListActivity {
 			{
 				mListContent.clear();
 				mListAdapter.notifyDataSetChanged();
-				break;
-			}
-			case R.id.action_clear_banned_users://clear banned users was clicked
-			{
-				mService.ClearBannedUsersListInPublicRoom(mChatRoomInfo);
 				break;
 			}
 			case R.id.action_close_room://close room was clicked
