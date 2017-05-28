@@ -23,7 +23,6 @@ public class ChatHandOver {
 
         boolean isPassword;
         String password = null;
-        String roomName = null;
 
         if (this.chat.Password == null)
             isPassword = false;
@@ -32,9 +31,7 @@ public class ChatHandOver {
             password = this.chat.Password;
         }
 
-        roomName = this.chat.Name;
-
-        ChatSearchScreenFrag.mService.CreateNewHostedPublicChatRoom(roomName, password, mListContent);
+        ChatSearchScreenFrag.mService.CreateNewHostedPublicChatRoom(this.chat.Name, password, mListContent, muita gente de guimarãthis.chat);
 
     }
 }
