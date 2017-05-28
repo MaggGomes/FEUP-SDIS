@@ -203,18 +203,6 @@ public class ChatActivity extends ListActivity {
         if(mChatRoomInfo.isPrivateChatRoom)
         {
             inflater.inflate(R.menu.chat_prv_room_menu, menu);
-            if (mService.mBannedFromPrivateChatUsers.containsKey(mChatRoomInfo.RoomID)) //if this user is currently ignored
-        	{
-	        	//show the unignore option
-	        	menu.findItem(R.id.action_unignore_user).setVisible(true);
-	        	menu.findItem(R.id.action_ignore_user).setVisible(false);
-        	}
-            else
-        	{
-	        	//show the ignore option
-	           	menu.findItem(R.id.action_unignore_user).setVisible(false);
-	        	menu.findItem(R.id.action_ignore_user).setVisible(true);
-        	}
         }
         else //this is a public chat room
             inflater.inflate(R.menu.chat_pub_room_menu, menu);
@@ -238,28 +226,6 @@ public class ChatActivity extends ListActivity {
 				{
 					mListContent.clear();
 					mListAdapter.notifyDataSetChanged();
-					break;
-				}
-				case R.id.action_ignore_user: //ignore user was clicked (prv chat)
-				{
-					mService.mBannedFromPrivateChatUsers.put(mChatRoomInfo.RoomID, "true"); //update the ignore list
-
-					//now we want to broadcast an intent that'll force the "search fragment" to refresh it's list view
-		    		Intent intent = mService.CreateBroadcastIntent();
-		    		intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.SERVICE_BROADCAST_OPCODE_ACTION_CHAT_ROOM_LIST_CHANGED);
-		    		 sendBroadcast(intent); //send the intent
-
-					finish();  //close the activity
-					break;
-				}
-				case R.id.action_unignore_user: //ignore user was clicked (prv chat)
-				{
-					mService.mBannedFromPrivateChatUsers.remove(mChatRoomInfo.RoomID); //update the ignore list
-
-					//now we want to broadcast an intent that'll force the "search fragment" to refresh it's list view
-		    		Intent intent = mService.CreateBroadcastIntent();
-		    		intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.SERVICE_BROADCAST_OPCODE_ACTION_CHAT_ROOM_LIST_CHANGED);
-		    		sendBroadcast(intent); //send the intent
 					break;
 				}
 				case R.id.action_close_room: //close chat room was clicked
@@ -301,30 +267,7 @@ public class ChatActivity extends ListActivity {
 	    }
 	}//end of onCreateContextMenu
 
-	@Override
-	public boolean onContextItemSelected(MenuItem item)
-	{
-		 super.onContextItemSelected(item);
-			AdapterContextMenuInfo selectedRow = (AdapterContextMenuInfo) item.getMenuInfo(); //get the current selected item
-			//get the unique id of the user who's message was selected
-			String userUnique  = mListContent.get((int)selectedRow.position).mUserUnique;
 
-			switch(item.getItemId()) //switch by the selected operation:
-			{
-				case R.id.action_kick_user:
-				{
-					mService.KickOrBanUserFromHostedChat(mChatRoomInfo, userUnique, false);
-					return true;
-				}
-				case R.id.action_ban_user:
-				{
-					mService.KickOrBanUserFromHostedChat(mChatRoomInfo, userUnique, true);
-					return true;
-				}
-			}
-
-		 return true;
-	}//end of onContextItemSelected()
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item)
@@ -336,11 +279,6 @@ public class ChatActivity extends ListActivity {
 			{
 				mListContent.clear();
 				mListAdapter.notifyDataSetChanged();
-				break;
-			}
-			case R.id.action_clear_banned_users://clear banned users was clicked
-			{
-				mService.ClearBannedUsersListInPublicRoom(mChatRoomInfo);
 				break;
 			}
 			case R.id.action_close_room://close room was clicked
@@ -368,7 +306,7 @@ public class ChatActivity extends ListActivity {
 		new AlertDialog.Builder(this)
 	    .setTitle("Closing hosted public chat")
 	    .setIcon(R.drawable.alert_icon)
-	    .setMessage("You are the host of this chat room. Closing it will disconnect all participating peers. Close anyway?")
+	    .setMessage("You are the host of this chat room. Closing it will pass the host to other peer. Close anyway?")
 
 	    //yes button setter
 	    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {

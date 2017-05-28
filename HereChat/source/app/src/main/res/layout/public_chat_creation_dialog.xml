@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/roonNameIsMust"
+        android:hint="@string/chatName"
         android:inputType="textPersonName" >
 
         <requestFocus />
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
-        android:text="@string/pasword"/>
+        android:text="@string/password"/>
 
     <EditText
         android:id="@+id/choosePassword"
@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:enabled="false"
+        android:hint="@string/password"
         android:inputType="text" />
 
 </LinearLayout>
