@@ -1,4 +1,4 @@
-package com.chat.herechat;
+package com.chat.herechat.Receiver;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

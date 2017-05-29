@@ -25,7 +25,7 @@ public class ChatHandOver {
             password = this.chat.password;
         }
 
-        ChatSearchScreenFrag.mService.CreateNewHostedPublicChatRoom(this.chat.name, password, mListContent, this.chat);
+        ChatSearchScreenFrag.Service.CreateNewHostedPublicChatRoom(this.chat.name, password, mListContent, this.chat);
 
     }
 }

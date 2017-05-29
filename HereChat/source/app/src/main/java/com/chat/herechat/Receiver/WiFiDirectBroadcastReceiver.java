@@ -47,8 +47,8 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
                     manager.requestConnectionInfo(channel, this);
 
                 else {
-                    service.mIsWifiGroupOwner = false;
-                    ChatSearchScreenFrag.mIsConnectedToGroup = false;
+                    service.groupOwner = false;
+                    ChatSearchScreenFrag.groupConnect = false;
                 }
             }
 
@@ -99,8 +99,8 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
     @Override
     public void onConnectionInfoAvailable(WifiP2pInfo info) {
 
-        ChatSearchScreenFrag.mIsConnectedToGroup = true;
-        service.mRefreshHandler.sendEmptyMessageDelayed(service.Handler_WHAT_valueForActivePeerTO,
+        ChatSearchScreenFrag.groupConnect = true;
+        service.refreshHandler.sendEmptyMessageDelayed(service.timeoutPeer,
                 Constants.VALID_COMM_WITH_WIFI_PEER_TO);
 
 
@@ -112,7 +112,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
             workerThread.setPriority(Thread.MAX_PRIORITY);
             workerThread.start();
         } else {
-            service.mIsWifiGroupOwner = true;
+            service.groupOwner = true;
         }
     }
 }

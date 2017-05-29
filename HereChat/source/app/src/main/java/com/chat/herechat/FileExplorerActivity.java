@@ -36,19 +36,18 @@ public class FileExplorerActivity extends ListActivity{
 	}
 	
 	public void fillDirectory(File file){
-		//Set title to the current directory
+
 		setTitle("File Picker");
-		
-		//Retrieve all files in this directory
+
+
 		File[] dirs = file.listFiles();		
 		
-		//List of directories
+
 		List<FileItems> directories = new ArrayList<FileItems>();
-		//List if files
+
 		List<FileItems> files = new ArrayList<FileItems>();
 		
 		for(File f : dirs){
-			//Is a directory
 			if(f.isDirectory()){
 				File[] innerFiles = f.listFiles();
 				int numItems;
@@ -60,7 +59,6 @@ public class FileExplorerActivity extends ListActivity{
 				FileItems item = new FileItems(FileItems.DIRECTORY, f.getName(), numItems, f.getAbsolutePath());
 				directories.add(item);
 			}
-			//Is a file
 			else{
 				FileItems item = new FileItems(FileItems.FILE, f.getName(), f.length(), f.getAbsolutePath());
 				files.add(item);

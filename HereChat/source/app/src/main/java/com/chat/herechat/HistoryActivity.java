@@ -12,13 +12,13 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.chat.herechat.ChatManager.ChatMessage;
-import com.chat.herechat.ChatManager.CustomChatAdapter;
+import com.chat.herechat.ChatManager.ChatAdapter;
 import com.chat.herechat.ServiceHandlers.FileWritter;
 import com.chat.herechat.Utilities.Constants;
 
 public class HistoryActivity extends ListActivity {
 	private  ArrayList<ChatMessage> mListContent = null;
-	private CustomChatAdapter mListAdapter = null;
+	private ChatAdapter mListAdapter = null;
 	Handler mHandler = null;
 	ProgressDialog historyLoadDialog;
 	
@@ -52,10 +52,9 @@ public class HistoryActivity extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		//load the history
 		historyLoadDialog = new ProgressDialog(this);
 		historyLoadDialog.setTitle("Loading history...");
-		historyLoadDialog.setMessage("Please Wait.");
+		historyLoadDialog.setMessage("Waiting");
 		historyLoadDialog.show();
 	
 		new FileWritter(mChatRoomID, mHandler, true,this).start();
@@ -89,7 +88,7 @@ public class HistoryActivity extends ListActivity {
 		   mListContent = new ArrayList<ChatMessage>();
 
 	   if (mListAdapter == null) {
-		    mListAdapter = new CustomChatAdapter(this,mListContent);
+		    mListAdapter = new ChatAdapter(this,mListContent);
 			setListAdapter(mListAdapter);
 	   }
 	}

@@ -31,7 +31,7 @@ public class ActiveChatRoom {
 		this.isPublicHosted = isHosted;
 		roomInfo = info;
 
-		Vector<ChatRoomDetails> temp = service.getChatRooms();
+		Vector<ChatRoomDetails> temp = service.getChatrooms();
 
 		//define a handler to be triggered when the file-writer completes the job
 		fileWriterResultHandler = new Handler(service.getMainLooper()) {

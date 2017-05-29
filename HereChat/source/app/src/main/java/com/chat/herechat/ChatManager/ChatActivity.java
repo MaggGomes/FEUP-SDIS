@@ -35,16 +35,16 @@ import com.chat.herechat.ServiceHandlers.FileWritter;
 import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.LocalService;
 import com.chat.herechat.MainScreenActivity;
-import com.chat.herechat.QuickPrefsActivity;
+import com.chat.herechat.PreferencesActivity;
 import com.chat.herechat.R;
 
 
 public class ChatActivity extends ListActivity {
 	ChatRoomDetails chatRoomInfo =null;
 	private  ArrayList<ChatMessage> listContent = null;
-	private CustomChatAdapter listAdapter =null;
+	private ChatAdapter listAdapter =null;
 	ServiceMsgReceiver serviceBroadcastReceiver = null;
-	LocalService service = ChatSearchScreenFrag.mService;
+	LocalService service = ChatSearchScreenFrag.Service;
 	Handler handler =null;
 	ProgressDialog historyLoadDialog, peerConnectDialog;
 	String roomNameAsWrittenInHistory =null;
@@ -64,17 +64,17 @@ public class ChatActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat);
 
-		service = ChatSearchScreenFrag.mService; //get a reference to the service
+		service = ChatSearchScreenFrag.Service; //get a reference to the service
 		Bundle extras = getIntent().getExtras();
 		String ChatRoomID = extras.getString(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE); //get the chat room ID from the intent
-		this.listContent = this.service.mListContent;
+		this.listContent = this.service.listContent;
 
 		if(chatRoomInfo ==null)
-			chatRoomInfo = service.mDiscoveredChatRoomsHash.get(ChatRoomID);  //get the room's info if it's not a hosted chat room
+			chatRoomInfo = service.hashChatroom.get(ChatRoomID);  //get the room's info if it's not a hosted chat room
 
 		if(chatRoomInfo ==null) //if the info is still null, it means that this room is a hosted room
 		{
-			chatRoomInfo = service.mActiveChatRooms.get(ChatRoomID).roomInfo;  //get the room's info if it's a hosted chat room
+			chatRoomInfo = service.hashChatroomActive.get(ChatRoomID).roomInfo;  //get the room's info if it's a hosted chat room
 			isActive =true;
 		}
 
@@ -139,7 +139,7 @@ public class ChatActivity extends ListActivity {
 
 		new FileWritter(chatRoomInfo.roomID, handler, true,this).start(); //launch the history file reader
 
-		service.isChatActivityActive=true;   //mark that the chat activity is active
+		service.activeChat =true;   //mark that the chat activity is active
 		service.DisplayedAtChatActivity= chatRoomInfo;  //set the details of the displayed room
 
 		 //set the window's title to be the chat's name:
@@ -164,7 +164,7 @@ public class ChatActivity extends ListActivity {
 			peerConnectDialog.show();
 
 			//if this is a public chat room, requires a password and inactive:
-			if (!chatRoomInfo.isPrivateChatRoom && chatRoomInfo.password !=null && service.mActiveChatRooms.get(chatRoomInfo.roomID)==null)
+			if (!chatRoomInfo.isPrivateChatRoom && chatRoomInfo.password !=null && service.hashChatroomActive.get(chatRoomInfo.roomID)==null)
 				showPasswordDialogForPublicChat(true); //show the password request dialog
 			else
 			//Now try and establish a handshake with the peer:
@@ -214,7 +214,7 @@ public class ChatActivity extends ListActivity {
 			{
 				case R.id.action_settings://setting was clicked
 				{
-					startActivity(new Intent(this, QuickPrefsActivity.class));
+					startActivity(new Intent(this, PreferencesActivity.class));
 					break;
 				}
 				case R.id.action_clear_view: //clear view was clicked
@@ -225,7 +225,7 @@ public class ChatActivity extends ListActivity {
 				}
 				case R.id.action_close_room: //close chat room was clicked
 				{
-					if (service.mActiveChatRooms.get(chatRoomInfo.roomID).isPublicHosted) //trying to close a hosted public chat
+					if (service.hashChatroomActive.get(chatRoomInfo.roomID).isPublicHosted) //trying to close a hosted public chat
 						{
 						showClosedHostedRoomDialog(); //the dialog will call the service and close this room if necessary
 						}
@@ -507,7 +507,7 @@ public class ChatActivity extends ListActivity {
 									if (!msgsWaitingForSendResult.isEmpty())
 										msgsWaitingForSendResult.remove(0);   //remove from the msg stack
 
-									ActiveChatRoom room = service.mActiveChatRooms.get(chatRoomInfo.roomID); //get the active chat room
+									ActiveChatRoom room = service.hashChatroomActive.get(chatRoomInfo.roomID); //get the active chat room
 									writeMessageInHistoryFile(room, msg.Message.replace('\n',Constants.ENTER_REPLACEMENT_CHAR)); //write this message to the file
 								}//if
 							}
@@ -633,7 +633,7 @@ public class ChatActivity extends ListActivity {
 		   listContent = new ArrayList<ChatMessage>();} //create a new array list that'll hold all the data
 	   if (listAdapter ==null)
 	   		{
-		    listAdapter = new CustomChatAdapter(this, listContent);  //create a new adapter
+		    listAdapter = new ChatAdapter(this, listContent);  //create a new adapter
 			setListAdapter(listAdapter);   						//set the content
 		   	}
 	}//end of initAdapter()
@@ -647,7 +647,7 @@ public class ChatActivity extends ListActivity {
 		if (isTimedOut)
 			service.RemoveSingleTimedOutRoom(chatRoomInfo, false); //remove this room from the service
 
-		service.isChatActivityActive=false; //mark that this activity is no longer active
+		service.activeChat =false; //mark that this activity is no longer active
 		chatRoomInfo.hasNewMsg=false;  //lower the messages flag
 		//if this is a private chat room and the peer has changed his name:
 		if (chatRoomInfo.isPrivateChatRoom &&  !chatRoomInfo.users.get(0).name.equalsIgnoreCase(roomNameAsWrittenInHistory))
@@ -685,7 +685,7 @@ public class ChatActivity extends ListActivity {
 			else //this is a hosted public chat. We don't queue up messages. We assume that they're always successfully sent
 			{
 				addMessage(m);  //add to list view
-				ActiveChatRoom room = service.mActiveChatRooms.get(chatRoomInfo.roomID); //get the active chat room
+				ActiveChatRoom room = service.hashChatroomActive.get(chatRoomInfo.roomID); //get the active chat room
 				//replace all '\n' chars and write this message to the file
 				writeMessageInHistoryFile(room, m.Message.replace('\n', Constants.ENTER_REPLACEMENT_CHAR));
 			}
@@ -706,7 +706,7 @@ public class ChatActivity extends ListActivity {
 
 	private boolean findHostedChatRoom()
 	{
-		ActiveChatRoom room = service.mActiveChatRooms.get(chatRoomInfo.roomID);
+		ActiveChatRoom room = service.hashChatroomActive.get(chatRoomInfo.roomID);
 
 		return (room!=null && room.isPublicHosted);
 	}//end of findHostedChatRoom()

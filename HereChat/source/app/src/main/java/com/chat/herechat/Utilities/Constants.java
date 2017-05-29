@@ -167,13 +167,13 @@ public final class Constants {
 
     public static void ShowNotification(PendingIntent intent, String message) {
     	NotificationCompat.Builder mBuilder =
-    	        new NotificationCompat.Builder(ChatSearchScreenFrag.mService)
+    	        new NotificationCompat.Builder(ChatSearchScreenFrag.Service)
     	        .setSmallIcon(com.chat.herechat.R.drawable.msg_icon) //set a small icon
     	        .setContentTitle("New messages available:")
     	        .setAutoCancel(true)
     	        .setContentText(message)
     			.setContentIntent(intent);
 
-    	LocalService.mNotificationManager.notify(0xdeadbeef, mBuilder.build());
+    	LocalService.notifications.notify(0xdeadbeef, mBuilder.build());
     }
 }

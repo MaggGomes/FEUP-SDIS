@@ -93,7 +93,7 @@ public class ClientSocketHandler extends Thread {
 
 			SendDiscoveryMessage();
 			ArrayList<ChatRoomDetails> Rooms = convertStringtoChatList(input);
-			service.UpdateChatRoomHashMap(Rooms);
+			service.UpdateChatroom(Rooms);
 		}
 
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_PEER_DETAILS_BCAST))) {
@@ -103,17 +103,17 @@ public class ClientSocketHandler extends Thread {
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_PRIVATE_CHAT_REQUEST))) {
 
 
-				if (service.mDiscoveredChatRoomsHash.get(input[2])!=null)
+				if (service.hashChatroom.get(input[2])!=null)
 					service.CreateNewPrivateChatRoom(input);
 				else // room doesn't exist
-					service.BypassDiscoveryProcedure(input,false,false);
+					service.SkipDiscovery(input,false,false);
 				
 				replyToRequest(currIP,true,MainScreenActivity.UniqueID,null,true);
 
 		}
 		//Joirequest for public
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_JOIN_ROOM_REQUEST))) {
-			ActiveChatRoom targetRoom = service.mActiveChatRooms.get(input[3]);
+			ActiveChatRoom targetRoom = service.hashChatroomActive.get(input[3]);
 
 			if (targetRoom==null)
 			{
@@ -122,7 +122,7 @@ public class ClientSocketHandler extends Thread {
 			}
 			else
 			{
-				String res = targetRoom.AddUser(Constants.CheckUniqueID(input[2], service.mDiscoveredUsers),
+				String res = targetRoom.AddUser(Constants.CheckUniqueID(input[2], service.userDiscovered),
 						input[4]);
 				boolean isCool = res.equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST);
 				replyToRequest(currIP,isCool,input[3],res, false);
@@ -131,12 +131,12 @@ public class ClientSocketHandler extends Thread {
 
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_PRIVATE_CHAT_REPLY))) {
 			boolean isAccepted = input[3].equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST);
-			service.OnReceptionOfChatEstablishmentReply(input[2],isAccepted,input[4]);
+			service.OnRecieveReply(input[2], input[4], isAccepted);
 		}
 
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_JOIN_ROOM_REPLY))) {
 			boolean isAccepted = input[3].equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST);
-			service.OnReceptionOfChatEstablishmentReply(input[5],isAccepted,input[4]);
+			service.OnRecieveReply(input[5], input[4], isAccepted);
 		}
 
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_NEW_CHAT_MSG))) {
@@ -145,9 +145,9 @@ public class ClientSocketHandler extends Thread {
 				String result = CheckIfNotIgnored(input);
 
 				if (result.equals(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST))
-					service.OnNewChatMessageArrvial(input, clientSocket.getInetAddress().getHostAddress());
+					service.OnMessageRecieved(input, clientSocket.getInetAddress().getHostAddress());
 			} else {
-				ActiveChatRoom room = service.mActiveChatRooms.get(input[3]);
+				ActiveChatRoom room = service.hashChatroomActive.get(input[3]);
 				boolean isHost =input[3].split("[_]")[0].equals(MainScreenActivity.UniqueID);
 				
 
@@ -159,15 +159,15 @@ public class ClientSocketHandler extends Thread {
 
 				if (isHost) {
 				String res = room.AddUser(
-						Constants.CheckUniqueID(input[2], service.mDiscoveredUsers), "");
+						Constants.CheckUniqueID(input[2], service.userDiscovered), "");
 
 					if (!res.equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST)) {
 						replyToRequest(currIP,false,input[3], res,false);
 					} else {
-						service.OnNewChatMessageArrvial(input, currIP);
+						service.OnMessageRecieved(input, currIP);
 					}
 				} else {
-					service.OnNewChatMessageArrvial(input, currIP);
+					service.OnMessageRecieved(input, currIP);
 				}
 				
 			}
@@ -320,7 +320,7 @@ public class ClientSocketHandler extends Thread {
 			service.UpdateDiscoveredUsersList(clientSocket.getInetAddress().getHostAddress(), parsedInput[2], parsedInput[1]);
 			ArrayList<ChatRoomDetails> Rooms = convertStringtoChatList(parsedInput);
 
-			service.UpdateChatRoomHashMap(Rooms);
+			service.UpdateChatroom(Rooms);
 		}
 		
 		return true;
@@ -329,7 +329,7 @@ public class ClientSocketHandler extends Thread {
 
 	private ArrayList<ChatRoomDetails> convertStringtoChatList(String[] input) {
 		ArrayList<ChatRoomDetails> ChatRooms = new ArrayList<ChatRoomDetails>();
-		Peer host = Constants.CheckUniqueID(input[2], service.mDiscoveredUsers);
+		Peer host = Constants.CheckUniqueID(input[2], service.userDiscovered);
 		
 
 		ArrayList<Peer> user = new ArrayList<Peer>();
@@ -395,7 +395,7 @@ public class ClientSocketHandler extends Thread {
 				     + MainScreenActivity.UserName + Constants.STANDART_FIELD_SEPERATOR
 				     + MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);
 
-		Collection<ActiveChatRoom> ActiveChatRooms = service.mActiveChatRooms.values();
+		Collection<ActiveChatRoom> ActiveChatRooms = service.hashChatroomActive.values();
 		for (ActiveChatRoom room : ActiveChatRooms) {
 			if (room.isPublicHosted) {
 				res.append(room.toString());

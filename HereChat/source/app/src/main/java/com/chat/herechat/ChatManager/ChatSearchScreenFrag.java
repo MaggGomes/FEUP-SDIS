@@ -28,7 +28,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.chat.herechat.Utilities.Constants;
-import com.chat.herechat.EnableWifiDirectDialog;
+import com.chat.herechat.Receiver.EnableWifiDirectDialog;
 import com.chat.herechat.LocalService;
 import com.chat.herechat.LocalService.LocalBinder;
 import com.chat.herechat.MainScreenActivity;
@@ -37,21 +37,23 @@ import com.chat.herechat.R;
 
 public class ChatSearchScreenFrag extends ListFragment 
 {
+    private  ArrayList<HashMap<String, String>> mListContent = null;
+
+    public static LocalService Service =null;
+	MainScreenActivity Activity;
+	boolean stateOfBind =false;
+
+	private  SimpleAdapter Adapter =null;
+
+    public static boolean wifiDirect =false;
+    public static boolean groupConnect =false;
+    private boolean mIsWasWifiDirectDialogShown=false;
+
+    private EnableWifiDirectDialog WifiEnable = null;
 	
-	public static LocalService mService=null;  				 //our service
-	MainScreenActivity mActivity;  							 //reference to the hosting activity
-	boolean mIsServiceBound=false;						     //indicating whether the service is bound
-	private  ArrayList<HashMap<String, String>> mListContent = null; //the list's content
-	private  SimpleAdapter mListAdapter=null;				 //the list's adapter
-	public static boolean mIsWifiDirectEnabled=false;		 //indicating whether the wifi-direct is enabled
-	public static boolean mIsConnectedToGroup=false;
-	private boolean mIsWasWifiDirectDialogShown=false;       //in case the wifi-direct is turned off, we want show a dialogue
-															 //only once. This variable indicated whether it was shown already
-	private EnableWifiDirectDialog mWifiEnableDialog = null;
-	
-	ServiceMsgReceiver mServiceBroadcastReceiver = null;     //reference to a broadcast receiver that listens to broadcasts from our service
-	public static WifiP2pManager mManager=null;				 //a wifi p2p manager object
-	public static Channel mChannel=null;					 //required for working with the manager
+	ServiceMsgReceiver ServiceBroadcast = null;
+	public static WifiP2pManager Manage =null;
+	public static Channel cChannel =null;
 
 	
 
@@ -59,27 +61,27 @@ public class ChatSearchScreenFrag extends ListFragment
 	public void onAttach(Activity activity)
 	{
 		super.onAttach(activity);
-	    mActivity = (MainScreenActivity)getActivity(); //set a reference to the activity
+	    Activity = (MainScreenActivity)getActivity(); //set a reference to the activity
 	    
 	    
-		mIsWifiDirectEnabled=false;  //reset the wifi flag
+		wifiDirect =false;  //reset the wifi flag
 	    
-		if (mServiceBroadcastReceiver==null) //if the b-cast receiver that works with the service wasn't initialized
+		if (ServiceBroadcast ==null) //if the b-cast receiver that works with the service wasn't initialized
 		{
-			mServiceBroadcastReceiver = new ServiceMsgReceiver();
-			mActivity.registerReceiver(mServiceBroadcastReceiver, new IntentFilter(Constants.SERVICE_BROADCAST)); //register
+			ServiceBroadcast = new ServiceMsgReceiver();
+			Activity.registerReceiver(ServiceBroadcast, new IntentFilter(Constants.SERVICE_BROADCAST)); //register
 		}
-		mActivity.mSearchFrag = this;
+		Activity.SearchFragment = this;
 	}//end of onAttach()
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		if (mManager==null && mChannel==null)
+		if (Manage ==null && cChannel ==null)
 		{
-			mManager = (WifiP2pManager) mActivity.getSystemService(Context.WIFI_P2P_SERVICE); 	//get a wifip2pmanager
-		    mChannel = mManager.initialize(mActivity, mActivity.getMainLooper(), null); 		//get a channel
+			Manage = (WifiP2pManager) Activity.getSystemService(Context.WIFI_P2P_SERVICE); 	//get a wifip2pmanager
+		    cChannel = Manage.initialize(Activity, Activity.getMainLooper(), null); 		//get a channel
 		}
 	}//end of onCreate()
 	
@@ -100,10 +102,10 @@ public class ChatSearchScreenFrag extends ListFragment
 		super.onStart();
 		
         // Bind to LocalService
-        Intent intent = new Intent(mActivity, LocalService.class);
-        mActivity.bindService(intent, mConnection, Context.BIND_AUTO_CREATE); //async
+        Intent intent = new Intent(Activity, LocalService.class);
+        Activity.bindService(intent, mConnection, Context.BIND_AUTO_CREATE); //async
         
-        if (mService!=null) //done for cases of fragment refresh done by the system
+        if (Service !=null) //done for cases of fragment refresh done by the system
         	UpdateListView();
         
 		registerForContextMenu(getListView()); //enable context menu
@@ -114,7 +116,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	{
 	    super.onResume();
 		
-		if (mService!=null)
+		if (Service !=null)
 			UpdateListView();
 		
 	}//end of onResume()
@@ -124,10 +126,10 @@ public class ChatSearchScreenFrag extends ListFragment
 	{
 		super.onStop();
 		// Unbind from the service
-	    if (mIsServiceBound) 
+	    if (stateOfBind)
 	    	{
-	        mActivity.unbindService(mConnection);
-	        mIsServiceBound = false;
+	        Activity.unbindService(mConnection);
+	        stateOfBind = false;
 	    	}
 	}//end of onStop()
 
@@ -143,7 +145,7 @@ public class ChatSearchScreenFrag extends ListFragment
 				//Context menu choices from the history frag are received here, so we just call the frag to handle this event
 				case R.id.action_delete_history_file:
 				{
-					mActivity.mHistoryFrag.OnContextMenuItemSelected(item);
+					Activity.HistoryFragment.OnContextMenuItemSelected(item);
 					return true;
 				}
 			}
@@ -161,7 +163,7 @@ public class ChatSearchScreenFrag extends ListFragment
 			HashMap<String, String> RoomInfo =  mListContent.get((int)id);
 			uniqueID = RoomInfo.get(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE);  //get the selected chat item's unique id
 		}
-	    Intent intent = new Intent(mActivity, ChatActivity.class); //crate a new intent
+	    Intent intent = new Intent(Activity, ChatActivity.class); //crate a new intent
 	    intent.putExtra(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE, uniqueID);   //set the room's unique id as extra.  
 	    
 	    startActivity(intent);  //send
@@ -221,7 +223,7 @@ public class ChatSearchScreenFrag extends ListFragment
 
 	private void ShowWelcomeSockErrorDialog()
 	{
-		new AlertDialog.Builder(mActivity)
+		new AlertDialog.Builder(Activity)
 	    .setTitle("Critical error")
 	    .setMessage("Unable to open a welcome socket! Shutting down")
 	    .setIcon(R.drawable.alert_icon)
@@ -229,7 +231,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	    		
-			mActivity.kill();  //close the entire app
+			Activity.kill();  //close the entire app
 	        
 	        }//onClick-Yes
 	     })//setPositive
@@ -239,7 +241,7 @@ public class ChatSearchScreenFrag extends ListFragment
 			@Override
 			public void onCancel(DialogInterface dialog)
 			{
-				mActivity.kill();  //close the entire app
+				Activity.kill();  //close the entire app
 			}
 		})
 	     .show();
@@ -252,23 +254,23 @@ public class ChatSearchScreenFrag extends ListFragment
 		{
 			case Constants.SERVICE_BROADCAST_WIFI_EVENT_P2P_ENABLED:
 			{
-                mIsWifiDirectEnabled=true;  
+                wifiDirect =true;
 				break;
 			}
 			case Constants.SERVICE_BROADCAST_WIFI_EVENT_P2P_DISABLED:
 			{
 				//if the wifi-direct was shutdown by the user in the middle of runtime
-				if (mIsWifiDirectEnabled==true)
+				if (wifiDirect ==true)
 				{
 					kill();
 					//we want to relaunch the application:
-					Intent intent = new Intent(mActivity,MainScreenActivity.class);
+					Intent intent = new Intent(Activity,MainScreenActivity.class);
 					intent.putExtra(Constants.WIFI_BCAST_RCVR_WIFI_OFF_EVENT_INTENT_EXTRA_KEY, true);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(intent);
 					return;
 				}
-				mIsWifiDirectEnabled=false;
+				wifiDirect =false;
 				ShowWifiDirectDialogWhenStarted();
 				break;
 			}
@@ -298,7 +300,7 @@ public class ChatSearchScreenFrag extends ListFragment
 					}
 				case 1:
 					{
-					Constants.chatBalloon("Peer discovery failed! Wifi Direct isn't supported by this device!", mActivity);
+					Constants.chatBalloon("Peer discovery failed! Wifi Direct isn't supported by this device!", Activity);
 					break;
 					}
 				case 2:
@@ -315,47 +317,47 @@ public class ChatSearchScreenFrag extends ListFragment
 
 	public void onRefreshButtonClicked (View v)
 		{
-		if (mIsWifiDirectEnabled==false) //wifi direct is disabled
+		if (wifiDirect ==false) //wifi direct is disabled
 			{
-			if (mWifiEnableDialog==null)
-				mWifiEnableDialog= new EnableWifiDirectDialog();
+			if (WifiEnable ==null)
+				WifiEnable = new EnableWifiDirectDialog();
 			
-			if (!mWifiEnableDialog.isVisible())
-				mWifiEnableDialog.show(getFragmentManager(),"MyDialog");
+			if (!WifiEnable.isVisible())
+				WifiEnable.show(getFragmentManager(),"MyDialog");
 			}
 		
-	    if(mIsServiceBound && mService!=null)  //wifi direct is enabled
+	    if(stateOfBind && Service !=null)  //wifi direct is enabled
 			{
-			mService.OnRefreshButtonclicked();
+			Service.OnRefreshButtonclicked();
 			UpdateListView();
 			}
 	    
-		}//end of onRefreshButtonClicked()
+		}//end of onRefreshButtonClick()
 	
 
 
 	public void kill()
 	{
-		if (mService!=null)
-			mService.kill();
+		if (Service !=null)
+			Service.kill();
 		
-		if (mServiceBroadcastReceiver!=null){
-			if(mActivity!=null){
-				mActivity.unregisterReceiver(mServiceBroadcastReceiver);  //unregister the receiver only when the app is closed
+		if (ServiceBroadcast !=null){
+			if(Activity !=null){
+				Activity.unregisterReceiver(ServiceBroadcast);  //unregister the receiver only when the app is closed
 			}//if
-			mServiceBroadcastReceiver=null;
+			ServiceBroadcast =null;
 		}
 		
-		mManager.removeGroup(mChannel, null);
+		Manage.removeGroup(cChannel, null);
 	}//end of kill()
 
 
 	private void InitAdapter()
 	{
 	   if (mListContent==null){mListContent = new ArrayList< HashMap<String,String>>();} //create a new array list that'll hold all the data
-	   if (mListAdapter==null)
+	   if (Adapter ==null)
 	   		{
-		    mListAdapter = new SimpleAdapter(mActivity,
+		    Adapter = new SimpleAdapter(Activity,
 				    mListContent,
 					R.layout.chat_search_list_item,
 					new String[]{ Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_NAME,
@@ -366,23 +368,23 @@ public class ChatSearchScreenFrag extends ListFragment
 				   				  Constants.HASH_MAP_KEY_SEARCH_FRAG_ICON },
 					new int[]{R.id.search_list_item_TV1,R.id.search_list_item_TV2, R.id.search_list_item_hosted_icon,
 		    		R.id.search_list_item_lock_icon,R.id.search_list_item_new_msg_icon,R.id.search_list_item_icon});  		    
-			setListAdapter(mListAdapter);
+			setListAdapter(Adapter);
 		   	}
 	}//end of initAdapter()
 	
 
 	private void UpdateListView()
 	{
-		if (mService==null) //if we don't have a reference to the service yet
+		if (Service ==null) //if we don't have a reference to the service yet
 			return;
 		
 		synchronized (mListContent)
 		{
 			mListContent.clear(); //clear the current list content
 			
-			if (!mService.mActiveChatRooms.isEmpty()) //we want to look up all hosted chat rooms on this device
+			if (!Service.hashChatroomActive.isEmpty()) //we want to look up all hosted chat rooms on this device
 			{
-				Collection<ActiveChatRoom> chatRooms = mService.mActiveChatRooms.values();  //get all available hosted chat rooms
+				Collection<ActiveChatRoom> chatRooms = Service.hashChatroomActive.values();  //get all available hosted chat rooms
 				for (ActiveChatRoom room : chatRooms) //for each chat room
 				{
 					if (room.isPublicHosted) //if this is a hosted group chat
@@ -411,9 +413,9 @@ public class ChatSearchScreenFrag extends ListFragment
 				}//for
 			}//if 
 			
-			if (!mService.mDiscoveredChatRoomsHash.isEmpty()) //if there's a valid discovered chat room list available
+			if (!Service.hashChatroom.isEmpty()) //if there's a valid discovered chat room list available
 			{
-				Collection<ChatRoomDetails> chatRooms = mService.mDiscoveredChatRoomsHash.values();  //get all discovered chat rooms
+				Collection<ChatRoomDetails> chatRooms = Service.hashChatroom.values();  //get all discovered chat rooms
 				for (ChatRoomDetails room : chatRooms) //for each chat room
 				{
 					HashMap<String, String> singleChatEntryView = new HashMap<String, String>(); //create a new hash map
@@ -438,7 +440,7 @@ public class ChatSearchScreenFrag extends ListFragment
 						if (room.password !=null) //if this room requires a pw
 						{
 							//if we've connected already to this public room
-							if (mService.mActiveChatRooms.containsKey(room.roomID))
+							if (Service.hashChatroomActive.containsKey(room.roomID))
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_LOCKED_PUBLIC_ROOM_ICON, 
 									Integer.toString(R.drawable.lock_icon_green));
 							else //we haven't connected yet
@@ -446,7 +448,7 @@ public class ChatSearchScreenFrag extends ListFragment
 										Integer.toString(R.drawable.lock_icon_red));
 						}
 						//if we're connected to a public chat which is not hosted by us
-						if (mService.mActiveChatRooms.containsKey(room.roomID))
+						if (Service.hashChatroomActive.containsKey(room.roomID))
 								singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_LOCKED_PUBLIC_ROOM_ICON, 
 										Integer.toString(R.drawable.plug_icon));					
 						if (room.hasNewMsg)
@@ -458,8 +460,8 @@ public class ChatSearchScreenFrag extends ListFragment
 				}//for
 			}//if 
 			
-			mListAdapter.notifyDataSetChanged(); //notify the adapter that that the content has changed
-		}//synchronized (mListContent)
+			Adapter.notifyDataSetChanged(); //notify the adapter that that the content has changed
+		}//synchronized (listContent)
 	}//end of UpdateListView()
 	
 	
@@ -468,12 +470,12 @@ public class ChatSearchScreenFrag extends ListFragment
 	{
 		if (mIsWasWifiDirectDialogShown==false)
 		{
-			if (mWifiEnableDialog==null)
-			mWifiEnableDialog = new EnableWifiDirectDialog();
+			if (WifiEnable ==null)
+			WifiEnable = new EnableWifiDirectDialog();
 			
 
-			if (!mWifiEnableDialog.isVisible())
-				mWifiEnableDialog.show(getFragmentManager(),"MyDialog");
+			if (!WifiEnable.isVisible())
+				WifiEnable.show(getFragmentManager(),"MyDialog");
 			
 			mIsWasWifiDirectDialogShown=true;
 		}
@@ -488,15 +490,15 @@ public class ChatSearchScreenFrag extends ListFragment
                 IBinder service) {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
             LocalBinder binder = (LocalBinder) service;
-            mService = binder.getService();
-            mIsServiceBound = true;
+            Service = binder.getService();
+            stateOfBind = true;
             UpdateListView(); //refresh the discovered room view
-            ChatSearchScreenFrag.this.mActivity.invalidateOptionsMenu();  //force the menu to be rebuilt the next time it's opened
+            ChatSearchScreenFrag.this.Activity.invalidateOptionsMenu();  //force the menu to be rebuilt the next time it's opened
         }
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
-        	mIsServiceBound = false;
+        	stateOfBind = false;
         }
     };
 	        

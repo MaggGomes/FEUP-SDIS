@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.chat.herechat.Utilities.Constants;
 
-public class QuickPrefsActivity extends PreferenceActivity {
+public class PreferencesActivity extends PreferenceActivity {
 	
     @SuppressWarnings("deprecation")
 	@Override

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.chat.herechat.R;
 
 
-public class CustomChatAdapter extends BaseAdapter {
+public class ChatAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<ChatMessage> mMessages;
     private HashMap<String, Integer> mColorsForUsers;
@@ -24,7 +24,7 @@ public class CustomChatAdapter extends BaseAdapter {
     private final int NUM_OF_COLORS = 16;
 
 
-    public CustomChatAdapter(Context context, ArrayList<ChatMessage> messages) {
+    public ChatAdapter(Context context, ArrayList<ChatMessage> messages) {
         super();
         this.mContext = context;
         this.mMessages = messages;

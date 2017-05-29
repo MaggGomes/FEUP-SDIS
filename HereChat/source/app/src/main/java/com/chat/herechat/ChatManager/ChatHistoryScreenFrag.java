@@ -50,7 +50,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 	{
 		super.onAttach(activity);
 		 mActivity = (MainScreenActivity)getActivity(); //set a reference to the activity
-		mActivity.mHistoryFrag = this;
+		mActivity.HistoryFragment = this;
 	}
 
 	@SuppressLint("HandlerLeak")
@@ -144,9 +144,9 @@ public class ChatHistoryScreenFrag extends ListFragment
 
 	public void DeleteSingleHistoryFile (String unqiue)
 	{
-		if (ChatSearchScreenFrag.mService!=null) //if the service is available
+		if (ChatSearchScreenFrag.Service !=null) //if the service is available
 		{
-			ActiveChatRoom room  = ChatSearchScreenFrag.mService.mActiveChatRooms.get(unqiue);
+			ActiveChatRoom room  = ChatSearchScreenFrag.Service.hashChatroomActive.get(unqiue);
 			if (room!=null)  //this chat room is active
 			{
 				room.DeleteHistory();

@@ -30,39 +30,42 @@ import android.widget.EditText;
 import com.chat.herechat.ChatManager.ChatActivity;
 import com.chat.herechat.ChatManager.ChatHistoryScreenFrag;
 import com.chat.herechat.ChatManager.ChatSearchScreenFrag;
+import com.chat.herechat.Receiver.EnableWifiDirectDialog;
 import com.chat.herechat.Utilities.Constants;
 
 public class MainScreenActivity extends FragmentActivity implements ActionBar.TabListener {
-    private AlertDialog mDialog = null;
-    private OnClickListener AlertCheckBoxClickListener = null;
-
-    SectionsPagerAdapter mSectionsPagerAdapter;
-    ViewPager mViewPager;
-    public ChatHistoryScreenFrag mHistoryFrag = null;
-    public ChatSearchScreenFrag mSearchFrag = null;
-
-    boolean isServiceStarted = false;
-    boolean wasWifiDialogShown = false;
-
-    static int mDisplayedFragIndex = 0;
     public static long ChatRoomAccumulatingSerialNumber = 0;
     public static String UniqueID = null;
     public static String UserName = ":>~";
+
+    private AlertDialog Dialog = null;
+    private OnClickListener BoxClickAlert = null;
+
+    SectionsPagerAdapter pageAdapter;
+    ViewPager viewPager;
+    public ChatHistoryScreenFrag HistoryFragment = null;
+    public ChatSearchScreenFrag SearchFragment = null;
+
+    boolean startService = false;
+    boolean dialogShow = false;
+    private boolean firstRun = false;
     static boolean isToNotifyOnNewMsg = false;
+
+    static int IndexDisplayFragment = 0;
     static int refreshPeriod = 40000;
 
-    private boolean mIsRunForTheFirstTime = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
-        InitializeTabHandlerAndAdapter();
+        startHandlerAdapter();
 
-        if (!isServiceStarted && ChatSearchScreenFrag.mService == null) {
+        if (!startService && ChatSearchScreenFrag.Service == null) {
             startService(new Intent(this, LocalService.class));
-            isServiceStarted = true;
+            startService = true;
         }
 
         getPrefs();  //get the shared prefs
@@ -90,42 +93,42 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         boolean isToDisplayWifiDialog = getIntent()
                 .getBooleanExtra(Constants.WIFI_BCAST_RCVR_WIFI_OFF_EVENT_INTENT_EXTRA_KEY, false);
 
-        if (isToDisplayWifiDialog && !wasWifiDialogShown) {
+        if (isToDisplayWifiDialog && !dialogShow) {
             new EnableWifiDirectDialog().show(getSupportFragmentManager(), "MyDialog");
-            wasWifiDialogShown = true;
+            dialogShow = true;
         }
 
-        if (mIsRunForTheFirstTime) {
+        if (firstRun) {
             //launch the preferences activity
-            startActivity(new Intent(this, QuickPrefsActivity.class));
-            mIsRunForTheFirstTime = false;
+            startActivity(new Intent(this, PreferencesActivity.class));
+            firstRun = false;
         }
     }
 
-    private void InitializeTabHandlerAndAdapter() {
+    private void startHandlerAdapter() {
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        pageAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(pageAdapter);
 
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             //if a tab was changed by a swipe gesture
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position); //update the tab bar to match the selected page
-                mDisplayedFragIndex = position;   //update the index of the currently displayed frag
+                IndexDisplayFragment = position;   //update the index of the currently displayed frag
                 if (position == 1) {
-                    mHistoryFrag.loadHistory();
+                    HistoryFragment.loadHistory();
                 }
                 invalidateOptionsMenu();
             }
         });
 
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+        for (int i = 0; i < pageAdapter.getCount(); i++) {
             actionBar.addTab(actionBar.newTab()
-                    .setText(mSectionsPagerAdapter.getPageTitle(i))
+                    .setText(pageAdapter.getPageTitle(i))
                     .setTabListener(this));
         }
     }
@@ -134,14 +137,11 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.getItem(0).setEnabled(ChatSearchScreenFrag.mIsWifiDirectEnabled);
-
-        //if this menu is opened when the chat search is active
-        if (mDisplayedFragIndex == 0) {
-            //hide the delete history option
+        menu.getItem(0).setEnabled(ChatSearchScreenFrag.wifiDirect);
+        if (IndexDisplayFragment == 0) {
             menu.findItem(R.id.action_delete_all_history).setVisible(false);
         } else {
-            //show the delete history option
+
             menu.findItem(R.id.action_delete_all_history).setVisible(true);
         }
 
@@ -169,27 +169,27 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings: {
-                startActivity(new Intent(this, QuickPrefsActivity.class));
+                startActivity(new Intent(this, PreferencesActivity.class));
                 break;
             }
 
             case R.id.action_create_new_chat_room: {
-                mDialog = CreatePublicChatCreationDialog();
-                mDialog.show();
+                Dialog = CreatePublicChatCreationDialog();
+                Dialog.show();
 
-                AlertCheckBoxClickListener = new OnClickListener() {
+                BoxClickAlert = new OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        AlertDialog dialog = MainScreenActivity.this.mDialog;
+                        AlertDialog dialog = MainScreenActivity.this.Dialog;
                         EditText ed = (EditText) dialog.findViewById(R.id.choosePassword);
                         boolean b = !ed.isEnabled();
                         ed.setEnabled(b);
                     }
                 };
 
-                CheckBox ch = (CheckBox) mDialog.findViewById(R.id.checkBoxSetPassword);
-                ch.setOnClickListener(AlertCheckBoxClickListener);
+                CheckBox ch = (CheckBox) Dialog.findViewById(R.id.checkBoxSetPassword);
+                ch.setOnClickListener(BoxClickAlert);
                 break;
             }
 
@@ -199,7 +199,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
             }
 
             case R.id.action_delete_all_history: {
-                mHistoryFrag.DeleteAllHistory();
+                HistoryFragment.DeleteAllHistory();
                 break;
             }
         }
@@ -209,7 +209,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        mViewPager.setCurrentItem(tab.getPosition());
+        viewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
@@ -259,8 +259,8 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         }
     }
 
-    public void onRefreshButtonClicked(View v) {
-        mSearchFrag.onRefreshButtonClicked(v); //call the frag's method
+    public void onRefreshButtonClick(View v) {
+        SearchFragment.onRefreshButtonClicked(v); //call the frag's method
     }
 
 
@@ -271,7 +271,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         UniqueID = prefs.getString(Constants.SHARED_PREF_UNIQUE_ID, null);
         isToNotifyOnNewMsg = prefs.getBoolean(Constants.SHARED_PREF_ENABLE_NOTIFICATION, false);
         refreshPeriod = prefs.getInt(Constants.SHARED_PREF_REFRESH_PERIOD, 10000);
-        mIsRunForTheFirstTime = prefs.getBoolean(Constants.SHARED_PREF_IS_FIRST_RUN, true);
+        firstRun = prefs.getBoolean(Constants.SHARED_PREF_IS_FIRST_RUN, true);
     }
 
 
@@ -288,16 +288,16 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
 
     public void kill() {
         savePrefs();
-        mSearchFrag.kill();
+        SearchFragment.kill();
 
         ChatActivity.isActive = false;
         ChatActivity.msgsWaitingForSendResult = null;
-        ChatSearchScreenFrag.mService = null;
-        ChatSearchScreenFrag.mIsWifiDirectEnabled = false;
-        ChatSearchScreenFrag.mIsConnectedToGroup = false;
-        ChatSearchScreenFrag.mManager = null;
-        ChatSearchScreenFrag.mChannel = null;
-        LocalService.mNotificationManager = null;
+        ChatSearchScreenFrag.Service = null;
+        ChatSearchScreenFrag.wifiDirect = false;
+        ChatSearchScreenFrag.groupConnect = false;
+        ChatSearchScreenFrag.Manage = null;
+        ChatSearchScreenFrag.cChannel = null;
+        LocalService.notifications = null;
 
         System.gc();
         finish();
@@ -318,7 +318,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
                         String password = "";
                         String roomName = null;
 
-                        EditText ed = (EditText) mDialog.findViewById(R.id.choosePassword);
+                        EditText ed = (EditText) Dialog.findViewById(R.id.choosePassword);
 
                         //gets password if exists
                         isPassword = ed.isEnabled();
@@ -327,7 +327,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
                         }
 
                         //gets rooms name
-                        ed = (EditText) mDialog.findViewById(R.id.chooseRoomsName);
+                        ed = (EditText) Dialog.findViewById(R.id.chooseRoomsName);
                         roomName = ed.getText().toString();
 
                         //if the room's name is invalid:
@@ -340,13 +340,13 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
                                     //yes button setter
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
-                                            mDialog.show();
+                                            Dialog.show();
                                         }
                                     })//setPositive
 
                                     .setOnCancelListener(new OnCancelListener() {
                                         public void onCancel(DialogInterface dialog) {
-                                            mDialog.show();
+                                            Dialog.show();
                                         }
                                     })
 
@@ -357,7 +357,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
                             if (password.equalsIgnoreCase(""))
                                 password = null;
 
-                            ChatSearchScreenFrag.mService.CreateNewHostedPublicChatRoom(roomName, password);
+                            ChatSearchScreenFrag.Service.CreateNewHostedPublicChatRoom(roomName, password);
 
                         }
                     }//onClick dialog listener
