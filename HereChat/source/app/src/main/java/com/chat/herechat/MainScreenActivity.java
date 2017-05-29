@@ -290,8 +290,8 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         savePrefs();
         mSearchFrag.kill();
 
-        ChatActivity.mIsActive = false;
-        ChatActivity.mMsgsWaitingForSendResult = null;
+        ChatActivity.isActive = false;
+        ChatActivity.msgsWaitingForSendResult = null;
         ChatSearchScreenFrag.mService = null;
         ChatSearchScreenFrag.mIsWifiDirectEnabled = false;
         ChatSearchScreenFrag.mIsConnectedToGroup = false;

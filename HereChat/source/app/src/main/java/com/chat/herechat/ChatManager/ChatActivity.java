@@ -40,19 +40,19 @@ import com.chat.herechat.R;
 
 
 public class ChatActivity extends ListActivity {
-	ChatRoomDetails mChatRoomInfo=null;					     //reference to this room's details
-	private  ArrayList<ChatMessage> mListContent = null; 	 //the list's content
-	private CustomChatAdapter mListAdapter=null;		     //the list's adapter
-	ServiceMsgReceiver mServiceBroadcastReceiver = null;     //reference to a broadcast receiver that listens to broadcasts from our service
-	LocalService mService = ChatSearchScreenFrag.mService;   //reference to the service
-	Handler mHandler=null;									 //a handler used to receive messages from a 'FileHnadlerThread'
-	ProgressDialog historyLoadDialog, PeerConnectDialog;     //progress dialogs
-	String mRoomNameAsWrittenInHistory=null;			     //the room's name as it currentlt appears in the history log
-	public static boolean mIsActive=false;                          //will note if a user can or cannot send messages
-	public static ArrayList<ChatMessage> mMsgsWaitingForSendResult=null;  //made static so it won't be reset when changing to landscape view
-	private boolean isHostedChatRoom = false;				 //indicates whether this is a hosted public room or not
-	AlertDialog mDialog=null;								 //an alert dialog holder
-	boolean mIsTimedOut=false;
+	ChatRoomDetails chatRoomInfo =null;
+	private  ArrayList<ChatMessage> listContent = null;
+	private CustomChatAdapter listAdapter =null;
+	ServiceMsgReceiver serviceBroadcastReceiver = null;
+	LocalService service = ChatSearchScreenFrag.mService;
+	Handler handler =null;
+	ProgressDialog historyLoadDialog, peerConnectDialog;
+	String roomNameAsWrittenInHistory =null;
+	public static boolean isActive =false;
+	public static ArrayList<ChatMessage> msgsWaitingForSendResult =null;
+	private boolean isChatRoomHosted = false;
+	AlertDialog dialog = null;
+	boolean isTimedOut = false;
 	private final int Handler_WHAT_valueForPeerConnect = 10;
     static final int PICK_CONTACT_REQUEST = 1;
 
@@ -63,33 +63,32 @@ public class ChatActivity extends ListActivity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat);
-		//init all needed variables and parameters:
 
-		mService = ChatSearchScreenFrag.mService; //get a reference to the service
+		service = ChatSearchScreenFrag.mService; //get a reference to the service
 		Bundle extras = getIntent().getExtras();
 		String ChatRoomID = extras.getString(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE); //get the chat room ID from the intent
-		this.mListContent = this.mService.mListContent;
+		this.listContent = this.service.mListContent;
 
-		if(mChatRoomInfo==null)
-			mChatRoomInfo = mService.mDiscoveredChatRoomsHash.get(ChatRoomID);  //get the room's info if it's not a hosted chat room
+		if(chatRoomInfo ==null)
+			chatRoomInfo = service.mDiscoveredChatRoomsHash.get(ChatRoomID);  //get the room's info if it's not a hosted chat room
 
-		if(mChatRoomInfo==null) //if the info is still null, it means that this room is a hosted room
+		if(chatRoomInfo ==null) //if the info is still null, it means that this room is a hosted room
 		{
-			mChatRoomInfo = mService.mActiveChatRooms.get(ChatRoomID).roomInfo;  //get the room's info if it's a hosted chat room
-			mIsActive=true;
+			chatRoomInfo = service.mActiveChatRooms.get(ChatRoomID).roomInfo;  //get the room's info if it's a hosted chat room
+			isActive =true;
 		}
 
 		setupActionBar();
 
-		if(mMsgsWaitingForSendResult==null)
-			mMsgsWaitingForSendResult = new ArrayList<ChatMessage>();
+		if(msgsWaitingForSendResult ==null)
+			msgsWaitingForSendResult = new ArrayList<ChatMessage>();
 
-		mServiceBroadcastReceiver = new ServiceMsgReceiver(this);   //create a new b-cast receiver for handling service events
-		registerReceiver(mServiceBroadcastReceiver, new IntentFilter(Constants.SERVICE_BROADCAST)); //register
+		serviceBroadcastReceiver = new ServiceMsgReceiver(this);   //create a new b-cast receiver for handling service events
+		registerReceiver(serviceBroadcastReceiver, new IntentFilter(Constants.SERVICE_BROADCAST)); //register
 
-		InitAdapter();
+		initAdapter();
 
-		mHandler = new Handler(){ //define a new message handler for the file thread
+		handler = new Handler(){ //define a new message handler for the file thread
 			//Here we'll receive the content of the history file that was read by a thread
 			@Override
 			public void handleMessage(Message msg) {
@@ -97,12 +96,12 @@ public class ChatActivity extends ListActivity {
 				if (msg.what==Handler_WHAT_valueForPeerConnect)
 				{
 					 //if we weren't able to connect yet
-					if (!mIsActive)
+					if (!isActive)
 					{
 						try
 						{
-						ChatActivity.this.DismissDialog(PeerConnectDialog);
-						ChatActivity.this.ShowSingleButtonDialogAndFinishActivity("Peer unresponsive!",
+						ChatActivity.this.dismissDialog(peerConnectDialog);
+						ChatActivity.this.showSingleButtonDialogFinishActivity("Peer unresponsive!",
 								"Unable to establish communication with the target peer! closing.");
 						}
 						catch (Exception e) {
@@ -114,9 +113,9 @@ public class ChatActivity extends ListActivity {
 				{
 					//parse the data and update the list view
 					if (msg.getData().getBoolean(Constants.FILE_THREAD_WAS_DATA_READ_KEY, false)) //if a history exists
-						ParseHistoryFileDataAndUpdateListView((msg.getData().getString(Constants.FILE_THREAD_DATA_CONTENT_KEY, null)));
+						parseHistoryFileDataUpdateListView((msg.getData().getString(Constants.FILE_THREAD_DATA_CONTENT_KEY, null)));
 					else
-						InitHistoryFile(mChatRoomInfo.RoomID,null, mChatRoomInfo.Name, mChatRoomInfo.isPrivateChatRoom, getApplication());       //write 2 required lines at the beginning of the file
+						initHistoryFile(null, chatRoomInfo.roomID, chatRoomInfo.name, getApplication(), chatRoomInfo.isPrivateChatRoom);       //write 2 required lines at the beginning of the file
 					//dismiss the progress dialog
 					if (historyLoadDialog.isShowing())
 					historyLoadDialog.dismiss();
@@ -138,43 +137,43 @@ public class ChatActivity extends ListActivity {
 		historyLoadDialog.setMessage("Please Wait.");
 		historyLoadDialog.show();
 
-		new FileWritter(mChatRoomInfo.RoomID, mHandler, true,this).start(); //launch the history file reader
+		new FileWritter(chatRoomInfo.roomID, handler, true,this).start(); //launch the history file reader
 
-		mService.isChatActivityActive=true;   //mark that the chat activity is active
-		mService.DisplayedAtChatActivity=mChatRoomInfo;  //set the details of the displayed room
+		service.isChatActivityActive=true;   //mark that the chat activity is active
+		service.DisplayedAtChatActivity= chatRoomInfo;  //set the details of the displayed room
 
 		 //set the window's title to be the chat's name:
-		if (mChatRoomInfo.isPrivateChatRoom)
-			setTitle(mChatRoomInfo.Users.get(0).name);
+		if (chatRoomInfo.isPrivateChatRoom)
+			setTitle(chatRoomInfo.users.get(0).name);
 		else
-			setTitle(mChatRoomInfo.Name);
+			setTitle(chatRoomInfo.name);
 
 		//set icon
-		if (mChatRoomInfo.isPrivateChatRoom)
+		if (chatRoomInfo.isPrivateChatRoom)
 			getActionBar().setIcon(R.drawable.private_chat_icon);
 		else
 			getActionBar().setIcon(R.drawable.public_chat_icon);
 
-		isHostedChatRoom = FindOutIfHostedChatRoom();
+		isChatRoomHosted = findHostedChatRoom();
 
-		if (!isHostedChatRoom) //if this isn't a hosted room
+		if (!isChatRoomHosted) //if this isn't a hosted room
 		{
-			PeerConnectDialog = new ProgressDialog(this);
-			PeerConnectDialog.setTitle("Approving with peer...");
-			PeerConnectDialog.setMessage("Please Wait.");
-			PeerConnectDialog.show();
+			peerConnectDialog = new ProgressDialog(this);
+			peerConnectDialog.setTitle("Approving with peer...");
+			peerConnectDialog.setMessage("Please Wait.");
+			peerConnectDialog.show();
 
 			//if this is a public chat room, requires a password and inactive:
-			if (!mChatRoomInfo.isPrivateChatRoom && mChatRoomInfo.Password!=null && mService.mActiveChatRooms.get(mChatRoomInfo.RoomID)==null)
-				ShowPasswordRequestDialogForPublicChat(true); //show the password request dialog
+			if (!chatRoomInfo.isPrivateChatRoom && chatRoomInfo.password !=null && service.mActiveChatRooms.get(chatRoomInfo.roomID)==null)
+				showPasswordDialogForPublicChat(true); //show the password request dialog
 			else
 			//Now try and establish a handshake with the peer:
-			mService.EstablishChatConnection(mChatRoomInfo.RoomID, null, mChatRoomInfo.isPrivateChatRoom); //try and establish a connection
-			mHandler.sendEmptyMessageDelayed(Handler_WHAT_valueForPeerConnect, 3000); //set a TO in 3 seconds from now
+			service.EstablishChatConnection(chatRoomInfo.roomID, null, chatRoomInfo.isPrivateChatRoom); //try and establish a connection
+			handler.sendEmptyMessageDelayed(Handler_WHAT_valueForPeerConnect, 3000); //set a TO in 3 seconds from now
 		}
 		else //this is a hosted public chat room
 		{
-			mIsActive=true;                        //this room is always active
+			isActive =true;                        //this room is always active
 			registerForContextMenu(getListView()); //register this activity for context menu
 		}
 	}
@@ -196,7 +195,7 @@ public class ChatActivity extends ListActivity {
         menu.clear(); //Clear view of previous menu
         MenuInflater inflater = getMenuInflater();
         //switch between 2 different menus, according to if it's a private chat or not
-        if(mChatRoomInfo.isPrivateChatRoom)
+        if(chatRoomInfo.isPrivateChatRoom)
         {
             inflater.inflate(R.menu.chat_prv_room_menu, menu);
         }
@@ -220,19 +219,19 @@ public class ChatActivity extends ListActivity {
 				}
 				case R.id.action_clear_view: //clear view was clicked
 				{
-					mListContent.clear();
-					mListAdapter.notifyDataSetChanged();
+					listContent.clear();
+					listAdapter.notifyDataSetChanged();
 					break;
 				}
 				case R.id.action_close_room: //close chat room was clicked
 				{
-					if (mService.mActiveChatRooms.get(mChatRoomInfo.RoomID).isPublicHosted) //trying to close a hosted public chat
+					if (service.mActiveChatRooms.get(chatRoomInfo.roomID).isPublicHosted) //trying to close a hosted public chat
 						{
-						ShowCloseHostedRoomDialog(); //the dialog will call the service and close this room if necessary
+						showClosedHostedRoomDialog(); //the dialog will call the service and close this room if necessary
 						}
 					else   //this chat room isn't hosted. send disconnection control message and close
 						{
-						mService.CloseNotHostedPublicChatRoom(mChatRoomInfo);
+						service.CloseNotHostedPublicChatRoom(chatRoomInfo);
 						finish();
 						}
 					break;
@@ -252,10 +251,10 @@ public class ChatActivity extends ListActivity {
 	{
 		super.onCreateContextMenu(menu, v, menuInfo);
 	    AdapterContextMenuInfo selectedRow = (AdapterContextMenuInfo) menuInfo; //get the current selected item
-	    ChatMessage message = mListContent.get(selectedRow.position);
+	    ChatMessage message = listContent.get(selectedRow.position);
 	    if (!message.self)
 	    {
-			if (isHostedChatRoom) //we need a context menu only for a hosted chat room
+			if (isChatRoomHosted) //we need a context menu only for a hosted chat room
 			{
 		        MenuInflater inflater = getMenuInflater();
 		        inflater.inflate(R.menu.chat_activity_hosted_room_context_menu, menu);
@@ -273,19 +272,19 @@ public class ChatActivity extends ListActivity {
 		{
 			case R.id.action_clear_view://clear list view was clicked
 			{
-				mListContent.clear();
-				mListAdapter.notifyDataSetChanged();
+				listContent.clear();
+				listAdapter.notifyDataSetChanged();
 				break;
 			}
 			case R.id.action_close_room://close room was clicked
 			{
-				if (isHostedChatRoom)
+				if (isChatRoomHosted)
 				{
-					ShowCloseHostedRoomDialog();
+					showClosedHostedRoomDialog();
 				}
 				else
 				{
-					mService.CloseNotHostedPublicChatRoom(mChatRoomInfo);
+					service.CloseNotHostedPublicChatRoom(chatRoomInfo);
 				}
 				break;
 			}
@@ -295,7 +294,7 @@ public class ChatActivity extends ListActivity {
 	}//end of onMenuItemSelected()
 
 
-	private void ShowCloseHostedRoomDialog()
+	private void showClosedHostedRoomDialog()
 	{
 		new AlertDialog.Builder(this)
 	    .setTitle("Closing hosted public chat")
@@ -306,7 +305,7 @@ public class ChatActivity extends ListActivity {
 	    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {
 
-			mService.CloseHostedPublicChatRoom(mChatRoomInfo);
+			service.CloseHostedPublicChatRoom(chatRoomInfo);
 			finish();
 
 	        }//onClick-Yes
@@ -320,12 +319,12 @@ public class ChatActivity extends ListActivity {
 	     })//setNegative
 	     .show();
 
-	}//end of ShowCloseHostedRoomDialog()
+	}
 
 
 
 
-	private void ShowRoomHasTimedOutDialog()
+	private void showRoomTimedOutDialog()
 	{
 		new AlertDialog.Builder(this)
 	    .setTitle("Chat has timed out!")
@@ -339,11 +338,11 @@ public class ChatActivity extends ListActivity {
 	     })//setPositive
 	     .show();
 
-	}//end of ()
+	}
 
 
 
-	private void ShowSingleButtonDialogAndFinishActivity(String title, String message)
+	private void showSingleButtonDialogFinishActivity(String title, String message)
 	{
 		new AlertDialog.Builder(this)
 				.setTitle(title)
@@ -370,10 +369,10 @@ public class ChatActivity extends ListActivity {
 				})
 				.show();
 
-	}//end of ShowChatRoomWasClosedDialog()
+	}
 
 
-	private void ShowSingleButtonDialogAndAssumeHost()
+	private void showSingleButtonDialogAndAssumeHost()
 	{
 		new AlertDialog.Builder(this)
 				.setTitle("Host the chat?")
@@ -384,7 +383,7 @@ public class ChatActivity extends ListActivity {
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						//ASSUME O HOST DO CHAT
-						new ChatHandOver(mChatRoomInfo, mService, mListContent);
+						new ChatHandOver(chatRoomInfo, service, listContent);
 						finish();
 
 					}//onClick-Yes
@@ -408,10 +407,10 @@ public class ChatActivity extends ListActivity {
 				})
 				.show();
 
-	}//end of ShowChatRoomWasClosedDialog()
+	}
 
 
-	public static void InitHistoryFile (String unique,Handler handler, String name, boolean isPrivate, Context con)
+	public static void initHistoryFile(Handler handler, String unique, String name, Context con, boolean isPrivate)
 	{
 		StringBuilder data = new StringBuilder();
 		data.append(name+"\r\n");
@@ -428,13 +427,13 @@ public class ChatActivity extends ListActivity {
 	}//end of InitHistoryFile()
 
 
-	private void ParseHistoryFileDataAndUpdateListView(String data)
+	private void parseHistoryFileDataUpdateListView(String data)
 	{
 		String[] parsedHistory = data.split("["+Constants.STANDART_FIELD_SEPERATOR+"]"); //parse the string by the separator char
 		int length = parsedHistory.length;
 
 		//get the room's name as it's written in the history file:
-		mRoomNameAsWrittenInHistory = parsedHistory[0];
+		roomNameAsWrittenInHistory = parsedHistory[0];
 
 		for (int i=2; i<length ;i++) //for each msg string
 		{
@@ -442,23 +441,23 @@ public class ChatActivity extends ListActivity {
      		ChatMessage msg = new ChatMessage(parsedSingleMsg[1], parsedSingleMsg[2].replace(Constants.ENTER_REPLACEMENT_CHAR, '\n')
      				, parsedSingleMsg[0], parsedSingleMsg[3],
      				parsedSingleMsg[1].equalsIgnoreCase(MainScreenActivity.UniqueID));
-     		mListContent.add(msg);
+     		listContent.add(msg);
 		}//for
 
-		mListAdapter.notifyDataSetChanged();
-		getListView().setSelection(mListContent.size()-1);
+		listAdapter.notifyDataSetChanged();
+		getListView().setSelection(listContent.size()-1);
 
 	}//end of ParseHistoryFileDataAndUpdateListView()
 
 
 	private class ServiceMsgReceiver extends BroadcastReceiver
 	{
-		Activity mActivity = null;
+		Activity activity = null;
 
 		public ServiceMsgReceiver(Activity act)
 		{
 			super();
-			mActivity=act;
+			activity =act;
 		}
 
 	@Override
@@ -470,7 +469,7 @@ public class ChatActivity extends ListActivity {
 	    	   Bundle extras = intent.getExtras(); //get extras
 	    	   String msgDst = extras.getString(Constants.SINGLE_SEND_THREAD_KEY_UNIQUE_ROOM_ID);
 	    	   //if the broadcast isn't targeted for this room:
-	    	   if (msgDst==null || !msgDst.equalsIgnoreCase(ChatActivity.this.mChatRoomInfo.RoomID))
+	    	   if (msgDst==null || !msgDst.equalsIgnoreCase(ChatActivity.this.chatRoomInfo.roomID))
 	    		   return;
 
 	          int opcode =extras.getInt(Constants.SERVICE_BROADCAST_OPCODE_KEY); //get the opcode
@@ -482,34 +481,34 @@ public class ChatActivity extends ListActivity {
 							//if the send has failed, no connection could be established. notify and block the user
 							if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_RESULT).equals(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_FAILED))
 							{
-								DismissDialog(PeerConnectDialog);
-								Constants.chatBalloon("SEND FAILED! SOCK CRASHED!",mActivity);
+								dismissDialog(peerConnectDialog);
+								Constants.chatBalloon("SEND FAILED! SOCK CRASHED!", activity);
 
-								if (mIsActive) //if a send failed after this chat is active, it means that a message has failed to be sent
+								if (isActive) //if a send failed after this chat is active, it means that a message has failed to be sent
 								{
-									if (!mMsgsWaitingForSendResult.isEmpty())
-										mMsgsWaitingForSendResult.remove(0);   //remove from the msg stack
+									if (!msgsWaitingForSendResult.isEmpty())
+										msgsWaitingForSendResult.remove(0);   //remove from the msg stack
 								}
 
 
-								if (mChatRoomInfo.Password!=null && !mIsActive) //if we've failed to send a join request to a pw protected chat room
+								if (chatRoomInfo.password !=null && !isActive) //if we've failed to send a join request to a pw protected chat room
 								{
-									ShowSingleButtonDialogAndFinishActivity("Unable to establish connection!",
+									showSingleButtonDialogFinishActivity("Unable to establish connection!",
 											"Failed while trying to contact the host.");
 								}
 							}
 							else //A positive physical send result
 							{
-								if (mMsgsWaitingForSendResult.size()!=0 && !isHostedChatRoom) //if we've successfully sent a message
+								if (msgsWaitingForSendResult.size()!=0 && !isChatRoomHosted) //if we've successfully sent a message
 								{
-									ChatMessage msg = mMsgsWaitingForSendResult.get(0);  //get the msg
+									ChatMessage msg = msgsWaitingForSendResult.get(0);  //get the msg
 
-									AddNewMessage(msg);  //add to list view
-									if (!mMsgsWaitingForSendResult.isEmpty())
-										mMsgsWaitingForSendResult.remove(0);   //remove from the msg stack
+									addMessage(msg);  //add to list view
+									if (!msgsWaitingForSendResult.isEmpty())
+										msgsWaitingForSendResult.remove(0);   //remove from the msg stack
 
-									ActiveChatRoom room = mService.mActiveChatRooms.get(mChatRoomInfo.RoomID); //get the active chat room
-									WriteSelfMessageToHistoryFile(msg.Message.replace('\n',Constants.ENTER_REPLACEMENT_CHAR), room); //write this message to the file
+									ActiveChatRoom room = service.mActiveChatRooms.get(chatRoomInfo.roomID); //get the active chat room
+									writeMessageInHistoryFile(room, msg.Message.replace('\n',Constants.ENTER_REPLACEMENT_CHAR)); //write this message to the file
 								}//if
 							}
 						break;
@@ -520,40 +519,40 @@ public class ChatActivity extends ListActivity {
 							//if the connection was denied:
 							if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_RESULT).equals(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_FAILED))
 							{
-								DismissDialog(PeerConnectDialog);
-								mIsActive=false;
+								dismissDialog(peerConnectDialog);
+								isActive =false;
 								//
 								if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_REASON).equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_WRONG_PW))
 								{
-									mIsActive = false;
-									PeerConnectDialog.show();
-									ShowPasswordRequestDialogForPublicChat(false);
+									isActive = false;
+									peerConnectDialog.show();
+									showPasswordDialogForPublicChat(false);
 								}
 								if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_REASON).equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_NON_EXITISING_ROOM))
 								{
-                                    ShowSingleButtonDialogAndAssumeHost();
-									mService.RemoveFromDiscoveredChatRooms(msgDst); //msgDst is the room's unique
+                                    showSingleButtonDialogAndAssumeHost();
+									service.RemoveFromDiscoveredChatRooms(msgDst); //msgDst is the room's unique
 								}
 								if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_REASON).equalsIgnoreCase(Constants.SERVICE_NEGATIVE_REPLY_REASON_ROOM_CLOSED))
 								{
-									ShowSingleButtonDialogAndAssumeHost();
-									mService.RemoveFromDiscoveredChatRooms(msgDst); //msgDst is the room's unique
+									showSingleButtonDialogAndAssumeHost();
+									service.RemoveFromDiscoveredChatRooms(msgDst); //msgDst is the room's unique
 								}
 
 							}
 						    //if the connection was approved:
 							if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_RESULT).equals(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_SUCCESS))
 							{
-								DismissDialog(PeerConnectDialog);
-								mIsActive=true;
-						//		Constants.chatBalloon("JOIN SUCCEEDED! PEER HAS ACCEPTED", mActivity);
+								dismissDialog(peerConnectDialog);
+								isActive =true;
+						//		Constants.chatBalloon("JOIN SUCCEEDED! PEER HAS ACCEPTED", activity);
 							}
 						    //if the connection already exists
 							if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_RESULT).equals(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_ALREADY_CONNECTED))
 							{
-								DismissDialog(PeerConnectDialog);
-								mIsActive=true;
-						//		Constants.chatBalloon("CHAT ROOM IS ALREADY CONNECTED!", mActivity);
+								dismissDialog(peerConnectDialog);
+								isActive =true;
+						//		Constants.chatBalloon("CHAT ROOM IS ALREADY CONNECTED!", activity);
 							}
 						break;
 						}
@@ -565,12 +564,12 @@ public class ChatActivity extends ListActivity {
 							ChatMessage msg = new ChatMessage(content[2],
 									content[4].replace(Constants.ENTER_REPLACEMENT_CHAR,'\n'),  //convert the 'enter's back
 									content[1], Constants.getTimeString(), false);
-							AddNewMessage(msg); //add to the list view
+							addMessage(msg); //add to the list view
 
-							if (ChatActivity.this.mChatRoomInfo.isPrivateChatRoom) //if this is a private chat room
+							if (ChatActivity.this.chatRoomInfo.isPrivateChatRoom) //if this is a private chat room
 							{
 								//update the title with the peer's currant name
-								ChatActivity.this.setTitle(ChatActivity.this.mChatRoomInfo.Users.get(0).name);
+								ChatActivity.this.setTitle(ChatActivity.this.chatRoomInfo.users.get(0).name);
 							}
 						break;
 						}
@@ -578,12 +577,12 @@ public class ChatActivity extends ListActivity {
 					case Constants.SERVICE_BROADCAST_OPCODE_ROOM_TIMED_OUT: //the displayed room has timed out
 					{
 
-					if (mIsTimedOut==false)
+					if (isTimedOut ==false)
 					{
-						mIsTimedOut=true;
-						ShowRoomHasTimedOutDialog();
-						DisableButtonAndEditText();
-						mIsActive=false;
+						isTimedOut =true;
+						showRoomTimedOutDialog();
+						disableButtonEditText();
+						isActive =false;
 						break;
 					}
 					}
@@ -591,9 +590,9 @@ public class ChatActivity extends ListActivity {
 				}//switch
 	       }//if
 	   }
-	}//end of ServiceMsgReceiver.class
+	}
 
-	private void DisableButtonAndEditText()
+	private void disableButtonEditText()
 	{
 		EditText text = (EditText) findViewById(R.id.MsgText);
 		text.setText("");  //clear the user's edit-text
@@ -601,10 +600,10 @@ public class ChatActivity extends ListActivity {
 
 		Button button = (Button) findViewById(R.id.chat_activity_send_button);
 		button.setEnabled(false);  //disable the button
-	}//end of DisableButtonAndEditText()
+	}
 
 
-	private void WriteSelfMessageToHistoryFile(String msg, ActiveChatRoom room)
+	private void writeMessageInHistoryFile(ActiveChatRoom room, String msg)
 	{
 		String[] temp;
 
@@ -621,38 +620,39 @@ public class ChatActivity extends ListActivity {
 	}
 
 
-	private void DismissDialog(Dialog d)
+	private void dismissDialog(Dialog d)
 	{
 		if (d!=null && d.isShowing())
 			d.dismiss();
 	}
 
 
-	protected void InitAdapter()
+	protected void initAdapter()
 	{
-	   if (mListContent==null){mListContent = new ArrayList<ChatMessage>();} //create a new array list that'll hold all the data
-	   if (mListAdapter==null)
+	   if (listContent ==null){
+		   listContent = new ArrayList<ChatMessage>();} //create a new array list that'll hold all the data
+	   if (listAdapter ==null)
 	   		{
-		    mListAdapter = new CustomChatAdapter(this,mListContent);  //create a new adapter
-			setListAdapter(mListAdapter);   						//set the content
+		    listAdapter = new CustomChatAdapter(this, listContent);  //create a new adapter
+			setListAdapter(listAdapter);   						//set the content
 		   	}
-	}//end of InitAdapter()
+	}//end of initAdapter()
 
 	@Override
 	protected void onPause()
 	{
 		super.onPause();
-		mService.DisplayedAtChatActivity=null;
+		service.DisplayedAtChatActivity=null;
 
-		if (mIsTimedOut)
-			mService.RemoveSingleTimedOutRoom(mChatRoomInfo, false); //remove this room from the service
+		if (isTimedOut)
+			service.RemoveSingleTimedOutRoom(chatRoomInfo, false); //remove this room from the service
 
-		mService.isChatActivityActive=false; //mark that this activity is no longer active
-		mChatRoomInfo.hasNewMsg=false;  //lower the messages flag
+		service.isChatActivityActive=false; //mark that this activity is no longer active
+		chatRoomInfo.hasNewMsg=false;  //lower the messages flag
 		//if this is a private chat room and the peer has changed his name:
-		if (mChatRoomInfo.isPrivateChatRoom &&  !mChatRoomInfo.Users.get(0).name.equalsIgnoreCase(mRoomNameAsWrittenInHistory))
+		if (chatRoomInfo.isPrivateChatRoom &&  !chatRoomInfo.users.get(0).name.equalsIgnoreCase(roomNameAsWrittenInHistory))
 		{
-			mService.UpdatePrivateChatRoomNameInHistoryFile(mChatRoomInfo);
+			service.UpdatePrivateChatRoomNameInHistoryFile(chatRoomInfo);
 		}
 	}//end of onPause()
 
@@ -660,12 +660,12 @@ public class ChatActivity extends ListActivity {
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		if (mServiceBroadcastReceiver!=null) //unregister receiver
-		unregisterReceiver(mServiceBroadcastReceiver);
+		if (serviceBroadcastReceiver !=null) //unregister receiver
+		unregisterReceiver(serviceBroadcastReceiver);
 	}//end of onDestroy()
 
 
-	public void OnSendButtonClicked(View v)
+	public void onSendButtonClicked(View v)
 	{
 		EditText text = (EditText) findViewById(R.id.MsgText);
 		String newMessage = text.getText().toString().trim();  //get the user's text msg
@@ -674,58 +674,58 @@ public class ChatActivity extends ListActivity {
 			text.setText("");  //clear the user's edit-text
 			ChatMessage m = new ChatMessage(MainScreenActivity.UniqueID,newMessage,MainScreenActivity.UserName,
 					Constants.getTimeString(),true);
-			if (!isHostedChatRoom) //if this isn't a hosted public chat
+			if (!isChatRoomHosted) //if this isn't a hosted public chat
 			{
 				//add the msg to the head of the waiting for result list
-				if(mMsgsWaitingForSendResult.size()!=0)
-					mMsgsWaitingForSendResult.add(0,m);
+				if(msgsWaitingForSendResult.size()!=0)
+					msgsWaitingForSendResult.add(0,m);
 				else
-					mMsgsWaitingForSendResult.add(m);
+					msgsWaitingForSendResult.add(m);
 			}
 			else //this is a hosted public chat. We don't queue up messages. We assume that they're always successfully sent
 			{
-				AddNewMessage(m);  //add to list view
-				ActiveChatRoom room = mService.mActiveChatRooms.get(mChatRoomInfo.RoomID); //get the active chat room
+				addMessage(m);  //add to list view
+				ActiveChatRoom room = service.mActiveChatRooms.get(chatRoomInfo.roomID); //get the active chat room
 				//replace all '\n' chars and write this message to the file
-				WriteSelfMessageToHistoryFile(m.Message.replace('\n', Constants.ENTER_REPLACEMENT_CHAR), room);
+				writeMessageInHistoryFile(room, m.Message.replace('\n', Constants.ENTER_REPLACEMENT_CHAR));
 			}
 			//replace all 'enter's in the text with our special char, since 'enter's will fuck our logic up.
 			newMessage = newMessage.replace('\n',Constants.ENTER_REPLACEMENT_CHAR);
 
-			mService.SendMessage(newMessage, mChatRoomInfo.RoomID); //call the service to send the message to the peer
+			service.SendMessage(newMessage, chatRoomInfo.roomID); //call the service to send the message to the peer
 		}//if
-	}//end of OnSendButtonClicked()
+	}//end of onSendButtonClicked()
 
 
-    public boolean OnFileButtonClicked(View v)
+    public boolean onFileButtonClicked(View v)
     {
         Intent chooseFileIntent = new Intent(this, FileExplorerActivity.class);
         startActivityForResult(chooseFileIntent,PICK_CONTACT_REQUEST);
         return true;
     }
 
-	private boolean FindOutIfHostedChatRoom()
+	private boolean findHostedChatRoom()
 	{
-		ActiveChatRoom room = mService.mActiveChatRooms.get(mChatRoomInfo.RoomID);
+		ActiveChatRoom room = service.mActiveChatRooms.get(chatRoomInfo.roomID);
 
 		return (room!=null && room.isPublicHosted);
-	}//end of FindOutIfHostedChatRoom()
+	}//end of findHostedChatRoom()
 
 
-	private void AddNewMessage(ChatMessage m)
+	private void addMessage(ChatMessage m)
 	{
-		mListContent.add(m);      				//add the new message
-		mListAdapter.notifyDataSetChanged();   //update the list view
-		getListView().setSelection(mListContent.size()-1); //scroll down so that the new message will be visible
-	}//end of AddNewMessage()
+		listContent.add(m);      				//add the new message
+		listAdapter.notifyDataSetChanged();   //update the list view
+		getListView().setSelection(listContent.size()-1); //scroll down so that the new message will be visible
+	}//end of addMessage()
 
 
-	private void ShowPasswordRequestDialogForPublicChat(boolean isFirstTry)
+	private void showPasswordDialogForPublicChat(boolean isFirstTry)
 	{
         // adding custom layout to an AlertDialog
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.alert_dialog_text_entry, null);
-        mDialog = new AlertDialog.Builder(this)
+        dialog = new AlertDialog.Builder(this)
             .setIconAttribute(android.R.attr.alertDialogIcon)
             .setTitle(isFirstTry? "This room requires a password" : "Wrong password! try again")
             .setView(textEntryView)
@@ -733,9 +733,9 @@ public class ChatActivity extends ListActivity {
             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
-                EditText ed = (EditText) mDialog.findViewById(R.id.password_edit);
+                EditText ed = (EditText) ChatActivity.this.dialog.findViewById(R.id.password_edit);
                 String pw = ed.getText().toString();  //get the pw
-                mService.EstablishChatConnection(mChatRoomInfo.RoomID, pw, mChatRoomInfo.isPrivateChatRoom); //try and establish a connection
+                service.EstablishChatConnection(chatRoomInfo.roomID, pw, chatRoomInfo.isPrivateChatRoom); //try and establish a connection
                 }
             })
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -755,7 +755,7 @@ public class ChatActivity extends ListActivity {
     			}
     		})
             .create();
-        mDialog.show();
+        dialog.show();
     }//end of ShowPasswordRequestDialog()
 
 	 private void setupActionBar()

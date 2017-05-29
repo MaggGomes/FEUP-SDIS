@@ -56,11 +56,11 @@ public class ActiveChatRoom {
 
 		// we need to forward an incoming message only if this chat is hosted or this chat isn't hosted and it's a self message
 		if (isPublicHosted || (!isPublicHosted && self)) {
-			for (Peer user : roomInfo.Users)  //for every participating user
+			for (Peer user : roomInfo.users)  //for every participating user
 			{
 				if (!user.uniqueID.equalsIgnoreCase(senderUniqueID)) //if this user isn't the one who sent this message (done to avoid loopbacks)
 					{
-					new SendControlMessage(null,user.IPaddress,entireMsg, roomInfo.RoomID).start(); //forward the msg
+					new SendControlMessage(null,user.IPaddress,entireMsg, roomInfo.roomID).start(); //forward the msg
 					}
 			}
 		}
@@ -79,7 +79,7 @@ public class ActiveChatRoom {
 			Intent intent = service.CreateBroadcastIntent();
 			intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.CONNECTION_CODE_NEW_CHAT_MSG); //set opcode to new msg
 			intent.putExtra(Constants.SERVICE_BROADCAST_MSG_CONTENT_KEY, msg);  //set the msg as it came via the socket
-			intent.putExtra(Constants.SINGLE_SEND_THREAD_KEY_UNIQUE_ROOM_ID, roomInfo.RoomID); //set the room's ID
+			intent.putExtra(Constants.SINGLE_SEND_THREAD_KEY_UNIQUE_ROOM_ID, roomInfo.roomID); //set the room's ID
 			service.sendBroadcast(intent);
 		}
 	}
@@ -92,7 +92,7 @@ public class ActiveChatRoom {
 			e.printStackTrace();
 		}
 
-		FileWritter fw = new FileWritter(roomInfo.RoomID, fileWriterResultHandler,false, service);
+		FileWritter fw = new FileWritter(roomInfo.roomID, fileWriterResultHandler,false, service);
 		fw.UpdateDataToWriteBuffer(msg);
 		fw.start();
 		fw.Kill();
@@ -101,20 +101,20 @@ public class ActiveChatRoom {
 
 	public String AddUser (Peer user, String suggestedPass) {
 		//check if this user already exists in the room:
-		if ( Constants.CheckUniqueID(user.uniqueID, roomInfo.Users)!=null)
+		if ( Constants.CheckUniqueID(user.uniqueID, roomInfo.users)!=null)
 			return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST;
 		//check if the pw is correct:
-		if (roomInfo.Password!=null && !suggestedPass.equalsIgnoreCase(roomInfo.Password))
+		if (roomInfo.password !=null && !suggestedPass.equalsIgnoreCase(roomInfo.password))
 			return Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_WRONG_PW;
 		//add
-		roomInfo.Users.add(user);  //add this user to the mailing list
+		roomInfo.users.add(user);  //add this user to the mailing list
 		//return positive reply
 		return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST;
 	}
 
 
 	public void DeleteHistory() {
-		String path  = service.getFilesDir().getPath()+ "/" + roomInfo.RoomID + ".txt";
+		String path  = service.getFilesDir().getPath()+ "/" + roomInfo.roomID + ".txt";
 		File file = new File(path);
 		try {
 			semaphore.acquire();
@@ -123,7 +123,7 @@ public class ActiveChatRoom {
 		}
 
 		if (file.delete())  //delete the file. if successful, rebuild a new file template
-			ChatActivity.InitHistoryFile(roomInfo.RoomID, fileWriterResultHandler, roomInfo.Name, roomInfo.isPrivateChatRoom, service);
+			ChatActivity.initHistoryFile(fileWriterResultHandler, roomInfo.roomID, roomInfo.name, service, roomInfo.isPrivateChatRoom);
 		else //if the file deletion has failed
 			semaphore.release();
 	}
@@ -144,10 +144,10 @@ public class ActiveChatRoom {
 
 					//now each member in fileContent[] array contains one line from the file
 					fileContent= fileContent[0].split("["+Constants.STANDART_FIELD_SEPERATOR+"]");
-					fileContent[0]= roomInfo.Users.get(0).name;
+					fileContent[0]= roomInfo.users.get(0).name;
 					String atos = StringArraySeperated(fileContent);
 
-					File file = new  File(service.getFilesDir().getPath()+ "/" + roomInfo.RoomID+".txt");
+					File file = new  File(service.getFilesDir().getPath()+ "/" + roomInfo.roomID +".txt");
 					//is the history was deleted we want to create new one
 					if(file.delete())
 						UpdateFileWithNewMessage(atos);
@@ -156,7 +156,7 @@ public class ActiveChatRoom {
 		};
 
 		//read file
-		new FileWritter(roomInfo.RoomID, msgHandler, true, ActiveChatRoom.this.service).start();
+		new FileWritter(roomInfo.roomID, msgHandler, true, ActiveChatRoom.this.service).start();
 	}
 
 
@@ -175,11 +175,11 @@ public class ActiveChatRoom {
 	@Override
 	public String toString() {
 		StringBuilder ans = new StringBuilder();
-		ans.append(roomInfo.Name+Constants.STANDART_FIELD_SEPERATOR); //set the name
-		ans.append(roomInfo.RoomID+Constants.STANDART_FIELD_SEPERATOR); //set the ID
-		ans.append(roomInfo.Users.isEmpty()? " " : Constants.UserListToString(roomInfo.Users)); //set the users string
+		ans.append(roomInfo.name +Constants.STANDART_FIELD_SEPERATOR); //set the name
+		ans.append(roomInfo.roomID +Constants.STANDART_FIELD_SEPERATOR); //set the ID
+		ans.append(roomInfo.users.isEmpty()? " " : Constants.UserListToString(roomInfo.users)); //set the users string
 		ans.append(Constants.STANDART_FIELD_SEPERATOR);
-		ans.append((roomInfo.Password==null? "false" : "true")+Constants.STANDART_FIELD_SEPERATOR); //set password
+		ans.append((roomInfo.password ==null? "false" : "true")+Constants.STANDART_FIELD_SEPERATOR); //set password
 
 		return ans.toString();
 	}
@@ -192,10 +192,10 @@ public class ActiveChatRoom {
 		msg.append(MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);   //add the self unique
 		msg.append(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST + Constants.STANDART_FIELD_SEPERATOR);  //set negative result
 		msg.append(Constants.SERVICE_NEGATIVE_REPLY_REASON_ROOM_CLOSED + Constants.STANDART_FIELD_SEPERATOR);  //set denial reason
-		msg.append(roomInfo.RoomID + Constants.STANDART_FIELD_SEPERATOR);  //set room's ID
+		msg.append(roomInfo.roomID + Constants.STANDART_FIELD_SEPERATOR);  //set room's ID
 
-		for (Peer user : roomInfo.Users) {
-			new SendControlMessage(null,user.IPaddress,msg.toString(), roomInfo.RoomID).start(); //send the msg
+		for (Peer user : roomInfo.users) {
+			new SendControlMessage(null,user.IPaddress,msg.toString(), roomInfo.roomID).start(); //send the msg
 		}
 	}
 
@@ -206,8 +206,8 @@ public class ActiveChatRoom {
 		msg.append(Integer.toString(Constants.CONNECTION_CODE_DISCONNECT_FROM_CHAT_ROOM) + Constants.STANDART_FIELD_SEPERATOR);
 		msg.append(MainScreenActivity.UserName + Constants.STANDART_FIELD_SEPERATOR);   //add the self name
 		msg.append(MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);   //add the self unique
-		msg.append(roomInfo.RoomID + Constants.STANDART_FIELD_SEPERATOR);  //set the room's ID
+		msg.append(roomInfo.roomID + Constants.STANDART_FIELD_SEPERATOR);  //set the room's ID
 
-		new SendControlMessage(roomInfo.Users.get(0).IPaddress, msg.toString()).start();  //send the reply
+		new SendControlMessage(roomInfo.users.get(0).IPaddress, msg.toString()).start();  //send the reply
 	}
 }

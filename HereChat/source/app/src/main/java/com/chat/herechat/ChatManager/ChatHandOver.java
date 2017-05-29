@@ -18,14 +18,14 @@ public class ChatHandOver {
         boolean isPassword;
         String password = null;
 
-        if (this.chat.Password == null)
+        if (this.chat.password == null)
             isPassword = false;
         else {
             isPassword = true;
-            password = this.chat.Password;
+            password = this.chat.password;
         }
 
-        ChatSearchScreenFrag.mService.CreateNewHostedPublicChatRoom(this.chat.Name, password, mListContent, this.chat);
+        ChatSearchScreenFrag.mService.CreateNewHostedPublicChatRoom(this.chat.name, password, mListContent, this.chat);
 
     }
 }

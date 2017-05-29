@@ -187,7 +187,7 @@ public class ChatSearchScreenFrag extends ListFragment
 					case Constants.SERVICE_BROADCAST_OPCODE_ACTION_DO_TOAST:
 						{
 						//show a toast with the received message
-				//		LocalService.chatBalloon(extras.getString(Constants.SERVICE_BROADCAST_TOAST_STRING_KEY), mActivity);
+				//		LocalService.chatBalloon(extras.getString(Constants.SERVICE_BROADCAST_TOAST_STRING_KEY), activity);
 						break;
 						}
 						
@@ -274,17 +274,17 @@ public class ChatSearchScreenFrag extends ListFragment
 			}
 			case Constants.SERVICE_BROADCAST_WIFI_EVENT_PEER_CHANGED:
 			{
-		//		LocalService.chatBalloon("peers have changed",mActivity);
+		//		LocalService.chatBalloon("peers have changed",activity);
 				break;
 			}
 			case Constants.SERVICE_BROADCAST_WIFI_EVENT_PEERS_AVAILABLE:
 			{
-       //         LocalService.chatBalloon("peers Available",mActivity);
+       //         LocalService.chatBalloon("peers Available",activity);
 				break;
 			}
 			case Constants.SERVICE_BROADCAST_WIFI_EVENT_PEER_DISCOVER_SUCCESS:
 			{
-	  //		LocalService.chatBalloon("Peer discovery was successful!",mActivity);
+	  //		LocalService.chatBalloon("Peer discovery was successful!",activity);
 				break;
 			}
 			case Constants.SERVICE_BROADCAST_WIFI_EVENT_PEER_DISCOVER_FAILED:
@@ -293,7 +293,7 @@ public class ChatSearchScreenFrag extends ListFragment
 				{
 				case 0:
 					{
-			//	    Constants.chatBalloon("Peer discovery failed! Unknown error!", mActivity);
+			//	    Constants.chatBalloon("Peer discovery failed! Unknown error!", activity);
 					break;
 					}
 				case 1:
@@ -303,7 +303,7 @@ public class ChatSearchScreenFrag extends ListFragment
 					}
 				case 2:
 					{
-			//		Constants.chatBalloon("Peer discovery failed! Channel is busy, please wait.", mActivity);
+			//		Constants.chatBalloon("Peer discovery failed! Channel is busy, please wait.", activity);
 					break;
 					}
 				}
@@ -368,7 +368,7 @@ public class ChatSearchScreenFrag extends ListFragment
 		    		R.id.search_list_item_lock_icon,R.id.search_list_item_new_msg_icon,R.id.search_list_item_icon});  		    
 			setListAdapter(mListAdapter);
 		   	}
-	}//end of InitAdapter()
+	}//end of initAdapter()
 	
 
 	private void UpdateListView()
@@ -389,10 +389,10 @@ public class ChatSearchScreenFrag extends ListFragment
 					{
 						HashMap<String, String> singleChatEntryView = new HashMap<String, String>(); //create a new hash map
 						//set the 1st field to be the user's name
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_NAME, room.roomInfo.Name);
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_PARTICIPANTS, Constants.UserListToString(room.roomInfo.Users));
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_NAME, room.roomInfo.name);
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_PARTICIPANTS, Constants.UserListToString(room.roomInfo.users));
 						//messing around with the layout's icons:
-						if (room.roomInfo.Password!=null)
+						if (room.roomInfo.password !=null)
 						{
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_HOSTED_PUBLIC_ROOM_ICON, Integer.toString(R.drawable.hosted_icon));
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_LOCKED_PUBLIC_ROOM_ICON, Integer.toString(R.drawable.lock_icon_orange));
@@ -404,7 +404,7 @@ public class ChatSearchScreenFrag extends ListFragment
 						if (room.roomInfo.hasNewMsg)
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_NEW_MSG_ICON, Integer.toString(R.drawable.msg_icon));
 						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_ICON, Integer.toString(R.drawable.public_chat_icon));
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE, room.roomInfo.RoomID);
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE, room.roomInfo.roomID);
 						
 						mListContent.add(singleChatEntryView); //add the hash map to the content list
 					}//if hosted public chat
@@ -420,7 +420,7 @@ public class ChatSearchScreenFrag extends ListFragment
 					if (room.isPrivateChatRoom) //if this is a private chat
 					{
 						//set the 1st field to be the user's name
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_NAME, room.Users.get(0).name);  
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_NAME, room.users.get(0).name);
 						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_PARTICIPANTS, "Private chat");
 						//now we'de like to check if this user is ignored
 						if (room.hasNewMsg)
@@ -428,17 +428,17 @@ public class ChatSearchScreenFrag extends ListFragment
 						else
 						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_ICON, Integer.toString(R.drawable.private_chat_icon));
 						
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE, room.RoomID);
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE, room.roomID);
 					}//if
 					else //this is a public chat room, NOT hosted by us
 					{
 						//set the 1st field to be the user's name
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_NAME, room.Name);  
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_PARTICIPANTS,room.UserNamesString);
-						if (room.Password!=null) //if this room requires a pw
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_NAME, room.name);
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_PARTICIPANTS,room.userNamesString);
+						if (room.password !=null) //if this room requires a pw
 						{
 							//if we've connected already to this public room
-							if (mService.mActiveChatRooms.containsKey(room.RoomID))
+							if (mService.mActiveChatRooms.containsKey(room.roomID))
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_LOCKED_PUBLIC_ROOM_ICON, 
 									Integer.toString(R.drawable.lock_icon_green));
 							else //we haven't connected yet
@@ -446,13 +446,13 @@ public class ChatSearchScreenFrag extends ListFragment
 										Integer.toString(R.drawable.lock_icon_red));
 						}
 						//if we're connected to a public chat which is not hosted by us
-						if (mService.mActiveChatRooms.containsKey(room.RoomID))
+						if (mService.mActiveChatRooms.containsKey(room.roomID))
 								singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_LOCKED_PUBLIC_ROOM_ICON, 
 										Integer.toString(R.drawable.plug_icon));					
 						if (room.hasNewMsg)
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_NEW_MSG_ICON, Integer.toString(R.drawable.msg_icon));
 						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_ICON, Integer.toString(R.drawable.public_chat_icon));
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE, room.RoomID);
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE, room.roomID);
 					}//else
 					mListContent.add(singleChatEntryView); //add the hash map to the content list
 				}//for

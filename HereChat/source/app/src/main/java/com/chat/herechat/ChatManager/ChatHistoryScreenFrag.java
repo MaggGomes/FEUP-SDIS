@@ -185,7 +185,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 					new int[]{R.id.search_list_item_TV1,R.id.search_list_item_TV2,R.id.search_list_item_icon});
 			setListAdapter(mListAdapter);
 		   	}
-	}//end of InitAdapter()
+	}//end of initAdapter()
 
 
 	private void UpdateListView()

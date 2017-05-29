@@ -39,11 +39,11 @@
     <favorites_list name="source" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/Utilities/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
+            <state relative-caret-position="2754">
               <caret line="178" column="1" selection-start-line="178" selection-start-column="1" selection-end-line="178" selection-end-column="1" />
               <folding />
             </state>
@@ -55,26 +55,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
               <caret line="21" column="57" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ActiveChatRoom.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ActiveChatRoom.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="130" column="0" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChatActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -93,7 +73,7 @@
       <file leaf-file-name="ChatHistoryScreenFrag.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatHistoryScreenFrag.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
+            <state relative-caret-position="119">
               <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
               <folding />
             </state>
@@ -110,11 +90,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChatRoomDetails.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ChatRoomDetails.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatRoomDetails.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+            <state relative-caret-position="272">
+              <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -123,7 +103,7 @@
       <file leaf-file-name="ChatSearchScreenFrag.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatSearchScreenFrag.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
+            <state relative-caret-position="136">
               <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
               <folding />
             </state>
@@ -152,7 +132,7 @@
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
       <map>
-        <entry key="$PROJECT_DIR$" value="C:\Users\almeida\.gradle\wrapper\dists\gradle-3.3-all\55gk2rcmfc6p2dg9u9ohc3hw9\gradle-3.3" />
+        <entry key="$PROJECT_DIR$" value="C:\Users\joliveira\.gradle\wrapper\dists\gradle-3.3-all\55gk2rcmfc6p2dg9u9ohc3hw9\gradle-3.3" />
       </map>
     </option>
     <option name="myGradleVersions">
@@ -1798,12 +1778,9 @@
         <option value="$PROJECT_DIR$/app/build/generated/source/buildConfig/androidTest/debug/com/example/android_final_proj/test/BuildConfig.java" />
         <option value="$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/com/chat/herechat/BuildConfig.java" />
         <option value="$PROJECT_DIR$/app/build/generated/source/r/debug/com/chat/herechat/R.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ActiveChatRoom.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatHandOver.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatHistoryScreenFrag.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatMessage.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatRoomDetails.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatSearchScreenFrag.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/CustomChatAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/LocalService.java" />
@@ -1820,14 +1797,17 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ServiceHandlers/FileWritter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ServiceHandlers/SendControlMessage.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/Utilities/Constants.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ActiveChatRoom.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatRoomDetails.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -1854,10 +1834,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1866,58 +1845,9 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="herechat" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="herechat" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ChatManager" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1925,7 +1855,7 @@
     <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="device.picker.selection" value="11013253190a824a" />
+    <property name="device.picker.selection" value="ZH8007LHN0 LGH815c49cb6e" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -2255,7 +2185,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2265,14 +2195,14 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20045386" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6757679" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20042644" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.67483294" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
@@ -2317,15 +2247,21 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java</url>
-          <line>67</line>
+          <line>66</line>
           <properties />
           <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java</url>
+          <line>464</line>
+          <properties />
+          <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="37" />
+      <option name="time" value="39" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -2338,7 +2274,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7769">
           <caret line="492" column="33" selection-start-line="492" selection-start-column="33" selection-end-line="492" selection-end-column="33" />
-          <folding />
+          <folding>
+            <element signature="method#onCreate#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onResume#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onCreateOptionsMenu#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onPrepareOptionsMenu#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onOptionsItemSelected#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onCreateContextMenu#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onMenuItemSelected#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#showClosedHostedRoomDialog#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#showRoomTimedOutDialog#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#showSingleButtonDialogFinishActivity#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#showSingleButtonDialogAndAssumeHost#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#initHistoryFile#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#parseHistoryFileDataUpdateListView#0;class#ChatActivity#0" expanded="false" />
+            <element signature="class#ServiceMsgReceiver#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onReceive#0;class#ServiceMsgReceiver#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#writeMessageInHistoryFile#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#dismissDialog#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onFileButtonClicked#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#addMessage#0;class#ChatActivity#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2512,16 +2468,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/chat_search_frag_context_menu.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/chat_search_frag_context_menu.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/main_screen_menu.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -2701,16 +2648,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/Utilities/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
+        <state relative-caret-position="2754">
           <caret line="178" column="1" selection-start-line="178" selection-start-column="1" selection-end-line="178" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/Utilities/FilesDisplayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="21" column="57" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
           <folding />
         </state>
       </provider>
@@ -2731,33 +2670,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatRoomDetails.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatSearchScreenFrag.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
+        <state relative-caret-position="136">
           <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatHistoryScreenFrag.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
+        <state relative-caret-position="119">
           <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
           <folding />
         </state>
@@ -2773,8 +2696,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ActiveChatRoom.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="130" column="0" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+        <state relative-caret-position="290">
+          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="606">
+          <caret line="760" column="28" selection-start-line="760" selection-start-column="28" selection-end-line="760" selection-end-column="28" />
+          <folding>
+            <element signature="method#onCreate#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onResume#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onCreateOptionsMenu#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onPrepareOptionsMenu#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onOptionsItemSelected#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onCreateContextMenu#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onMenuItemSelected#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#showClosedHostedRoomDialog#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#showRoomTimedOutDialog#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#showSingleButtonDialogFinishActivity#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#showSingleButtonDialogAndAssumeHost#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#initHistoryFile#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#parseHistoryFileDataUpdateListView#0;class#ChatActivity#0" expanded="false" />
+            <element signature="class#ServiceMsgReceiver#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onReceive#0;class#ServiceMsgReceiver#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#writeMessageInHistoryFile#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#dismissDialog#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#onFileButtonClicked#0;class#ChatActivity#0" expanded="false" />
+            <element signature="method#addMessage#0;class#ChatActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/Utilities/FilesDisplayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="21" column="57" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/chat/herechat/ChatManager/ChatRoomDetails.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
           <folding />
         </state>
       </provider>

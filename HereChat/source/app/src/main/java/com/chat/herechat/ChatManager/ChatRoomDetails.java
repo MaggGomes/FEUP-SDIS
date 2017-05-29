@@ -8,41 +8,41 @@ import java.util.Date;
 public class ChatRoomDetails
 {
 
-	public String RoomID=null;
-	public String Name=null;
-	public String Password=null;  //a suggested password by a user trying to connect to this room
-	public Date LastSeen=null;
+	public String roomID =null;
+	public String name =null;
+	public String password =null;  //a suggested password by a user trying to connect to this room
+	public Date lastSeen =null;
 	public boolean isPrivateChatRoom;
-	public ArrayList<Peer> Users=null;
-	public String UserNamesString = null;  //will be used to hold the users string for not-hosted chat rooms
+	public ArrayList<Peer> users =null;
+	public String userNamesString = null;  //will be used to hold the users string for not-hosted chat rooms
 	public boolean hasNewMsg=false;
 
-	public ChatRoomDetails(String RoomID, String Name, Date LastSeen, ArrayList<Peer> mUsers, String Password, boolean isPrivate)
+	public ChatRoomDetails(String Name, String RoomID, String Password, ArrayList<Peer> mUsers, Date LastSeen, boolean isPrivate)
 	{
 
-		this.Password=Password;
-		this.RoomID=RoomID;
-		this.Name=Name;
-		this.LastSeen=LastSeen;
-		this.Users=mUsers;
+		this.password =Password;
+		this.roomID =RoomID;
+		this.name =Name;
+		this.lastSeen =LastSeen;
+		this.users =mUsers;
 		this.isPrivateChatRoom=isPrivate;
 	}
 
 	public ChatRoomDetails(String RoomID, String Name, Date LastSeen, ArrayList<Peer> mUsers, boolean isPrivate)
 	{
-		this(RoomID, Name, LastSeen, mUsers,null,isPrivate);
+		this(Name, RoomID, null, mUsers, LastSeen, isPrivate);
 	}
 
 	public ChatRoomDetails(String RoomID, String Name, Date LastSeen, ArrayList<Peer> mUsers, String isPwRequired, String usersString)
 	{
 
-		this.Password= isPwRequired.equals("true")? "yup" : null;
-		this.RoomID=RoomID;
-		this.Name=Name;
-		this.LastSeen=LastSeen;
-		this.Users=mUsers;
+		this.password = isPwRequired.equals("true")? "yup" : null;
+		this.roomID =RoomID;
+		this.name =Name;
+		this.lastSeen =LastSeen;
+		this.users =mUsers;
 		this.isPrivateChatRoom=false;
-		this.UserNamesString=usersString;
+		this.userNamesString =usersString;
 	}
 
 }//end of class

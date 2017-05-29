@@ -147,7 +147,7 @@ public class LocalService extends Service {
             else
                 msg = ConstructJoinMessage(Constants.CONNECTION_CODE_JOIN_ROOM_REQUEST, roomUniqueID, password);
 
-            String peerIP = mDiscoveredChatRoomsHash.get(roomUniqueID).Users.get(0).IPaddress; //get the target's IP
+            String peerIP = mDiscoveredChatRoomsHash.get(roomUniqueID).users.get(0).IPaddress; //get the target's IP
             new SendControlMessage(mSocketSendResultHandler, peerIP, msg, roomUniqueID).start(); //start the thread
         } else {
             Intent intent = CreateBroadcastIntent();
@@ -185,7 +185,7 @@ public class LocalService extends Service {
         }
 
         if (MainScreenActivity.isToNotifyOnNewMsg &&
-                (DisplayedAtChatActivity == null || !msg[3].equalsIgnoreCase(DisplayedAtChatActivity.RoomID))) {
+                (DisplayedAtChatActivity == null || !msg[3].equalsIgnoreCase(DisplayedAtChatActivity.roomID))) {
 
             Intent resultIntent = new Intent(this, MainScreenActivity.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -211,12 +211,12 @@ public class LocalService extends Service {
         ChatRoomDetails ChatDetails = mDiscoveredChatRoomsHash.get(peerUnique);
 
         if (ChatDetails != null)
-            ChatDetails.LastSeen = currentTime;
+            ChatDetails.lastSeen = currentTime;
 
         if (!peerUnique.equalsIgnoreCase(roomUnique)) {
             ChatDetails = mDiscoveredChatRoomsHash.get(roomUnique);
             if (ChatDetails != null)
-                ChatDetails.LastSeen = currentTime;
+                ChatDetails.lastSeen = currentTime;
         }
     }
 
@@ -243,8 +243,8 @@ public class LocalService extends Service {
                 OnRefreshButtonclicked();
             } else {
                 ActiveChatRoom activeRoom = new ActiveChatRoom(this, false, details);
-                InitHistoryFileIfNecessary(details.RoomID, details.Name, false);
-                mActiveChatRooms.put(details.RoomID, activeRoom);
+                InitHistoryFileIfNecessary(details.roomID, details.name, false);
+                mActiveChatRooms.put(details.roomID, activeRoom);
                 BroadcastRoomsUpdatedEvent();
             }
         }
@@ -259,7 +259,7 @@ public class LocalService extends Service {
         if (activeRoom != null && activeRoom.isPublicHosted) {
             activeRoom.SendMessage(true, toSend.split("[" + Constants.STANDART_FIELD_SEPERATOR + "]"));
         } else {
-            String peerIP = mDiscoveredChatRoomsHash.get(chatRoomUnique).Users.get(0).IPaddress;
+            String peerIP = mDiscoveredChatRoomsHash.get(chatRoomUnique).users.get(0).IPaddress;
             new SendControlMessage(mSocketSendResultHandler, peerIP, toSend, chatRoomUnique).start();
         }
     }
@@ -338,14 +338,14 @@ public class LocalService extends Service {
     public void UpdateChatRoomHashMap(ArrayList<ChatRoomDetails> chatRoomList) {
         for (ChatRoomDetails refreshed : chatRoomList) {
             synchronized (mDiscoveredChatRoomsHash) {
-                ChatRoomDetails existing = mDiscoveredChatRoomsHash.get(refreshed.RoomID);
+                ChatRoomDetails existing = mDiscoveredChatRoomsHash.get(refreshed.roomID);
                 if (existing != null) {
-                    existing.Name = refreshed.Name;
-                    existing.Password = refreshed.Password;
-                    existing.LastSeen = refreshed.LastSeen;
-                    existing.Users = refreshed.Users;
+                    existing.name = refreshed.name;
+                    existing.password = refreshed.password;
+                    existing.lastSeen = refreshed.lastSeen;
+                    existing.users = refreshed.users;
                 } else {
-                    mDiscoveredChatRoomsHash.put(refreshed.RoomID, refreshed);    //update the hash map with the new chat room
+                    mDiscoveredChatRoomsHash.put(refreshed.roomID, refreshed);    //update the hash map with the new chat room
                 }
 
             }
@@ -577,16 +577,16 @@ public class LocalService extends Service {
             newDetails  = details;
         }else{
             newDetails = new ChatRoomDetails(
-                    MainScreenActivity.UniqueID + "_" + (++MainScreenActivity.ChatRoomAccumulatingSerialNumber),
-                    name, null, new ArrayList<Peer>(), password, false);
+                    name, MainScreenActivity.UniqueID + "_" + (++MainScreenActivity.ChatRoomAccumulatingSerialNumber),
+                    password, new ArrayList<Peer>(), null, false);
         }
 
         //create a new active room:
         ActiveChatRoom newActiveRoom = new ActiveChatRoom(this, true, newDetails);
         //init a history file if necessary:
-        InitHistoryFileIfNecessary(newActiveRoom.roomInfo.RoomID, newActiveRoom.roomInfo.Name, false);
+        InitHistoryFileIfNecessary(newActiveRoom.roomInfo.roomID, newActiveRoom.roomInfo.name, false);
         //put the room into the hash map:
-        mActiveChatRooms.put(newActiveRoom.roomInfo.RoomID, newActiveRoom);
+        mActiveChatRooms.put(newActiveRoom.roomInfo.roomID, newActiveRoom);
         //b-cast an event that'll cause the chat-search-frag to refresh the list view
         BroadcastRoomsUpdatedEvent();
         //start a new logic discovery procedure to update all peers about the new room list
@@ -602,7 +602,7 @@ public class LocalService extends Service {
             ActiveChatRoom room = new ActiveChatRoom(this, false, details);  //create a new chat room
 
             //check if a history file should be created for this new room
-            InitHistoryFileIfNecessary(details.RoomID, details.Name, details.isPrivateChatRoom);
+            InitHistoryFileIfNecessary(details.roomID, details.name, details.isPrivateChatRoom);
 
             mActiveChatRooms.put(input[2], room);
         }
@@ -615,33 +615,33 @@ public class LocalService extends Service {
         File f = new File(path);
         if (!f.isFile()) {
             //create a new history file:
-            ChatActivity.InitHistoryFile(roomID, null, RoomName, isPrivate, this);
+            ChatActivity.initHistoryFile(null, roomID, RoomName, this, isPrivate);
         }
     }
 
 
     public void CloseNotHostedPublicChatRoom(ChatRoomDetails info) {
-        ActiveChatRoom activeRoom = mActiveChatRooms.get(info.RoomID);
+        ActiveChatRoom activeRoom = mActiveChatRooms.get(info.roomID);
         if (activeRoom != null) {
             activeRoom.DisconnectFromHostPeer();
-            mActiveChatRooms.remove(activeRoom.roomInfo.RoomID);  //remove from the active rooms list
+            mActiveChatRooms.remove(activeRoom.roomInfo.roomID);  //remove from the active rooms list
             BroadcastRoomsUpdatedEvent();
         }
     }
 
 
     public void CloseHostedPublicChatRoom(ChatRoomDetails info) {
-        ActiveChatRoom activeRoom = mActiveChatRooms.get(info.RoomID);
+        ActiveChatRoom activeRoom = mActiveChatRooms.get(info.roomID);
         if (activeRoom != null) {
             activeRoom.CloseRoomNotification();
-            mActiveChatRooms.remove(activeRoom.roomInfo.RoomID);
+            mActiveChatRooms.remove(activeRoom.roomInfo.roomID);
             BroadcastRoomsUpdatedEvent();
         }
     }
 
 
     public void UpdatePrivateChatRoomNameInHistoryFile(ChatRoomDetails info) {
-        ActiveChatRoom room = mActiveChatRooms.get(info.RoomID);
+        ActiveChatRoom room = mActiveChatRooms.get(info.roomID);
         if (room != null)
             room.UpdateUserInHistory();
     }
@@ -654,9 +654,9 @@ public class LocalService extends Service {
 
         Collection<ActiveChatRoom> chatRooms = mActiveChatRooms.values();  //get all available active chat rooms
         for (ActiveChatRoom room : chatRooms) {
-            if ((DisplayedAtChatActivity == null || !room.roomInfo.RoomID.equalsIgnoreCase(DisplayedAtChatActivity.RoomID))
+            if ((DisplayedAtChatActivity == null || !room.roomInfo.roomID.equalsIgnoreCase(DisplayedAtChatActivity.roomID))
                     && room.roomInfo.hasNewMsg) {
-                builder.append(room.roomInfo.Name + ", "); //add the room's name
+                builder.append(room.roomInfo.name + ", "); //add the room's name
                 numOfRoomsWithNewMsgs++;
             }
         }
@@ -691,18 +691,18 @@ public class LocalService extends Service {
     public void RemoveSingleTimedOutRoom(ChatRoomDetails details, boolean isCalledByService) {
         if (isCalledByService) {
             //if no room is displayed or the room to be deleted isn't the displayed room
-            if (DisplayedAtChatActivity == null || !DisplayedAtChatActivity.RoomID.equalsIgnoreCase(details.RoomID)) {
+            if (DisplayedAtChatActivity == null || !DisplayedAtChatActivity.roomID.equalsIgnoreCase(details.roomID)) {
                 synchronized (mActiveChatRooms) {
                     synchronized (mDiscoveredChatRoomsHash) {
-                        if (mActiveChatRooms.containsKey(details.RoomID))
-                            mActiveChatRooms.remove(details.RoomID);
+                        if (mActiveChatRooms.containsKey(details.roomID))
+                            mActiveChatRooms.remove(details.roomID);
                         // remove it from the has as well
-                        mDiscoveredChatRoomsHash.remove(details.RoomID);  //remove from the discovered chat rooms hash
+                        mDiscoveredChatRoomsHash.remove(details.roomID);  //remove from the discovered chat rooms hash
                     }
                 }
             } else {
                 Intent intent = CreateBroadcastIntent();
-                intent.putExtra(Constants.SINGLE_SEND_THREAD_KEY_UNIQUE_ROOM_ID, details.RoomID);
+                intent.putExtra(Constants.SINGLE_SEND_THREAD_KEY_UNIQUE_ROOM_ID, details.roomID);
                 intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.SERVICE_BROADCAST_OPCODE_ROOM_TIMED_OUT);
                 sendBroadcast(intent);
             }
@@ -710,10 +710,10 @@ public class LocalService extends Service {
         } else {
             synchronized (mActiveChatRooms) {
                 synchronized (mDiscoveredChatRoomsHash) {
-                    if (mActiveChatRooms.containsKey(details.RoomID))
-                        mActiveChatRooms.remove(details.RoomID);
+                    if (mActiveChatRooms.containsKey(details.roomID))
+                        mActiveChatRooms.remove(details.roomID);
 
-                    mDiscoveredChatRoomsHash.remove(details.RoomID);  //remove from the discovered chat rooms hash
+                    mDiscoveredChatRoomsHash.remove(details.roomID);  //remove from the discovered chat rooms hash
                 }
             }
         }
@@ -740,7 +740,7 @@ public class LocalService extends Service {
             }
 
             for (i = 0; i < numOfRooms; i++) {
-                timeDiff = currentTime.getTime() - allRooms[i].LastSeen.getTime();
+                timeDiff = currentTime.getTime() - allRooms[i].lastSeen.getTime();
                 if (timeDiff >= MainScreenActivity.refreshPeriod * Constants.TO_FACTOR) {
                     RemoveSingleTimedOutRoom(allRooms[i], true);
                 }
