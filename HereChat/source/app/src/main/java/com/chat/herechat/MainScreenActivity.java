@@ -130,9 +130,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         }
     }
 
-    /**
-     * Used to modify menu item according to the app's state
-     */
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -265,9 +263,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         mSearchFrag.onRefreshButtonClicked(v); //call the frag's method
     }
 
-    /**
-     * Reads the saved preferences
-     */
+
     protected void getPrefs() {
         SharedPreferences prefs = getPreferences(0);
         ChatRoomAccumulatingSerialNumber = prefs.getLong(Constants.SHARED_PREF_CHAT_ROOM_SERIAL_NUM, 0);
@@ -278,9 +274,7 @@ public class MainScreenActivity extends FragmentActivity implements ActionBar.Ta
         mIsRunForTheFirstTime = prefs.getBoolean(Constants.SHARED_PREF_IS_FIRST_RUN, true);
     }
 
-    /**
-     * Saved the shared preferences
-     */
+
     protected void savePrefs() {
         SharedPreferences.Editor editor = getPreferences(0).edit();
         editor.putLong(Constants.SHARED_PREF_CHAT_ROOM_SERIAL_NUM, ChatRoomAccumulatingSerialNumber); //save to current SN

@@ -4,9 +4,7 @@ import com.chat.herechat.Peer.Peer;
 
 import java.util.ArrayList;
 import java.util.Date;
-/**
- * A data structure to hold information about a discovered chat room
- */
+
 public class ChatRoomDetails
 {
 

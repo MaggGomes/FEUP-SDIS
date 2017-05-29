@@ -31,10 +31,7 @@ import com.chat.herechat.HistoryActivity;
 import com.chat.herechat.MainScreenActivity;
 import com.chat.herechat.R;
 
-/**
- * The 2nd fragment that is contained in the 'MainScreenActivity'
- * Shows all available chat history logs
- */
+
 
 public class ChatHistoryScreenFrag extends ListFragment
 {
@@ -115,9 +112,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 	}//end of onListItemClick()
 
 
-	/**
-	 * define the appearance of the context menu
-	 */
+
 	@Override
 		public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 		{
@@ -126,11 +121,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 	        inflater.inflate(R.menu.chat_history_frag_context_menu, menu);
 		}
 
-	/**
-	 * When a context item is selected in this frag's list, the callback is at {@link ChatSearchScreenFrag} and it calls this
-	 * method.
-	 * @param item
-	 */
+
 	public void OnContextMenuItemSelected(MenuItem item)
 	{
 		AdapterContextMenuInfo selectedRow = (AdapterContextMenuInfo) item.getMenuInfo(); //get the current selected item
@@ -150,9 +141,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 		}
 	}//end of OnContextMenuItemSelected()
 
-	/**
-	 *  Deletes a single history file, whether this chat is active or not
-	 */
+
 	public void DeleteSingleHistoryFile (String unqiue)
 	{
 		if (ChatSearchScreenFrag.mService!=null) //if the service is available
@@ -173,11 +162,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 		}
 	}//end of DeleteSingleHistoryFile()
 
-	/**
-	 * Deletes a single file
-	 * @param unqiue - the room's unique ID
-	 * @return true if the file was deleted, false otherwise
-	 */
+
 	private boolean DeleteFile(String unqiue)
 	{
 		String path  = mActivity.getFilesDir().getPath()+ "/" + unqiue + ".txt";
@@ -185,9 +170,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 		return f.delete();
 	}//end of DeleteFile()
 
-	/**
-	 * Initializes the content, list adapter and performs a peer scan for the the 1st run only.
-	 */
+
 	private void InitAdapter()
 	{
 	   if (mListContent==null){mListContent = new ArrayList< HashMap<String,String>>();} //create a new array list that'll hold all the data
@@ -204,9 +187,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 		   	}
 	}//end of InitAdapter()
 
-	/**
-	 * Once all history files were read, this function is called by the handled and updates the list view
-	 */
+
 	private void UpdateListView()
 	{
 		mListContent.clear(); //clear the current list content
@@ -250,9 +231,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 //			..
 //			--------------------------------------
 
-	/**
-	 * Launches file handlers to read all relevant files
-	 */
+
 	public void loadHistory()
 	{
 		File f = getActivity().getFilesDir();
@@ -269,9 +248,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 		}//for
 	}//end of loadHistory()
 
-/**
- * Deletes a single history file and updated the list view.
- */
+
 public void DeleteAllHistory()
 {
 	File f = mActivity.getFilesDir();

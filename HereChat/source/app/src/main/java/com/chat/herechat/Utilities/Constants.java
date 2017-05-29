@@ -127,12 +127,7 @@ public final class Constants {
 			return "";
 	}
 
-	/**
-	 * Makes a single string with separators out of a string array
-	 * @param input - string array
-	 * @param separator - the separator char to be placed between strings
-	 * @return single string with separators
-	 */
+
 	public static String StringArrayToStringWithSeperators (String[] input, char separator) {
 		int length = input.length;
 		StringBuilder buffer = new StringBuilder();
@@ -148,12 +143,7 @@ public final class Constants {
 		return buffer.toString();
 	}
 
-	/**
-	 * Searches a 'Peer' list for a user with a specific unique ID
-	 * @param userUniqueId - the searched unique ID
-	 * @param list - the 'Peer' list to search in
-	 * @return the user if exists, null otherwise
-	 */
+
 	public static Peer CheckIfUserExistsInListByUniqueID (String userUniqueId, ArrayList<Peer> list) {
 		if (list==null)
 			return null;
@@ -166,11 +156,7 @@ public final class Constants {
 		return null;
 	}
 
-	/**
-	 * pops up a toast message
-	 * @param txt - String to be put in the toast
-	 * @param act - reference to an activity that'll display the toast
-	 */
+
 	public static void showBubble(String txt, Activity act) {
 		Context context = act.getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;
@@ -179,10 +165,7 @@ public final class Constants {
 		toast.show();
 	}
 
-	/**
-	 * Shows a notification of a new chat message arrival event
-	 * @param msg - the contentText for this notification
-	 */
+
     public static void ShowNotification(String msg, PendingIntent intent) {
     	//create a new notification
     	NotificationCompat.Builder mBuilder =

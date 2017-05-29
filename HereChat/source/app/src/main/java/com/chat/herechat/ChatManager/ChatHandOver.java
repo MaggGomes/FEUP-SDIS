@@ -4,9 +4,7 @@ import com.chat.herechat.LocalService;
 
 import java.util.ArrayList;
 
-/**
- * Created by joliveira on 28/05/2017.
- */
+
 
 public class ChatHandOver {
 

@@ -10,12 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.ChatManager.ChatHistoryScreenFrag;
 
-/**
- * 
- * This thread receives a file's name and an empty "history entry" and puts
- * inside the history entry all the info that is needed so that
- * it can be showed as a listView entry
- */
+
 
 
 @SuppressLint("HandlerLeak")
@@ -43,7 +38,7 @@ public class CreateHistoryEntryFileName extends Thread {
 					String[] data= tmp.split("["+Constants.STANDART_FIELD_SEPERATOR+"]") ;
 					//update the relevant data for the display:
 					mEntry.mRoomName= new String( data[0] );  //set the room's name
-					mEntry.isPrivate= (data[1].equalsIgnoreCase("private"))?true:false;  //set the privacy mode
+					mEntry.isPrivate= (data[1].equalsIgnoreCase("private"));  //set the privacy mode
 					mEntry.isEmpty = data.length <= 2;  //if this file is empty, it has only 2 rows in it 
 					Message resultMsg = mResultHanlder.obtainMessage();
 					mResultHanlder.sendMessage(resultMsg);  //send an empty message, just to notify that a file was read.

@@ -31,23 +31,14 @@ public class ClientSocketHandler extends Thread {
 	private PrintWriter mOut=null;
 	private BufferedReader mIn=null;
 	
-	/**
-	 * Constructor for a passive socket
-	 * @param service - reference to the LocalService
-	 * @param socket - an open socket
-	 */
+
 	public ClientSocketHandler(LocalService service, Socket socket) {
 		this.clientSocket = socket;
 		this.isPassive = true;
 		this.service = service;
 	}
 	
-	/**
-	 * Constructor for an active socket
-	 * @param service - reference to the LocalService
-	 * @param peer - a peer to connect to
-	 * @param Qcode - the code of the operation to be performed. Taken from Constants.class
-	 */
+
 	public ClientSocketHandler(LocalService service, Peer peer, int Qcode) {
 		this.service = service;
 		this.isPassive = false;
@@ -65,9 +56,7 @@ public class ClientSocketHandler extends Thread {
 		CloseInputAndOutputStreams();
 	}
 	
-	/**
-	 * Closes mIn and mOut
-	 */
+
 	private void CloseInputAndOutputStreams() {
 		if (mOut!=null)
 			mOut.close();
@@ -81,18 +70,14 @@ public class ClientSocketHandler extends Thread {
 		}
 	}
 	
-	/**
-	 * Case handler. Switches between different incoming requests.
-	 * Called by ReceiveDiscoveryMessage() if the thread is passive
-	 * @param input - A String array, as returned by BreakDiscoveryMessageToStrings(String)
-	 */
+
 	private void PassiveDiscoveryQueryCaseHandler(String[] input) {
 		if (input.length < 3)
 			return;
 
 		boolean SkipUserUpdate = false;
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_NEW_CHAT_MSG))) //if this is a chat message
-			SkipUserUpdate = input[3].split("[_]")[0].equalsIgnoreCase(MainScreenActivity.UniqueID)? false : true;
+			SkipUserUpdate = !input[3].split("[_]")[0].equalsIgnoreCase(MainScreenActivity.UniqueID);
 			
 		if (!SkipUserUpdate)
 			service.UpdateDiscoveredUsersList(clientSocket.getInetAddress().getHostAddress(), input[2],input[1]);
@@ -185,11 +170,7 @@ public class ClientSocketHandler extends Thread {
 		}
 	}
 	
-	/**
-	 * Parses a peer publication string (that comes from the group owner) and updates the 
-	 * discovered peers list
-	 * @param input
-	 */
+
 	private void ParsePeerPublicationMessageAndUpdateDiscoveredPeers(String[] input) {
 		int index=3;   							//skip the first 3 fields of this message
 		int numOfPeers = (input.length-3)/3;      //each peer comes with 3 info fields
@@ -203,15 +184,7 @@ public class ClientSocketHandler extends Thread {
 		}
 	}
 
-	/**
-	 * Sends a reply for a join request (
-	 * Format: PC reply opcode$(accepted/denied)$denial reason$self unique
-	 * @param peerIP
-	 * @param isApproved
-	 * @param RoomID
-	 * @param reason
-	 * @param isPrivateChat
-	 */
+
 	static public void SendReplyForAJoinRequest (String peerIP, boolean isApproved, String RoomID, String reason, boolean isPrivateChat) {
 		StringBuilder msg = new StringBuilder();
 		if (isPrivateChat) {
@@ -248,25 +221,17 @@ public class ClientSocketHandler extends Thread {
 		
 	}
 	
-	/**
-	 * Checks if the user is approved to join the desired chat room
-	 * @param input - incoming request string after parsing
-	 * @return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST if the user is not ignored
-	 */
+
 	private String CheckIfNotIgnored(String[] input) {
 		return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST;
 	}
-	/**
-	 * Passive transaction
-	 */
+
 	private void InitiatePassiveTransaction() {
 		if (!ReceiveDiscoveryMessage()) //if query message reception was unsuccessful. 
 			return;
 	}
 	
-	/**
-	 * active discovery
-	 */
+
 	private void ActiveDiscoveryProcedure() {
 		if (!SendDiscoveryMessage()) //if query message sending was unsuccessful
 			return;
@@ -280,10 +245,7 @@ public class ClientSocketHandler extends Thread {
 		}
 	}
 	
-	/**
-	 * Sends a discovery message over the socket
-	 * @return - true if successful, false otherwise
-	 */
+
 	private boolean SendDiscoveryMessage () {
 		//DISCOVERY QUERY SEND LOGIC:
 		if (mOut==null || mIn==null) {
@@ -307,15 +269,7 @@ public class ClientSocketHandler extends Thread {
 		return true;
 	}
 	
-	/**
-	 * Tries to receive a discovery string from the socket.
-	 * If this thread is in Active mode:
-	 * 		On success: parses the string and invokes an update method at the service
-	 * 		On failure (Socket crash or timeout): aborts and closes the socket
-	 * If this thread is in Passive mode:
-	 * 	 	On success: parses the string and calls PassiveDiscoveryQueryCaseHandler()
-	 * 		On failure (Socket crash or timeout): aborts and closes the socket
-	 */
+
 	private boolean ReceiveDiscoveryMessage () {
 		int numberOfReadTries=0;
 		String receivedMsg=null;
@@ -369,11 +323,7 @@ public class ClientSocketHandler extends Thread {
 		return true;
 	}
 	
-	/**
-	 * Converts the discovery String that was received from a peer to a list of discovered chat rooms
-	 * @param input - A String array, as returned by BreakDiscoveryMessageToStrings(String)
-	 * @return An ArrayList of discovered chat rooms
-	 */
+
 	private ArrayList<ChatRoomDetails> ConvertDiscoveryStringToChatRoomList (String[] input) {
 		ArrayList<ChatRoomDetails> ChatRooms = new ArrayList<ChatRoomDetails>();
 		Peer host = Constants.CheckIfUserExistsInListByUniqueID(input[2], service.mDiscoveredUsers); //get the user from the service
@@ -403,15 +353,10 @@ public class ClientSocketHandler extends Thread {
 		return ChatRooms;
 	}
 	
-	/**
-	 * Switches between Active operations (Discover / Start private chat / Join a chat room).
-	 */
+
 	private void InitiateRelevantActiveTransaction() {
 		try {
-		    /**
-		     * Create a client socket with the host,
-		     * port, and timeout information.
-		     */
+
 			clientSocket = new Socket();
 			clientSocket.bind(null);
 		    clientSocket.connect((new InetSocketAddress(peer.IPaddr, SERVER_PORT)), 10000);
@@ -435,19 +380,12 @@ public class ClientSocketHandler extends Thread {
 		}
 	}
 	
-	/**
-	 * Splits a string with our special character used as a delimiter
-	 * @param input - a discovery String that was received from a peer
-	 * @return String array that was parsed by our special character
-	 */
+
 	private String[] BreakDiscoveryMessageToStrings(String input) {
 		return input.split("["+Constants.STANDART_FIELD_SEPERATOR+"]"); //parse the string by the separator char
 	}
 
-	/**
-	 * Creates a discovery string, containing data about all hosted rooms on this device, to be sent via socket
-	 * @return String
-	 */
+
 	private String BuildDiscoveryString() {
 		//Build the 1st mandatory part of the discovery string: information about this user that'll enable a private chat
 		StringBuilder res = new StringBuilder(Integer.toString(Constants.CONNECTION_CODE_DISCOVER) + Constants.STANDART_FIELD_SEPERATOR

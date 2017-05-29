@@ -1,9 +1,6 @@
 package com.chat.herechat.ChatManager;
 
-/**
- * Message is a custom object to encapsulate message information/fields
- *
- */
+
 public class ChatMessage {
 
 	public String mUserUnique;
@@ -13,20 +10,14 @@ public class ChatMessage {
 	public boolean mIsMine; 
 	public boolean isStatusMessage;
 
-	/**
-	 * Constructor to make a Message object
-	 */
+
 	public ChatMessage(String message, boolean isMine) {
 		super();
 		this.mMessage = message;
 		this.mIsMine = isMine;
 		this.isStatusMessage = false;
 	}
-	/**
-	 * Constructor to make a status Message object
-	 * consider the parameters are swaped from default Message constructor,
-	 *  not a good approach but have to go with it.
-	 */
+
 	public ChatMessage(boolean status, String message) {
 		super();
 		this.mMessage = message;

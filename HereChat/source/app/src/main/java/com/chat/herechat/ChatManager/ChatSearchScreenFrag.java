@@ -37,10 +37,7 @@ import com.chat.herechat.LocalService.LocalBinder;
 import com.chat.herechat.MainScreenActivity;
 import com.chat.herechat.R;
 
-/**
- * The 1st fragment that is contained in the 'MainScreenActivity'
- * Shows all available chat rooms and allows to engage in a chat activity
- */
+
 public class ChatSearchScreenFrag extends ListFragment 
 {
 	
@@ -60,9 +57,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	public static Channel mChannel=null;					 //required for working with the manager
 
 	
-	/**
-	 * When this frag is displayed, we want the activity to know of it.
-	 */
+
 	@Override
 	public void onAttach(Activity activity)
 	{
@@ -140,9 +135,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	}//end of onStop()
 
 	
-	/**
-	 * Define an item selection handler for the context menu
-	 */
+
 	@Override
 		public boolean onContextItemSelected(MenuItem item)
 		{
@@ -160,9 +153,7 @@ public class ChatSearchScreenFrag extends ListFragment
 			return true;
 		}//end of onContextItemSelected()
 
-	/**
-	 * Launches the chat activity with all needed parameters
-	 */
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id)
     {
@@ -179,9 +170,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	    startActivity(intent);  //send
     }//end of onListItemClick()
     
-	/**
-	 * This class is the broadcast receiver for all broadcasts coming from the service
-	 */
+
 	private class ServiceMsgReceiver extends BroadcastReceiver 
 	{
 	@Override
@@ -232,9 +221,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	}//end of ServiceMsgReceiver()
 	
 	
-	/**
-	 * Shows an alert dialog when a user tries to close a hosted chat room
-	 */
+
 	private void ShowWelcomeSockErrorDialog()
 	{
 		new AlertDialog.Builder(mActivity)
@@ -261,11 +248,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	     .show();
 	}//end of ShowCloseHostedRoomDialog()
 	
-	/**
-	 * Used by the ServiceMsgReceiver class to handle events regarding wifi-p2p events sent by the service
-	 * @param eventCode - The event code. Codes are taken from  Constants.class
-	 * @param failReasonCode - Wifi-p2p event fail code, if occurred
-	 */
+
 	private void HandleWifiP2pEvent(int eventCode, int failReasonCode)
 	{
 	  switch (eventCode) //figure out which wifi p2p event has occurred
@@ -332,9 +315,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	}//end of HandleWifiP2pEvent()
 	
 
-	/**
-	 * Called by the activity when the refresh button is clicked
-	 */
+
 	public void onRefreshButtonClicked (View v)
 		{
 		if (mIsWifiDirectEnabled==false) //wifi direct is disabled
@@ -355,9 +336,7 @@ public class ChatSearchScreenFrag extends ListFragment
 		}//end of onRefreshButtonClicked()
 	
 
-	/**
-	 * Terminates the service
-	 */
+
 	public void kill()
 	{
 		if (mService!=null)
@@ -373,9 +352,7 @@ public class ChatSearchScreenFrag extends ListFragment
 		mManager.removeGroup(mChannel, null);
 	}//end of kill()
 
-	/**
-	 * Initializes the content, list adapter and performs a peer scan for the the 1st run only.
-	 */
+
 	private void InitAdapter()
 	{
 	   if (mListContent==null){mListContent = new ArrayList< HashMap<String,String>>();} //create a new array list that'll hold all the data
@@ -396,9 +373,7 @@ public class ChatSearchScreenFrag extends ListFragment
 		   	}
 	}//end of InitAdapter()
 	
-	/**
-	 * Gets a new chat room list from the service and displays it in the list view
-	 */
+
 	private void UpdateListView()
 	{
 		if (mService==null) //if we don't have a reference to the service yet
@@ -491,10 +466,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	}//end of UpdateListView()
 	
 	
-	/**
-	 * If the wifi direct is disabled, show a dialog only the 1st time this app is run.
-	 * This method is called by the wifi b-cast receiver
-	*/
+
 	public void ShowWifiDirectDialogWhenStarted ()
 	{
 		if (mIsWasWifiDirectDialogShown==false)
@@ -511,7 +483,7 @@ public class ChatSearchScreenFrag extends ListFragment
 	}
 	
 
-    /** Defines callbacks for service binding, passed to bindService() */
+
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override

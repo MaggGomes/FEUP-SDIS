@@ -18,11 +18,7 @@ import com.chat.herechat.LocalService;
 import com.chat.herechat.MainScreenActivity;
 import com.chat.herechat.ServiceHandlers.SendControlMessage;
 
-/**
- * This class holds all the functionality of an active chat room, both private and group chat, hosted and not hosted.
- * This class is used by our {@link LocalService} to maintain a single chat room which the user participates in.
- *
- */
+
 
 public class ActiveChatRoom {
 	public ChatRoomDetails mRoomInfo;            //reference to to the details object of this room
@@ -50,11 +46,7 @@ public class ActiveChatRoom {
 
 	}
 
-	/**
-	 * Forwards a newly received message to all relevant users
-	 * @param msg - the string, as came via the socket
-	 * @param isSelfMsg - indicating if this message came from us or a peer
-	 */
+
 	public void ForwardMessage(String[] msg, boolean isSelfMsg) {
 		System.out.println(213);
 		if (!isSelfMsg) {
@@ -95,12 +87,7 @@ public class ActiveChatRoom {
 		}
 	}
 
-	/**
-	 * Will be called by the service when a new message for this room arrives.
-	 * This method is used only for messaging coming from peers. Self generated messages are handled
-	 * by the 'ChatActivity'
-	 * @param msg - the string to write to the file
-	 */
+
 	public void UpdateFileWithNewMsg (String msg) {
 		try {
 			semaphore.acquire();
@@ -114,12 +101,7 @@ public class ActiveChatRoom {
 		fh.Kill();
 	}
 
-	/**
-	 * Used only by a hosted group chat. Adds a user to the chat group if the password matches
-	 * @param user - reference to the user to be added
-	 * @return result - Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST if the user already exists or was added successfully,
-	 * and Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_WRONG_PW if the offered password is wrong
-	 */
+
 	public String AddUser (Peer user, String suggestedPw) {
 		//check if this user already exists in the room:
 		if ( Constants.CheckIfUserExistsInListByUniqueID(user.uniqueID, mRoomInfo.Users)!=null)
@@ -133,9 +115,7 @@ public class ActiveChatRoom {
 		return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST;
 	}
 
-	/**
-	 * Deletes and re-initiates the history file associated with this chat.
-	 */
+
 	public void DeleteHistory() {
 		String path  = mService.getFilesDir().getPath()+ "/" +mRoomInfo.RoomID + ".txt";
 		File f = new File(path);
@@ -151,12 +131,7 @@ public class ActiveChatRoom {
 			semaphore.release();
 	}
 
-	/**
-	 * this function is called when we discovered that the room's name was changed and should be updated.
-	 * IT IS ONLY RELEVANT TO A PRIVATE CHAT ROOM!
-	 * it uses a handler to read the history file. when the handler's    "handleMessage(Message msg)" function is called ,it calls
-	 * the UpdateFileWithNewMsg(msg) with an up to date log file based on the old one
-	 */
+
 	@SuppressLint("HandlerLeak")
 	public void updateUserNameInTheHistoryLogFile(){
 		Handler msgHandler = new Handler(){ //define a new message handler for the file thread
@@ -188,11 +163,7 @@ public class ActiveChatRoom {
 	}
 
 
-	/**
-	 *
-	 * @param input- an array of strings
-	 * @return a new string, built from the input[] members, separated by "\r\n" so it can be written to a history log file
-	 */
+
 	private String StringArrayToStringWithSeperatedWith_lines(String [] input){
 		StringBuilder buffer = new StringBuilder();
 		int length = input.length;
@@ -203,10 +174,7 @@ public class ActiveChatRoom {
 		return new String(buffer.toString());
 	}
 
-	/**
-	 * Used to convert the chat room's info to a string that can be sent to other users
-	 * String structure: RoomName$RoomID$UserList$RequiresPw(True/False)
-	 */
+
 	@Override
 	public String toString() {
 		StringBuilder ans = new StringBuilder();
@@ -234,10 +202,7 @@ public class ActiveChatRoom {
 		}
 	}
 
-	/**
-	 * Valid only for a not-hosted public chat room
-	 * Closes a connection to a not-hosted public chat room
-	 */
+
 	public void DisconnectFromHostingPeer() {
 		StringBuilder msg = new StringBuilder();
 		 //set the 'Leave room' opcode:

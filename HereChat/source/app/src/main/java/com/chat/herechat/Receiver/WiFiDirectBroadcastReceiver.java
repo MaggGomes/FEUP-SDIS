@@ -18,9 +18,7 @@ import com.chat.herechat.LocalService;
 import com.chat.herechat.ServiceHandlers.ClientSocketHandler;
 import com.chat.herechat.Peer.Peer;
 
-/**
- * A BroadcastReceiver that notifies of important Wi-Fi p2p events.
- */
+
 public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements ConnectionInfoListener, PeerListListener {
     private WifiP2pManager manager;
     private Channel channel;
@@ -44,7 +42,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
                 if (manager == null)
                     return;
 
-                NetworkInfo networkInfo = (NetworkInfo) intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+                NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
 
                 if (networkInfo.isConnected())
                     manager.requestConnectionInfo(channel, this);
@@ -57,7 +55,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
 
             if (WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)) {
                 int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
-                /* Verifies if Wi-Fi is enabled */
+
                 if (state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
                     service.CreateAndBroadcastWifiP2pEvent(Constants.SERVICE_BROADCAST_WIFI_EVENT_P2P_ENABLED, -1);
                 } else {
@@ -76,12 +74,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
         }
     }
 
-    /**
-     * Returns a list of peers
-     *
-     * @param peerList -WifiP2pDeviceList
-     * @return an array of devices contained in this list
-     */
+
     public WifiP2pDevice[] createWifiP2pDeviceArray(WifiP2pDeviceList peerList) {
         Object[] obArry = peerList.getDeviceList().toArray();
         if (obArry != null) {
@@ -106,18 +99,15 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
         service.onPeerDeviceListAvailable();
     }
 
-    /**
-     * When info is available, we check if the other peer is the wifiP2p group owner. If so, we can get its IP
-     * and open a socket to it.
-     */
+
     @Override
     public void onConnectionInfoAvailable(WifiP2pInfo info) {
-        /* Connection established */
+
         ChatSearchScreenFrag.mIsConnectedToGroup = true;
         service.mRefreshHandler.sendEmptyMessageDelayed(service.Handler_WHAT_valueForActivePeerTO,
                 Constants.VALID_COMM_WITH_WIFI_PEER_TO);
 
-        /* Getting Group Owner IP address */
+
         if (!info.isGroupOwner && info.groupFormed) {
             Peer peer = new Peer(null, info.groupOwnerAddress.getHostAddress(), null);
             service.UpdateDiscoveredUsersList(info.groupOwnerAddress.getHostAddress(), null, null); //update the peer list

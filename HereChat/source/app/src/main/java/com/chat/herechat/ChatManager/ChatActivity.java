@@ -38,10 +38,7 @@ import com.chat.herechat.MainScreenActivity;
 import com.chat.herechat.QuickPrefsActivity;
 import com.chat.herechat.R;
 
-/**
- * Displays an ongoing chat activity. Shows incoming messages and allows the users to write and send messages.
- *
- */
+
 public class ChatActivity extends ListActivity {
 	ChatRoomDetails mChatRoomInfo=null;					     //reference to this room's details
 	private  ArrayList<ChatMessage> mListContent = null; 	 //the list's content
@@ -130,9 +127,7 @@ public class ChatActivity extends ListActivity {
 	}//end of onCreate()
 
 
-	/**
-	 * Loads history and establishes a connection with the peer
-	 */
+
 	@Override
 	protected void onResume()
 	{
@@ -193,9 +188,7 @@ public class ChatActivity extends ListActivity {
 	}//end of onCreateOptionsMenu()
 
 
-	/**
-	 * Used to modify menu item according to the app's state
-	 */
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
@@ -259,7 +252,7 @@ public class ChatActivity extends ListActivity {
 	{
 		super.onCreateContextMenu(menu, v, menuInfo);
 	    AdapterContextMenuInfo selectedRow = (AdapterContextMenuInfo) menuInfo; //get the current selected item
-	    ChatMessage message = mListContent.get((int)selectedRow.position);
+	    ChatMessage message = mListContent.get(selectedRow.position);
 	    if (!message.mIsMine)
 	    {
 			if (isHostedChatRoom) //we need a context menu only for a hosted chat room
@@ -301,9 +294,7 @@ public class ChatActivity extends ListActivity {
 		 return true;
 	}//end of onMenuItemSelected()
 
-	/**
-	 * Shows an alert dialog when a user tries to close a hosted chat room
-	 */
+
 	private void ShowCloseHostedRoomDialog()
 	{
 		new AlertDialog.Builder(this)
@@ -333,9 +324,7 @@ public class ChatActivity extends ListActivity {
 
 
 
-	/**
-	 * Shows an alert dialog when this room is no longer available
-	 */
+
 	private void ShowRoomHasTimedOutDialog()
 	{
 		new AlertDialog.Builder(this)
@@ -353,11 +342,7 @@ public class ChatActivity extends ListActivity {
 	}//end of ()
 
 
-	/**
-	 * Shows an alert dialog that'll finish this activity no matter what
-	 * @param title - the dialog's desired title
-	 * @param message - the dialog' desired message
-	 */
+
 	private void ShowSingleButtonDialogAndFinishActivity(String title, String message)
 	{
 		new AlertDialog.Builder(this)
@@ -425,14 +410,7 @@ public class ChatActivity extends ListActivity {
 
 	}//end of ShowChatRoomWasClosedDialog()
 
-	/**
-	 * Initializes a text file with the first 2 mandatory lines needed for a valid history file
-	 * @param unique - that chat room's unique number
-	 * @param handler - this handler will be notified with an empty message when the writing is complete
-	 * @param name - the chat room's name
-	 * @param isPrivate - indicating whether this room is private or not
-	 * @param con - a context from this application
-	 */
+
 	public static void InitHistoryFile (String unique,Handler handler, String name, boolean isPrivate, Context con)
 	{
 		StringBuilder data = new StringBuilder();
@@ -449,11 +427,7 @@ public class ChatActivity extends ListActivity {
 
 	}//end of InitHistoryFile()
 
-	/**
-	 * Since our history file is read as a single string, this function parses it into messages and displays them
-	 * in the list view
-	 * @param data - the text as it was read from the history file
-	 */
+
 	private void ParseHistoryFileDataAndUpdateListView(String data)
 	{
 		String[] parsedHistory = data.split("["+Constants.STANDART_FIELD_SEPERATOR+"]"); //parse the string by the separator char
@@ -476,9 +450,7 @@ public class ChatActivity extends ListActivity {
 
 	}//end of ParseHistoryFileDataAndUpdateListView()
 
-	/**
-	 * This class is the broadcast receiver for all broadcasts coming from the service
-	 */
+
 	private class ServiceMsgReceiver extends BroadcastReceiver
 	{
 		Activity mActivity = null;
@@ -631,11 +603,7 @@ public class ChatActivity extends ListActivity {
 		button.setEnabled(false);  //disable the button
 	}//end of DisableButtonAndEditText()
 
-	/**
-	 * Updates the history file with message that was sent by this user
-	 * @param msg - the msg text
-	 * @param room - the ActiveChatRoom that this message is targeted to
-	 */
+
 	private void WriteSelfMessageToHistoryFile(String msg, ActiveChatRoom room)
 	{
 		String[] temp;
@@ -652,19 +620,14 @@ public class ChatActivity extends ListActivity {
 		}//if
 	}
 
-	/**
-	 * Dismisses a dialog, if it's shown.
-	 * @param d - dialog
-	 */
+
 	private void DismissDialog(Dialog d)
 	{
 		if (d!=null && d.isShowing())
 			d.dismiss();
 	}
 
-	/**
-	 * Initializes the content, list adapter and performs a peer scan for the the 1st run only.
-	 */
+
 	protected void InitAdapter()
 	{
 	   if (mListContent==null){mListContent = new ArrayList<ChatMessage>();} //create a new array list that'll hold all the data
@@ -701,10 +664,7 @@ public class ChatActivity extends ListActivity {
 		unregisterReceiver(mServiceBroadcastReceiver);
 	}//end of onDestroy()
 
-	/**
-	 * Called when the user presses the 'send' button, meaning he wants to send a text message
-	 * @param v - the view
-	 */
+
 	public void OnSendButtonClicked(View v)
 	{
 		EditText text = (EditText) findViewById(R.id.MsgText);
@@ -743,10 +703,7 @@ public class ChatActivity extends ListActivity {
         startActivityForResult(chooseFileIntent,PICK_CONTACT_REQUEST);
         return true;
     }
-	/**
-	 * Checks if this chat room is a hosted public chat room
-	 * @return true if so, false otherwise
-	 */
+
 	private boolean FindOutIfHostedChatRoom()
 	{
 		ActiveChatRoom room = mService.mActiveChatRooms.get(mChatRoomInfo.RoomID);
@@ -754,10 +711,7 @@ public class ChatActivity extends ListActivity {
 		return (room!=null && room.isHostedGroupChat);
 	}//end of FindOutIfHostedChatRoom()
 
-	/**
-	 * Adds a new message to the list and scrolls the display downwards
-	 * @param m - the message to be added to the list view
-	 */
+
 	private void AddNewMessage(ChatMessage m)
 	{
 		mListContent.add(m);      				//add the new message
@@ -765,10 +719,7 @@ public class ChatActivity extends ListActivity {
 		getListView().setSelection(mListContent.size()-1); //scroll down so that the new message will be visible
 	}//end of AddNewMessage()
 
-	/**
-	 * Shows a password request dialog.
-	 * If the user has added a password, tries to establish connection with  the target room
-	 */
+
 	private void ShowPasswordRequestDialogForPublicChat(boolean isFirstTry)
 	{
         // adding custom layout to an AlertDialog
@@ -790,7 +741,7 @@ public class ChatActivity extends ListActivity {
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
-                 /* Peer clicked cancel so do some stuff */
+
                 	ChatActivity.this.finish();  //the user chose not to enter a password. close the activity
                 }
             })

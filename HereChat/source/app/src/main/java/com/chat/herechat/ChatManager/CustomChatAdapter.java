@@ -15,9 +15,7 @@ import android.widget.TextView;
 
 import com.chat.herechat.R;
 
-/**
- * CustomChatAdapter is a Custom BaseAdapter to implement custom ListView rows
- */
+
 public class CustomChatAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<ChatMessage> mMessages;

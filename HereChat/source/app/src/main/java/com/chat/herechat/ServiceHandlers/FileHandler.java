@@ -12,15 +12,7 @@ import android.os.Message;
 
 import com.chat.herechat.Utilities.Constants;
 
-/**
- * Handles file read/write operations.
- * If this read is run as a reader, it reads the entire file, replaces all "\r\n"
- * occurrences with 'Constants.STANDART_FIELD_SEPERATOR', sends it as a single string via handler and finishes.
- * If this thread is run as a writer, it runs infinitely until stopped.
- * In writer mode, the data to write should be inserted via UpdateDataToWriteBuffer(String). When this writer thread is no
- * longer needed, Kill() should be called. If a handler was passed to a writer thread, an empty message will be sent just before
- * termination, indicating that the writing operation is complete.
- */
+
 public class FileHandler extends Thread {
 	private Handler mHandler = null;
 	private String mRoomID = null;
@@ -33,14 +25,7 @@ public class FileHandler extends Thread {
 	boolean mIsReader = false; //our thread can be a reader or a writer
 	boolean isToKill=false;
 	
-	/**
-	 * Handles read from file and write to file operations. 
-	 * If the thread is constructed as a reader, it reads the entire file and sends the result via handler
-	 * If the thread is constructed as a writer, it runs infinitely and writes data to the file as it becomes available
-	 * @param RoomID - will be used for the file's name
-	 * @param handler - a reader thread will use this handler to return a result
-	 * @param isReader - defines if it's a reader or a writer
-	 */
+
 	public FileHandler(String RoomID, Handler handler, boolean isReader, Context con) {
 		mRoomID = RoomID;
 		mIsReader = isReader;
@@ -97,9 +82,7 @@ public class FileHandler extends Thread {
 		isToKill=true;
 	}
 
-	/**
-	 * Writes the entire buffer to the file
-	 */
+
 	private void WriteToFile () {
 		synchronized (mDataToWrite) {
 			try {
@@ -120,9 +103,7 @@ public class FileHandler extends Thread {
 		}
 	}
 	
-	/**
-	 * Read from a file and send a msg with the content to the handler
-	 */
+
 	private void ReadEntireFile () {
 		boolean isDataFileNotEmpty=false;
 		String inputString=null;

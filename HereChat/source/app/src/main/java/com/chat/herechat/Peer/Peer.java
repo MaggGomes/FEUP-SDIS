@@ -1,8 +1,6 @@
 package com.chat.herechat.Peer;
 
-/**
- * A data structure to hold information about a discovered peer
- */
+
 public class Peer {
 	public String uniqueID;
 	public String IPaddr;
@@ -35,9 +33,7 @@ public class Peer {
 			return false;
 		if (other.IPaddr!=null && !other.IPaddr.equalsIgnoreCase(this.IPaddr))
 			return false;
-		if (other.name!=null && !other.name.equalsIgnoreCase(this.name))
-			return false;
-		
-		return true;
-	}
+        return !(other.name != null && !other.name.equalsIgnoreCase(this.name));
+
+    }
 }

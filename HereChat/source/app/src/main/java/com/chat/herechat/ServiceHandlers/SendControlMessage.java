@@ -13,9 +13,7 @@ import android.os.Message;
 
 import com.chat.herechat.Utilities.Constants;
 
-/**
- * Opens a socket to a peer and sends a single string. Used to send control messages and user text messages
- */
+
 public class SendControlMessage extends Thread {
 	private Socket mSocket;
 	private Handler mHandler;
@@ -39,10 +37,7 @@ public class SendControlMessage extends Thread {
 	public void run() {
 		PrintWriter mOut=null;
 		try {
-		    /**
-		     * Create a client socket with the host,
-		     * port, and timeout information.
-		     */
+
 			mSocket = new Socket();
 			mSocket.bind(null);
 		    mSocket.connect((new InetSocketAddress(mPeerIP, SOCKET_PORT)), 3000);

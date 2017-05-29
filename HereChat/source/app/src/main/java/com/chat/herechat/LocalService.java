@@ -128,12 +128,7 @@ public class LocalService extends Service {
         return binder;
     }
 
-    /**
-     * Creates and broadcasts an intent after occurrence of a wifi event
-     *
-     * @param wifiEventCode  - taken from Constants.class
-     * @param failReasonCode - as given by the system
-     */
+
     public void CreateAndBroadcastWifiP2pEvent(int wifiEventCode, int failReasonCode) {
         Intent intent = CreateBroadcastIntent();
         intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.SERVICE_BROADCAST_OPCODE_ACTION_WIFI_EVENT_VALUE);
@@ -143,7 +138,7 @@ public class LocalService extends Service {
     }
 
     public void EstablishChatConnection(String roomUniqueID, String password, boolean isPrivateChat) {
-       /* Verifies if there is already an active room */
+
         if (mActiveChatRooms.get(roomUniqueID) == null) {
             String msg;
 
@@ -170,13 +165,7 @@ public class LocalService extends Service {
         intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.SERVICE_BROADCAST_WELCOME_SOCKET_CREATE_FAIL);
     }
 
-    /**
-     * Called by a worker thread when a new chat message arrives.
-     * Arriving messages are checked for source and destination.
-     *
-     * @param msg    - the message as was received via socket
-     * @param peerIP - the sender's IP address
-     */
+
     public void OnNewChatMessageArrvial(String[] msg, String peerIP) {
         boolean isPrivateMsg = false;
         ActiveChatRoom targetRoom = null;
@@ -232,13 +221,7 @@ public class LocalService extends Service {
         }
     }
 
-    /**
-     * Called when an undiscovered peer sends us a private message, meaning that a proper discovery procedure never happened.
-     *
-     * @param msg       - the msg as it was received via socket
-     * @param isChatMsg - indicating what kind of message it is. Since we haven't discovered the sending peer properly,
-     *                  this can be a 'chat request message' or a 'chat message'
-     */
+
     public void BypassDiscoveryProcedure(String[] msg, boolean isChatMsg, boolean isPrivateChat) {
         if (isPrivateChat) {
             ArrayList<ChatRoomDetails> ChatRooms = new ArrayList<ChatRoomDetails>();
@@ -268,12 +251,7 @@ public class LocalService extends Service {
         }
     }
 
-    /**
-     * Sends a message that was created by this user. Bypasses the 'ActiveChatRoom's sending method.
-     *
-     * @param msg            - the text msg as it was typed by the user
-     * @param chatRoomUnique
-     */
+
     public void SendMessage(String msg, String chatRoomUnique) {
         String toSend = ConvertMsgTextToSocketStringFormat(msg, chatRoomUnique);
 
@@ -287,13 +265,7 @@ public class LocalService extends Service {
         }
     }
 
-    /**
-     * Converts a text message to a format that can be passed via socket to a peer
-     *
-     * @param msg            - the text message
-     * @param chatRoomUnique - the target chat room's unique ID
-     * @return the converted string
-     */
+
     public String ConvertMsgTextToSocketStringFormat(String msg, String chatRoomUnique) {
         StringBuilder toSend = new StringBuilder();
         toSend.append(Integer.toString(Constants.CONNECTION_CODE_NEW_CHAT_MSG) + Constants.STANDART_FIELD_SEPERATOR); //add opcode
@@ -304,13 +276,7 @@ public class LocalService extends Service {
         return toSend.toString();
     }
 
-    /**
-     * Will be called by a 'ClientSocketHandler' when a reply comes from a peer we've requested to chat with.
-     * Sends a broadcast with the result's details
-     *
-     * @param isApproved - true / false
-     * @param reason     - the reason in the case of denial of access
-     */
+
     public void OnReceptionOfChatEstablishmentReply(String RoomID, boolean isApproved, String reason) {
         if (isApproved) {
             if (mActiveChatRooms.get(RoomID) == null) {
@@ -331,13 +297,7 @@ public class LocalService extends Service {
         sendBroadcast(intent);
     }
 
-    /**
-     * Handles the result of the physical attempt to send a connection message.
-     * A positive result only means that the message was sent, not that the peer accepted our char request
-     *
-     * @param result - the result of the send procedure
-     * @param RoomID - the ID of the room this result is regarding
-     */
+
     private void HandleSendAttemptAndBroadcastResult(String result, String RoomID) {
         Intent intent = CreateBroadcastIntent();
         intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.SERVICE_BROADCAST_OPCODE_JOIN_SENDING_RESULT); //the opcode is connection result event
@@ -351,14 +311,7 @@ public class LocalService extends Service {
         sendBroadcast(intent);
     }
 
-    /**
-     * Constructs a 'Join' message that can be sent via socket
-     *
-     * @param opcode       - the desired opcode (join public/private chat room)
-     * @param RoomUniqueID - the room's unique ID
-     * @param pw           - the room's password. NULL indicates that the room doesn't require a password
-     * @return - a valid 'Join' string
-     */
+
     private String ConstructJoinMessage(int opcode, String RoomUniqueID, String pw) {
         StringBuilder ans = new StringBuilder();
 
@@ -377,20 +330,12 @@ public class LocalService extends Service {
         return ans.toString();
     }
 
-    /**
-     * Creates a new broadcast intent
-     *
-     * @return Intent
-     */
+
     public Intent CreateBroadcastIntent() {
         return new Intent(Constants.SERVICE_BROADCAST);
     }
 
-    /**
-     * Updates the discovered chat rooms hash map
-     *
-     * @param chatRoomList - A discovered chat room (not necessarily new)
-     */
+
     public void UpdateChatRoomHashMap(ArrayList<ChatRoomDetails> chatRoomList) {
         for (ChatRoomDetails refreshed : chatRoomList) {
             synchronized (mDiscoveredChatRoomsHash) {
@@ -410,22 +355,14 @@ public class LocalService extends Service {
         BroadcastRoomsUpdatedEvent();
     }
 
-    /**
-     * Broadcasts an event informing the activities that the available rooms list was updated
-     */
+
     public void BroadcastRoomsUpdatedEvent() {
         Intent intent = CreateBroadcastIntent();
         intent.putExtra(Constants.SERVICE_BROADCAST_OPCODE_KEY, Constants.SERVICE_BROADCAST_OPCODE_ACTION_CHAT_ROOM_LIST_CHANGED);
         sendBroadcast(intent);
     }
 
-    /**
-     * Updates the peer list
-     *
-     * @param peerIP - A string containing the peer's IP address
-     * @param unique - the peer's unqiue ID
-     * @param name   - the peer's name
-     */
+
     public void UpdateDiscoveredUsersList(String peerIP, String unique, String name) {
         mIsWifiPeerValid = true;
         boolean isFound = false;
@@ -465,10 +402,7 @@ public class LocalService extends Service {
         }
     }
 
-    /**
-     * Class used for the client Binder.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with IPC.
-     */
+
     public class LocalBinder extends Binder {
         public LocalService getService() {
             return LocalService.this;
@@ -478,10 +412,7 @@ public class LocalService extends Service {
     private long timeStampAtLastResfresh = 0;
     private long timeStampAtLastConnect = 0;
 
-    /**
-     * Called by the fragment when the user clicks the refresh button
-     * Performs a query against all existing users in the mDiscoveredUsers list
-     */
+
     public void OnRefreshButtonclicked() {
         String allDiscovredUsers = null;
 
@@ -513,10 +444,7 @@ public class LocalService extends Service {
 
     }
 
-    /**
-     * Initializes peer discovery. Results are handled by the broadcast receiver.
-     * When the peer list is available, onPeerDeviceListAvailable() is called by the b-cast receiver
-     */
+
     @SuppressLint("NewApi")
     public void DiscoverPeers() {
         //if the search fragment is bound to this service (the receiver is created in onBind())
@@ -549,7 +477,7 @@ public class LocalService extends Service {
                 && ((currentTime - timeStampAtLastConnect) > Constants.MIN_TIME_BETWEEN_WIFI_CONNECT_ATTEMPTS_IN_MS)) {
             timeStampAtLastConnect = currentTime; //save the time stamp at the last entry
             WifiP2pDevice device = null;
-			/*Now we want to attempt a connection with another device*/
+
             synchronized (devices) {
                 //in case one of the peers is the owner of a valid group, he's the one want want to connect to.
                 //go over all available devices and try to find a group owner:
@@ -595,9 +523,7 @@ public class LocalService extends Service {
         }
     }
 
-    /**
-     * Updates the intent-filter member variable
-     */
+
     private void UpdateIntentFilter() {
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
@@ -606,9 +532,7 @@ public class LocalService extends Service {
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
     }
 
-    /**
-     * Terminates the Welcome-socket thread and self-kills the service
-     */
+
     public void kill() {
         if (serverSocketHandler != null) {
             serverSocketHandler.stopSocket();
@@ -624,9 +548,7 @@ public class LocalService extends Service {
         stopSelf();
     }
 
-    /**
-     * Initializes member variables
-     */
+
     private void InitClassMembers() {
         if (mDiscoveredChatRoomsHash == null) {
             mDiscoveredChatRoomsHash = new HashMap<String, ChatRoomDetails>();
@@ -644,20 +566,12 @@ public class LocalService extends Service {
             mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    /**
-     * Creates a new hosted public chat room
-     */
+
     public void CreateNewHostedPublicChatRoom(String name, String password) {
         CreateNewHostedPublicChatRoom(name, password, null, null);
     }
 
-    /**
-     * Creates a new hosted public chat room
-     *
-     * @param name         - the room's desired name
-     * @param password     - the room's desired password. NULL means that there's no password
-     * @param mListContent
-     */
+
     public void CreateNewHostedPublicChatRoom(String name, String password, ArrayList<ChatMessage> mListContent, ChatRoomDetails details) {
         ChatRoomDetails newDetails;
         if (details != null) {
@@ -682,11 +596,7 @@ public class LocalService extends Service {
         this.mListContent = mListContent;
     }
 
-    /**
-     * Creates a new active chat room, if it doesn't exist already
-     *
-     * @param input - incoming request string after parsing
-     */
+
     public void CreateNewPrivateChatRoom(String[] input) {
         if (mActiveChatRooms.get(input[2]) == null) {
             ChatRoomDetails details = mDiscoveredChatRoomsHash.get(input[2]); //get a reference to the chat's details
@@ -699,13 +609,7 @@ public class LocalService extends Service {
         }
     }
 
-    /**
-     * Initializes a history file if it doesn't exist already
-     *
-     * @param roomID    - the chat room's ID
-     * @param RoomName  - the chat room's name
-     * @param isPrivate - true if this room is private, false otherwise
-     */
+
     private void InitHistoryFileIfNecessary(String roomID, String RoomName, boolean isPrivate) {
         //We want to know if a history file exists already
         String path = getFilesDir().getPath() + "/" + roomID + ".txt";
@@ -716,11 +620,7 @@ public class LocalService extends Service {
         }
     }
 
-    /**
-     * The user wished to leave a public chat room which he's not the host of
-     *
-     * @param info - the room's details
-     */
+
     public void CloseNotHostedPublicChatRoom(ChatRoomDetails info) {
         ActiveChatRoom activeRoom = mActiveChatRooms.get(info.RoomID);
         if (activeRoom != null) {
@@ -730,11 +630,7 @@ public class LocalService extends Service {
         }
     }
 
-    /**
-     * The host wished to leave and close a public chat room
-     *
-     * @param info - the room's details
-     */
+
     public void CloseHostedPublicChatRoom(ChatRoomDetails info) {
         ActiveChatRoom activeRoom = mActiveChatRooms.get(info.RoomID);
         if (activeRoom != null) {
@@ -744,12 +640,7 @@ public class LocalService extends Service {
         }
     }
 
-    /**
-     * Relevant only for a private chat
-     * Updates the peer's name in the history log file
-     *
-     * @param info - the room's details
-     */
+
     public void UpdatePrivateChatRoomNameInHistoryFile(ChatRoomDetails info) {
         ActiveChatRoom room = mActiveChatRooms.get(info.RoomID);
         if (room != null)
@@ -757,12 +648,7 @@ public class LocalService extends Service {
     }
 
 
-    /**
-     * Creates a string with all relevant active chat rooms that have new messages.
-     * This string is later shown to the user via notification
-     *
-     * @return string
-     */
+
     private String CreateNewMsgNotificationString() {
         StringBuilder builder = new StringBuilder();
         int numOfRoomsWithNewMsgs = 0;
@@ -791,12 +677,7 @@ public class LocalService extends Service {
         return builder.toString();
     }
 
-    /**
-     * Removes a single chat room from the discovered rooms list
-     * Called by the {@link ChatActivity} when a 'Room closed' or 'Room not exisitng' message is received
-     *
-     * @param RoomID
-     */
+
     public void RemoveFromDiscoveredChatRooms(String RoomID) {
         synchronized (mDiscoveredChatRoomsHash) {
             ChatRoomDetails toRemove = mDiscoveredChatRoomsHash.get(RoomID);
@@ -807,12 +688,7 @@ public class LocalService extends Service {
         BroadcastRoomsUpdatedEvent();
     }
 
-    /**
-     * Removes a single discovered chat room on the event of timeout
-     *
-     * @param details           - the room's details
-     * @param isCalledByService - true if called from the service, false otherwise
-     */
+
     public void RemoveSingleTimedOutRoom(ChatRoomDetails details, boolean isCalledByService) {
         if (isCalledByService) {
             //if no room is displayed or the room to be deleted isn't the displayed room
@@ -847,9 +723,7 @@ public class LocalService extends Service {
             BroadcastRoomsUpdatedEvent();
     }
 
-    /**
-     * Deletes all timed out chat rooms
-     */
+
     private void DeleteTimedOutRooms() {
         Date currentTime = Constants.GetTime();
         long timeDiff = 0;
@@ -877,11 +751,7 @@ public class LocalService extends Service {
         BroadcastRoomsUpdatedEvent();
     }
 
-    /**
-     * Used by a peer who's also the groups owner. Creates a string of all available users to be sent across the group.
-     *
-     * @return valid publication string, NULL if there are no discovered users
-     */
+
     private String BuildUsersPublicationString() {
         StringBuilder res = new StringBuilder(Integer.toString(Constants.CONNECTION_CODE_PEER_DETAILS_BCAST) + Constants.STANDART_FIELD_SEPERATOR
                 + MainScreenActivity.UserName + Constants.STANDART_FIELD_SEPERATOR
