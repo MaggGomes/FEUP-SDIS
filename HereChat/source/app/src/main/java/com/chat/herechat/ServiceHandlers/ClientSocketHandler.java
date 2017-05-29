@@ -21,49 +21,54 @@ import java.util.Collection;
 import java.util.Date;
 
 public class ClientSocketHandler extends Thread {
+	private BufferedReader reader =null;
+	private PrintWriter writer =null;
+
+
+
+
 	private Socket clientSocket;
 	private LocalService service;
 	private static final int SERVER_PORT = 4000;
-	private boolean isPassive;
-	private Peer peer; 		//the peer we're connecting to
-	private int mQueryCode;  //will be used to differentiate between 3 possible operation: discover peer / start private chat / join public chat room
+	private boolean inactive;
+	private Peer peer;
+	private int codeOp;
 	
-	private PrintWriter mOut=null;
-	private BufferedReader mIn=null;
+
 	
 
 	public ClientSocketHandler(LocalService service, Socket socket) {
 		this.clientSocket = socket;
-		this.isPassive = true;
+		this.inactive = true;
 		this.service = service;
 	}
 	
 
-	public ClientSocketHandler(LocalService service, Peer peer, int Qcode) {
+	public ClientSocketHandler(LocalService service, Peer peer, int opCode) {
 		this.service = service;
-		this.isPassive = false;
+		this.inactive = false;
 		this.peer = peer;
-		this.mQueryCode=Qcode;
+		this.codeOp = opCode;
 	}
 
 	@Override
 	public void run() {
-		if (isPassive)
+		if (inactive)
 			InitiatePassiveTransaction();
 		else
-	    	InitiateRelevantActiveTransaction();
+	    	openCommunications();
 		
 		CloseInputAndOutputStreams();
 	}
 	
 
 	private void CloseInputAndOutputStreams() {
-		if (mOut!=null)
-			mOut.close();
+		if (writer !=null)
+			writer.close();
 		
-		if (mIn!=null){
+		if (reader !=null){
 			try {
-				mIn.close();
+				reader.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -76,94 +81,93 @@ public class ClientSocketHandler extends Thread {
 			return;
 
 		boolean SkipUserUpdate = false;
-		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_NEW_CHAT_MSG))) //if this is a chat message
+		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_NEW_CHAT_MSG)))
 			SkipUserUpdate = !input[3].split("[_]")[0].equalsIgnoreCase(MainScreenActivity.UniqueID);
 			
 		if (!SkipUserUpdate)
 			service.UpdateDiscoveredUsersList(clientSocket.getInetAddress().getHostAddress(), input[2],input[1]);
 		
-		String PeerIP = clientSocket.getInetAddress().getHostAddress();  // get the peer's IP
+		String currIP = clientSocket.getInetAddress().getHostAddress();
 		
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_DISCOVER))) {
-			//discovery logic
-			SendDiscoveryMessage();  //send a discovery message back to the peer
-			ArrayList<ChatRoomDetails> Rooms = ConvertDiscoveryStringToChatRoomList(input); //get the chat room data from the input
-			service.UpdateChatRoomHashMap(Rooms); //update the chat rooms hash at the service.
+
+			SendDiscoveryMessage();
+			ArrayList<ChatRoomDetails> Rooms = convertStringtoChatList(input);
+			service.UpdateChatRoomHashMap(Rooms);
 		}
-		//if this is a peer publication message
+
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_PEER_DETAILS_BCAST))) {
-			ParsePeerPublicationMessageAndUpdateDiscoveredPeers(input);
+			ParsePeerAndDiscoveryMessage(input);
 		}
-		//if this is a join request for a private chat:
+
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_PRIVATE_CHAT_REQUEST))) {
 
 
-				if (service.mDiscoveredChatRoomsHash.get(input[2])!=null) //if a matching discovered room exists
+				if (service.mDiscoveredChatRoomsHash.get(input[2])!=null)
 					service.CreateNewPrivateChatRoom(input);
-				else //a matching discovered room doesn't exist
+				else // room doesn't exist
 					service.BypassDiscoveryProcedure(input,false,false);
 				
-				SendReplyForAJoinRequest(PeerIP,true,MainScreenActivity.UniqueID,null,true);
+				replyToRequest(currIP,true,MainScreenActivity.UniqueID,null,true);
 
 		}
-		//if this is a join request for a public chat:	
+		//Joirequest for public
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_JOIN_ROOM_REQUEST))) {
 			ActiveChatRoom targetRoom = service.mActiveChatRooms.get(input[3]);
-			//if the target chat room doesn't exist
+
 			if (targetRoom==null)
 			{
-				SendReplyForAJoinRequest(PeerIP,false,input[3],Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_NON_EXITISING_ROOM,
+				replyToRequest(currIP,false,input[3],Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_NON_EXITISING_ROOM,
 						false);
 			}
-			else //the target is active
+			else
 			{
 				String res = targetRoom.AddUser(Constants.CheckIfUserExistsInListByUniqueID(input[2], service.mDiscoveredUsers),
 						input[4]);
 				boolean isCool = res.equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST);
-				SendReplyForAJoinRequest(PeerIP,isCool,input[3],res, false);
+				replyToRequest(currIP,isCool,input[3],res, false);
 			}
 		}
-		//if this is a reply for our private chat 'Join' request
+
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_PRIVATE_CHAT_REPLY))) {
 			boolean isAccepted = input[3].equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST);
-			service.OnReceptionOfChatEstablishmentReply(input[2],isAccepted,input[4]); //call the service to handle the result
+			service.OnReceptionOfChatEstablishmentReply(input[2],isAccepted,input[4]);
 		}
-		//if this is a reply for our public chat 'Join' request
+
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_JOIN_ROOM_REPLY))) {
 			boolean isAccepted = input[3].equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST);
-			service.OnReceptionOfChatEstablishmentReply(input[5],isAccepted,input[4]); //call the service to handle the result
+			service.OnReceptionOfChatEstablishmentReply(input[5],isAccepted,input[4]);
 		}
-		//if this is a new message targeted to on of the active chat rooms
+
 		if (input[0].equalsIgnoreCase(Integer.toString(Constants.CONNECTION_CODE_NEW_CHAT_MSG))) {
-			//if this is a private message
+
 			if (input[3].equalsIgnoreCase(MainScreenActivity.UniqueID)) {
 				String result = CheckIfNotIgnored(input);
-				//if this message came from a user which is not in the ignore list:
+
 				if (result.equals(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST))
-					service.OnNewChatMessageArrvial(input, clientSocket.getInetAddress().getHostAddress());  //let the service handle the new message
-			} else { //this message came for a public chat room
+					service.OnNewChatMessageArrvial(input, clientSocket.getInetAddress().getHostAddress());
+			} else {
 				ActiveChatRoom room = service.mActiveChatRooms.get(input[3]);
-				boolean isHostedByMe=input[3].split("[_]")[0].equals(MainScreenActivity.UniqueID);
+				boolean isHost =input[3].split("[_]")[0].equals(MainScreenActivity.UniqueID);
 				
-				//if this chat room doesn't exist and the sender expects us to be it's host
-				if (room==null && isHostedByMe) {
-					SendReplyForAJoinRequest(PeerIP,false,input[3],Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_NON_EXITISING_ROOM,false);
+
+				if (room==null && isHost) {
+					replyToRequest(currIP,false,input[3],Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST_REASON_NON_EXITISING_ROOM,false);
 					return;
 				}
 
-				//if this room exists and is hosted by us
-				if (isHostedByMe) {
-				//try adding the user who sent this message to the room
-				String result = room.AddUser(
+
+				if (isHost) {
+				String res = room.AddUser(
 						Constants.CheckIfUserExistsInListByUniqueID(input[2], service.mDiscoveredUsers), "");
-					//if the user is not approved to send messages to this room
-					if (!result.equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST)) {
-						SendReplyForAJoinRequest(PeerIP,false,input[3],result,false);
+
+					if (!res.equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST)) {
+						replyToRequest(currIP,false,input[3], res,false);
 					} else {
-						service.OnNewChatMessageArrvial(input, PeerIP);  //let the service handle the new message
+						service.OnNewChatMessageArrvial(input, currIP);
 					}
 				} else {
-					service.OnNewChatMessageArrvial(input, PeerIP);  //let the service handle the new message
+					service.OnNewChatMessageArrvial(input, currIP);
 				}
 				
 			}
@@ -171,13 +175,13 @@ public class ClientSocketHandler extends Thread {
 	}
 	
 
-	private void ParsePeerPublicationMessageAndUpdateDiscoveredPeers(String[] input) {
-		int index=3;   							//skip the first 3 fields of this message
-		int numOfPeers = (input.length-3)/3;      //each peer comes with 3 info fields
+	private void ParsePeerAndDiscoveryMessage(String[] input) {
+		int index=3;
+		int avaliablePeers = (input.length-3)/3;
 		
-		for (int j=0; j<numOfPeers ;j++)
+		for (int j = 0; j< avaliablePeers; j++)
 		{
-			//check if this published user is us. if so, skip to the next user.
+
 			if (!input[index+2].equalsIgnoreCase(MainScreenActivity.UniqueID))
 				service.UpdateDiscoveredUsersList(input[index], input[index+2], input[index+1]);
 			index+=3;
@@ -185,39 +189,39 @@ public class ClientSocketHandler extends Thread {
 	}
 
 
-	static public void SendReplyForAJoinRequest (String peerIP, boolean isApproved, String RoomID, String reason, boolean isPrivateChat) {
+	static public void replyToRequest(String peerIP, boolean isApproved, String RoomID, String reason, boolean isPrivateChat) {
 		StringBuilder msg = new StringBuilder();
 		if (isPrivateChat) {
-			msg.append(Integer.toString(Constants.CONNECTION_CODE_PRIVATE_CHAT_REPLY) + Constants.STANDART_FIELD_SEPERATOR); //set opcode		
-			msg.append(MainScreenActivity.UserName + Constants.STANDART_FIELD_SEPERATOR);   //add the self name
-			msg.append(MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);   //add the self unique
+			msg.append(Integer.toString(Constants.CONNECTION_CODE_PRIVATE_CHAT_REPLY) + Constants.STANDART_FIELD_SEPERATOR);
+			msg.append(MainScreenActivity.UserName + Constants.STANDART_FIELD_SEPERATOR);
+			msg.append(MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);
 			if (isApproved)
 			{
-				msg.append(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST + Constants.STANDART_FIELD_SEPERATOR);  //set positive result
-				msg.append(" " + Constants.STANDART_FIELD_SEPERATOR);  //set denial reason
+				msg.append(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST + Constants.STANDART_FIELD_SEPERATOR);
+				msg.append(" " + Constants.STANDART_FIELD_SEPERATOR);
 			}
-			else //user is ignored
+			else
 			{
-				msg.append(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST + Constants.STANDART_FIELD_SEPERATOR);  //set negative result
-				msg.append(reason + Constants.STANDART_FIELD_SEPERATOR);  //set denial reason
+				msg.append(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST + Constants.STANDART_FIELD_SEPERATOR);
+				msg.append(reason + Constants.STANDART_FIELD_SEPERATOR);
 			}
 			
-		} else { // Public chat
-			msg.append(Integer.toString(Constants.CONNECTION_CODE_JOIN_ROOM_REPLY) + Constants.STANDART_FIELD_SEPERATOR); //set opcode		
-			msg.append(MainScreenActivity.UserName + Constants.STANDART_FIELD_SEPERATOR);   //add the self name
-			msg.append(MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);   //add the self unique
+		} else { // Public version of chat
+			msg.append(Integer.toString(Constants.CONNECTION_CODE_JOIN_ROOM_REPLY) + Constants.STANDART_FIELD_SEPERATOR);
+			msg.append(MainScreenActivity.UserName + Constants.STANDART_FIELD_SEPERATOR);
+			msg.append(MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);
 			if (isApproved) {
-				msg.append(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST + Constants.STANDART_FIELD_SEPERATOR);  //set positive result
-				msg.append(" " + Constants.STANDART_FIELD_SEPERATOR);  //set denial reason
+				msg.append(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST + Constants.STANDART_FIELD_SEPERATOR);
+				msg.append(" " + Constants.STANDART_FIELD_SEPERATOR);
 			} else {
-				msg.append(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST + Constants.STANDART_FIELD_SEPERATOR);  //set negative result
-				msg.append(reason + Constants.STANDART_FIELD_SEPERATOR);  //set denial reason
+				msg.append(Constants.SERVICE_NEGATIVE_REPLY_FOR_JOIN_REQUEST + Constants.STANDART_FIELD_SEPERATOR);
+				msg.append(reason + Constants.STANDART_FIELD_SEPERATOR);
 			}
 			
-			msg.append(RoomID + Constants.STANDART_FIELD_SEPERATOR);  //set room's ID
+			msg.append(RoomID + Constants.STANDART_FIELD_SEPERATOR);
 		}
 		
-		new SendControlMessage(peerIP,msg.toString()).start();  //send the reply
+		new SendControlMessage(peerIP,msg.toString()).start();
 		
 	}
 	
@@ -227,13 +231,13 @@ public class ClientSocketHandler extends Thread {
 	}
 
 	private void InitiatePassiveTransaction() {
-		if (!ReceiveDiscoveryMessage()) //if query message reception was unsuccessful. 
+		if (!ReceiveDiscoveryMessage()) //if query message not sent
 			return;
 	}
 	
 
-	private void ActiveDiscoveryProcedure() {
-		if (!SendDiscoveryMessage()) //if query message sending was unsuccessful
+	private void DiscoveryProcess() {
+		if (!SendDiscoveryMessage()) //if  message sent
 			return;
 		
 		ReceiveDiscoveryMessage();
@@ -247,11 +251,10 @@ public class ClientSocketHandler extends Thread {
 	
 
 	private boolean SendDiscoveryMessage () {
-		//DISCOVERY QUERY SEND LOGIC:
-		if (mOut==null || mIn==null) {
+		if (writer ==null || reader ==null) {
 			try {
-				 mOut =  new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())), true);
-				 mIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				 writer =  new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())), true);
+				 reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			}
 			catch (UnknownHostException e) {
 				e.printStackTrace();
@@ -262,9 +265,9 @@ public class ClientSocketHandler extends Thread {
 			}
 		}
 		
-		String toSend = BuildDiscoveryString(); //get the query string to be send
-		mOut.println(toSend); //send via socket
-		mOut.flush();
+		String toSend = BuildMessage(); //get the query string to be send
+		writer.println(toSend); //send via socket
+		writer.flush();
 			
 		return true;
 	}
@@ -274,10 +277,10 @@ public class ClientSocketHandler extends Thread {
 		int numberOfReadTries=0;
 		String receivedMsg=null;
 		
-		if (mOut==null || mIn==null) {
+		if (writer ==null || reader ==null) {
 			try {
-				 mOut =  new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())), true);
-				 mIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				 writer =  new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())), true);
+				 reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 				return false;
@@ -289,8 +292,8 @@ public class ClientSocketHandler extends Thread {
 		
 		while (numberOfReadTries<=Constants.NUM_OF_QUERY_RECEIVE_RETRIES) {
 			try {
-				if (mIn.ready()) {
-					receivedMsg = mIn.readLine();
+				if (reader.ready()) {
+					receivedMsg = reader.readLine();
 					numberOfReadTries=Constants.NUM_OF_QUERY_RECEIVE_RETRIES+1;
 				}
 				Thread.sleep(100);
@@ -308,58 +311,58 @@ public class ClientSocketHandler extends Thread {
 		if (receivedMsg==null)
 			return false;
 		 
-		String[] parsedInput = BreakDiscoveryMessageToStrings(receivedMsg); //parse the input
-		
-		//if this thread is passive, parse the message and allow us to respond to it's opcode
-		if (isPassive) {
+		String[] parsedInput = SeparateMessage(receivedMsg);
+
+		if (inactive) {
 			PassiveDiscoveryQueryCaseHandler(parsedInput);
 		} else {
-			//update the discovered user details:
+			//update the discovered user info;
 			service.UpdateDiscoveredUsersList(clientSocket.getInetAddress().getHostAddress(), parsedInput[2], parsedInput[1]);
-			ArrayList<ChatRoomDetails> Rooms = ConvertDiscoveryStringToChatRoomList(parsedInput); //create a discovered chat room list
-			service.UpdateChatRoomHashMap(Rooms); //update the chat rooms hash at the service.
+			ArrayList<ChatRoomDetails> Rooms = convertStringtoChatList(parsedInput);
+
+			service.UpdateChatRoomHashMap(Rooms);
 		}
 		
 		return true;
 	}
 	
 
-	private ArrayList<ChatRoomDetails> ConvertDiscoveryStringToChatRoomList (String[] input) {
+	private ArrayList<ChatRoomDetails> convertStringtoChatList(String[] input) {
 		ArrayList<ChatRoomDetails> ChatRooms = new ArrayList<ChatRoomDetails>();
-		Peer host = Constants.CheckIfUserExistsInListByUniqueID(input[2], service.mDiscoveredUsers); //get the user from the service
+		Peer host = Constants.CheckIfUserExistsInListByUniqueID(input[2], service.mDiscoveredUsers);
 		
-		//Create an array list to hold this single user
-		ArrayList<Peer> user = new ArrayList<Peer>(); //create a list with a single peer
+
+		ArrayList<Peer> user = new ArrayList<Peer>();
 		user.add(host);
 		
 		Date currentTime = Constants.GetTime();
-		ChatRoomDetails PrivateChatRoom = new ChatRoomDetails(host.uniqueID, host.name, currentTime, user,true); //create a new private chat room detail 
-		ChatRooms.add(PrivateChatRoom);  //add to the chat room list
+		ChatRoomDetails PrivateChatRoom = new ChatRoomDetails(host.uniqueID, host.name, currentTime, user,true);
+		ChatRooms.add(PrivateChatRoom);
 		
 		int index=3;  
-		int numOfPublishedRooms = (input.length-3)/4;  //calc the number of advertised public rooms
+		int numOfPublishedRooms = (input.length-3)/4;
 		ChatRoomDetails PublicChatRoom = null;
 		
 		for (int k = 0; k < numOfPublishedRooms; k++) {
-			user = new ArrayList<Peer>(); //create a list with a single peer
+			user = new ArrayList<Peer>();
 			user.add(host);
 			PublicChatRoom = new ChatRoomDetails(
 					input[index+1],input[index],currentTime,user,input[index+3],
-					input[index+2].equalsIgnoreCase(" ")? host.name : host.name+", "+input[index+2]); //create a new public chat room detail
-			ChatRooms.add(PublicChatRoom);  //add to the chat room list
-			index+=4; //move to the next room
+					input[index+2].equalsIgnoreCase(" ")? host.name : host.name+", "+input[index+2]);
+			ChatRooms.add(PublicChatRoom);
+			index+=4; //next room
 		}
 		
 		return ChatRooms;
 	}
 	
 
-	private void InitiateRelevantActiveTransaction() {
+	private void openCommunications() {
 		try {
 
 			clientSocket = new Socket();
 			clientSocket.bind(null);
-		    clientSocket.connect((new InetSocketAddress(peer.IPaddr, SERVER_PORT)), 10000);
+		    clientSocket.connect((new InetSocketAddress(peer.IPaddress, SERVER_PORT)), 10000);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			return;
@@ -371,29 +374,28 @@ public class ClientSocketHandler extends Thread {
 		if(clientSocket==null)
 			return;
 		
-		switch (mQueryCode) {
+		switch (codeOp) {
 		case Constants.CONNECTION_CODE_DISCOVER:
 			{
-				ActiveDiscoveryProcedure();
+				DiscoveryProcess();
 				break;
 			}
 		}
 	}
 	
 
-	private String[] BreakDiscoveryMessageToStrings(String input) {
+	private String[] SeparateMessage(String input) {
 		return input.split("["+Constants.STANDART_FIELD_SEPERATOR+"]"); //parse the string by the separator char
 	}
 
 
-	private String BuildDiscoveryString() {
-		//Build the 1st mandatory part of the discovery string: information about this user that'll enable a private chat
+	private String BuildMessage() {
+
 		StringBuilder res = new StringBuilder(Integer.toString(Constants.CONNECTION_CODE_DISCOVER) + Constants.STANDART_FIELD_SEPERATOR
 				     + MainScreenActivity.UserName + Constants.STANDART_FIELD_SEPERATOR
 				     + MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);
-		//Now we'll add info about all hosted chat rooms:
-		
-		Collection<ActiveChatRoom> ActiveChatRooms = service.mActiveChatRooms.values();  //get all available hosted chat rooms
+
+		Collection<ActiveChatRoom> ActiveChatRooms = service.mActiveChatRooms.values();
 		for (ActiveChatRoom room : ActiveChatRooms) {
 			if (room.isHostedGroupChat) {
 				res.append(room.toString());

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:label="@string/title_activity_file_picker"
-    tools:context=".FilePickerActivity" >
+    tools:context=".FileExplorerActivity" >
 
     <ListView
         android:id="@id/android:list"

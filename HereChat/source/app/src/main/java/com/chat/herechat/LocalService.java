@@ -2,7 +2,6 @@ package com.chat.herechat;
 
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.Collection;
@@ -122,7 +121,7 @@ public class LocalService extends Service {
         if (mWifiP2PReceiver == null) {
             UpdateIntentFilter();
 
-            mWifiP2PReceiver = new WiFiDirectBroadcastReceiver(ChatSearchScreenFrag.mManager, ChatSearchScreenFrag.mChannel, this);
+            mWifiP2PReceiver = new WiFiDirectBroadcastReceiver(ChatSearchScreenFrag.mChannel, this, ChatSearchScreenFrag.mManager);
             getApplication().registerReceiver(mWifiP2PReceiver, mIntentFilter);
         }
         return binder;
@@ -148,7 +147,7 @@ public class LocalService extends Service {
             else
                 msg = ConstructJoinMessage(Constants.CONNECTION_CODE_JOIN_ROOM_REQUEST, roomUniqueID, password);
 
-            String peerIP = mDiscoveredChatRoomsHash.get(roomUniqueID).Users.get(0).IPaddr; //get the target's IP
+            String peerIP = mDiscoveredChatRoomsHash.get(roomUniqueID).Users.get(0).IPaddress; //get the target's IP
             new SendControlMessage(mSocketSendResultHandler, peerIP, msg, roomUniqueID).start(); //start the thread
         } else {
             Intent intent = CreateBroadcastIntent();
@@ -260,7 +259,7 @@ public class LocalService extends Service {
         if (activeRoom != null && activeRoom.isHostedGroupChat) {
             activeRoom.ForwardMessage(toSend.split("[" + Constants.STANDART_FIELD_SEPERATOR + "]"), true);
         } else {
-            String peerIP = mDiscoveredChatRoomsHash.get(chatRoomUnique).Users.get(0).IPaddr;
+            String peerIP = mDiscoveredChatRoomsHash.get(chatRoomUnique).Users.get(0).IPaddress;
             new SendControlMessage(mSocketSendResultHandler, peerIP, toSend, chatRoomUnique).start();
         }
     }
@@ -369,14 +368,14 @@ public class LocalService extends Service {
         if (unique == null) {
             synchronized (mDiscoveredUsers) {
                 for (Peer user : mDiscoveredUsers) {
-                    if (user.IPaddr.equalsIgnoreCase(peerIP)) {
+                    if (user.IPaddress.equalsIgnoreCase(peerIP)) {
                         isFound = true;
                         break;
                     }
                 }
 
                 if (!isFound) {
-                    Peer peer = new Peer(null, peerIP, null); // creates a new peer
+                    Peer peer = new Peer(null, null, peerIP); // creates a new peer
                     mDiscoveredUsers.add(peer);
                 }
             }
@@ -384,8 +383,8 @@ public class LocalService extends Service {
             synchronized (mDiscoveredUsers) {
                 for (Peer user : mDiscoveredUsers) {
                     //if we found the user
-                    if ((user.uniqueID != null && user.uniqueID.equalsIgnoreCase(unique)) || user.IPaddr.equalsIgnoreCase(peerIP)) {
-                        user.IPaddr = peerIP;  //update the IP address
+                    if ((user.uniqueID != null && user.uniqueID.equalsIgnoreCase(unique)) || user.IPaddress.equalsIgnoreCase(peerIP)) {
+                        user.IPaddress = peerIP;  //update the IP address
                         user.name = name;     //update the name
                         user.uniqueID = unique; //update the unique ID
                         isFound = true;
@@ -394,7 +393,7 @@ public class LocalService extends Service {
                 }
 
                 if (!isFound) {
-                    Peer peer = new Peer(unique, peerIP, name); //create a new peer
+                    Peer peer = new Peer(name, unique, peerIP); //create a new peer
                     mDiscoveredUsers.add(peer);
                 }
 
@@ -424,7 +423,7 @@ public class LocalService extends Service {
                 new ClientSocketHandler(this, user, Constants.CONNECTION_CODE_DISCOVER).start(); //start a new query
                 //if this is the group's owner: send a peer publication string
                 if (mIsWifiGroupOwner && allDiscovredUsers != null)
-                    new SendControlMessage(user.IPaddr, allDiscovredUsers).start(); //send a peer publication message
+                    new SendControlMessage(user.IPaddress, allDiscovredUsers).start(); //send a peer publication message
             }
         }
 
@@ -759,8 +758,8 @@ public class LocalService extends Service {
         boolean isUserListNotEmpty = false;
 
         for (Peer user : mDiscoveredUsers) {
-            if (user.IPaddr != null && user.name != null && user.uniqueID != null) {
-                res.append(user.IPaddr + Constants.STANDART_FIELD_SEPERATOR
+            if (user.IPaddress != null && user.name != null && user.uniqueID != null) {
+                res.append(user.IPaddress + Constants.STANDART_FIELD_SEPERATOR
                         + user.name + Constants.STANDART_FIELD_SEPERATOR
                         + user.uniqueID + Constants.STANDART_FIELD_SEPERATOR);
                 isUserListNotEmpty = true;

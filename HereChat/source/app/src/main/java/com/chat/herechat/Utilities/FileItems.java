@@ -1,6 +1,6 @@
-package com.chat.herechat;
+package com.chat.herechat.Utilities;
 
-public class Item {
+public class FileItems {
 	
 	public static final int DIRECTORY = 1;
 	public static final int FILE = 2;
@@ -33,7 +33,7 @@ public class Item {
 	}
 	
 	//Constructor for directory
-	public Item(int typeItem, String name, long size, String absolutePath){
+	public FileItems(int typeItem, String name, long size, String absolutePath){
 		this.typeItem = typeItem;
 		this.name = name;
 		this.size = size;
@@ -41,7 +41,7 @@ public class Item {
 	}
 	
 	//Constructor for file
-	public Item(int typeItem, String name, int numItems, String absolutePath){
+	public FileItems(int typeItem, String name, int numItems, String absolutePath){
 		this.typeItem = typeItem;
 		this.name = name;
 		this.absolutePath = absolutePath;
@@ -49,7 +49,7 @@ public class Item {
 	}
 	
 	//Constructor for UP link
-	public Item(int typeItem, String display, String parentPath){
+	public FileItems(int typeItem, String display, String parentPath){
 		this.typeItem = typeItem;
 		this.name = display;
 		this.absolutePath = parentPath;

@@ -13,14 +13,14 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.ListView;
 
-import com.chat.herechat.FileListAdapter;
-import com.chat.herechat.R;
+import com.chat.herechat.Utilities.FilesDisplayer;
+import com.chat.herechat.Utilities.FileItems;
 
-public class FilePickerActivity extends ListActivity{
+public class FileExplorerActivity extends ListActivity{
 	
 	private File currentDir;
 	private String rootDirPath;
-	private FileListAdapter adapter;
+	private FilesDisplayer adapter;
 	private ListView listView;
 
 	@Override
@@ -43,9 +43,9 @@ public class FilePickerActivity extends ListActivity{
 		File[] dirs = file.listFiles();		
 		
 		//List of directories
-		List<Item> directories = new ArrayList<Item>();
+		List<FileItems> directories = new ArrayList<FileItems>();
 		//List if files
-		List<Item> files = new ArrayList<Item>();
+		List<FileItems> files = new ArrayList<FileItems>();
 		
 		for(File f : dirs){
 			//Is a directory
@@ -57,12 +57,12 @@ public class FilePickerActivity extends ListActivity{
 				else
 					numItems = 0;
 				
-				Item item = new Item(Item.DIRECTORY, f.getName(), numItems, f.getAbsolutePath());
+				FileItems item = new FileItems(FileItems.DIRECTORY, f.getName(), numItems, f.getAbsolutePath());
 				directories.add(item);
 			}
 			//Is a file
 			else{
-				Item item = new Item(Item.FILE, f.getName(), f.length(), f.getAbsolutePath());
+				FileItems item = new FileItems(FileItems.FILE, f.getName(), f.length(), f.getAbsolutePath());
 				files.add(item);
 			}
 		}
@@ -70,10 +70,10 @@ public class FilePickerActivity extends ListActivity{
 		directories.addAll(files);
 		
 		if(!currentDir.getName().equals(rootDirPath)){
-			directories.add(0, new Item(Item.UP, "../", file.getParent()));
+			directories.add(0, new FileItems(FileItems.UP, "../", file.getParent()));
 		}
 		
-		adapter = new FileListAdapter(this, directories);
+		adapter = new FilesDisplayer(this, directories);
 		listView.setAdapter(adapter);		
 	}
 
@@ -81,10 +81,10 @@ public class FilePickerActivity extends ListActivity{
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
-		Item item = (Item) adapter.getItem(position);
+		FileItems item = (FileItems) adapter.getItem(position);
 		
 		int typeItem = item.getTypeItem();
-		if(typeItem==Item.DIRECTORY || typeItem==Item.UP){
+		if(typeItem== FileItems.DIRECTORY || typeItem== FileItems.UP){
 			currentDir = new File(item.getAbsolutePath());
 			fillDirectory(currentDir);
 		}
@@ -93,7 +93,7 @@ public class FilePickerActivity extends ListActivity{
 		}
 	}
 	
-	public void chooseFile(final Item item){
+	public void chooseFile(final FileItems item){
 		AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
 		newDialog.setTitle("Send file");
 		newDialog.setMessage("Do you wish to send this file?");

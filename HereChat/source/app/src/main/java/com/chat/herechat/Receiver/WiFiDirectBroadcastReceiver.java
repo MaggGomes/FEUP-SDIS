@@ -25,7 +25,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
     private LocalService service = null;
     public boolean isPeersDiscovered = false;
 
-    public WiFiDirectBroadcastReceiver(WifiP2pManager manager, Channel channel, LocalService service) {
+    public WiFiDirectBroadcastReceiver(Channel channel, LocalService service, WifiP2pManager manager) {
         super();
 
         this.manager = manager;
@@ -36,7 +36,6 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-
         if (service != null) {
             if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)) {
                 if (manager == null)
@@ -47,7 +46,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
                 if (networkInfo.isConnected())
                     manager.requestConnectionInfo(channel, this);
 
-                else { // It's a disconnect
+                else {
                     service.mIsWifiGroupOwner = false;
                     ChatSearchScreenFrag.mIsConnectedToGroup = false;
                 }
@@ -76,26 +75,23 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
 
 
     public WifiP2pDevice[] createWifiP2pDeviceArray(WifiP2pDeviceList peerList) {
-        Object[] obArry = peerList.getDeviceList().toArray();
-        if (obArry != null) {
-            int size = obArry.length;
+        Object[] deviceArray = peerList.getDeviceList().toArray();
+        if (deviceArray != null) {
+            int size = deviceArray.length;
 
-            WifiP2pDevice wifiDivArry[] = new WifiP2pDevice[size];
+            WifiP2pDevice arr[] = new WifiP2pDevice[size];
             for (int i = 0; i < size; i++) {
-                wifiDivArry[i] = (WifiP2pDevice) obArry[i];
-            }//for
-            return wifiDivArry;
+                arr[i] = (WifiP2pDevice) deviceArray[i];
+            }
+            return arr;
         }
         return null;
     }
 
     @Override
     public void onPeersAvailable(WifiP2pDeviceList peerList) {
-        // Out with the old, in with the new.
         service.CreateAndBroadcastWifiP2pEvent(Constants.SERVICE_BROADCAST_WIFI_EVENT_PEERS_AVAILABLE, -1);
-        //gets WifiP2pDevice array out of the peerList
         service.devices = createWifiP2pDeviceArray(peerList);
-        //call the method that continues with the chat room discovery protocol
         service.onPeerDeviceListAvailable();
     }
 
@@ -109,7 +105,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements Co
 
 
         if (!info.isGroupOwner && info.groupFormed) {
-            Peer peer = new Peer(null, info.groupOwnerAddress.getHostAddress(), null);
+            Peer peer = new Peer(null, null, info.groupOwnerAddress.getHostAddress());
             service.UpdateDiscoveredUsersList(info.groupOwnerAddress.getHostAddress(), null, null); //update the peer list
 
             ClientSocketHandler workerThread = new ClientSocketHandler(service, peer, Constants.CONNECTION_CODE_DISCOVER);

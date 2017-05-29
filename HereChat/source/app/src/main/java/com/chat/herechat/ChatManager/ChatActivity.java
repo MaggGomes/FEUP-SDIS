@@ -30,7 +30,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.chat.herechat.FilePickerActivity;
+import com.chat.herechat.FileExplorerActivity;
 import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.ServiceHandlers.FileHandler;
 import com.chat.herechat.LocalService;
@@ -699,7 +699,7 @@ public class ChatActivity extends ListActivity {
 
     public boolean OnFileButtonClicked(View v)
     {
-        Intent chooseFileIntent = new Intent(this, FilePickerActivity.class);
+        Intent chooseFileIntent = new Intent(this, FileExplorerActivity.class);
         startActivityForResult(chooseFileIntent,PICK_CONTACT_REQUEST);
         return true;
     }

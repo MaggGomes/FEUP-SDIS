@@ -1,7 +1,6 @@
 package com.chat.herechat.ChatManager;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Vector;
 import java.util.concurrent.Semaphore;
 
@@ -12,7 +11,6 @@ import android.os.Message;
 
 import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.Peer.Peer;
-import com.chat.herechat.ServiceHandlers.ClientSocketHandler;
 import com.chat.herechat.ServiceHandlers.FileHandler;
 import com.chat.herechat.LocalService;
 import com.chat.herechat.MainScreenActivity;
@@ -63,7 +61,7 @@ public class ActiveChatRoom {
 			{
 				if (!user.uniqueID.equalsIgnoreCase(senderUnique)) //if this user isn't the one who sent this message (done to avoid loopbacks)
 					{
-					new SendControlMessage(null,user.IPaddr,entireMsg,mRoomInfo.RoomID).start(); //forward the msg
+					new SendControlMessage(null,user.IPaddress,entireMsg,mRoomInfo.RoomID).start(); //forward the msg
 					}
 			}
 		}
@@ -198,7 +196,7 @@ public class ActiveChatRoom {
 		msg.append(mRoomInfo.RoomID + Constants.STANDART_FIELD_SEPERATOR);  //set room's ID
 
 		for (Peer user : mRoomInfo.Users) {
-			new SendControlMessage(null,user.IPaddr,msg.toString(),mRoomInfo.RoomID).start(); //send the msg
+			new SendControlMessage(null,user.IPaddress,msg.toString(),mRoomInfo.RoomID).start(); //send the msg
 		}
 	}
 
@@ -211,6 +209,6 @@ public class ActiveChatRoom {
 		msg.append(MainScreenActivity.UniqueID + Constants.STANDART_FIELD_SEPERATOR);   //add the self unique
 		msg.append(mRoomInfo.RoomID + Constants.STANDART_FIELD_SEPERATOR);  //set the room's ID
 
-		new SendControlMessage(mRoomInfo.Users.get(0).IPaddr, msg.toString()).start();  //send the reply
+		new SendControlMessage(mRoomInfo.Users.get(0).IPaddress, msg.toString()).start();  //send the reply
 	}
 }

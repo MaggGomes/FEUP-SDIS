@@ -1,4 +1,4 @@
-package com.chat.herechat;
+package com.chat.herechat.Utilities;
 
 import java.util.List;
 
@@ -11,16 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chat.herechat.R;
-import com.chat.herechat.Item;
 
-public class FileListAdapter extends BaseAdapter {
+public class FilesDisplayer extends BaseAdapter {
 	
 	private Context mContext;
-	private List<Item> listItem;
-	private Item item;
+	private List<FileItems> listItem;
+	private FileItems item;
 	private LayoutInflater inflater;
 	
-	public FileListAdapter(Context context, List<Item> list){
+	public FilesDisplayer(Context context, List<FileItems> list){
 		mContext = context;
 		listItem = list;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,7 +60,7 @@ public class FileListAdapter extends BaseAdapter {
         CacheView cache = (CacheView) view.getTag();
         
 		switch(item.getTypeItem()){
-			case Item.DIRECTORY:
+			case FileItems.DIRECTORY:
 				cache.name.setText(item.getName());
 				cache.details.setText(item.getNumItems() + " item(s)");
 				if(item.getNumItems() > 0){
@@ -71,12 +70,12 @@ public class FileListAdapter extends BaseAdapter {
 					cache.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.folder_emtpy));
 				}
 				break;
-			case Item.FILE:	
+			case FileItems.FILE:
 				cache.name.setText(item.getName());
 				cache.details.setText(item.getSize() + " bytes");
 				cache.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.file));
 				break;
-			case Item.UP:
+			case FileItems.UP:
 				cache.name.setText(item.getName());
 				cache.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.up));
 				break;
