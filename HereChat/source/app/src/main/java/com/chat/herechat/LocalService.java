@@ -176,9 +176,9 @@ public class LocalService extends Service {
         targetRoom = mActiveChatRooms.get(msg[3]);
 
         if (targetRoom != null) {
-            targetRoom.ForwardMessage(msg, false);
+            targetRoom.SendMessage(false, msg);
 
-            if (!targetRoom.isHostedGroupChat)
+            if (!targetRoom.isPublicHosted)
                 UpdateTimeChatRoomLastSeenTimeStamp(msg[2], msg[3]);
         } else {
             BypassDiscoveryProcedure(msg, true, isPrivateMsg);
@@ -236,7 +236,7 @@ public class LocalService extends Service {
             ActiveChatRoom targetRoom = mActiveChatRooms.get(msg[2]);
 
             if (isChatMsg)
-                targetRoom.ForwardMessage(msg, false);
+                targetRoom.SendMessage(false, msg);
         } else {
             ChatRoomDetails details = mDiscoveredChatRoomsHash.get(msg[3]);
             if (details == null) {
@@ -256,8 +256,8 @@ public class LocalService extends Service {
 
         ActiveChatRoom activeRoom = mActiveChatRooms.get(chatRoomUnique);
 
-        if (activeRoom != null && activeRoom.isHostedGroupChat) {
-            activeRoom.ForwardMessage(toSend.split("[" + Constants.STANDART_FIELD_SEPERATOR + "]"), true);
+        if (activeRoom != null && activeRoom.isPublicHosted) {
+            activeRoom.SendMessage(true, toSend.split("[" + Constants.STANDART_FIELD_SEPERATOR + "]"));
         } else {
             String peerIP = mDiscoveredChatRoomsHash.get(chatRoomUnique).Users.get(0).IPaddress;
             new SendControlMessage(mSocketSendResultHandler, peerIP, toSend, chatRoomUnique).start();
@@ -584,9 +584,9 @@ public class LocalService extends Service {
         //create a new active room:
         ActiveChatRoom newActiveRoom = new ActiveChatRoom(this, true, newDetails);
         //init a history file if necessary:
-        InitHistoryFileIfNecessary(newActiveRoom.mRoomInfo.RoomID, newActiveRoom.mRoomInfo.Name, false);
+        InitHistoryFileIfNecessary(newActiveRoom.roomInfo.RoomID, newActiveRoom.roomInfo.Name, false);
         //put the room into the hash map:
-        mActiveChatRooms.put(newActiveRoom.mRoomInfo.RoomID, newActiveRoom);
+        mActiveChatRooms.put(newActiveRoom.roomInfo.RoomID, newActiveRoom);
         //b-cast an event that'll cause the chat-search-frag to refresh the list view
         BroadcastRoomsUpdatedEvent();
         //start a new logic discovery procedure to update all peers about the new room list
@@ -623,8 +623,8 @@ public class LocalService extends Service {
     public void CloseNotHostedPublicChatRoom(ChatRoomDetails info) {
         ActiveChatRoom activeRoom = mActiveChatRooms.get(info.RoomID);
         if (activeRoom != null) {
-            activeRoom.DisconnectFromHostingPeer();
-            mActiveChatRooms.remove(activeRoom.mRoomInfo.RoomID);  //remove from the active rooms list
+            activeRoom.DisconnectFromHostPeer();
+            mActiveChatRooms.remove(activeRoom.roomInfo.RoomID);  //remove from the active rooms list
             BroadcastRoomsUpdatedEvent();
         }
     }
@@ -633,8 +633,8 @@ public class LocalService extends Service {
     public void CloseHostedPublicChatRoom(ChatRoomDetails info) {
         ActiveChatRoom activeRoom = mActiveChatRooms.get(info.RoomID);
         if (activeRoom != null) {
-            activeRoom.CloseRoomAndNotifyUsers();
-            mActiveChatRooms.remove(activeRoom.mRoomInfo.RoomID);
+            activeRoom.CloseRoomNotification();
+            mActiveChatRooms.remove(activeRoom.roomInfo.RoomID);
             BroadcastRoomsUpdatedEvent();
         }
     }
@@ -643,7 +643,7 @@ public class LocalService extends Service {
     public void UpdatePrivateChatRoomNameInHistoryFile(ChatRoomDetails info) {
         ActiveChatRoom room = mActiveChatRooms.get(info.RoomID);
         if (room != null)
-            room.updateUserNameInTheHistoryLogFile();
+            room.UpdateUserInHistory();
     }
 
 
@@ -654,9 +654,9 @@ public class LocalService extends Service {
 
         Collection<ActiveChatRoom> chatRooms = mActiveChatRooms.values();  //get all available active chat rooms
         for (ActiveChatRoom room : chatRooms) {
-            if ((DisplayedAtChatActivity == null || !room.mRoomInfo.RoomID.equalsIgnoreCase(DisplayedAtChatActivity.RoomID))
-                    && room.mRoomInfo.hasNewMsg) {
-                builder.append(room.mRoomInfo.Name + ", "); //add the room's name
+            if ((DisplayedAtChatActivity == null || !room.roomInfo.RoomID.equalsIgnoreCase(DisplayedAtChatActivity.RoomID))
+                    && room.roomInfo.hasNewMsg) {
+                builder.append(room.roomInfo.Name + ", "); //add the room's name
                 numOfRoomsWithNewMsgs++;
             }
         }

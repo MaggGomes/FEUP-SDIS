@@ -397,7 +397,7 @@ public class ClientSocketHandler extends Thread {
 
 		Collection<ActiveChatRoom> ActiveChatRooms = service.mActiveChatRooms.values();
 		for (ActiveChatRoom room : ActiveChatRooms) {
-			if (room.isHostedGroupChat) {
+			if (room.isPublicHosted) {
 				res.append(room.toString());
 			}
 		}

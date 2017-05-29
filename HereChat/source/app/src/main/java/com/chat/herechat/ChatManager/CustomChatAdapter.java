@@ -67,7 +67,7 @@ public class CustomChatAdapter extends BaseAdapter {
         LayoutParams lp2 = (LayoutParams) holder.mTimeAndUserName.getLayoutParams();
 
         //Check whether message is mine to show green background and align to right
-        if (message.isMine()) {
+        if (message.isSelf()) {
             holder.mMessage.setBackgroundResource(R.drawable.speech_bubble_green);
             lp.gravity = Gravity.RIGHT;
             lp2.gravity = Gravity.RIGHT;

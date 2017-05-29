@@ -385,14 +385,14 @@ public class ChatSearchScreenFrag extends ListFragment
 				Collection<ActiveChatRoom> chatRooms = mService.mActiveChatRooms.values();  //get all available hosted chat rooms
 				for (ActiveChatRoom room : chatRooms) //for each chat room
 				{
-					if (room.isHostedGroupChat) //if this is a hosted group chat
+					if (room.isPublicHosted) //if this is a hosted group chat
 					{
 						HashMap<String, String> singleChatEntryView = new HashMap<String, String>(); //create a new hash map
 						//set the 1st field to be the user's name
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_NAME, room.mRoomInfo.Name);  
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_PARTICIPANTS, Constants.UserListToString(room.mRoomInfo.Users));
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_NAME, room.roomInfo.Name);
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_PARTICIPANTS, Constants.UserListToString(room.roomInfo.Users));
 						//messing around with the layout's icons:
-						if (room.mRoomInfo.Password!=null)
+						if (room.roomInfo.Password!=null)
 						{
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_HOSTED_PUBLIC_ROOM_ICON, Integer.toString(R.drawable.hosted_icon));
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_LOCKED_PUBLIC_ROOM_ICON, Integer.toString(R.drawable.lock_icon_orange));
@@ -401,10 +401,10 @@ public class ChatSearchScreenFrag extends ListFragment
 						{
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_LOCKED_PUBLIC_ROOM_ICON, Integer.toString(R.drawable.hosted_icon));
 						}
-						if (room.mRoomInfo.hasNewMsg)
+						if (room.roomInfo.hasNewMsg)
 							singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_NEW_MSG_ICON, Integer.toString(R.drawable.msg_icon));
 						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_ICON, Integer.toString(R.drawable.public_chat_icon));
-						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE, room.mRoomInfo.RoomID);
+						singleChatEntryView.put(Constants.HASH_MAP_KEY_SEARCH_FRAG_CHAT_ROOM_UNIQUE, room.roomInfo.RoomID);
 						
 						mListContent.add(singleChatEntryView); //add the hash map to the content list
 					}//if hosted public chat

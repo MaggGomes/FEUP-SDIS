@@ -3,47 +3,39 @@ package com.chat.herechat.ChatManager;
 
 public class ChatMessage {
 
-	public String mUserUnique;
-	public String mMessage;
-	public String mUserName;
-	public String mTime;
-	public boolean mIsMine; 
+	public String UserUnique;
+	public String Message;
+	public String UserName;
+	public String Time;
+	public boolean self;
 	public boolean isStatusMessage;
 
 
-	public ChatMessage(String message, boolean isMine) {
+	public ChatMessage(String message, boolean self) {
 		super();
-		this.mMessage = message;
-		this.mIsMine = isMine;
+		this.Message = message;
+		this.self = self;
 		this.isStatusMessage = false;
 	}
 
 	public ChatMessage(boolean status, String message) {
 		super();
-		this.mMessage = message;
-		this.mIsMine = false;
+		this.Message = message;
+		this.self = false;
 		this.isStatusMessage = status;
 	}
 
 	public ChatMessage(String userUnique,String msg,String userName,String time,boolean isMine){
 		this(msg,isMine);
-		 mUserUnique =userUnique;
-		 mTime=time;
-		 mUserName=userName;
+		 UserUnique =userUnique;
+		 Time =time;
+		 UserName =userName;
 
 	}
-	public String getMessage() {return mMessage;}
-	public void setMessage(String message) {this.mMessage = message;}
-	public boolean isMine() {return mIsMine;}
-	public void setMine(boolean isMine) {this.mIsMine = isMine;}
-	public boolean isStatusMessage() {return isStatusMessage;}
-	public void setStatusMessage(boolean isStatusMessage) {this.isStatusMessage = isStatusMessage;}
-	public String getUserName(){return mUserName;}
-	public void setUserName(String UN){mUserName=UN;}
-	public String getUserUnique(){return mUserUnique;}
-	public void setUserUnique(String id){mUserUnique=id;}
-	public String getTime(){return mTime;}
-	public void setTime(String time){mTime=time;}
-
+	public String getMessage() {return Message;}
+	public void setMessage(String message) {this.Message = message;}
+	public boolean isSelf() {return self;}
+	public String getUserName(){return UserName;}
+	public String getTime(){return Time;}
 
 }

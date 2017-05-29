@@ -75,7 +75,7 @@ public class ChatActivity extends ListActivity {
 
 		if(mChatRoomInfo==null) //if the info is still null, it means that this room is a hosted room
 		{
-			mChatRoomInfo = mService.mActiveChatRooms.get(ChatRoomID).mRoomInfo;  //get the room's info if it's a hosted chat room
+			mChatRoomInfo = mService.mActiveChatRooms.get(ChatRoomID).roomInfo;  //get the room's info if it's a hosted chat room
 			mIsActive=true;
 		}
 
@@ -226,7 +226,7 @@ public class ChatActivity extends ListActivity {
 				}
 				case R.id.action_close_room: //close chat room was clicked
 				{
-					if (mService.mActiveChatRooms.get(mChatRoomInfo.RoomID).isHostedGroupChat) //trying to close a hosted public chat
+					if (mService.mActiveChatRooms.get(mChatRoomInfo.RoomID).isPublicHosted) //trying to close a hosted public chat
 						{
 						ShowCloseHostedRoomDialog(); //the dialog will call the service and close this room if necessary
 						}
@@ -253,7 +253,7 @@ public class ChatActivity extends ListActivity {
 		super.onCreateContextMenu(menu, v, menuInfo);
 	    AdapterContextMenuInfo selectedRow = (AdapterContextMenuInfo) menuInfo; //get the current selected item
 	    ChatMessage message = mListContent.get(selectedRow.position);
-	    if (!message.mIsMine)
+	    if (!message.self)
 	    {
 			if (isHostedChatRoom) //we need a context menu only for a hosted chat room
 			{
@@ -509,7 +509,7 @@ public class ChatActivity extends ListActivity {
 										mMsgsWaitingForSendResult.remove(0);   //remove from the msg stack
 
 									ActiveChatRoom room = mService.mActiveChatRooms.get(mChatRoomInfo.RoomID); //get the active chat room
-									WriteSelfMessageToHistoryFile(msg.mMessage.replace('\n',Constants.ENTER_REPLACEMENT_CHAR), room); //write this message to the file
+									WriteSelfMessageToHistoryFile(msg.Message.replace('\n',Constants.ENTER_REPLACEMENT_CHAR), room); //write this message to the file
 								}//if
 							}
 						break;
@@ -616,7 +616,7 @@ public class ChatActivity extends ListActivity {
 			temp[2] = msg;
 			temp[3] = Constants.getTimeString();
 
-			room.UpdateFileWithNewMsg( Constants.SeparateArray2String(temp, Constants.CHAT_MSG_ENTRY_SEPARATOR_CHAR));
+			room.UpdateFileWithNewMessage( Constants.SeparateArray2String(temp, Constants.CHAT_MSG_ENTRY_SEPARATOR_CHAR));
 		}//if
 	}
 
@@ -687,7 +687,7 @@ public class ChatActivity extends ListActivity {
 				AddNewMessage(m);  //add to list view
 				ActiveChatRoom room = mService.mActiveChatRooms.get(mChatRoomInfo.RoomID); //get the active chat room
 				//replace all '\n' chars and write this message to the file
-				WriteSelfMessageToHistoryFile(m.mMessage.replace('\n', Constants.ENTER_REPLACEMENT_CHAR), room);
+				WriteSelfMessageToHistoryFile(m.Message.replace('\n', Constants.ENTER_REPLACEMENT_CHAR), room);
 			}
 			//replace all 'enter's in the text with our special char, since 'enter's will fuck our logic up.
 			newMessage = newMessage.replace('\n',Constants.ENTER_REPLACEMENT_CHAR);
@@ -708,7 +708,7 @@ public class ChatActivity extends ListActivity {
 	{
 		ActiveChatRoom room = mService.mActiveChatRooms.get(mChatRoomInfo.RoomID);
 
-		return (room!=null && room.isHostedGroupChat);
+		return (room!=null && room.isPublicHosted);
 	}//end of FindOutIfHostedChatRoom()
 
 
