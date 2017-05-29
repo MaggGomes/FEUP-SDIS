@@ -128,7 +128,7 @@ public final class Constants {
 	}
 
 
-	public static String StringArrayToStringWithSeperators (String[] input, char separator) {
+	public static String SeparateArray2String(String[] input, char separator) {
 		int length = input.length;
 		StringBuilder buffer = new StringBuilder();
 
@@ -144,10 +144,9 @@ public final class Constants {
 	}
 
 
-	public static Peer CheckIfUserExistsInListByUniqueID (String userUniqueId, ArrayList<Peer> list) {
+	public static Peer CheckUniqueID(String userUniqueId, ArrayList<Peer> list) {
 		if (list==null)
 			return null;
-
 		for (Peer user : list) {
 			if (user.uniqueID != null && user.uniqueID.equalsIgnoreCase(userUniqueId))
 				return user;
@@ -157,7 +156,7 @@ public final class Constants {
 	}
 
 
-	public static void showBubble(String txt, Activity act) {
+	public static void chatBalloon(String txt, Activity act) {
 		Context context = act.getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;
 
@@ -166,14 +165,13 @@ public final class Constants {
 	}
 
 
-    public static void ShowNotification(String msg, PendingIntent intent) {
-    	//create a new notification
+    public static void ShowNotification(PendingIntent intent, String message) {
     	NotificationCompat.Builder mBuilder =
     	        new NotificationCompat.Builder(ChatSearchScreenFrag.mService)
     	        .setSmallIcon(com.chat.herechat.R.drawable.msg_icon) //set a small icon
     	        .setContentTitle("New messages available:")
     	        .setAutoCancel(true)
-    	        .setContentText(msg)
+    	        .setContentText(message)
     			.setContentIntent(intent);
 
     	LocalService.mNotificationManager.notify(0xdeadbeef, mBuilder.build());

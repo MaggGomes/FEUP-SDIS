@@ -122,7 +122,7 @@ public class ClientSocketHandler extends Thread {
 			}
 			else
 			{
-				String res = targetRoom.AddUser(Constants.CheckIfUserExistsInListByUniqueID(input[2], service.mDiscoveredUsers),
+				String res = targetRoom.AddUser(Constants.CheckUniqueID(input[2], service.mDiscoveredUsers),
 						input[4]);
 				boolean isCool = res.equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST);
 				replyToRequest(currIP,isCool,input[3],res, false);
@@ -159,7 +159,7 @@ public class ClientSocketHandler extends Thread {
 
 				if (isHost) {
 				String res = room.AddUser(
-						Constants.CheckIfUserExistsInListByUniqueID(input[2], service.mDiscoveredUsers), "");
+						Constants.CheckUniqueID(input[2], service.mDiscoveredUsers), "");
 
 					if (!res.equalsIgnoreCase(Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST)) {
 						replyToRequest(currIP,false,input[3], res,false);
@@ -329,7 +329,7 @@ public class ClientSocketHandler extends Thread {
 
 	private ArrayList<ChatRoomDetails> convertStringtoChatList(String[] input) {
 		ArrayList<ChatRoomDetails> ChatRooms = new ArrayList<ChatRoomDetails>();
-		Peer host = Constants.CheckIfUserExistsInListByUniqueID(input[2], service.mDiscoveredUsers);
+		Peer host = Constants.CheckUniqueID(input[2], service.mDiscoveredUsers);
 		
 
 		ArrayList<Peer> user = new ArrayList<Peer>();

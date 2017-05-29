@@ -9,9 +9,9 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 
+import com.chat.herechat.ServiceHandlers.FileWritter;
 import com.chat.herechat.Utilities.Constants;
 import com.chat.herechat.Peer.Peer;
-import com.chat.herechat.ServiceHandlers.FileHandler;
 import com.chat.herechat.LocalService;
 import com.chat.herechat.MainScreenActivity;
 import com.chat.herechat.ServiceHandlers.SendControlMessage;
@@ -23,7 +23,7 @@ public class ActiveChatRoom {
 	public boolean isHostedGroupChat;	          //indicates whether this is a hosted public chat or not
 	private LocalService mService;				  //reference to the service
 	public Handler mSingleSendThreadMessageReceiver=null;	//used for receiving messages from a 'SendControlMessage'
-	private Handler mFileWriterResultHandler=null;			//used for receiving messages from a 'FileHandler'
+	private Handler mFileWriterResultHandler=null;			//used for receiving messages from a 'FileWritter'
 	private Semaphore semaphore = new Semaphore(1, true);   //used to synch between file writers
 
 	@SuppressLint("HandlerLeak")
@@ -53,7 +53,7 @@ public class ActiveChatRoom {
 			mRoomInfo.hasNewMsg=true; //mark that this room has received a message. Will be reset by the 'ChatAcvitiy'
 		}
 		String senderUnique = msg[2];  //get the sender's unique ID
-		String entireMsg = Constants.StringArrayToStringWithSeperators(msg,Constants.STANDART_FIELD_SEPERATOR);  //convert back to the original string
+		String entireMsg = Constants.SeparateArray2String(msg,Constants.STANDART_FIELD_SEPERATOR);  //convert back to the original string
 
 		// we need to forward an incoming message only if this chat is hosted or this chat isn't hosted and it's a self message
 		if (isHostedGroupChat || (!isHostedGroupChat && isSelfMsg)) {
@@ -74,7 +74,7 @@ public class ActiveChatRoom {
 			temp[2] = msg[4];
 			temp[3] = Constants.getTimeString();
 
-			UpdateFileWithNewMsg( Constants.StringArrayToStringWithSeperators(temp,Constants.CHAT_MSG_ENTRY_SEPARATOR_CHAR)); //write to history file
+			UpdateFileWithNewMsg( Constants.SeparateArray2String(temp,Constants.CHAT_MSG_ENTRY_SEPARATOR_CHAR)); //write to history file
 
 			//launch a broadcast with the received msg:
 			Intent intent = mService.CreateBroadcastIntent();
@@ -93,7 +93,7 @@ public class ActiveChatRoom {
 			e.printStackTrace();
 		}
 
-		FileHandler fh = new FileHandler(mRoomInfo.RoomID,mFileWriterResultHandler,false,mService);
+		FileWritter fh = new FileWritter(mRoomInfo.RoomID,mFileWriterResultHandler,false,mService);
 		fh.UpdateDataToWriteBuffer(msg);
 		fh.start();
 		fh.Kill();
@@ -102,7 +102,7 @@ public class ActiveChatRoom {
 
 	public String AddUser (Peer user, String suggestedPw) {
 		//check if this user already exists in the room:
-		if ( Constants.CheckIfUserExistsInListByUniqueID(user.uniqueID, mRoomInfo.Users)!=null)
+		if ( Constants.CheckUniqueID(user.uniqueID, mRoomInfo.Users)!=null)
 			return Constants.SERVICE_POSTIVE_REPLY_FOR_JOIN_REQUEST;
 		//check if the pw is correct:
 		if (mRoomInfo.Password!=null && !suggestedPw.equalsIgnoreCase(mRoomInfo.Password))
@@ -157,7 +157,7 @@ public class ActiveChatRoom {
 		};
 
 		//read file
-		new FileHandler(mRoomInfo.RoomID, msgHandler, true, ActiveChatRoom.this.mService).start();
+		new FileWritter(mRoomInfo.RoomID, msgHandler, true, ActiveChatRoom.this.mService).start();
 	}
 
 

@@ -200,7 +200,7 @@ public class LocalService extends Service {
 
             String notificationString = CreateNewMsgNotificationString();
             if (notificationString != null)
-                Constants.ShowNotification(notificationString, resultPendingIntent); //show notification
+                Constants.ShowNotification(resultPendingIntent, notificationString); //show notification
         }
 
         BroadcastRoomsUpdatedEvent();
@@ -224,7 +224,7 @@ public class LocalService extends Service {
     public void BypassDiscoveryProcedure(String[] msg, boolean isChatMsg, boolean isPrivateChat) {
         if (isPrivateChat) {
             ArrayList<ChatRoomDetails> ChatRooms = new ArrayList<ChatRoomDetails>();
-            Peer host = Constants.CheckIfUserExistsInListByUniqueID(msg[2], mDiscoveredUsers);
+            Peer host = Constants.CheckUniqueID(msg[2], mDiscoveredUsers);
 
             ArrayList<Peer> user = new ArrayList<Peer>();
             user.add(host);

@@ -31,8 +31,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.chat.herechat.FileExplorerActivity;
+import com.chat.herechat.ServiceHandlers.FileWritter;
 import com.chat.herechat.Utilities.Constants;
-import com.chat.herechat.ServiceHandlers.FileHandler;
 import com.chat.herechat.LocalService;
 import com.chat.herechat.MainScreenActivity;
 import com.chat.herechat.QuickPrefsActivity;
@@ -138,7 +138,7 @@ public class ChatActivity extends ListActivity {
 		historyLoadDialog.setMessage("Please Wait.");
 		historyLoadDialog.show();
 
-		new FileHandler(mChatRoomInfo.RoomID, mHandler, true,this).start(); //launch the history file reader
+		new FileWritter(mChatRoomInfo.RoomID, mHandler, true,this).start(); //launch the history file reader
 
 		mService.isChatActivityActive=true;   //mark that the chat activity is active
 		mService.DisplayedAtChatActivity=mChatRoomInfo;  //set the details of the displayed room
@@ -420,7 +420,7 @@ public class ChatActivity extends ListActivity {
 		else
 			data.append("public"+"\r\n");
 
-		FileHandler fh = new FileHandler(unique, handler, false, con); //create a new file handler
+		FileWritter fh = new FileWritter(unique, handler, false, con); //create a new file handler
 		fh.UpdateDataToWriteBuffer(data.toString());  //set the data to write
 		fh.start(); //run the thread
 		fh.Kill();  //exit the thread gracefully
@@ -483,7 +483,7 @@ public class ChatActivity extends ListActivity {
 							if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_RESULT).equals(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_FAILED))
 							{
 								DismissDialog(PeerConnectDialog);
-								Constants.showBubble("SEND FAILED! SOCK CRASHED!",mActivity);
+								Constants.chatBalloon("SEND FAILED! SOCK CRASHED!",mActivity);
 
 								if (mIsActive) //if a send failed after this chat is active, it means that a message has failed to be sent
 								{
@@ -546,14 +546,14 @@ public class ChatActivity extends ListActivity {
 							{
 								DismissDialog(PeerConnectDialog);
 								mIsActive=true;
-						//		Constants.showBubble("JOIN SUCCEEDED! PEER HAS ACCEPTED", mActivity);
+						//		Constants.chatBalloon("JOIN SUCCEEDED! PEER HAS ACCEPTED", mActivity);
 							}
 						    //if the connection already exists
 							if (extras.getString(Constants.SINGLE_SEND_THREAD_KEY_RESULT).equals(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_ALREADY_CONNECTED))
 							{
 								DismissDialog(PeerConnectDialog);
 								mIsActive=true;
-						//		Constants.showBubble("CHAT ROOM IS ALREADY CONNECTED!", mActivity);
+						//		Constants.chatBalloon("CHAT ROOM IS ALREADY CONNECTED!", mActivity);
 							}
 						break;
 						}
@@ -616,7 +616,7 @@ public class ChatActivity extends ListActivity {
 			temp[2] = msg;
 			temp[3] = Constants.getTimeString();
 
-			room.UpdateFileWithNewMsg( Constants.StringArrayToStringWithSeperators(temp, Constants.CHAT_MSG_ENTRY_SEPARATOR_CHAR));
+			room.UpdateFileWithNewMsg( Constants.SeparateArray2String(temp, Constants.CHAT_MSG_ENTRY_SEPARATOR_CHAR));
 		}//if
 	}
 

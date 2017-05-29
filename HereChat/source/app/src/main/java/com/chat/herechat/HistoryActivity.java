@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,7 +13,7 @@ import android.view.MenuItem;
 
 import com.chat.herechat.ChatManager.ChatMessage;
 import com.chat.herechat.ChatManager.CustomChatAdapter;
-import com.chat.herechat.ServiceHandlers.FileHandler;
+import com.chat.herechat.ServiceHandlers.FileWritter;
 import com.chat.herechat.Utilities.Constants;
 
 public class HistoryActivity extends ListActivity {
@@ -59,7 +58,7 @@ public class HistoryActivity extends ListActivity {
 		historyLoadDialog.setMessage("Please Wait.");
 		historyLoadDialog.show();
 	
-		new FileHandler(mChatRoomID, mHandler, true,this).start();
+		new FileWritter(mChatRoomID, mHandler, true,this).start();
 	}
 	
 	private void ParseHistoryFileDataAndUpdateListView(String data) {

@@ -19,10 +19,7 @@ import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ListFragment;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -190,7 +187,7 @@ public class ChatSearchScreenFrag extends ListFragment
 					case Constants.SERVICE_BROADCAST_OPCODE_ACTION_DO_TOAST:
 						{
 						//show a toast with the received message
-				//		LocalService.showBubble(extras.getString(Constants.SERVICE_BROADCAST_TOAST_STRING_KEY), mActivity);
+				//		LocalService.chatBalloon(extras.getString(Constants.SERVICE_BROADCAST_TOAST_STRING_KEY), mActivity);
 						break;
 						}
 						
@@ -277,17 +274,17 @@ public class ChatSearchScreenFrag extends ListFragment
 			}
 			case Constants.SERVICE_BROADCAST_WIFI_EVENT_PEER_CHANGED:
 			{
-		//		LocalService.showBubble("peers have changed",mActivity);
+		//		LocalService.chatBalloon("peers have changed",mActivity);
 				break;
 			}
 			case Constants.SERVICE_BROADCAST_WIFI_EVENT_PEERS_AVAILABLE:
 			{
-       //         LocalService.showBubble("peers Available",mActivity);
+       //         LocalService.chatBalloon("peers Available",mActivity);
 				break;
 			}
 			case Constants.SERVICE_BROADCAST_WIFI_EVENT_PEER_DISCOVER_SUCCESS:
 			{
-	  //		LocalService.showBubble("Peer discovery was successful!",mActivity);
+	  //		LocalService.chatBalloon("Peer discovery was successful!",mActivity);
 				break;
 			}
 			case Constants.SERVICE_BROADCAST_WIFI_EVENT_PEER_DISCOVER_FAILED:
@@ -296,17 +293,17 @@ public class ChatSearchScreenFrag extends ListFragment
 				{
 				case 0:
 					{
-			//	    Constants.showBubble("Peer discovery failed! Unknown error!", mActivity);
+			//	    Constants.chatBalloon("Peer discovery failed! Unknown error!", mActivity);
 					break;
 					}
 				case 1:
 					{
-					Constants.showBubble("Peer discovery failed! Wifi Direct isn't supported by this device!", mActivity);
+					Constants.chatBalloon("Peer discovery failed! Wifi Direct isn't supported by this device!", mActivity);
 					break;
 					}
 				case 2:
 					{
-			//		Constants.showBubble("Peer discovery failed! Channel is busy, please wait.", mActivity);
+			//		Constants.chatBalloon("Peer discovery failed! Channel is busy, please wait.", mActivity);
 					break;
 					}
 				}

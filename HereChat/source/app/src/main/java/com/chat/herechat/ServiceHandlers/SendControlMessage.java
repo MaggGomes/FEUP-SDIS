@@ -15,18 +15,18 @@ import com.chat.herechat.Utilities.Constants;
 
 
 public class SendControlMessage extends Thread {
-	private Socket mSocket;
-	private Handler mHandler;
-	private String mMsg;
-	private String mPeerIP;
-	private String mRoomUniqueID;
+	private Socket Socket;
+	private Handler Handle;
+	private String message;
+	private String peerIp;
+	private String RoomUniqueID;
 	private static final int SOCKET_PORT = 4000;
 	
 	public SendControlMessage(Handler h, String peerIP, String msg, String RoomUniqueID) {
-		mHandler = h;
-		mPeerIP = peerIP;
-		mMsg = msg;
-		mRoomUniqueID=RoomUniqueID;
+		Handle = h;
+		peerIp = peerIP;
+		message = msg;
+		this.RoomUniqueID =RoomUniqueID;
 	}
 	
 	public SendControlMessage(String peerIP, String msg) {
@@ -35,35 +35,35 @@ public class SendControlMessage extends Thread {
 
 	@Override
 	public void run() {
-		PrintWriter mOut=null;
+		PrintWriter toSend =null;
 		try {
 
-			mSocket = new Socket();
-			mSocket.bind(null);
-		    mSocket.connect((new InetSocketAddress(mPeerIP, SOCKET_PORT)), 3000);
-		    mOut =  new PrintWriter(new BufferedWriter(new OutputStreamWriter(mSocket.getOutputStream())), true);
+			Socket = new Socket();
+			Socket.bind(null);
+		    Socket.connect((new InetSocketAddress(peerIp, SOCKET_PORT)), 3000);
+		    toSend =  new PrintWriter(new BufferedWriter(new OutputStreamWriter(Socket.getOutputStream())), true);
 		} catch (IOException e) {
-			SendMessageViaHandler(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_FAILED);
+			SendHandleMessage(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_FAILED);
 			e.printStackTrace();
 			return;
 		}
 			
-		mOut.println(mMsg); //send via socket
-		mOut.flush();
-		mOut.close();
+		toSend.println(message); //send via socket
+		toSend.flush();
+		toSend.close();
 		
-		if (mHandler!=null) //if we have a handler to return the result to
-			SendMessageViaHandler(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_SUCCESS); //notify that the send was successful
+		if (Handle !=null) //if we have a handler to return the result to
+			SendHandleMessage(Constants.SINGLE_SEND_THREAD_ACTION_RESULT_SUCCESS); //notify that the send was successful
 	}
 	
-	private void SendMessageViaHandler(String result) {
-		if (mHandler!=null) {
-			Message msg = mHandler.obtainMessage();
+	private void SendHandleMessage(String result) {
+		if (Handle !=null) {
+			Message msg = Handle.obtainMessage();
 			Bundle data = new Bundle();
-			data.putString(Constants.SINGLE_SEND_THREAD_KEY_UNIQUE_ROOM_ID, mRoomUniqueID);  //set the room's ID
+			data.putString(Constants.SINGLE_SEND_THREAD_KEY_UNIQUE_ROOM_ID, RoomUniqueID);  //set the room's ID
 			data.putString(Constants.SINGLE_SEND_THREAD_KEY_RESULT, result);  //put the result in the data
 			msg.setData(data);
-			mHandler.sendMessage(msg);
+			Handle.sendMessage(msg);
 		}
 	}
 }

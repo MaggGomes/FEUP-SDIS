@@ -243,7 +243,7 @@ public class ChatHistoryScreenFrag extends ListFragment
 
 		for(int i=0; i<mNumOfExistingFiles ;i++){
 			mEntries[i]= new HistoryEntry();
-			CreateHistoryEntryFileName th = new CreateHistoryEntryFileName(fileList[i], mEntries[i], getActivity(), mHandler);
+			CreateHistoryEntryFileName th = new CreateHistoryEntryFileName(fileList[i], getActivity(), mHandler, mEntries[i]);
 			th.start();
 		}//for
 	}//end of loadHistory()

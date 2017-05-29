@@ -15,46 +15,47 @@ import com.chat.herechat.ChatManager.ChatHistoryScreenFrag;
 
 @SuppressLint("HandlerLeak")
 public class CreateHistoryEntryFileName extends Thread {
-	private ChatHistoryScreenFrag.HistoryEntry mEntry=null;
-	private Handler mWorkerHandler=null;
-	private Handler mResultHanlder=null;
-	private FileHandler mFileHandler=null;
-	private Activity mActivity=null;
+	private FileWritter fHandler =null;
+	private Handler workHandler =null;
+	private Handler resultHandler =null;
+
+	private Activity action =null;
+	private ChatHistoryScreenFrag.HistoryEntry historyEntry =null;
+
 	
-	public CreateHistoryEntryFileName(String fileFullName, ChatHistoryScreenFrag.HistoryEntry entery, FragmentActivity fragmentActivity, Handler resHandler) {
-		mActivity= fragmentActivity;
-		mEntry=entery;
-		mEntry.mID= fileFullName.split("[.]")[0]; //name.txt => name
-		mResultHanlder = resHandler;
+	public CreateHistoryEntryFileName(String fileName, FragmentActivity fragmentActivity, Handler resHandler, ChatHistoryScreenFrag.HistoryEntry entery) {
+		action = fragmentActivity;
+		historyEntry =entery;
+		historyEntry.mID= fileName.split("[.]")[0]; //name.txt => name
+		resultHandler = resHandler;
 		
-		mWorkerHandler = new Handler(){ //define a new message handler for the file thread
-			//Here we'll receive the content of the history file that was read by a thread
+		workHandler = new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
-				//parse the data and update the list view
+
 				Bundle msgData = msg.getData();
-				if (msgData.getBoolean(Constants.FILE_THREAD_WAS_DATA_READ_KEY, false)){ //if a history exists
+				if (msgData.getBoolean(Constants.FILE_THREAD_WAS_DATA_READ_KEY, false)){
 					String tmp= msgData.getString(Constants.FILE_THREAD_DATA_CONTENT_KEY, null);
 					String[] data= tmp.split("["+Constants.STANDART_FIELD_SEPERATOR+"]") ;
-					//update the relevant data for the display:
-					mEntry.mRoomName= new String( data[0] );  //set the room's name
-					mEntry.isPrivate= (data[1].equalsIgnoreCase("private"));  //set the privacy mode
-					mEntry.isEmpty = data.length <= 2;  //if this file is empty, it has only 2 rows in it 
-					Message resultMsg = mResultHanlder.obtainMessage();
-					mResultHanlder.sendMessage(resultMsg);  //send an empty message, just to notify that a file was read.
-				}//if	
+
+					historyEntry.mRoomName= new String( data[0] );
+					historyEntry.isPrivate= (data[1].equalsIgnoreCase("private"));
+					historyEntry.isEmpty = data.length <= 2;
+					Message resultMsg = resultHandler.obtainMessage();
+					resultHandler.sendMessage(resultMsg);
+				}
 			}
 		};
-	}//end of constructor()
+	}
 
 	@Override
 	public void run() {
 		super.run();
-		mFileHandler= new FileHandler(mEntry.mID, mWorkerHandler, true,mActivity);
-		mFileHandler.start();
+		fHandler = new FileWritter(historyEntry.mID, workHandler, true, action);
+		fHandler.start();
 
 		try {
-			mFileHandler.join();
+			fHandler.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
